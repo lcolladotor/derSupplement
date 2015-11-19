@@ -26,7 +26,7 @@ date
 cd ${WDIR}
 
 ## load samtools
-module load  python/2.7.9
+module load python/2.7.9
 
 ## run prep
 rail-rna --version
@@ -57,7 +57,7 @@ date
 cd ${WDIR}
 
 ## load samtools
-module load  python/2.7.9
+module load python/2.7.9
 
 ## run prep
 rail-rna --version
