@@ -10,5 +10,6 @@ date
 module load R/devel
 Rscript -e "rmarkdown::render('generateReads.Rmd')"
 
+
 echo "**** Job ends ****"
 date
