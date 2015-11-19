@@ -25,14 +25,14 @@ date
 
 cd ${WDIR}
 
-## load samtools
+## load python
 module load python/2.7.9
 
 ## run prep
 rail-rna --version
 rail-rna prep local -m ${WDIR}/rail-manifest.txt -o sim_prepped -p 1
 
-mv ${WDIR}/${rail-prep}.* ${WDIR}/logs/
+mv ${WDIR}/rail-prep.* ${WDIR}/logs/
 
 echo "**** Job ends ****"
 date
@@ -56,14 +56,14 @@ date
 
 cd ${WDIR}
 
-## load samtools
+## load python
 module load python/2.7.9
 
 ## run prep
 rail-rna --version
 rail-rna align local -i sim_prepped -m ${WDIR}/rail-manifest.txt -x ${BOWTIE1},${BOWTIE2} -p ${CORES}
 
-mv ${WDIR}/${rail-prep}.* ${WDIR}/logs/
+mv ${WDIR}/rail-align.* ${WDIR}/logs/
 
 echo "**** Job ends ****"
 date
