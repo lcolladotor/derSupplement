@@ -6,7 +6,7 @@ WDIR=${MAINDIR}/hisat
 DATADIR=${MAINDIR}/simulated_reads
 
 # Define variables
-P=4
+CORES=4
 INDEX=/dcs01/ajaffe/Annotation/hg19_hisat/hg19_hisat
 
 mkdir -p ${WDIR}
@@ -28,7 +28,7 @@ cat ${DATADIR}/paired.txt | while read x
 #$ -cwd
 #$ -m e
 #$ -l mem_free=3G,h_vmem=15G,h_fsize=30G
-#$ -pe local ${P}
+#$ -pe local ${CORES}
 #$ -N ${sname}
 echo "**** Job starts ****"
 date
@@ -43,7 +43,7 @@ module load bowtie2/2.2.5
 
 ## run hisat
 hisat --version
-hisat -x ${INDEX} -1 ${DATADIR}/${file1} -2 ${DATADIR}/${file2} --time -p ${P} --reorder -S ${libname}.sam
+hisat -x ${INDEX} -1 ${DATADIR}/${file1} -2 ${DATADIR}/${file2} --time -p ${CORES} --reorder -S ${libname}.sam
 
 echo "**** Starting BAM file creation ****"
 date
