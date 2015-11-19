@@ -1,0 +1,21 @@
+Time loading reference: 00:00:10
+Time loading forward index: 00:00:33
+Multiseed full-index search: 00:01:02
+1985566 reads; of these:
+  1985566 (100.00%) were paired; of these:
+    72578 (3.66%) aligned concordantly 0 times
+    1875881 (94.48%) aligned concordantly exactly 1 time
+    37107 (1.87%) aligned concordantly >1 times
+    ----
+    72578 pairs aligned concordantly 0 times; of these:
+      1294 (1.78%) aligned discordantly 1 time
+    ----
+    71284 pairs aligned 0 times concordantly or discordantly; of these:
+      142568 mates make up the pairs; of these:
+        74860 (52.51%) aligned 0 times
+        65765 (46.13%) aligned exactly 1 time
+        1943 (1.36%) aligned >1 times
+98.11% overall alignment rate
+Time searching: 00:03:24
+Overall time: 00:03:24
+[bam_sort_core] merging from 3 files...
