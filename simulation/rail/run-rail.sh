@@ -25,9 +25,6 @@ date
 
 cd ${WDIR}
 
-## load python
-module load python/2.7.9
-
 ## run prep
 rail-rna --version
 rail-rna prep local -m ${WDIR}/rail-manifest.txt -o sim_prepped -p 1
@@ -55,9 +52,6 @@ echo "**** Job starts ****"
 date
 
 cd ${WDIR}
-
-## load python
-module load python/2.7.9
 
 ## run prep
 rail-rna --version
