@@ -1,5 +1,5 @@
 ## Create manifest file for running rail
-sampleNames <- paste0(rep(paste0('sample', 1:10, 'G', rep(1:2, each = 5)), 3), 'R', rep(1:3, each = 10))
+sampleNames <- paste0(rep(paste0('sample', 1:10, '-G', rep(1:2, each = 5)), 3), '-R', rep(1:3, each = 10))
 
 {
 sink("rail-manifest.txt")
