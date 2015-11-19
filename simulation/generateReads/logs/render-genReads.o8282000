@@ -1,0 +1,14 @@
+**** Job starts ****
+Thu Nov 19 14:53:59 EST 2015
+  |                                                                         |                                                                 |   0%  |                                                                         |................................                                 |  50%
+   inline R code fragments
+
+  |                                                                         |.................................................................| 100%
+label: code (with options) 
+List of 1
+ $ dev: chr "CairoPNG"
+
+
+/jhpce/shared/jhpce/core/JHPCE_tools/1.0/bin/pandoc +RTS -K512m -RTS generateReads.utf8.md --to html --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output generateReads.html --smart --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --template /home/bst/student/lcollado/R/x86_64-pc-linux-gnu-library/3.3/BiocStyle/resources/html/template.html --number-sections --css /home/bst/student/lcollado/R/x86_64-pc-linux-gnu-library/3.3/BiocStyle/resources/html/bioconductor.css --mathjax --variable 'mathjax-url:https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --no-highlight --variable highlightjs=/home/bst/student/lcollado/R/x86_64-pc-linux-gnu-library/3.3/rmarkdown/rmd/h/highlight 
+**** Job ends ****
+Thu Nov 19 16:14:00 EST 2015
