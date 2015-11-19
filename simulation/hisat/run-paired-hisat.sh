@@ -43,7 +43,7 @@ module load bowtie2/2.2.5
 
 ## run hisat
 hisat --version
-hisat -x ${INDEX} -1 ${DATADIR}/${file1} -2 ${DATADIR}/${file2} --time -p ${CORES} --reorder -S ${libname}.sam
+hisat -x ${INDEX} -f -1 ${DATADIR}/${file1} -2 ${DATADIR}/${file2} --time -p ${CORES} --reorder -S ${libname}.sam
 
 echo "**** Starting BAM file creation ****"
 date
