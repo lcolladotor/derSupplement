@@ -145,7 +145,7 @@ for(i in seq_len(30)) {
 {
 sink(file.path(outdir, "paired.txt"))
 for(i in seq_len(30)) {
-	cat(paste0("sample_", sprintf('%02d', i), "_1.fasta.gz\tsample_", sprintf('%02d', i), "_2.fasta.gz\tsample", i, "\n"))
+	cat(paste0("sample_", sprintf('%02d', i), "_1.fasta.gz\tsample_", sprintf('%02d', i), "_2.fasta.gz\t", colnames(readmat)[i], "\n"))
 }
 sink()
 }
