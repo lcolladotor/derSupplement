@@ -14,7 +14,7 @@ This code uses the genes from chr17 from the UCSC hg19 known gene database to si
 
 ## Code
 
-```{r 'code'}
+```{r 'code', dev = 'CairoPNG'}
 library('TxDb.Hsapiens.UCSC.hg19.knownGene')
 library('polyester')
 library('Biostrings')
