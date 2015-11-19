@@ -1,0 +1,157 @@
+---
+title: "Simulate reads"
+author: "L Collado-Torres"
+date: "`r doc_date()`"
+output: 
+  BiocStyle::html_document
+---
+
+Simulate reads using [polyester](http://www.bioconductor.org/packages/polyester).
+
+## Setup
+
+This code uses the genes from chr17 from the UCSC hg19 known gene database to simulate reads for a two group comparison with 5 samples per group. The number of reads corresponds to what you would expect from libraries with 40 million reads used to sequence the whole human genome. We identify all the transcripts in chr17 and set 1/6 of them to be high, 1/6 of them to be low and the rest the same between the two groups. The differences are 2x and the reads per transcript take into account the transcript length. Reads are 100bp long and come from paired-end reads with mean fragment lengths of 250bp (25bp sd) and a uniform error rate of 0.005. The `size` is set to 1/3 of the mean in the negative binomial model.
+
+## Code
+
+```{r 'code'}
+library('TxDb.Hsapiens.UCSC.hg19.knownGene')
+library('polyester')
+library('Biostrings')
+library('devtools')
+
+## Fold changes
+foldChange <- list(high = 2, low = 1/2)
+
+## Find transcripts
+txdb <- keepSeqlevels(TxDb.Hsapiens.UCSC.hg19.knownGene, 'chr17')
+tx <- transcriptsBy(txdb, 'gene')
+
+## Transcripts per gene
+txs <- sapply(tx, length)
+barplot(table(txs), main = 'Number of transcripts per gene in chr17 based on hg19')
+
+## Download info for chr17
+if(!file.exists('knownGeneTxMrna.txt.gz')) download.file('http://hgdownload.cse.ucsc.edu/goldenPath/hg19/database/knownGeneTxMrna.txt.gz', 'knownGeneTxMrna.txt.gz')
+mrna <- read.table('knownGeneTxMrna.txt.gz', header = FALSE, sep = '\t', quote = '', stringsAsFactors = FALSE, col.names = c('ucsckg', 'sequence'))
+
+## Use all genes from chr17
+chosen <- data.frame(
+    tx_idx = rep(seq_len(length(txs)), txs),
+    tx_n = rep(txs, txs),
+    tx_i = unlist(sapply(txs, seq_len), use.names = FALSE)
+)
+
+## Add gene id
+chosen$gene_id <- names(tx)[chosen$tx_idx]
+chosen$ucsckg_id <- unlist(lapply(tx, function(x) x$tx_name), use.names = FALSE)
+
+m <- match(chosen$ucsckg_id, mrna$ucsckg)
+fasta <- DNAStringSet(mrna$sequence[m])
+names(fasta) <- mrna$ucsckg[m]
+
+## Write fasta file
+writeXStringSet(fasta, 'chr17_chosen.fa')
+
+
+
+## For a library size of 40 million reads, find out how many would be from chr17
+## Based on chr length it would be about 2.6% of the 40 million reads:
+data(hg19Ideogram, package = 'biovizBase')
+seqlengths(hg19Ideogram)['chr17'] / sum(as.numeric(seqlengths(hg19Ideogram)[paste0('chr', c(1:22, 'X', 'Y'))])) * 100
+## Based on the total length of mRNA it's about 5.1%. This assumes that all
+## base-pairs contained in mRNAs are equally expressed
+sum(width(fasta)) / sum(nchar(mrna$sequence)) * 100
+
+## We'll use the percent based on the total mRNA, meaning that the total number
+## of reads would be about 2 million
+reads_chr17 <- round(sum(width(fasta)) / sum(nchar(mrna$sequence)) * 40e6)
+reads_chr17
+
+## Now we can determine the number of reads per transcript based on a library 
+## size of 40 million reads where each read is 100 bp long.
+chosen$width <- width(fasta)
+chosen$readspertx <- round(reads_chr17 * 100 / sum(chosen$width) * chosen$width / 100)
+## Missed just 18 reads due to rounding
+sum(chosen$readspertx) - reads_chr17
+
+## Choose which transcripts are DE in each of the 3 replicate experiments
+## Group 1 will be the baseline, group 2 will have the DE signal
+n_de <- round(nrow(chosen) / 6)
+status <- rep(c('high', 'low', 'normal'), c(n_de, n_de, nrow(chosen) - 2 * n_de))
+set.seed(20151119)
+chosen$rep1 <- sample(status)
+chosen$rep2 <- sample(status)
+chosen$rep3 <- sample(status)
+
+## Identify the base means for group 2 in each of the 3 replicates
+chosen$meanR1 <- round(chosen$readspertx * ifelse(chosen$rep1 == 'normal', 1, ifelse(chosen$rep1 == 'high', foldChange$high, foldChange$low)) )
+chosen$meanR2 <- round(chosen$readspertx * ifelse(chosen$rep2 == 'normal', 1, ifelse(chosen$rep2 == 'high', foldChange$high, foldChange$low)) )
+chosen$meanR3 <- round(chosen$readspertx * ifelse(chosen$rep3 == 'normal', 1, ifelse(chosen$rep3 == 'high', foldChange$high, foldChange$low)) )
+
+## Generate the count matrix
+readmat <- matrix(NA, nrow = nrow(chosen), ncol = 3 * 10)
+for(i in seq_len(30)) {
+    if (i %in% c(1:5, 11:15, 21:25)) {
+        means <- chosen$readspertx
+    } else if (i %in% 6:10) {
+        means <- chosen$meanR1    
+    } else if (i %in% 16:20) {
+        means <- chosen$meanR2    
+    } else {
+        means <- chosen$meanR3
+    }
+    readmat[, i] <- mapply(polyester:::NB, means, means / 3)
+}
+colnames(readmat) <- paste0(rep(paste0('sample', 1:10, 'G', rep(1:2, each = 5)), 3), 'R', rep(1:3, each = 10))
+rownames(readmat) <- chosen$ucsckg_id
+
+## Classify txs by DE status
+class_de <- function(gene, col) {
+    s <- subset(chosen, gene_id == gene)
+    status <- s[[col]]
+    if(nrow(s) > 1) {
+        res <- ifelse(all(status == 'normal'), 'noneDE', ifelse(all(status %in% c('high', 'low')), 'allDE', 'someDE'))
+    } else {
+        res <- ifelse(status %in% c('high', 'low'), 'singleDE', 'singleNotDE') 
+    }
+    return(res)
+}
+chosen$case1 <- sapply(chosen$gene_id, class_de, col = 'rep1')
+chosen$case2 <- sapply(chosen$gene_id, class_de, col = 'rep2')
+chosen$case3 <- sapply(chosen$gene_id, class_de, col = 'rep3')
+
+## At the transcript level, how does the DE status look like?
+sapply(paste0('case', 1:3), function(x) { table(chosen[[x]])})
+
+## What about the gene level?
+sapply(paste0('case', 1:3), function(x) { table(chosen[[x]][chosen$tx_i == 1])})
+
+## Save parameters
+save(chosen, readmat, foldChange, file = 'simulation_info.Rdata')
+
+## Run simulation
+outdir <- file.path('..', 'simulated_reads')
+simulate_experiment_countmat(fasta = 'chr17_chosen.fa', readmat = readmat, outdir = outdir, fraglen = 250, fragsd = 25, readlen = 100, error_rate = 0.005, paired = TRUE, seed = '20151119')
+
+## gzip fasta files
+for(i in seq_len(30)) {
+	for(j in 1:2) {
+		system(paste('gzip', file.path(outdir, paste0("sample_", sprintf('%02d', i), "_", j, ".fasta"))))
+	}
+}
+
+## Generated pairs info file for running TopHat or HISAT
+{
+sink(file.path(outdir, "paired.txt"))
+for(i in seq_len(30)) {
+	cat(paste0("sample_", sprintf('%02d', i), "_1.fasta.gz\tsample_", sprintf('%02d', i), "_2.fasta.gz\tsample", i, "\n"))
+}
+sink()
+}
+
+## Reproducibility info
+Sys.time()
+proc.time()
+session_info()
+```
