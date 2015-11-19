@@ -1,0 +1,14 @@
+
+
+processing file: generateReads.Rmd
+trying URL 'http://hgdownload.cse.ucsc.edu/goldenPath/hg19/database/knownGeneTxMrna.txt.gz'
+Content type 'application/x-gzip' length 29292418 bytes (27.9 MB)
+==================================================
+downloaded 27.9 MB
+
+output file: generateReads.knit.md
+
+
+Output created: generateReads.html
+Warning message:
+In grDevices::png(tempfile()) : unable to open connection to X11 display ''
