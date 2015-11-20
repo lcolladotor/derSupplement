@@ -26,7 +26,7 @@ for(f in files) {
     stopifnot(identical(elementLengths(quals), elementLengths(reads)))
     
     ## Write fastq file
-    writeXStringSet(reads, file.path(out_dir, f), format = 'fastq', qualities = quals, compress = TRUE)
+    writeXStringSet(reads, file.path(out_dir, gsub('fasta', 'fastq', f)), format = 'fastq', qualities = quals, compress = TRUE)
 }
 
 ## Reproducibility info
