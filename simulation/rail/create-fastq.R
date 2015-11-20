@@ -10,7 +10,7 @@ qual <- BStringSet(paste(rep('I', 100), collapse = ''))
 for(f in files) {
     message(paste(Sys.time(), 'processing file', f))
     reads <- readDNAStringSet(file.path(read_dir, f))
-    writeXStringSet(reads, file.path(out_dir, f), format = 'fastq', qualities = rep(y, length(x)), compress = TRUE)
+    writeXStringSet(reads, file.path(out_dir, f), format = 'fastq', qualities = rep(qual, length(reads)), compress = TRUE)
 }
 
 
