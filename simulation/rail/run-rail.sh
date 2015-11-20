@@ -3,7 +3,7 @@
 # Directories
 MAINDIR=/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation
 WDIR=${MAINDIR}/rail
-DATADIR=${MAINDIR}/simulated_reads
+DATADIR=${MAINDIR}/rail/simulated_fastq
 
 # Define variables
 CORES=4
@@ -20,6 +20,7 @@ cat > ${WDIR}/.rail-prep.sh <<EOF
 #$ -m e
 #$ -l mem_free=3G,h_vmem=15G,h_fsize=30G
 #$ -N rail-prep
+#$ -hold_jid rail-fastq
 echo "**** Job starts ****"
 date
 
