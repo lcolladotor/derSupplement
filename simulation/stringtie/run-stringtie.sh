@@ -40,6 +40,9 @@ date
 
 cd ${WDIR}
 
+## Create output directory
+mkdir -p ${WDIR}/${libname}/
+
 ## StringTie version used
 stringtie --version
 
