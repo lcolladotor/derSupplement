@@ -76,7 +76,7 @@ date
 cd ${WDIR}
 
 ## Load Cuffmerge
-module avail cufflinks/2.2.1
+module load cufflinks/2.2.1
 
 ## Cuffmerge version usedd
 cuffmerge --version
