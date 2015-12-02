@@ -1,1 +1,6 @@
+# $ md5sum hg19-knownGene.GTF
+# 0cfaea3a5f8e1c8d26b4983217213045  hg19-knownGene.GTF
 hg19-knownGene.GTF
+
+# Script files
+.*sh
