@@ -48,6 +48,7 @@ length(gene_ids)
 ## Create gtf file
 mcols(exons)$type <- 'exon'
 mcols(exons)$source <- 'hg19.UCSC.knownGene'
+mcols(exons)$transcript_id <- mcols(exons)$tx_id
 export(exons, 'chr17.gtf', format = 'gtf')
 
 

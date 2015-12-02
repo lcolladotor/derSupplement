@@ -133,15 +133,16 @@ sum(gene_ids %in% mcols(ex)$GeneID)</code></pre>
 <pre class="r"><code>## Create gtf file
 mcols(exons)$type &lt;- 'exon'
 mcols(exons)$source &lt;- 'hg19.UCSC.knownGene'
+mcols(exons)$transcript_id &lt;- mcols(exons)$tx_id
 export(exons, 'chr17.gtf', format = 'gtf')
 
 
 ## Reproducibility info
 Sys.time()</code></pre>
-<pre><code>## [1] &quot;2015-12-02 16:48:19 EST&quot;</code></pre>
+<pre><code>## [1] &quot;2015-12-02 17:23:39 EST&quot;</code></pre>
 <pre class="r"><code>proc.time()</code></pre>
 <pre><code>##    user  system elapsed 
-##  14.163   0.476  15.106</code></pre>
+##  14.228   0.535  15.685</code></pre>
 <pre class="r"><code>options(width = 120)
 session_info()</code></pre>
 <pre><code>## Session info -----------------------------------------------------------------------------------------------------------</code></pre>
