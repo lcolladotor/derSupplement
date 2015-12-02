@@ -25,7 +25,7 @@ options(width = 120)
 stat
 
 message(paste(Sys.time(), 'saving featureCounts output'))
-save(featCounts, stat, file = 'featCounts.Rdata')
+save(featCounts, stat, file = 'featureCounts.Rdata')
 
 ## Reproducibility info
 Sys.time()
