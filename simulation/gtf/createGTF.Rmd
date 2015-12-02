@@ -1,0 +1,59 @@
+---
+title: "Create GTF file"
+author: "L Collado-Torres"
+date: "`r doc_date()`"
+output: 
+  BiocStyle::html_document
+---
+
+This short script creates a GTF file for chromosome 17 with features organized by __gene_id__ using the information from the UCSC hg19 knownGene database.
+
+
+```{r 'code'}
+library('TxDb.Hsapiens.UCSC.hg19.knownGene')
+library('rtracklayer')
+library('devtools')
+library('Rsubread')
+
+## Load annotation info for chr17
+txdb <- keepSeqlevels(TxDb.Hsapiens.UCSC.hg19.knownGene, 'chr17')
+tx <- transcriptsBy(txdb, 'gene')
+
+## Get the gene ids
+gene_ids <- names(tx)
+
+## Identify all exons
+exons <- exons(txdb, columns = c('gene_id', 'tx_id', 'tx_name', 'exon_id'), vals = list('gene_id' = gene_ids))
+
+## Explore exons a bit
+length(exons)
+
+## Clearly not disjoint exons
+table(countOverlaps(exons) - 1)
+
+## Note that the exon set would be a bit different if we used the data
+## included in Rsubread. Notably, because they are not based on the same
+## annotation: Refseq vs UCSC knownGene.
+ann <- system.file("annot", "hg19_RefSeq_exon.txt", package = "Rsubread")
+df <- read.table(ann, header = TRUE, stringsAsFactors = FALSE)
+ex <- GRanges(subset(df, Chr == 'chr17'))
+
+## A smaller number of total exons than we are using
+length(ex)
+
+## Some of the genes we are using are missing in the Rsubread data
+sum(gene_ids %in% mcols(ex)$GeneID)
+length(gene_ids)
+
+## Create gtf file
+mcols(exons)$type <- 'exon'
+mcols(exons)$source <- 'hg19.UCSC.knownGene'
+export(exons, 'chr17.gtf', format = 'gtf')
+
+
+## Reproducibility info
+Sys.time()
+proc.time()
+options(width = 120)
+session_info()
+```

@@ -8,9 +8,6 @@ DATADIR=${MAINDIR}/hisat
 # Define variables
 CORES=4
 
-# GTF file downloaded from
-# http://genome.ucsc.edu/cgi-bin/hgTables?hgsid=456818617_6W2Sal1hUnwDVyyPrV9tyX3djUy4&clade=mammal&org=&db=hg19&hgta_group=genes&hgta_track=knownGene&hgta_table=knownGene&hgta_regionType=genome&position=&hgta_outputType=primaryTable&hgta_outFileName=
-
 mkdir -p ${WDIR}
 mkdir -p ${WDIR}/logs
 
@@ -47,7 +44,7 @@ mkdir -p ${WDIR}/${libname}/
 stringtie --version
 
 ## Run StringTie
-stringtie ${fullpath} -o ${WDIR}/${libname}/outfile.gtf -p ${CORES} -G ${WDIR}/hg19-knownGene.GTF
+stringtie ${fullpath} -o ${WDIR}/${libname}/outfile.gtf -p ${CORES} -G ${MAINDIR}/gtf/chr17.gtf
 
 mv ${WDIR}/${sname}.* ${WDIR}/logs/
 
@@ -85,7 +82,7 @@ module load cufflinks/2.2.1
 cuffmerge --version
 
 ## Run cuffmerge
-cuffmerge -o ${WDIR}/cuffmerge -p ${CORES} -g ${WDIR}/hg19-knownGene.GTF ${WDIR}/GTFfiles.txt
+cuffmerge -o ${WDIR}/cuffmerge -p ${CORES} -g ${MAINDIR}/gtf/chr17.gtf ${WDIR}/GTFfiles.txt
 
 mv ${WDIR}/${sname}.* ${WDIR}/logs/
 
