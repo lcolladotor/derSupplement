@@ -31,7 +31,7 @@ ls ${DATADIR}/*[0-9].bam | while read fullpath
 #!/bin/bash
 #$ -cwd
 #$ -m e
-#$ -l mem_free=3G,h_vmem=15G,h_fsize=30G
+#$ -l mem_free=2G,h_vmem=4G,h_fsize=10G
 #$ -pe local ${CORES}
 #$ -N ${sname}
 
@@ -68,7 +68,7 @@ cat > ${WDIR}/.${sname}.sh <<EOF
 #!/bin/bash
 #$ -cwd
 #$ -m e
-#$ -l mem_free=3G,h_vmem=15G,h_fsize=30G
+#$ -l mem_free=3G,h_vmem=4G,h_fsize=10G
 #$ -pe local ${CORES}
 #$ -N ${sname}
 #$ -hold_jid *stringtie
@@ -85,7 +85,7 @@ module load cufflinks/2.2.1
 cuffmerge --version
 
 ## Run cuffmerge
-cuffmerge -o ${WDIR}/cmerge-summary -p ${CORES} -g ${WDIR}/hg19-knownGene.GTF ${WDIR}/GTFfiles.txt
+cuffmerge -o ${WDIR}/cuffmerge -p ${CORES} -g ${WDIR}/hg19-knownGene.GTF ${WDIR}/GTFfiles.txt
 
 mv ${WDIR}/${sname}.* ${WDIR}/logs/
 
@@ -109,7 +109,7 @@ ls ${DATADIR}/*[0-9].bam | while read fullpath
 #!/bin/bash
 #$ -cwd
 #$ -m e
-#$ -l mem_free=3G,h_vmem=15G,h_fsize=30G
+#$ -l mem_free=2G,h_vmem=4G,h_fsize=10G
 #$ -pe local ${CORES}
 #$ -N ${sname}
 #$ -hold_jid cmerge-stie
@@ -123,7 +123,7 @@ cd ${WDIR}
 stringtie --version
 
 ## Run StringTie
-stringtie ${fullpath} -o ${WDIR}/${libname}/outfile-run2.gtf -p ${CORES} -G ${WDIR}/merged.gtf -b ${WDIR}/${libname}/ -e
+stringtie ${fullpath} -o ${WDIR}/${libname}/outfile-run2.gtf -p ${CORES} -G ${WDIR}/cuffmerge/merged.gtf -b ${WDIR}/${libname}/ -e
 
 mv ${WDIR}/${sname}.* ${WDIR}/logs/
 
