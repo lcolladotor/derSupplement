@@ -90,6 +90,9 @@ echo "**** Job ends ****"
 date
 EOF
 
+call="qsub ${WDIR}/.${sname}.sh"
+echo $call
+$call
 
 ls ${DATADIR}/*[0-9].bam | while read fullpath
     do
