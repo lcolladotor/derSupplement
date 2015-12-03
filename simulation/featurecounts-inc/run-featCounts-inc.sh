@@ -10,10 +10,11 @@ CORES=4
 mkdir -p ${WDIR}
 mkdir -p ${WDIR}/logs
 
-sname="featCounts-inc"
-        
-## Create script
-cat > ${WDIR}/.${sname}.sh <<EOF
+for replicate in 1 2 3
+    do 
+    sname="featCounts-inc-R${replicate}"
+    ## Create script
+    cat > ${WDIR}/.${sname}.sh <<EOF
 #!/bin/bash
 #$ -cwd
 #$ -m e
@@ -31,7 +32,7 @@ cd ${WDIR}
 module load R/devel
 
 ## Run featureCounts
-Rscript featureCounts-inc.R
+Rscript featureCounts-inc.R -r ${replicate}
 
 mv ${WDIR}/${sname}.* ${WDIR}/logs/
 
@@ -40,6 +41,7 @@ date
 
 EOF
 
-call="qsub ${WDIR}/.${sname}.sh"
-echo $call
-$call
+    call="qsub ${WDIR}/.${sname}.sh"
+    echo $call
+    $call
+done

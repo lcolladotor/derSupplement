@@ -1,0 +1,10 @@
+/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/rail/simulated_fastq/sample_01_1.fastq.gz	0	/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/rail/simulated_fastq/sample_01_2.fastq.gz	0	sample1-G1-R1
+/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/rail/simulated_fastq/sample_02_1.fastq.gz	0	/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/rail/simulated_fastq/sample_02_2.fastq.gz	0	sample2-G1-R1
+/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/rail/simulated_fastq/sample_03_1.fastq.gz	0	/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/rail/simulated_fastq/sample_03_2.fastq.gz	0	sample3-G1-R1
+/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/rail/simulated_fastq/sample_04_1.fastq.gz	0	/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/rail/simulated_fastq/sample_04_2.fastq.gz	0	sample4-G1-R1
+/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/rail/simulated_fastq/sample_05_1.fastq.gz	0	/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/rail/simulated_fastq/sample_05_2.fastq.gz	0	sample5-G1-R1
+/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/rail/simulated_fastq/sample_06_1.fastq.gz	0	/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/rail/simulated_fastq/sample_06_2.fastq.gz	0	sample6-G2-R1
+/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/rail/simulated_fastq/sample_07_1.fastq.gz	0	/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/rail/simulated_fastq/sample_07_2.fastq.gz	0	sample7-G2-R1
+/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/rail/simulated_fastq/sample_08_1.fastq.gz	0	/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/rail/simulated_fastq/sample_08_2.fastq.gz	0	sample8-G2-R1
+/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/rail/simulated_fastq/sample_09_1.fastq.gz	0	/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/rail/simulated_fastq/sample_09_2.fastq.gz	0	sample9-G2-R1
+/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/rail/simulated_fastq/sample_10_1.fastq.gz	0	/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/rail/simulated_fastq/sample_10_2.fastq.gz	0	sample10-G2-R1

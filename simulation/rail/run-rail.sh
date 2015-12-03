@@ -6,7 +6,7 @@ WDIR=${MAINDIR}/rail
 DATADIR=${MAINDIR}/rail/simulated_fastq
 
 # Define variables
-CORES=4
+CORES=40
 BOWTIE1=/amber2/scratch/jleek/iGenomes-index/Homo_sapiens/UCSC/hg19/Sequence/BowtieIndex/genome
 BOWTIE2=/amber2/scratch/jleek/iGenomes-index/Homo_sapiens/UCSC/hg19/Sequence/Bowtie2Index/genome
 
@@ -14,12 +14,15 @@ mkdir -p ${WDIR}
 mkdir -p ${WDIR}/logs
 
 
-cat > ${WDIR}/.rail-prep.sh <<EOF
+for replicate in 1 2 3
+    do 
+    sname="rail-prep-R${replicate}"
+    cat > ${WDIR}/.${sname}.sh <<EOF
 #!/bin/bash
 #$ -cwd
 #$ -m e
-#$ -l mem_free=3G,h_vmem=15G,h_fsize=30G
-#$ -N rail-prep
+#$ -l mem_free=2G,h_vmem=6G,h_fsize=30G
+#$ -N ${sname}
 #$ -hold_jid rail-fastq
 echo "**** Job starts ****"
 date
@@ -28,27 +31,29 @@ cd ${WDIR}
 
 ## run prep
 rail-rna --version
-rail-rna prep local -m ${WDIR}/rail-manifest.txt -o sim_prepped -p 1
+rail-rna prep local -m ${WDIR}/rail-manifest-R${replicate}.txt -o sim_prepped_R${replicate} -p 1
 
-mv ${WDIR}/rail-prep.* ${WDIR}/logs/
+mv ${WDIR}/${sname}.* ${WDIR}/logs/
 
 echo "**** Job ends ****"
 date
 EOF
-call="qsub ${WDIR}/.rail-prep.sh"
-echo $call
-$call
+    call="qsub ${WDIR}/.${sname}.sh"
+    echo $call
+    $call
+done
 
-
-
-cat > ${WDIR}/.rail-align.sh <<EOF
+for replicate in 1 2 3
+    do 
+    sname="rail-align-R${replicate}"
+    cat > ${WDIR}/.${sname}.sh <<EOF
 #!/bin/bash
 #$ -cwd
 #$ -m e
-#$ -l mem_free=3G,h_vmem=15G,h_fsize=30G
+#$ -l mem_free=2G,h_vmem=6G,h_fsize=30G
 #$ -pe local ${CORES}
-#$ -N rail-align
-#$ -hold_jid rail-prep
+#$ -N ${sname}
+#$ -hold_jid rail-prep-R${replicate}
 echo "**** Job starts ****"
 date
 
@@ -56,15 +61,16 @@ cd ${WDIR}
 
 ## run prep
 rail-rna --version
-rail-rna align local -i sim_prepped -m ${WDIR}/rail-manifest.txt -x ${BOWTIE1},${BOWTIE2} -p ${CORES}
+rail-rna align local -i sim_prepped_R${replicate} -m ${WDIR}/rail-manifest-R${replicate}.txt -x ${BOWTIE1},${BOWTIE2} -p ${CORES} -o rail-rna_out-R${replicate} --log rail-rna_logs-R${replicate}
 
-mv ${WDIR}/rail-align.* ${WDIR}/logs/
+mv ${WDIR}/${sname}.* ${WDIR}/logs/
 
 echo "**** Job ends ****"
 date
 EOF
-call="qsub ${WDIR}/.rail-align.sh"
-echo $call
-$call
+    call="qsub ${WDIR}/.${sname}.sh"
+    echo $call
+    $call
+done
 
 
