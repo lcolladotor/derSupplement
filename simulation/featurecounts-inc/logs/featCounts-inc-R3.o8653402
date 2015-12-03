@@ -1,0 +1,203 @@
+**** Job starts ****
+Thu Dec  3 11:33:05 EST 2015
+
+        ==========     _____ _    _ ____  _____  ______          _____  
+        =====         / ____| |  | |  _ \|  __ \|  ____|   /\   |  __ \ 
+          =====      | (___ | |  | | |_) | |__) | |__     /  \  | |  | |
+            ====      \___ \| |  | |  _ <|  _  /|  __|   / /\ \ | |  | |
+              ====    ____) | |__| | |_) | | \ \| |____ / ____ \| |__| |
+        ==========   |_____/ \____/|____/|_|  \_\______/_/    \_\_____/
+       Rsubread 1.21.4
+
+//========================== featureCounts setting ===========================\\
+||                                                                            ||
+||             Input files : 10 BAM files                                     ||
+||                           P /dcs01/ajaffe/Brain/derRuns/derSupplement/ ... ||
+||                           P /dcs01/ajaffe/Brain/derRuns/derSupplement/ ... ||
+||                           P /dcs01/ajaffe/Brain/derRuns/derSupplement/ ... ||
+||                           P /dcs01/ajaffe/Brain/derRuns/derSupplement/ ... ||
+||                           P /dcs01/ajaffe/Brain/derRuns/derSupplement/ ... ||
+||                           P /dcs01/ajaffe/Brain/derRuns/derSupplement/ ... ||
+||                           P /dcs01/ajaffe/Brain/derRuns/derSupplement/ ... ||
+||                           P /dcs01/ajaffe/Brain/derRuns/derSupplement/ ... ||
+||                           P /dcs01/ajaffe/Brain/derRuns/derSupplement/ ... ||
+||                           P /dcs01/ajaffe/Brain/derRuns/derSupplement/ ... ||
+||                                                                            ||
+||             Output file : ./.Rsubread_featureCounts_pid8639                ||
+||             Annotations : /dcs01/ajaffe/Brain/derRuns/derSupplement/si ... ||
+||                                                                            ||
+||                 Threads : 4                                                ||
+||                   Level : meta-feature level                               ||
+||              Paired-end : yes                                              ||
+||         Strand specific : no                                               ||
+||      Multimapping reads : not counted                                      ||
+|| Multi-overlapping reads : not counted                                      ||
+||       Read orientations : fr                                               ||
+||                                                                            ||
+||          Chimeric reads : counted                                          ||
+||        Both ends mapped : not required                                     ||
+||                                                                            ||
+\\===================== http://subread.sourceforge.net/ ======================//
+
+//================================= Running ==================================\\
+||                                                                            ||
+|| Load annotation file /dcs01/ajaffe/Brain/derRuns/derSupplement/simulat ... ||
+||    Features : 13788                                                        ||
+||    Meta-features : 1281                                                    ||
+||    Chromosomes/contigs : 1                                                 ||
+||                                                                            ||
+|| Process BAM file /dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/ ... ||
+||    Paired-end reads are included.                                          ||
+||    Assign fragments (read pairs) to features...                            ||
+||    Total fragments : 2212342                                               ||
+||    Successfully assigned fragments : 1997873 (90.3%)                       ||
+||    Running time : 0.08 minutes                                             ||
+||                                                                            ||
+|| Process BAM file /dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/ ... ||
+||    Paired-end reads are included.                                          ||
+||    Assign fragments (read pairs) to features...                            ||
+||    Total fragments : 2048996                                               ||
+||    Successfully assigned fragments : 1853533 (90.5%)                       ||
+||    Running time : 0.08 minutes                                             ||
+||                                                                            ||
+|| Process BAM file /dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/ ... ||
+||    Paired-end reads are included.                                          ||
+||    Assign fragments (read pairs) to features...                            ||
+||    Total fragments : 2044395                                               ||
+||    Successfully assigned fragments : 1850850 (90.5%)                       ||
+||    Running time : 0.08 minutes                                             ||
+||                                                                            ||
+|| Process BAM file /dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/ ... ||
+||    Paired-end reads are included.                                          ||
+||    Assign fragments (read pairs) to features...                            ||
+||    Total fragments : 2049198                                               ||
+||    Successfully assigned fragments : 1855784 (90.6%)                       ||
+||    Running time : 0.08 minutes                                             ||
+||                                                                            ||
+|| Process BAM file /dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/ ... ||
+||    Paired-end reads are included.                                          ||
+||    Assign fragments (read pairs) to features...                            ||
+||    Total fragments : 2051725                                               ||
+||    Successfully assigned fragments : 1857254 (90.5%)                       ||
+||    Running time : 0.09 minutes                                             ||
+||                                                                            ||
+|| Process BAM file /dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/ ... ||
+||    Paired-end reads are included.                                          ||
+||    Assign fragments (read pairs) to features...                            ||
+||    Total fragments : 2051128                                               ||
+||    Successfully assigned fragments : 1857078 (90.5%)                       ||
+||    Running time : 0.08 minutes                                             ||
+||                                                                            ||
+|| Process BAM file /dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/ ... ||
+||    Paired-end reads are included.                                          ||
+||    Assign fragments (read pairs) to features...                            ||
+||    Total fragments : 2213581                                               ||
+||    Successfully assigned fragments : 1999854 (90.3%)                       ||
+||    Running time : 0.08 minutes                                             ||
+||                                                                            ||
+|| Process BAM file /dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/ ... ||
+||    Paired-end reads are included.                                          ||
+||    Assign fragments (read pairs) to features...                            ||
+||    Total fragments : 2220071                                               ||
+||    Successfully assigned fragments : 2004270 (90.3%)                       ||
+||    Running time : 0.08 minutes                                             ||
+||                                                                            ||
+|| Process BAM file /dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/ ... ||
+||    Paired-end reads are included.                                          ||
+||    Assign fragments (read pairs) to features...                            ||
+||    Total fragments : 2219786                                               ||
+||    Successfully assigned fragments : 2003294 (90.2%)                       ||
+||    Running time : 0.08 minutes                                             ||
+||                                                                            ||
+|| Process BAM file /dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/ ... ||
+||    Paired-end reads are included.                                          ||
+||    Assign fragments (read pairs) to features...                            ||
+||    Total fragments : 2217878                                               ||
+||    Successfully assigned fragments : 2004118 (90.4%)                       ||
+||    Running time : 0.08 minutes                                             ||
+||                                                                            ||
+||                         Read assignment finished.                          ||
+||                                                                            ||
+\\===================== http://subread.sourceforge.net/ ======================//
+
+    Assigned       Unassigned_Ambiguity Unassigned_MultiMapping
+ Min.   :1850850   Min.   :30203        Min.   :89115          
+ 1st Qu.:1856108   1st Qu.:30701        1st Qu.:89474          
+ Median :1927564   Median :31402        Median :92376          
+ Mean   :1928391   Mean   :31512        Mean   :92654          
+ 3rd Qu.:2002434   3rd Qu.:32469        3rd Qu.:95586          
+ Max.   :2004270   Max.   :32682        Max.   :96871          
+ Unassigned_NoFeatures Unassigned_Unmapped Unassigned_MappingQuality
+ Min.   :69879         Min.   :3674        Min.   :0                
+ 1st Qu.:70374         1st Qu.:3802        1st Qu.:0                
+ Median :76443         Median :3863        Median :0                
+ Mean   :76432         Mean   :3921        Mean   :0                
+ 3rd Qu.:82561         3rd Qu.:4048        3rd Qu.:0                
+ Max.   :82981         Max.   :4193        Max.   :0                
+ Unassigned_FragmentLength Unassigned_Chimera Unassigned_Secondary
+ Min.   :0                 Min.   :0          Min.   :0           
+ 1st Qu.:0                 1st Qu.:0          1st Qu.:0           
+ Median :0                 Median :0          Median :0           
+ Mean   :0                 Mean   :0          Mean   :0           
+ 3rd Qu.:0                 3rd Qu.:0          3rd Qu.:0           
+ Max.   :0                 Max.   :0          Max.   :0           
+ Unassigned_Nonjunction Unassigned_Duplicate
+ Min.   :0              Min.   :0           
+ 1st Qu.:0              1st Qu.:0           
+ Median :0              Median :0           
+ Mean   :0              Mean   :0           
+ 3rd Qu.:0              3rd Qu.:0           
+ Max.   :0              Max.   :0           
+             Assigned Unassigned_Ambiguity Unassigned_MultiMapping Unassigned_NoFeatures Unassigned_Unmapped
+sample10G2R3  1997873                32365                   95669                 82582                3853
+sample1G1R3   1853533                30720                   90399                 70569                3775
+sample2G1R3   1850850                30557                   89315                 69879                3794
+sample3G1R3   1855784                30203                   89439                 69945                3827
+sample4G1R3   1857254                30695                   89581                 70521                3674
+sample5G1R3   1857078                30737                   89115                 70325                3873
+sample6G2R3   1999854                32682                   94353                 82499                4193
+sample7G2R3   2004270                32504                   96466                 82706                4125
+sample8G2R3   2003294                32589                   96871                 82981                4051
+sample9G2R3   2004118                32067                   95335                 82317                4041
+             Unassigned_MappingQuality Unassigned_FragmentLength Unassigned_Chimera Unassigned_Secondary
+sample10G2R3                         0                         0                  0                    0
+sample1G1R3                          0                         0                  0                    0
+sample2G1R3                          0                         0                  0                    0
+sample3G1R3                          0                         0                  0                    0
+sample4G1R3                          0                         0                  0                    0
+sample5G1R3                          0                         0                  0                    0
+sample6G2R3                          0                         0                  0                    0
+sample7G2R3                          0                         0                  0                    0
+sample8G2R3                          0                         0                  0                    0
+sample9G2R3                          0                         0                  0                    0
+             Unassigned_Nonjunction Unassigned_Duplicate
+sample10G2R3                      0                    0
+sample1G1R3                       0                    0
+sample2G1R3                       0                    0
+sample3G1R3                       0                    0
+sample4G1R3                       0                    0
+sample5G1R3                       0                    0
+sample6G2R3                       0                    0
+sample7G2R3                       0                    0
+sample8G2R3                       0                    0
+sample9G2R3                       0                    0
+[1] "2015-12-03 11:33:54 EST"
+   user  system elapsed 
+103.204   1.922  49.387 
+ setting  value                                             
+ version  R Under development (unstable) (2015-08-31 r69229)
+ system   x86_64, linux-gnu                                 
+ ui       X11                                               
+ language (EN)                                              
+ collate  en_US.UTF-8                                       
+ tz       <NA>                                              
+ date     2015-12-03                                        
+
+ package  * version date       source        
+ devtools * 1.9.1   2015-09-11 CRAN (R 3.3.0)
+ digest     0.6.8   2014-12-31 CRAN (R 3.2.0)
+ getopt   * 1.20.0  2013-08-30 CRAN (R 3.2.0)
+ memoise    0.2.1   2014-04-22 CRAN (R 3.2.0)
+ Rsubread * 1.21.4  2015-12-02 Bioconductor  
+**** Job ends ****
+Thu Dec  3 11:33:54 EST 2015

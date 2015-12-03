@@ -4,3 +4,7 @@ hg19-knownGene.GTF
 
 # Script files
 .*sh
+
+# Output files
+sample*
+cuffmerge

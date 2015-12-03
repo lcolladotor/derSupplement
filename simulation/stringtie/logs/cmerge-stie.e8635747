@@ -1,0 +1,58 @@
+
+[Wed Dec  2 19:12:30 2015] Beginning transcriptome assembly merge
+-------------------------------------------
+
+[Wed Dec  2 19:12:30 2015] Preparing output location /dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/stringtie/cuffmerge/
+[Wed Dec  2 19:12:37 2015] Converting GTF files to SAM
+[19:12:38] Loading reference annotation.
+[19:12:38] Loading reference annotation.
+[19:12:39] Loading reference annotation.
+[19:12:39] Loading reference annotation.
+[19:12:40] Loading reference annotation.
+[19:12:40] Loading reference annotation.
+[19:12:41] Loading reference annotation.
+[19:12:41] Loading reference annotation.
+[19:12:42] Loading reference annotation.
+[19:12:43] Loading reference annotation.
+[19:12:43] Loading reference annotation.
+[19:12:44] Loading reference annotation.
+[19:12:44] Loading reference annotation.
+[19:12:45] Loading reference annotation.
+[19:12:45] Loading reference annotation.
+[19:12:46] Loading reference annotation.
+[19:12:46] Loading reference annotation.
+[19:12:47] Loading reference annotation.
+[19:12:48] Loading reference annotation.
+[19:12:48] Loading reference annotation.
+[19:12:49] Loading reference annotation.
+[19:12:49] Loading reference annotation.
+[19:12:50] Loading reference annotation.
+[19:12:50] Loading reference annotation.
+[19:12:51] Loading reference annotation.
+[19:12:51] Loading reference annotation.
+[19:12:52] Loading reference annotation.
+[19:12:53] Loading reference annotation.
+[19:12:53] Loading reference annotation.
+[19:12:54] Loading reference annotation.
+[Wed Dec  2 19:12:56 2015] Quantitating transcripts
+You are using Cufflinks v2.2.1, which is the most recent release.
+Command line:
+cufflinks -o /dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/stringtie/cuffmerge/ -F 0.05 -g /dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/gtf/chr17.gtf -q --overhang-tolerance 200 --library-type=transfrags -A 0.0 --min-frags-per-transfrag 0 --no-5-extend -p 4 /dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/stringtie/cuffmerge/tmp/mergeSam_filewuixiu 
+[bam_header_read] EOF marker is absent. The input is probably truncated.
+[bam_header_read] invalid BAM binary header (this is not a BAM file).
+File /dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/stringtie/cuffmerge/tmp/mergeSam_filewuixiu doesn't appear to be a valid BAM file, trying SAM...
+[19:12:56] Loading reference annotation.
+[19:12:56] Inspecting reads and determining fragment length distribution.
+Processed 1100 loci.                        
+> Map Properties:
+>	Normalized Map Mass: 192428.00
+>	Raw Map Mass: 192428.00
+>	Fragment Length Distribution: Truncated Gaussian (default)
+>	              Default Mean: 200
+>	           Default Std Dev: 80
+[19:12:58] Assembling transcripts and estimating abundances.
+Processed 1100 loci.                        
+[Wed Dec  2 19:13:31 2015] Comparing against reference file /dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/gtf/chr17.gtf
+You are using Cufflinks v2.2.1, which is the most recent release.
+[Wed Dec  2 19:13:36 2015] Comparing against reference file /dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/gtf/chr17.gtf
+You are using Cufflinks v2.2.1, which is the most recent release.
