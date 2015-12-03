@@ -53,8 +53,19 @@ document.addEventListener("DOMContentLoaded", function() {
 <h4 class="date"><em>2 December 2015</em></h4>
 </div>
 
+<h1>Contents</h1>
+<div id="TOC">
+<ul>
+<li><a href="#complete-gtf"><span class="toc-section-number">1</span> Complete GTF</a></li>
+<li><a href="#incomplete-gtf"><span class="toc-section-number">2</span> Incomplete GTF</a></li>
+<li><a href="#reproducibility"><span class="toc-section-number">3</span> Reproducibility</a></li>
+</ul>
+</div>
 
-<p>This short script creates a GTF file for chromosome 17 with features organized by <strong>gene_id</strong> using the information from the UCSC hg19 knownGene database.</p>
+<p>This short script creates a GTF file for chromosome 17 with features organized by <strong>gene_id</strong> using the information from the UCSC hg19 knownGene database. It then creates a second GTF file where 20% of the transcripts were dropped at random.</p>
+<div id="complete-gtf" class="section level1">
+<h1><span class="header-section-number">1</span> Complete GTF</h1>
+<p>This code constructs a complete GTF file for chromosome 17 by extracting the information from <em>TxDB.Hsapiens.UCSC.hg19.knownGene</em>. These exons can overlap one another and is a larger set than the one included in <em>Rsubread</em> (which uses <em>Refseq</em>). It is the set closest to the information we used for generating the reads.</p>
 <pre class="r"><code>library('TxDb.Hsapiens.UCSC.hg19.knownGene')</code></pre>
 <pre><code>## Loading required package: GenomicFeatures
 ## Loading required package: BiocGenerics
@@ -134,15 +145,53 @@ sum(gene_ids %in% mcols(ex)$GeneID)</code></pre>
 mcols(exons)$type &lt;- 'exon'
 mcols(exons)$source &lt;- 'hg19.UCSC.knownGene'
 mcols(exons)$transcript_id &lt;- mcols(exons)$tx_id
-export(exons, 'chr17.gtf', format = 'gtf')
+export(exons, 'chr17.gtf', format = 'gtf')</code></pre>
+</div>
+<div id="incomplete-gtf" class="section level1">
+<h1><span class="header-section-number">2</span> Incomplete GTF</h1>
+<p>The following code drops 20% of the transcripts at random from the ones we used to generate the reads. Each exon has 1 or more transcript names associated to it. So, we check whether all the transcript names for a given exon are part of the 20% that we have selected to drop before dropping the exon. This results in an exon annotation set where less than 20% of the total exons are excluded.</p>
+<pre class="r"><code>## Get the transcript names
+tx_name &lt;- unlist(mcols(exons)$tx_name)
 
+## Choose which to drop
+load(file.path('..', 'generateReads', 'simulation_info.Rdata'))
+set.seed(20151202)
+tx_drop &lt;- sample(chosen$ucsckg_id, size = round(nrow(chosen) * 0.2, 0))
 
-## Reproducibility info
+## Map between transcript names and exons
+map &lt;- rep(seq_len(length(exons)), elementLengths(mcols(exons)$tx_name))
+
+## Define incomplete exon set
+exons_inc &lt;- exons[!as.vector(tapply(tx_name %in% tx_drop, map, all))]
+
+## Percent of remaining exons and number of remaining exons
+length(exons_inc) / length(exons) * 100</code></pre>
+<pre><code>## [1] 91.71822</code></pre>
+<pre class="r"><code>length(exons_inc)</code></pre>
+<pre><code>## [1] 13788</code></pre>
+<pre class="r"><code>## Code for checking whether the incomplete exon set is within what we expected
+nExons &lt;- sapply(seq_len(100), function(x) {
+    tx_drop &lt;- sample(chosen$ucsckg_id, size = round(nrow(chosen) * 0.2, 0))
+    length(exons[!as.vector(tapply(tx_name %in% tx_drop, map, all))])
+})
+summary(nExons) / length(exons) * 100</code></pre>
+<pre><code>##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## 90.00200 91.06632 91.53196 91.46544 91.79804 92.66281</code></pre>
+<pre class="r"><code>summary(nExons)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   13530   13690   13760   13750   13800   13930</code></pre>
+<pre class="r"><code>## Finally export the incomplete GTF
+export(exons_inc, 'chr17-incomplete.gtf', format = 'gtf')
+save(exons_inc, tx_drop, file = 'incompleteExons.Rdata')</code></pre>
+</div>
+<div id="reproducibility" class="section level1">
+<h1><span class="header-section-number">3</span> Reproducibility</h1>
+<pre class="r"><code>## Reproducibility info
 Sys.time()</code></pre>
-<pre><code>## [1] &quot;2015-12-02 17:23:39 EST&quot;</code></pre>
+<pre><code>## [1] &quot;2015-12-02 19:02:56 EST&quot;</code></pre>
 <pre class="r"><code>proc.time()</code></pre>
 <pre><code>##    user  system elapsed 
-##  14.228   0.535  15.685</code></pre>
+##  22.834   0.721  24.134</code></pre>
 <pre class="r"><code>options(width = 120)
 session_info()</code></pre>
 <pre><code>## Session info -----------------------------------------------------------------------------------------------------------</code></pre>
@@ -196,6 +245,7 @@ session_info()</code></pre>
 ##  XVector                             0.10.0   2015-10-14 Bioconductor  
 ##  yaml                                2.1.13   2014-06-12 CRAN (R 3.2.0)
 ##  zlibbioc                            1.16.0   2015-10-14 Bioconductor</code></pre>
+</div>
 
 
 
