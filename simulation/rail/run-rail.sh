@@ -6,7 +6,7 @@ WDIR=${MAINDIR}/rail
 DATADIR=${MAINDIR}/rail/simulated_fastq
 
 # Define variables
-CORES=40
+CORES=20
 BOWTIE1=/amber2/scratch/jleek/iGenomes-index/Homo_sapiens/UCSC/hg19/Sequence/BowtieIndex/genome
 BOWTIE2=/amber2/scratch/jleek/iGenomes-index/Homo_sapiens/UCSC/hg19/Sequence/Bowtie2Index/genome
 
@@ -21,7 +21,7 @@ for replicate in 1 2 3
 #!/bin/bash
 #$ -cwd
 #$ -m e
-#$ -l mem_free=2G,h_vmem=6G,h_fsize=30G
+#$ -l mem_free=10G,h_vmem=16G,h_fsize=30G
 #$ -N ${sname}
 #$ -hold_jid rail-fastq
 echo "**** Job starts ****"
@@ -31,7 +31,7 @@ cd ${WDIR}
 
 ## run prep
 rail-rna --version
-rail-rna prep local -m ${WDIR}/rail-manifest-R${replicate}.txt -o sim_prepped_R${replicate} -p 1
+rail-rna prep local -m ${WDIR}/rail-manifest-R${replicate}.txt -o sim_prepped_R${replicate} -p ${CORES} --log rail-rna_logs-R${replicate}
 
 mv ${WDIR}/${sname}.* ${WDIR}/logs/
 
@@ -50,7 +50,7 @@ for replicate in 1 2 3
 #!/bin/bash
 #$ -cwd
 #$ -m e
-#$ -l mem_free=2G,h_vmem=6G,h_fsize=30G
+#$ -l mem_free=10G,h_vmem=16G,h_fsize=30G
 #$ -pe local ${CORES}
 #$ -N ${sname}
 #$ -hold_jid rail-prep-R${replicate}
