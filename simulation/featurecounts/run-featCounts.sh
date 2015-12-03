@@ -17,7 +17,7 @@ cat > ${WDIR}/.${sname}.sh <<EOF
 #!/bin/bash
 #$ -cwd
 #$ -m e
-#$ -l mem_free=10G,h_vmem=15G,h_fsize=10G
+#$ -l mem_free=3G,h_vmem=4G,h_fsize=10G
 #$ -pe local ${CORES}
 #$ -N ${sname}
 
