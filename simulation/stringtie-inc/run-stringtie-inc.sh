@@ -99,7 +99,7 @@ ls ${DATADIR}/*[0-9].bam | while read fullpath
     bamfile=$(basename "${fullpath}")
     libname="${bamfile%.*}"
     echo "Creating script for ${libname}"
-    sname="${libname}.bgprep"
+    sname="${libname}.bgprep.inc"
         
     ## Create scripts    
 	cat > ${WDIR}/.${sname}.sh <<EOF
