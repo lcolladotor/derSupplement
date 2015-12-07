@@ -51,7 +51,7 @@ for replicate in 1 2 3
 #!/bin/bash
 #$ -cwd
 #$ -m e
-#$ -l mem_free=25G,h_vmem=35G,h_fsize=30G
+#$ -l mem_free=30G,h_vmem=45G,h_fsize=30G
 #$ -pe local ${CORES}
 #$ -N ${sname}
 #$ -hold_jid rail-prep-R${replicate}
