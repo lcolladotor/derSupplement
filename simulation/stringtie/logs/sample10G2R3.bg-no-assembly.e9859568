@@ -1,0 +1,26 @@
+You are using Cufflinks v2.2.1, which is the most recent release.
+Loading reference transcripts..
+GFF Warning: merging overlapping/adjacent feature segment exon (79614938-79615779) with exon (79614937-79614937) for GFF ID 62206 on chr17
+GFF Warning: merging overlapping/adjacent feature segment exon (46115093-46115122) with exon (46115033-46115092) for GFF ID 63798 on chr17
+GFF warning: merging adjacent/overlapping segments of 60339 on chr17 (7470244-7470285, 7470287-7470322)
+GFF warning: merging adjacent/overlapping segments of 60778 on chr17 (26698987-26699203, 26699206-26699367)
+GFF warning: merging adjacent/overlapping segments of 60778 on chr17 (26698987-26699367, 26699370-26699521)
+GFF warning: merging adjacent/overlapping segments of 61778 on chr17 (61660863-61660889, 61660891-61661073)
+GFF warning: merging adjacent/overlapping segments of 62263 on chr17 (80441043-80441059, 80441063-80441180)
+GFF warning: merging adjacent/overlapping segments of 62712 on chr17 (8725164-8725215, 8725218-8725253)
+GFF warning: merging adjacent/overlapping segments of 62955 on chr17 (21156472-21156532, 21156535-21156578)
+GFF warning: merging adjacent/overlapping segments of 63001,63002 on chr17 (26727626-26727720, 26727722-26727783)
+GFF warning: merging adjacent/overlapping segments of 63172 on chr17 (34100185-34100350, 34100353-34100408)
+GFF warning: merging adjacent/overlapping segments of 63714 on chr17 (43192462-43192549, 43192552-43192611)
+GFF warning: merging adjacent/overlapping segments of 63722 on chr17 (43363798-43364292, 43364295-43364411)
+GFF warning: merging adjacent/overlapping segments of 63798 on chr17 (46115033-46115122, 46115125-46115152)
+ Kept 4935 ref transcripts out of 5632
+ 697 duplicate reference transcripts discarded.
+..reference annotation loaded
+Prefix for output files: cuffcomp
+Processing qfile #1: /dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/stringtie/sample10G2R3-no-assembly/outfile.gtf
+Loading transcripts from /dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/stringtie/sample10G2R3-no-assembly/outfile.gtf..
+ Kept 4995 transfrags out of 4995
+Tracking transcripts across 1 query files..
+Cleaning up..
+Done.

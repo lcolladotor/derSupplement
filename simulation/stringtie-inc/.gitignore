@@ -7,4 +7,6 @@ hg19-knownGene.GTF
 
 # Output files
 sample*
-cuffmerge
+cuffmerge-R*
+cuffcompare
+

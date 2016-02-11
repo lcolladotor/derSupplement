@@ -1,2 +1,5 @@
 ## Script files
 */.*.sh
+
+stringtie*/logs/*
+
