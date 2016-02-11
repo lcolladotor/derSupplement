@@ -4,7 +4,7 @@
 MAINDIR=/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation
 WDIR=${MAINDIR}/ballgown
 
-# Create log dir
+# Create logs dir
 mkdir -p ${WDIR}
 mkdir -p ${WDIR}/logs
 
@@ -26,7 +26,7 @@ date
 
 cd ${WDIR}
 
-## Run featureCounts
+## Run ballgown
 Rscript ballgown_analysis.R -r ${replicate} -c "${complete}"
 
 mv ${WDIR}/${sname}.* ${WDIR}/logs/
