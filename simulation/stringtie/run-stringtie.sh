@@ -191,6 +191,9 @@ date
 
 cd ${WDIR}
 
+## Create output directory
+mkdir -p ${WDIR}/${libname}-no-assembly/
+
 ## StringTie version used
 stringtie --version
 
