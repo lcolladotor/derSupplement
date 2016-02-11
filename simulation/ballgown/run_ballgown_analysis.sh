@@ -27,7 +27,7 @@ date
 cd ${WDIR}
 
 ## Run featureCounts
-Rscript ballgown-analysis.R -r ${replicate} -c "${complete}"
+Rscript ballgown_analysis.R -r ${replicate} -c "${complete}"
 
 mv ${WDIR}/${sname}.* ${WDIR}/logs/
 
