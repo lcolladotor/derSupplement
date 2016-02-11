@@ -81,9 +81,6 @@ cd ${WDIR}
 ## Load Cuffmerge
 module load cufflinks/2.2.1
 
-## Subset GTF files
-grep "R${replicate}" ${WDIR}/GTFfiles.txt > ${WDIR}/GTFfiles-R${replicate}.txt
-
 ## Cuffmerge version usedd
 cuffmerge --version
 
