@@ -119,7 +119,7 @@ module load cufflinks/2.2.1
 mkdir -p cuffcompare
 
 ## Run cuffcompare
-cuffcompare -r ${MAINDIR}/gtf/chr17.gtf -o cuffcompare/cuffcomp-R${replicate} -V ${WDIR}/cuffmerge-R${replicate}/merged.gtf
+cuffcompare -r ${MAINDIR}/gtf/chr17.gtf -o cuffcompare/cuffcomp-R${replicate} -V -G ${WDIR}/cuffmerge-R${replicate}/merged.gtf
 
 mv ${WDIR}/${sname}.* ${WDIR}/logs/
 
