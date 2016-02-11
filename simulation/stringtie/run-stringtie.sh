@@ -157,7 +157,7 @@ cd ${WDIR}
 stringtie --version
 
 ## Run StringTie
-stringtie ${fullpath} -o ${WDIR}/${libname}/outfile-run2.gtf -p ${CORES} -G ${WDIR}/cuffmerge-R${replicate}/merged.gtf -e
+stringtie ${fullpath} -o ${WDIR}/${libname}/outfile-run2.gtf -p ${CORES} -G ${WDIR}/cuffmerge-R${replicate}/merged.gtf -e -b
 
 mv ${WDIR}/${sname}.* ${WDIR}/logs/
 
@@ -198,7 +198,7 @@ mkdir -p ${WDIR}/${libname}-no-assembly/
 stringtie --version
 
 ## Run StringTie
-stringtie ${fullpath} -o ${WDIR}/${libname}-no-assembly/outfile.gtf -p ${CORES} -G ${MAINDIR}/gtf/chr17.gtf -e
+stringtie ${fullpath} -o ${WDIR}/${libname}-no-assembly/outfile.gtf -p ${CORES} -G ${MAINDIR}/gtf/chr17.gtf -e -b
 
 ## Load cuffcompare
 module load cufflinks/2.2.1
