@@ -4,9 +4,6 @@
 MAINDIR=/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation
 WDIR=${MAINDIR}/railMatrix
 
-# Define variables
-CORES=4
-
 # Create logs dir
 mkdir -p ${WDIR}
 mkdir -p ${WDIR}/logs
@@ -20,7 +17,6 @@ for replicate in 1 2 3
 #$ -cwd
 #$ -m e
 #$ -l mem_free=3G,h_vmem=4G,h_fsize=10G
-#$ -pe local ${CORES}
 #$ -N ${sname}
 
 echo "**** Job starts ****"
