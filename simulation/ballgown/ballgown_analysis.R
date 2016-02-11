@@ -5,7 +5,7 @@ library('getopt')
 ## Specify parameters
 spec <- matrix(c(
     'replicate', 'r', 1, 'integer', 'Replicate number. Either 1, 2 or 3.',
-    'complete', 'c', 1, 'character', "'yes' or 'no' for whether the GTF was complete or not"
+    'complete', 'c', 1, 'character', "'yes' or 'no' for whether the GTF was complete or not",
 	'help' , 'h', 0, 'logical', 'Display help'
 ), byrow=TRUE, ncol=5)
 opt <- getopt(spec)
