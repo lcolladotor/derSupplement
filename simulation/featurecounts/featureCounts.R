@@ -46,4 +46,5 @@ save(featCounts, stat, file = paste0('featureCounts-R', opt$replicate, '.Rdata')
 ## Reproducibility info
 Sys.time()
 proc.time()
+options(width = 120)
 session_info()

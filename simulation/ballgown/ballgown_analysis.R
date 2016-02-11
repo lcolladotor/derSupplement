@@ -45,4 +45,5 @@ save(stat_results, file = paste0('stat-R', opt$replicate, '-', ifelse(opt$comple
 ## Reproducibility info
 Sys.time()
 proc.time()
+options(width = 120)
 session_info()
