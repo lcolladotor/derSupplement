@@ -169,6 +169,50 @@ EOF
     	echo $call
     	$call
     done
+    
+    ls ${DATADIR}/*R${replicate}.bam | while read fullpath
+        do
+        bamfile=$(basename "${fullpath}")
+        libname="${bamfile%.*}"
+        echo "Creating script for ${libname}"
+        sname="${libname}.bg-no-assembly"
+        
+        ## Create scripts    
+    	cat > ${WDIR}/.${sname}.sh <<EOF
+#!/bin/bash
+#$ -cwd
+#$ -m e
+#$ -l mem_free=2G,h_vmem=4G,h_fsize=10G
+#$ -pe local ${CORES}
+#$ -N ${sname}
+
+echo "**** Job starts ****"
+date
+
+cd ${WDIR}
+
+## StringTie version used
+stringtie --version
+
+## Run StringTie
+stringtie ${fullpath} -o ${WDIR}/${libname}-no-assembly/outfile.gtf -p ${CORES} -G ${MAINDIR}/gtf/chr17.gtf -b ${WDIR}/${libname}-no-assembly/ -e
+
+## Load cuffcompare
+module load cufflinks/2.2.1
+
+## Run cuffcompare
+cuffcompare -r ${MAINDIR}/gtf/chr17.gtf -o ${WDIR}/${libname}-no-assembly/cuffcomp -V -G ${WDIR}/${libname}-no-assembly/outfile.gtf
+
+mv ${WDIR}/${sname}.* ${WDIR}/logs/
+
+echo "**** Job ends ****"
+date
+
+EOF
+    	call="qsub ${WDIR}/.${sname}.sh"
+    	echo $call
+    	$call
+    done
 
 done
 
