@@ -1,4 +1,5 @@
 library('derfinder')
+library('GenomicRanges')
 library('devtools')
 library('getopt')
 
