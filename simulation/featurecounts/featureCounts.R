@@ -17,13 +17,16 @@ if (!is.null(opt$help)) {
 	q(status=1)
 }
 
+## For testing
+if(FALSE) opt <- list(replicate = 1)
+
 ## Identify BAM files
 files <- dir('/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/hisat', pattern = paste0('[0-9]R', opt$replicate, '\\.bam$'), full.names = TRUE)
 names(files) <- gsub('\\.bam', '', dir('/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/hisat', pattern = paste0('[0-9]R', opt$replicate, '\\.bam$')))
 
 
 message(paste(Sys.time(), 'running featureCounts'))
-featCounts <- featureCounts(files = files, annot.ext = '/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/gtf/chr17.gtf', isGTFAnnotationFile = TRUE, useMetaFeatures = TRUE, isPairedEnd = TRUE, nthreads = 4)
+featCounts <- featureCounts(files = files, annot.ext = '/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/gtf/chr17.gtf', isGTFAnnotationFile = TRUE, useMetaFeatures = FALSE, isPairedEnd = TRUE, nthreads = 4, allowMultiOverlap = TRUE)
 
 ## Fix sample names
 colnames(featCounts$counts) <- gsub('.bam', '', gsub('X.dcs01.ajaffe.Brain.derRuns.derSupplement.simulation.hisat.', '', colnames(featCounts$counts)))
