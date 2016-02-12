@@ -18,6 +18,7 @@ for replicate in 1 2 3
 #$ -m e
 #$ -l mem_free=3G,h_vmem=4G,h_fsize=10G
 #$ -N ${sname}
+#$ -hold_jid rail-align-R${replicate}
 
 echo "**** Job starts ****"
 date
