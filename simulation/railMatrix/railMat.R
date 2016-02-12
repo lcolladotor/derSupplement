@@ -34,7 +34,7 @@ totalMapped <- counts$totalMapped[match(names(sampleFiles), counts$sample)]
 names(totalMapped) <- names(sampleFiles)
 
 ## Create region matrix
-regionMat <- railMatrix(chrs = 'chr17', summaryFiles = summaryFile, sampleFiles = sampleFiles, L = 100L, maxClusterGap = 3000L, returnBP = FALSE, cutoff = 2.5, totalMapped = totalMapped, targetSize = 40e6, chunksize = 15e3)
+regionMat <- railMatrix(chrs = 'chr17', summaryFiles = summaryFile, sampleFiles = sampleFiles, L = 100L, maxClusterGap = 3000L, returnBP = FALSE, cutoff = 5, totalMapped = totalMapped, targetSize = 80e6, chunksize = 15e3)
 print(object.size(regionMat), units = 'Mb')
 
 ## Basic summary info

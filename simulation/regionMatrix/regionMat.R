@@ -31,12 +31,12 @@ percentMapped <- as.numeric(gsub('% overall alignment rate', '',
     sapply(names(files), function(x) { system(paste0("grep 'overall alignment rate' ../hisat/logs/", x, '.hisat.e*'), intern = TRUE) } )
 ))
 
-## Note that reads are paired-end
-totalMapped <- round(colSums(readmat[, names(files)]) * percentMapped / 100, 0)
+## Note that reads are paired-end: readmat has the number of PE reads
+totalMapped <- round(2 * colSums(readmat[, names(files)]) * percentMapped / 100, 0)
 
-## Load coverage info, normalize to 40 million paired-end reads libraries
-## (same as 80 million single-end)
-fullCov <- fullCoverage(files, chrs = 'chr17', totalMapped = totalMapped, targetSize = 40e6, mc.cores = 4L)
+## Load coverage info, normalize to 80 million single-end reads libraries
+## (same as 40 million paired-end)
+fullCov <- fullCoverage(files, chrs = 'chr17', totalMapped = totalMapped, targetSize = 80e6, mc.cores = 4L)
 print(object.size(fullCov), units = 'Mb')
 
 
@@ -44,7 +44,7 @@ print(object.size(fullCov), units = 'Mb')
 save(fullCov, file = paste0('fullCov-R', opt$replicate, '.Rdata'))
 
 ## Create region matrix
-regionMat <- regionMatrix(fullCov, L = 100L, maxClusterGap = 3000L, returnBP = FALSE, cutoff = 2.5)
+regionMat <- regionMatrix(fullCov, L = 100L, maxClusterGap = 3000L, returnBP = FALSE, cutoff = 5)
 print(object.size(regionMat), units = 'Mb')
 
 ## Basic summary info

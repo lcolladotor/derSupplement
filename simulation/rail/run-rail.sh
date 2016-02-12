@@ -62,7 +62,7 @@ cd ${WDIR}
 
 ## run prep
 rail-rna --version
-rail-rna align local -i sim_prepped_R${replicate} -m ${WDIR}/rail-manifest-R${replicate}.txt -x ${BOWTIE1},${BOWTIE2} -p ${CORES} -o rail-rna_out-R${replicate} --log rail-rna_logs-R${replicate}
+rail-rna align local -i sim_prepped_R${replicate} -m ${WDIR}/rail-manifest-R${replicate}.txt -x ${BOWTIE1},${BOWTIE2} -p ${CORES} -o rail-rna_out-R${replicate} --log rail-rna_logs-R${replicate} --library-size 80
 
 mv ${WDIR}/${sname}.* ${WDIR}/logs/
 
