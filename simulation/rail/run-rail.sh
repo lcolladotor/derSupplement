@@ -24,7 +24,6 @@ for replicate in 1 2 3
 #$ -l mem_free=15G,h_vmem=25G,h_fsize=30G
 #$ -pe local ${CORES}
 #$ -N ${sname}
-#$ -hold_jid rail-fastq
 echo "**** Job starts ****"
 date
 
@@ -62,7 +61,7 @@ cd ${WDIR}
 
 ## run prep
 rail-rna --version
-rail-rna align local -i sim_prepped_R${replicate} -m ${WDIR}/rail-manifest-R${replicate}.txt -x ${BOWTIE1},${BOWTIE2} -p ${CORES} -o rail-rna_out-R${replicate} --log rail-rna_logs-R${replicate} --library-size 80
+rail-rna align local -i sim_prepped_R${replicate} -m ${WDIR}/rail-manifest-R${replicate}.txt -x ${BOWTIE1},${BOWTIE2} -p ${CORES} -o rail-rna_out-R${replicate} --log rail-rna_logs-R${replicate} --library-size 80 --deliverables bw,tsv
 
 mv ${WDIR}/${sname}.* ${WDIR}/logs/
 

@@ -2,7 +2,7 @@
 sampleNames <- paste0(rep(paste0('sample', 1:10, '-G', rep(1:2, each = 5)), 3), '-R', rep(1:3, each = 10))
 
 foo <- function(i) {
-    cat(paste0("/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/rail/simulated_fastq/sample_", sprintf('%02d', i), "_1.fastq.gz\t0\t/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/rail/simulated_fastq/sample_", sprintf('%02d', i), "_2.fastq.gz\t0\t", sampleNames[i], "\n"))
+    cat(paste0("/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/simulated_reads/sample_", sprintf('%02d', i), "_1.fasta.gz\t0\t/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/simulated_reads/sample_", sprintf('%02d', i), "_2.fasta.gz\t0\t", sampleNames[i], "\n"))
 }
 
 
