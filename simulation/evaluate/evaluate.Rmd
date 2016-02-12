@@ -1,0 +1,149 @@
+---
+title: "Create GTF file"
+author: "L Collado-Torres"
+date: "`r doc_date()`"
+output: 
+  BiocStyle::html_document
+---
+
+
+```{r}
+## Load transcripts used
+library('GenomicRanges')
+library('ballgown')
+library('TxDb.Hsapiens.UCSC.hg19.knownGene')
+txdb <- keepSeqlevels(TxDb.Hsapiens.UCSC.hg19.knownGene, 'chr17')
+tx <- transcriptsBy(txdb, 'gene')
+
+## Transcripts per gene
+txs <- sapply(tx, length)
+
+## Load simulation information
+load(file.path('..', 'generateReads', 'simulation_info.Rdata'))
+
+if(!identical(nrow(chosen), length(rep(txs, txs)))) {
+    message(paste(Sys.time(), 'Subsetting list of transcripts to those that were used when simulating the reads'))
+    tx <- tx[names(tx) %in% chosen$gene_id]
+    txs <- sapply(tx, length)
+    stopifnot(identical(nrow(chosen), length(rep(txs, txs))))
+}
+
+trans <- unlist(tx)
+trans$DEr1 <- chosen$rep1 != 'normal'
+trans$DEr2 <- chosen$rep2 != 'normal'
+trans$DEr3 <- chosen$rep3 != 'normal'
+
+## Load stat results
+inputs <- c('featureCounts', 'railMatrix', 'regionMatrix', 'ballgown')
+reps <- 1:3
+softwares <- c('DESeq2', 'edgeR')
+statuses <- c('complete', 'incomplete')
+
+loadDE <- function(software, file) {
+    load(file.path('..', 'deseq2-edger', paste0('stats-', file, '-', software, '.Rdata')))
+    if(software == 'DESeq2') {
+        DEres <- deseq
+    } else {
+        DEres <- edger
+    }
+    return(DEres)
+}
+
+stats <- lapply(inputs, function(input) {
+    inputres <- lapply(reps, function(rep) {
+        if(input %in% c('featureCounts', 'ballgown')) {
+            statusres <- lapply(statuses, function(status) {
+                if(input == 'ballgown') {
+                    load(file.path('..', 'ballgown', paste0('bg-R', rep, '-', ifelse(status == 'complete', 'comp', 'inc'), '.Rdata')))
+                    load(file.path('..', 'ballgown', paste0('stat-R', rep, '-', ifelse(status == 'complete', 'comp', 'inc'), '.Rdata')))
+                    res <- structure(bg)$trans
+                    mcols(res) <- cbind(mcols(res), stat_results)
+                } else if (input == 'featureCounts') {
+                    res <- lapply(softwares, loadDE, file = paste0('featureCounts-R', rep, ifelse(status == 'complete', '-comp', '-inc')))
+                    names(res) <- softwares
+                }
+                return(res)      
+            })
+            names(statusres) <- statuses
+            return(statusres)
+        } else {
+            softres <- lapply(softwares, loadDE, file = paste0(input, '-R', rep))
+            names(softres) <- softwares
+            return(softres)
+        }
+    })
+    names(inputres) <- reps
+    return(inputres)
+})
+names(stats) <- inputs
+
+
+stats_GR <- lapply(inputs, function(input) {
+    if(input == 'featureCounts') {
+        res <- lapply(stats[[input]], unlist)
+    } else {
+        res <- unlist(stats[[input]])
+    }
+    if(input != 'ballgown') {
+        res <- unlist(res)
+    }
+    return(res)
+})
+names(stats_GR) <- inputs
+stats_GR <- unlist(stats_GR)
+
+
+count_comp <- function(info, rep = 1, type = 'padj', cut = 0.05) {
+    if(type == 'padj') {
+        idx <- mcols(info)$padj < cut
+    } else if (type == 'qval') {
+        idx <- mcols(info)$qval < cut
+    }
+    
+    idx[is.na(idx)] <- FALSE
+
+    ## Overlaps at least 1 DE exon
+    addmargins(table('DE status' = mcols(trans)[[paste0('DEr', rep)]], 'Overlaps DE transcript' = countOverlaps(trans, info[idx]) > 0))
+}
+
+types <- ifelse(grepl('ballgown', names(stats_GR)), 'qval', 'padj')
+replicates <- as.integer(sapply(strsplit(names(stats_GR), '\\.'), '[[', 2))
+
+tables <- mapply(count_comp, stats_GR, replicates, types, SIMPLIFY = FALSE)
+
+
+emp_power <- function(m) {
+    round(m[2, 2] / m[2, 3] * 100, 2)
+}
+sapply(tables, emp_power)
+
+
+emp_fpr <- function(m) 
+    round(m[1, 2] / m[1, 3] * 100, 2)
+}
+
+
+emp_fdr <- function(m) {
+    round(m[1, 2] / m[3, 2] * 100, 2)
+}
+
+empirical <- data.frame(method = names(tables),
+    power = sapply(tables, emp_power),
+    FPR = sapply(tables, emp_fpr),
+    FDR = sapply(tables, emp_fdr)
+)
+rownames(empirical) <- NULL
+empirical
+
+
+```
+
+
+
+```{r}
+txinfo <- select(txdb, keys = chosen$ucsckg_id, columns = columns(txdb), keytype = 'TXNAME')
+
+## Build GRangesList with exons grouped by transcript
+tx <- split(GRanges(seqnames = txinfo$EXONCHROM, IRanges(start = txinfo$EXONSTART, end = txinfo$EXONEND), strand = txinfo$EXONSTRAND), txinfo$TXNAME)
+tx <- tx[match(chosen$ucsckg_id, names(tx))]
+```
