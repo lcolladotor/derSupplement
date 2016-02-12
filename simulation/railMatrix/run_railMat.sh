@@ -34,5 +34,8 @@ date
 
 EOF
 
+    call="qsub ${WDIR}/.${sname}.sh"
+    echo $call
+    $call
 done
     
