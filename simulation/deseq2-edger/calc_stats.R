@@ -46,7 +46,7 @@ if(opt$pipeline == 'featureCounts') {
     regions <- regionMat$chr17$regions
     file <- paste0('stats-regionMatrix-R', opt$replicate)
     
-} else if (opt$pipeline == 'railatrix') {
+} else if (opt$pipeline == 'railMatrix') {
     load(file.path('..', 'railMatrix', paste0('regionMat-R', opt$replicate, '.Rdata')))
     
     counts <- regionMat$chr17$coverageMatrix
