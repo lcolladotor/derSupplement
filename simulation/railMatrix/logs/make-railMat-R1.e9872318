@@ -1,0 +1,54 @@
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Warning message:
+In .doLoadActions(where, attach) :
+  trying to execute load actions without 'methods' package
+Loading required package: BiocGenerics
+Loading required package: parallel
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:parallel’:
+
+    clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
+    clusterExport, clusterMap, parApply, parCapply, parLapply,
+    parLapplyLB, parRapply, parSapply, parSapplyLB
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    anyDuplicated, append, as.data.frame, as.vector, cbind, colnames,
+    do.call, duplicated, eval, evalq, Filter, Find, get, grep, grepl,
+    intersect, is.unsorted, lapply, lengths, Map, mapply, match, mget,
+    order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
+    rbind, Reduce, rownames, sapply, setdiff, sort, table, tapply,
+    union, unique, unlist, unsplit
+
+Loading required package: S4Vectors
+Loading required package: stats4
+Loading required package: IRanges
+Loading required package: GenomeInfoDb
+2016-02-11 21:26:36 loadCoverage: finding chromosome lengths
+2016-02-11 21:26:36 loadCoverage: loading BigWig file ../rail/rail-rna_out-R1/coverage_bigwigs/mean.chr17.bw
+2016-02-11 21:26:42 loadCoverage: applying the cutoff to the merged data
+2016-02-11 21:26:42 filterData: originally there were 81195210 rows, now there are 81195210 rows. Meaning that 0 percent was filtered.
+2016-02-11 21:26:42 findRegions: identifying potential segments
+2016-02-11 21:26:42 findRegions: segmenting information
+2016-02-11 21:26:42 .getSegmentsRle: segmenting with cutoff(s) 2.5
+2016-02-11 21:26:45 findRegions: identifying candidate regions
+2016-02-11 21:26:46 findRegions: identifying region clusters
+2016-02-11 21:26:52 railMatrix: processing regions 1 to 13502
+2016-02-11 21:26:52 railMatrix: processing file ../rail/rail-rna_out-R1/coverage_bigwigs/sample10-G2-R1.bw
+2016-02-11 21:26:59 railMatrix: processing file ../rail/rail-rna_out-R1/coverage_bigwigs/sample1-G1-R1.bw
+2016-02-11 21:27:05 railMatrix: processing file ../rail/rail-rna_out-R1/coverage_bigwigs/sample2-G1-R1.bw
+2016-02-11 21:27:11 railMatrix: processing file ../rail/rail-rna_out-R1/coverage_bigwigs/sample3-G1-R1.bw
+2016-02-11 21:27:19 railMatrix: processing file ../rail/rail-rna_out-R1/coverage_bigwigs/sample4-G1-R1.bw
+2016-02-11 21:27:26 railMatrix: processing file ../rail/rail-rna_out-R1/coverage_bigwigs/sample5-G1-R1.bw
+2016-02-11 21:27:33 railMatrix: processing file ../rail/rail-rna_out-R1/coverage_bigwigs/sample6-G2-R1.bw
+2016-02-11 21:27:41 railMatrix: processing file ../rail/rail-rna_out-R1/coverage_bigwigs/sample7-G2-R1.bw
+2016-02-11 21:27:47 railMatrix: processing file ../rail/rail-rna_out-R1/coverage_bigwigs/sample8-G2-R1.bw
+2016-02-11 21:27:55 railMatrix: processing file ../rail/rail-rna_out-R1/coverage_bigwigs/sample9-G2-R1.bw
+Session info -----------------------------------------------------------------------------------------------------------
+Packages ---------------------------------------------------------------------------------------------------------------
