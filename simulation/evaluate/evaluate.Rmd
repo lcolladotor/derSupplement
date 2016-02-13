@@ -93,7 +93,7 @@ names(stats_GR) <- inputs
 stats_GR <- unlist(stats_GR)
 
 
-count_comp <- function(info, rep = 1, type = 'padj', cut = 0.05) {
+count_comp <- function(info, rep = 1, type = 'padj', reference, cut = 0.05) {
     if(type == 'padj') {
         idx <- mcols(info)$padj < cut
     } else if (type == 'qval') {
@@ -103,19 +103,13 @@ count_comp <- function(info, rep = 1, type = 'padj', cut = 0.05) {
     idx[is.na(idx)] <- FALSE
 
     ## Overlaps at least 1 DE exon
-    addmargins(table('DE status' = mcols(trans)[[paste0('DEr', rep)]], 'Overlaps DE transcript' = countOverlaps(trans, info[idx]) > 0))
+    addmargins(table('DE status' = mcols(reference)[[paste0('DEr', rep)]], 'Overlaps DE transcript' = countOverlaps(reference, info[idx]) > 0))
 }
-
-types <- ifelse(grepl('ballgown', names(stats_GR)), 'qval', 'padj')
-replicates <- as.integer(sapply(strsplit(names(stats_GR), '\\.'), '[[', 2))
-
-tables <- mapply(count_comp, stats_GR, replicates, types, SIMPLIFY = FALSE)
 
 
 emp_power <- function(m) {
     round(m[2, 2] / m[2, 3] * 100, 2)
 }
-sapply(tables, emp_power)
 
 
 emp_fpr <- function(m) 
@@ -127,13 +121,73 @@ emp_fdr <- function(m) {
     round(m[1, 2] / m[3, 2] * 100, 2)
 }
 
-empirical <- data.frame(method = names(tables),
-    power = sapply(tables, emp_power),
-    FPR = sapply(tables, emp_fpr),
-    FDR = sapply(tables, emp_fdr)
+
+## Create transcript level disjoint segments
+segments <- GRangesList(lapply(split(chosen, chosen$gene_id), function(cho) {
+    i <- unique(cho$tx_idx)
+    
+    stopifnot(nrow(cho) == length(tx[[i]]))
+    
+    ## Find segments
+    segs <- disjoin(tx[[i]])
+    ov <- findOverlaps(segs, tx[[i]])
+    
+    ## Find DE status per segment
+    sHits <- subjectHits(ov)
+    qHits <- queryHits(ov)
+    segs$DEr1 <- as.vector(tapply(sHits, qHits, function(y) {
+        any(cho$rep1 != 'normal')
+    }))
+    segs$DEr2 <- as.vector(tapply(sHits, qHits, function(y) {
+        any(cho$rep2 != 'normal')
+    }))
+    segs$DEr3 <- as.vector(tapply(sHits, qHits, function(y) {
+        any(cho$rep3 != 'normal')
+    }))
+    
+    ## Finish
+    return(segs)
+}))
+names(segments) <- unique(chosen$gene_id)
+segs <- unlist(segments)
+
+table(segs$DEr1)
+table(segs$DEr2)
+table(segs$DEr3)
+round(table(segs$DEr1) / length(segs) * 100, 2)
+round(table(segs$DEr2) / length(segs) * 100, 2)
+round(table(segs$DEr2) / length(segs) * 100, 2)
+
+## Get type and replicate info
+types <- ifelse(grepl('ballgown', names(stats_GR)), 'qval', 'padj')
+replicates <- as.integer(sapply(strsplit(names(stats_GR), '\\.'), '[[', 2))
+
+## Evaluate at the transcript level
+tables_trans <- mapply(count_comp, stats_GR, replicates, types, SIMPLIFY = FALSE, MoreArgs = list(reference = trans))
+
+empirical_trans <- data.frame(method = names(tables_trans),
+    power = sapply(tables_trans, emp_power),
+    FPR = sapply(tables_trans, emp_fpr),
+    FDR = sapply(tables_trans, emp_fdr)
 )
-rownames(empirical) <- NULL
-empirical
+rownames(empirical_trans) <- NULL
+empirical_trans
+
+
+
+## Evaluate at the transcript segments level
+tables_segs <- mapply(count_comp, stats_GR, replicates, types, SIMPLIFY = FALSE, MoreArgs = list(reference = segs))
+
+empirical_segs <- data.frame(method = names(tables_segs),
+    power = sapply(tables_segs, emp_power),
+    FPR = sapply(tables_segs, emp_fpr),
+    FDR = sapply(tables_segs, emp_fdr)
+)
+rownames(empirical_segs) <- NULL
+empirical_segs
+
+
+
 
 
 ```
