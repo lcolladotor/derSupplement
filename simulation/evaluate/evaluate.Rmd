@@ -63,18 +63,22 @@ loadDE <- function(software, file) {
     return(DEres)
 }
 
+## Function for loading ballgown results
+loadBG <- function(level, file) {
+    load(file.path('..', 'ballgown', paste0('bgres-', level, '-', file, '.Rdata')))
+    BGres <- bgres
+    return(BGres)
+}
+
 ## Actually load the stats results
 stats <- lapply(inputs, function(input) {
     inputres <- lapply(reps, function(rep) {
         if(input %in% c('featureCounts', 'ballgown')) {
             statusres <- lapply(statuses, function(status) {
                 if(input == 'ballgown') {
-                    load(file.path('..', 'ballgown', paste0('bg-R', rep, '-', 
-                        ifelse(status == 'complete', 'comp', 'inc'), '.Rdata')))
-                    load(file.path('..', 'ballgown', paste0('stat-R', rep, '-', 
-                        ifelse(status == 'complete', 'comp', 'inc'), '.Rdata')))
-                    res <- structure(bg)$trans
-                    mcols(res) <- cbind(mcols(res), stat_results)
+                    res <- lapply(c('trans', 'exon'), loadBG, file = 
+                        paste0('R', rep, ifelse(status == 'complete', '-comp', '-inc')))
+                    names(res) <- c('trans', 'exon')
                 } else if (input == 'featureCounts') {
                     res <- lapply(softwares, loadDE, file = paste0('featureCounts-R', rep, 
                         ifelse(status == 'complete', '-comp', '-inc')))
@@ -97,14 +101,12 @@ names(stats) <- inputs
 
 ## Group the stats results into a list without nested levels
 stats_GR <- lapply(inputs, function(input) {
-    if(input == 'featureCounts') {
+    if(input %in% c('featureCounts', 'ballgown')) {
         res <- lapply(stats[[input]], unlist)
     } else {
         res <- unlist(stats[[input]])
     }
-    if(input != 'ballgown') {
-        res <- unlist(res)
-    }
+    res <- unlist(res)
     return(res)
 })
 names(stats_GR) <- inputs
@@ -162,7 +164,8 @@ emp <- function(tables) {
     empirical$SummaryMethod[grepl('featureCounts', names(tables))] <- 'featureCounts'
     empirical$StatMethod <- 'DESeq2'
     empirical$StatMethod[grepl('edgeR', names(tables))] <- 'edgeR'
-    empirical$StatMethod[grepl('ballgown', names(tables))] <- 'ballgown'
+    empirical$StatMethod[grepl('ballgown.*exon', names(tables))] <- 'ballgown-exon'
+    empirical$StatMethod[grepl('ballgown.*trans', names(tables))] <- 'ballgown-trans'
     rownames(empirical) <- NULL
     return(empirical)
 }
@@ -181,7 +184,7 @@ emp_sum <- function(empinfo) {
     empsum$Aligner <- sapply(strsplit(rownames(empsum), ';'), '[[', 2)
     empsum$SummaryMethod <- sapply(strsplit(rownames(empsum), ';'), '[[', 3)
     empsum$StatMethod <- sapply(strsplit(rownames(empsum), ';'), '[[', 4)
-    empsum <- empsum[c(1, 8, 2, 9, 3, 10, 4, 6, 5, 7), ]
+    #empsum <- empsum[c(1, 8, 2, 9, 3, 10, 4, 6, 5, 7), ]
     rownames(empsum) <- NULL
     empsum
     
