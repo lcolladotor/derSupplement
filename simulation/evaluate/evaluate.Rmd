@@ -65,8 +65,7 @@ loadDE <- function(software, file) {
 ## Function for loading ballgown results
 loadBG <- function(level, file) {
     load(file.path('..', 'ballgown', paste0('bgres-', level, '-', file, '.Rdata')))
-    BGres <- bgres
-    return(BGres)
+    return(bgres)
 }
 
 ## Actually load the stats results
@@ -183,7 +182,7 @@ emp_sum <- function(empinfo) {
     empsum$Aligner <- sapply(strsplit(rownames(empsum), ';'), '[[', 2)
     empsum$SummaryMethod <- sapply(strsplit(rownames(empsum), ';'), '[[', 3)
     empsum$StatMethod <- sapply(strsplit(rownames(empsum), ';'), '[[', 4)
-    #empsum <- empsum[c(1, 8, 2, 9, 3, 10, 4, 6, 5, 7), ]
+    empsum <- empsum[c(1, 9, 2, 10, 3, 11, 4, 12, 5, 7, 6, 8), ]
     rownames(empsum) <- NULL
     empsum
     
@@ -411,7 +410,7 @@ kable(emp_sum(empirical_exons), format = 'html')
 kable(emp_sum(empirical_exons_d), format = 'html')
 ```
 
-From these summaries we can see that in most cases the minimum and maximum values are nearly the same, except under the `HISAT` -> `StringTie` -> `ballgown` pipeline. Also, `edgeR` achieves slightly greater empirical power than `DESeq2` at the cost of a higher empirical FPR and FDR.
+From these summaries we can see that in most cases the minimum and maximum values are nearly the same, with more variability for the `HISAT` -> `StringTie` -> `ballgown` pipeline results. Note that for this pipeline we conducted tests at the transcript level (StatMethod = `ballgown-trans`) and at the exon level (`ballgown-exon`). Finally `edgeR` achieves slightly greater empirical power than `DESeq2` at the cost of a higher empirical FPR and FDR.
 
 
 ## Details
