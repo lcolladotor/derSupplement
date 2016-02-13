@@ -1,4 +1,5 @@
 library('ballgown')
+library('GenomicRanges')
 library('devtools')
 library('getopt')
 

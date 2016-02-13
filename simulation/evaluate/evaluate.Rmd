@@ -17,7 +17,6 @@ First, we load the required libraries.
 ```{r 'loadLibs', message = FALSE, warning = FALSE}
 ## Load required libraries
 library('GenomicRanges')
-library('ballgown')
 library('TxDb.Hsapiens.UCSC.hg19.knownGene')
 library('knitr')
 library('devtools')
