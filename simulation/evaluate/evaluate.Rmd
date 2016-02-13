@@ -1,17 +1,34 @@
 ---
-title: "Create GTF file"
+title: "Evaluate results"
 author: "L Collado-Torres"
 date: "`r doc_date()`"
 output: 
   BiocStyle::html_document
 ---
 
+This document is a work in progress.
 
-```{r}
-## Load transcripts used
+Here we evaluate the performance of the different pipelines we used to analyze the simulated data. Evaluating the performance is tricky and depends on how you define the reference set. At this moment we are considering three options detailed later.
+
+# Setup
+
+First, we load the required libraries.
+
+```{r 'loadLibs', message = FALSE, warning = FALSE}
+## Load required libraries
 library('GenomicRanges')
 library('ballgown')
 library('TxDb.Hsapiens.UCSC.hg19.knownGene')
+library('knitr')
+library('devtools')
+```
+
+## Load data
+
+Next we load the required data from the simulation setup as well as the statistical results from the different pipelines. We then format the results in a way that we can easily access them later on.
+
+```{r 'loadData'}
+## Load transcripts used
 txdb <- keepSeqlevels(TxDb.Hsapiens.UCSC.hg19.knownGene, 'chr17')
 tx <- transcriptsBy(txdb, 'gene')
 
@@ -28,17 +45,13 @@ if(!identical(nrow(chosen), length(rep(txs, txs)))) {
     stopifnot(identical(nrow(chosen), length(rep(txs, txs))))
 }
 
-trans <- unlist(tx)
-trans$DEr1 <- chosen$rep1 != 'normal'
-trans$DEr2 <- chosen$rep2 != 'normal'
-trans$DEr3 <- chosen$rep3 != 'normal'
-
 ## Load stat results
 inputs <- c('featureCounts', 'railMatrix', 'regionMatrix', 'ballgown')
 reps <- 1:3
 softwares <- c('DESeq2', 'edgeR')
 statuses <- c('complete', 'incomplete')
 
+## Function for loading results from deseq2-edger folder
 loadDE <- function(software, file) {
     load(file.path('..', 'deseq2-edger', paste0('stats-', file, '-', software, '.Rdata')))
     if(software == 'DESeq2') {
@@ -49,17 +62,21 @@ loadDE <- function(software, file) {
     return(DEres)
 }
 
+## Actually load the stats results
 stats <- lapply(inputs, function(input) {
     inputres <- lapply(reps, function(rep) {
         if(input %in% c('featureCounts', 'ballgown')) {
             statusres <- lapply(statuses, function(status) {
                 if(input == 'ballgown') {
-                    load(file.path('..', 'ballgown', paste0('bg-R', rep, '-', ifelse(status == 'complete', 'comp', 'inc'), '.Rdata')))
-                    load(file.path('..', 'ballgown', paste0('stat-R', rep, '-', ifelse(status == 'complete', 'comp', 'inc'), '.Rdata')))
+                    load(file.path('..', 'ballgown', paste0('bg-R', rep, '-', 
+                        ifelse(status == 'complete', 'comp', 'inc'), '.Rdata')))
+                    load(file.path('..', 'ballgown', paste0('stat-R', rep, '-', 
+                        ifelse(status == 'complete', 'comp', 'inc'), '.Rdata')))
                     res <- structure(bg)$trans
                     mcols(res) <- cbind(mcols(res), stat_results)
                 } else if (input == 'featureCounts') {
-                    res <- lapply(softwares, loadDE, file = paste0('featureCounts-R', rep, ifelse(status == 'complete', '-comp', '-inc')))
+                    res <- lapply(softwares, loadDE, file = paste0('featureCounts-R', rep, 
+                        ifelse(status == 'complete', '-comp', '-inc')))
                     names(res) <- softwares
                 }
                 return(res)      
@@ -77,7 +94,7 @@ stats <- lapply(inputs, function(input) {
 })
 names(stats) <- inputs
 
-
+## Group the stats results into a list without nested levels
 stats_GR <- lapply(inputs, function(input) {
     if(input == 'featureCounts') {
         res <- lapply(stats[[input]], unlist)
@@ -92,7 +109,14 @@ stats_GR <- lapply(inputs, function(input) {
 names(stats_GR) <- inputs
 stats_GR <- unlist(stats_GR)
 
+```
 
+## Evaluation functions
+
+The following code defines the functions we will use to evaluate the statistical results.
+
+```{r 'evalFuns'}
+## count_comp compares the information at hand versus the reference
 count_comp <- function(info, rep = 1, type = 'padj', reference, cut = 0.05) {
     if(type == 'padj') {
         idx <- mcols(info)$padj < cut
@@ -103,26 +127,130 @@ count_comp <- function(info, rep = 1, type = 'padj', reference, cut = 0.05) {
     idx[is.na(idx)] <- FALSE
 
     ## Overlaps at least 1 DE exon
-    addmargins(table('DE status' = mcols(reference)[[paste0('DEr', rep)]], 'Overlaps DE transcript' = countOverlaps(reference, info[idx]) > 0))
+    addmargins(table('DE status' = mcols(reference)[[paste0('DEr', rep)]],
+        'Overlaps DE transcript' = countOverlaps(reference, info[idx]) > 0))
 }
 
 
+## Functions for evaluating empirical power, FPR and FDR, plus summarizing 
+## the info
 emp_power <- function(m) {
     round(m[2, 2] / m[2, 3] * 100, 2)
 }
-
-
-emp_fpr <- function(m) 
+emp_fpr <- function(m) {
     round(m[1, 2] / m[1, 3] * 100, 2)
 }
-
-
 emp_fdr <- function(m) {
     round(m[1, 2] / m[3, 2] * 100, 2)
 }
 
+## Detailed table with the results for each replicate of the simulation
+emp <- function(tables) {
+    empirical <- data.frame(
+        power = sapply(tables, emp_power),
+        FPR = sapply(tables, emp_fpr),
+        FDR = sapply(tables, emp_fdr)
+    )
+    empirical$replicate <- as.integer(sapply(strsplit(names(tables), '\\.'), '[[', 2))
+    empirical$AnnotationComplete <- NA
+    empirical$AnnotationComplete[grepl('\\.complete', names(tables))] <- TRUE
+    empirical$AnnotationComplete[grepl('\\.incomplete', names(tables))] <- FALSE
+    empirical$Aligner <- 'HISAT'
+    empirical$Aligner[grepl('rail', names(tables))] <- 'Rail-RNA'
+    empirical$SummaryMethod <- 'StringTie'
+    empirical$SummaryMethod[grepl('Matrix', names(tables))] <- 'derfinder'
+    empirical$SummaryMethod[grepl('featureCounts', names(tables))] <- 'featureCounts'
+    empirical$StatMethod <- 'DESeq2'
+    empirical$StatMethod[grepl('edgeR', names(tables))] <- 'edgeR'
+    empirical$StatMethod[grepl('ballgown', names(tables))] <- 'ballgown'
+    rownames(empirical) <- NULL
+    return(empirical)
+}
+
+## This function takes the result from emp() and summarizes it by showing
+## the minimum and maximum value per replicate
+emp_sum <- function(empinfo) {
+    empinfo$situation <- paste(empinfo$AnnotationComplete, empinfo$Aligner, 
+        empinfo$SummaryMethod, empinfo$StatMethod, sep=';')
+    empsum <- data.frame(
+        'Power' = sapply(tapply(empinfo$power, empinfo$situation, range), paste, collapse = ','),
+        'FPR' = sapply(tapply(empinfo$FPR, empinfo$situation, range), paste, collapse = ','),
+        'FDR' = sapply(tapply(empinfo$FDR, empinfo$situation, range), paste, collapse = ',')
+    )
+    empsum$AnnotationComplete <- as.logical(sapply(strsplit(rownames(empsum), ';'), '[[', 1))
+    empsum$Aligner <- sapply(strsplit(rownames(empsum), ';'), '[[', 2)
+    empsum$SummaryMethod <- sapply(strsplit(rownames(empsum), ';'), '[[', 3)
+    empsum$StatMethod <- sapply(strsplit(rownames(empsum), ';'), '[[', 4)
+    empsum <- empsum[c(1, 8, 2, 9, 3, 10, 4, 6, 5, 7), ]
+    rownames(empsum) <- NULL
+    empsum
+    
+}
+
+## index_comp is similar to count_comp but it returns the actual indices for
+## the false positives, true positives, etc
+index_comp <- function(info, rep = 1, type = 'padj', reference, cut = 0.05) {
+    if(type == 'padj') {
+        idx <- mcols(info)$padj < cut
+    } else if (type == 'qval') {
+        idx <- mcols(info)$qval < cut
+    }
+    
+    idx[is.na(idx)] <- FALSE
+
+    ## Overlaps at least 1 DE exon
+    ov <- countOverlaps(reference, info[idx]) > 0
+    TP <- mcols(reference)[[paste0('DEr', rep)]] & ov
+    TN <- !mcols(reference)[[paste0('DEr', rep)]] & !ov
+    FP <- !mcols(reference)[[paste0('DEr', rep)]] & ov
+    FN <- mcols(reference)[[paste0('DEr', rep)]] & !ov
+    return(list(TruePositive = TP, TrueNegative = TN, FalsePositive = FP, FalseNegative = FN))
+}
+
+## case_result uses the information from index_comp to make a nice summary table
+case_result <- function(idx, r, reference) { 
+    res <- lapply(names(idx), function(i) {
+        data.frame(case = mcols(reference)[[paste0('case', r)]][idx[[i]]], 
+            result = i, stringsAsFactors = FALSE)
+    })
+    res <- do.call(rbind, res)
+    addmargins(table("Case" = res$case, "Result" = res$result))
+}
+
+```
+
+## 
+
+We can now proceed to defining our reference sets. They are:
+
+1. The transcripts as defined on the simulation. A transcript is marked as differentially expressed (DE) if it's expression was set to be low or high. This ignores whether the transcript in question overlaps other transcripts from the same gene and the status assigned to them.
+1. Transcripts as defined on the simulation but with the DE status dependent on other transcripts from the same gene. If any transcript for a given gene is set to low or high expression, all the transcripts of that gene are marked as differentially expressed.
+1. For each gene, we identify the disjoint segments that compose all transcripts. Then each transcript segment is marked as DE if it overlaps a transcript from that gene with low or high expression.
+
+```{r 'defineRefs'}
+## Transcript level info
+trans <- unlist(tx)
+trans$DEr1 <- chosen$rep1 != 'normal'
+trans$DEr2 <- chosen$rep2 != 'normal'
+trans$DEr3 <- chosen$rep3 != 'normal'
+trans$case1 <- chosen$case1
+trans$case2 <- chosen$case2
+trans$case3 <- chosen$case3
+
+## Transcript level information where the DE status is given by the gene level
+trans_case <- trans
+trans_case$DEr1 <- chosen$case1 %in% c('allDE', 'singleDE', 'someDE')
+trans_case$DEr2 <- chosen$case2 %in% c('allDE', 'singleDE', 'someDE')
+trans_case$DEr3 <- chosen$case3 %in% c('allDE', 'singleDE', 'someDE')
+
 
 ## Create transcript level disjoint segments
+## Note that the lines
+# any(cho$rep1[y] != 'normal')
+## can be replaced by
+# all(cho$rep1[y] != 'normal')
+## Using any() means that if any of the transcripts with which the disjoint
+## segment overlaps with is DE, then label the disjoint segment as DE
 segments <- GRangesList(lapply(split(chosen, chosen$gene_id), function(cho) {
     i <- unique(cho$tx_idx)
     
@@ -136,13 +264,23 @@ segments <- GRangesList(lapply(split(chosen, chosen$gene_id), function(cho) {
     sHits <- subjectHits(ov)
     qHits <- queryHits(ov)
     segs$DEr1 <- as.vector(tapply(sHits, qHits, function(y) {
-        any(cho$rep1 != 'normal')
+        any(cho$rep1[y] != 'normal')
     }))
     segs$DEr2 <- as.vector(tapply(sHits, qHits, function(y) {
-        any(cho$rep2 != 'normal')
+        any(cho$rep2[y] != 'normal')
     }))
     segs$DEr3 <- as.vector(tapply(sHits, qHits, function(y) {
-        any(cho$rep3 != 'normal')
+        any(cho$rep3[y] != 'normal')
+    }))
+    
+    segs$case1 <- as.vector(tapply(sHits, qHits, function(y) {
+        unique(cho$case1[y])
+    }))
+    segs$case2 <- as.vector(tapply(sHits, qHits, function(y) {
+        unique(cho$case2[y])
+    }))
+    segs$case3 <- as.vector(tapply(sHits, qHits, function(y) {
+        unique(cho$case3[y])
     }))
     
     ## Finish
@@ -151,53 +289,122 @@ segments <- GRangesList(lapply(split(chosen, chosen$gene_id), function(cho) {
 names(segments) <- unique(chosen$gene_id)
 segs <- unlist(segments)
 
-table(segs$DEr1)
-table(segs$DEr2)
-table(segs$DEr3)
+## Explore the number and percent of DE cases
+## First at the transcript level, which matches exactly the 2/6 of transcripts 
+## set to be DE (1/6 low, 1/6 high)
+round(table(trans$DEr1) / length(trans) * 100, 2)
+round(table(trans$DEr2) / length(trans) * 100, 2)
+round(table(trans$DEr2) / length(trans) * 100, 2)
+
+## Next at the transcript level with DE given by transcripts from a given gene
+## The percent DE is highly increased given that genes with more than 1
+## transcript are likely to have at least 1 DE.
+round(table(trans_case$DEr1) / length(trans_case) * 100, 2)
+round(table(trans_case$DEr2) / length(trans_case) * 100, 2)
+round(table(trans_case$DEr2) / length(trans_case) * 100, 2)
+
+## Finally, at the transcript segment level. The percent is in between the
+## previous two.
 round(table(segs$DEr1) / length(segs) * 100, 2)
 round(table(segs$DEr2) / length(segs) * 100, 2)
 round(table(segs$DEr2) / length(segs) * 100, 2)
+```
 
+
+# Evaluation
+
+
+## Evaluate results
+
+The following code actually runs the evaluation functions for the three different reference sets.
+
+```{r 'runEval'}
 ## Get type and replicate info
 types <- ifelse(grepl('ballgown', names(stats_GR)), 'qval', 'padj')
 replicates <- as.integer(sapply(strsplit(names(stats_GR), '\\.'), '[[', 2))
 
-## Evaluate at the transcript level
-tables_trans <- mapply(count_comp, stats_GR, replicates, types, SIMPLIFY = FALSE, MoreArgs = list(reference = trans))
+## Evaluate at the transcript level:
+## DE if transcript is DE ignoring overlapping transcripts
+tables_trans <- mapply(count_comp, stats_GR, replicates, types,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = trans, cut = 0.05))
+empirical_trans <- emp(tables_trans)
+index_trans <- mapply(index_comp, stats_GR, replicates, types,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = trans, cut = 0.05))
+case_result_trans <- mapply(case_result, index_trans, replicates,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = trans))
 
-empirical_trans <- data.frame(method = names(tables_trans),
-    power = sapply(tables_trans, emp_power),
-    FPR = sapply(tables_trans, emp_fpr),
-    FDR = sapply(tables_trans, emp_fdr)
-)
-rownames(empirical_trans) <- NULL
-empirical_trans
 
+
+## Evaluate at the transcript level:
+## DE if at least one of the transcripts from the same gene is DE
+tables_trans_c <- mapply(count_comp, stats_GR, replicates, types,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = trans_case, cut = 0.05))
+empirical_trans_c <- emp(tables_trans_c)
+index_trans_c <- mapply(index_comp, stats_GR, replicates, types,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = trans_case, cut = 0.05))
+case_result_trans_c <- mapply(case_result, index_trans_c, replicates,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = trans_case))
 
 
 ## Evaluate at the transcript segments level
-tables_segs <- mapply(count_comp, stats_GR, replicates, types, SIMPLIFY = FALSE, MoreArgs = list(reference = segs))
+tables_segs <- mapply(count_comp, stats_GR, replicates, types,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = segs, cut = 0.05))
+empirical_segs <- emp(tables_segs)
+index_segs <- mapply(index_comp, stats_GR, replicates, types,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = segs, cut = 0.05))
+case_result_segs <- mapply(case_result, index_segs, replicates,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = segs))
+```
 
-empirical_segs <- data.frame(method = names(tables_segs),
-    power = sapply(tables_segs, emp_power),
-    FPR = sapply(tables_segs, emp_fpr),
-    FDR = sapply(tables_segs, emp_fdr)
-)
-rownames(empirical_segs) <- NULL
-empirical_segs
+## Summaries
+
+Below are summaries of showing the minimum and maximum empirical power, false positive rate (FPR) and false discovery rate (FDR) per replicate for each of the analysis pipelines.
+
+```{r 'displayEmpiricalSummaries', results = 'asis'}
+## Transcript level
+kable(emp_sum(empirical_trans), format = 'html')
+## Transcript level with DE status given by transcripts from the same gene
+kable(emp_sum(empirical_trans_c), format = 'html')
+## Transcript segment level
+kable(emp_sum(empirical_segs), format = 'html')
+```
+
+From these summaries we can see that in most cases the minimum and maximum values are nearly the same, except under the `HISAT` -> `StringTie` -> `ballgown` pipeline. Also, `edgeR` achieves slightly greater empirical power than `DESeq2` at the cost of a higher empirical FPR and FDR.
 
 
+## Details
 
+The following tables show the results for all the replicates.
 
-
+```{r 'displayEmpirical', results = 'asis'}
+## Transcript level
+kable(empirical_trans, format = 'html')
+## Transcript level with DE status given by transcripts from the same gene
+kable(empirical_trans_c, format = 'html')
+## Transcript segment level
+kable(empirical_segs, format = 'html')
 ```
 
 
+## Specific case
 
-```{r}
-txinfo <- select(txdb, keys = chosen$ucsckg_id, columns = columns(txdb), keytype = 'TXNAME')
+In this section we focus on the specific case of using `HISAT` -> `derfinder` -> `edgeR` from the first replicate because it has the highest empirical FPR from all the `derfinder` analyses when using the transcript disjoint segments as the reference. 
 
-## Build GRangesList with exons grouped by transcript
-tx <- split(GRanges(seqnames = txinfo$EXONCHROM, IRanges(start = txinfo$EXONSTART, end = txinfo$EXONEND), strand = txinfo$EXONSTRAND), txinfo$TXNAME)
-tx <- tx[match(chosen$ucsckg_id, names(tx))]
+Note how when using the transcript level information as reference, most of the false positives (1593 out of 2038) are from the case `someDE`. That is, from genes that have multiple transcripts and at least one of them is DE. These false positives go away when using as the reference the transcripts with DE status by gene (second table). In that scenario, most of the remaining false positives are from the `noneDE` case, where about half of them are correctly detected as negatives. It turns out that when using the transcript disjoint segments (third table), only about a third (173 / 510) of the `noneDE` cases are incorrectly labeled.
+
+```{r 'regionMatrix.1.edgeR'}
+## Compare all three references for one simulation scenario
+case_result_trans[['regionMatrix.1.edgeR']]
+case_result_trans_c[['regionMatrix.1.edgeR']]
+case_result_segs[['regionMatrix.1.edgeR']]
+```
+
+# Reproducibility
+
+```{r 'reproducibility'}
+## Reproducibility info
+Sys.time()
+proc.time()
+options(width = 120)
+session_info()
 ```
