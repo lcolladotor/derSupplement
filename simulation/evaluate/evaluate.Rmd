@@ -8,7 +8,7 @@ output:
 
 This document is a work in progress.
 
-Here we evaluate the performance of the different pipelines we used to analyze the simulated data. Evaluating the performance is tricky and depends on how you define the reference set. At this moment we are considering three options detailed later.
+Here we evaluate the performance of the different pipelines we used to analyze the simulated data. Evaluating the performance is tricky and depends on how you define the reference set. At this moment we are considering four options detailed later.
 
 # Setup
 
@@ -28,21 +28,22 @@ library('devtools')
 Next we load the required data from the simulation setup as well as the statistical results from the different pipelines. We then format the results in a way that we can easily access them later on.
 
 ```{r 'loadData'}
-## Load transcripts used
-txdb <- keepSeqlevels(TxDb.Hsapiens.UCSC.hg19.knownGene, 'chr17')
-tx <- transcriptsBy(txdb, 'gene')
-
-## Transcripts per gene
-txs <- sapply(tx, length)
-
 ## Load simulation information
 load(file.path('..', 'generateReads', 'simulation_info.Rdata'))
 
-if(!identical(nrow(chosen), length(rep(txs, txs)))) {
+## Load transcripts used
+txdb <- keepSeqlevels(TxDb.Hsapiens.UCSC.hg19.knownGene, 'chr17')
+txinfo <- select(txdb, keys = chosen$ucsckg_id, columns = columns(txdb), keytype = 'TXNAME')
+
+## Build GRangesList with exons grouped by transcript
+tx <- split(GRanges(seqnames = txinfo$EXONCHROM, IRanges(start = txinfo$EXONSTART, end = txinfo$EXONEND), strand = txinfo$EXONSTRAND), txinfo$TXNAME)
+tx <- tx[match(chosen$ucsckg_id, names(tx))]
+
+
+if(!identical(nrow(chosen), length(tx))) {
     message(paste(Sys.time(), 'Subsetting list of transcripts to those that were used when simulating the reads'))
     tx <- tx[names(tx) %in% chosen$gene_id]
-    txs <- sapply(tx, length)
-    stopifnot(identical(nrow(chosen), length(rep(txs, txs))))
+    stopifnot(unique(sum(width(tx)) - chosen$width) == 0)
 }
 
 ## Load stat results
@@ -108,7 +109,6 @@ stats_GR <- lapply(inputs, function(input) {
 })
 names(stats_GR) <- inputs
 stats_GR <- unlist(stats_GR)
-
 ```
 
 ## Evaluation functions
@@ -116,7 +116,7 @@ stats_GR <- unlist(stats_GR)
 The following code defines the functions we will use to evaluate the statistical results.
 
 ```{r 'evalFuns'}
-## count_comp compares the information at hand versus the reference
+## count_comp compares the information at hand versus the reference set
 count_comp <- function(info, rep = 1, type = 'padj', reference, cut = 0.05) {
     if(type == 'padj') {
         idx <- mcols(info)$padj < cut
@@ -126,9 +126,9 @@ count_comp <- function(info, rep = 1, type = 'padj', reference, cut = 0.05) {
     
     idx[is.na(idx)] <- FALSE
 
-    ## Overlaps at least 1 DE exon
-    addmargins(table('DE status' = mcols(reference)[[paste0('DEr', rep)]],
-        'Overlaps DE transcript' = countOverlaps(reference, info[idx]) > 0))
+    ## Overlaps at least 1 DE 'reference' unit
+    addmargins(table('DE truth' = mcols(reference)[[paste0('DEr', rep)]],
+        'Overlaps DE' = countOverlaps(reference, info[idx]) > 0))
 }
 
 
@@ -198,7 +198,7 @@ index_comp <- function(info, rep = 1, type = 'padj', reference, cut = 0.05) {
     
     idx[is.na(idx)] <- FALSE
 
-    ## Overlaps at least 1 DE exon
+    ## Overlaps at least 1 DE 'reference' unit
     ov <- countOverlaps(reference, info[idx]) > 0
     TP <- mcols(reference)[[paste0('DEr', rep)]] & ov
     TN <- !mcols(reference)[[paste0('DEr', rep)]] & !ov
@@ -210,105 +210,131 @@ index_comp <- function(info, rep = 1, type = 'padj', reference, cut = 0.05) {
 ## case_result uses the information from index_comp to make a nice summary table
 case_result <- function(idx, r, reference) { 
     res <- lapply(names(idx), function(i) {
-        data.frame(case = mcols(reference)[[paste0('case', r)]][idx[[i]]], 
-            result = i, stringsAsFactors = FALSE)
+        cases <- mcols(reference)[[paste0('case', r)]][idx[[i]]]
+        if(length(cases) == 0) return(NULL)
+        data.frame(case = cases, result = i, stringsAsFactors = FALSE)
     })
     res <- do.call(rbind, res)
     addmargins(table("Case" = res$case, "Result" = res$result))
 }
 
+## Chose the most frequent case, used for choosing the case in the exons 
+## reference sets.exon
+mostFreq <- function(cases) {
+    if(length(cases) == 1) return(cases)
+    names(sort(table(cases), decreasing = TRUE))[1]
+}
+
+## Process exons set to create a reference set
+processExons <- function(exons_set) {
+    ov <- findOverlaps(exons_set, tx)
+    ## Find DE status per exon
+    sHits <- subjectHits(ov)
+    qHits <- queryHits(ov)
+    exons_set$DEr1 <- as.vector(tapply(sHits, qHits, function(y) {
+        ## Note that we could change this from any() to all() and that
+        ## would impact change whether the exon is labeled as DE or not.
+        any(chosen$rep1[y] != 'normal')
+    }))
+    exons_set$DEr2 <- as.vector(tapply(sHits, qHits, function(y) {
+        any(chosen$rep2[y] != 'normal')
+    }))
+    exons_set$DEr3 <- as.vector(tapply(sHits, qHits, function(y) {
+        any(chosen$rep3[y] != 'normal')
+    }))
+
+    exons_set$cases1 <- as.vector(tapply(sHits, qHits, function(y) {
+        chosen$case1[y]
+    }))
+    exons_set$cases2 <- as.vector(tapply(sHits, qHits, function(y) {
+        chosen$case2[y]
+    }))
+    exons_set$cases3 <- as.vector(tapply(sHits, qHits, function(y) {
+        chosen$case3[y]
+    }))
+    exons_set$case1 <- unname(sapply(exons_set$cases1, mostFreq))
+    exons_set$case2 <- unname(sapply(exons_set$cases2, mostFreq))
+    exons_set$case3 <- unname(sapply(exons_set$cases3, mostFreq))
+    return(exons_set)
+}
 ```
 
-## 
+## Reference sets
 
 We can now proceed to defining our reference sets. They are:
 
-1. The transcripts as defined on the simulation. A transcript is marked as differentially expressed (DE) if it's expression was set to be low or high. This ignores whether the transcript in question overlaps other transcripts from the same gene and the status assigned to them.
-1. Transcripts as defined on the simulation but with the DE status dependent on other transcripts from the same gene. If any transcript for a given gene is set to low or high expression, all the transcripts of that gene are marked as differentially expressed.
-1. For each gene, we identify the disjoint segments that compose all transcripts. Then each transcript segment is marked as DE if it overlaps a transcript from that gene with low or high expression.
+1. Transcript level with exons grouped by the transcript they belong to. A transcript is marked as differentially expressed (DE) if it's expression was set to be low or high. This ignores whether the transcript in question overlaps other transcripts from the same gene and the status assigned to them.
+1. Transcripts (exons grouped by transcript) with the DE status dependent on other transcripts from the same gene. If any transcript for a given gene is set to low or high expression, all the transcripts of that gene are marked as differentially expressed.
+1. Exon level with DE status given by whether the exon overlaps any transcript with low or high expression. Note that two transcripts share the same exon, that exon will appear twice in this reference set.
+1. Disjoint exon level with DE status given by whether the disjoint exon segment overlaps any transcript with low or high expression. This reference set is smaller than the previous one because if two transcripts share the same exon, that exon will only appear once in this reference set.
 
 ```{r 'defineRefs'}
 ## Transcript level info
-trans <- unlist(tx)
-trans$DEr1 <- chosen$rep1 != 'normal'
-trans$DEr2 <- chosen$rep2 != 'normal'
-trans$DEr3 <- chosen$rep3 != 'normal'
-trans$case1 <- chosen$case1
-trans$case2 <- chosen$case2
-trans$case3 <- chosen$case3
+trans <- tx
+mcols(trans)$DEr1 <- chosen$rep1 != 'normal'
+mcols(trans)$DEr2 <- chosen$rep2 != 'normal'
+mcols(trans)$DEr3 <- chosen$rep3 != 'normal'
+mcols(trans)$case1 <- chosen$case1
+mcols(trans)$case2 <- chosen$case2
+mcols(trans)$case3 <- chosen$case3
 
-## Transcript level information where the DE status is given by the gene level
+## Transcript level information with DE status given by the gene level
 trans_case <- trans
-trans_case$DEr1 <- chosen$case1 %in% c('allDE', 'singleDE', 'someDE')
-trans_case$DEr2 <- chosen$case2 %in% c('allDE', 'singleDE', 'someDE')
-trans_case$DEr3 <- chosen$case3 %in% c('allDE', 'singleDE', 'someDE')
+mcols(trans_case)$DEr1 <- chosen$case1 %in% c('allDE', 'singleDE', 'someDE')
+mcols(trans_case)$DEr2 <- chosen$case2 %in% c('allDE', 'singleDE', 'someDE')
+mcols(trans_case)$DEr3 <- chosen$case3 %in% c('allDE', 'singleDE', 'someDE')
 
 
-## Create transcript level disjoint segments
-## Note that the lines
-# any(cho$rep1[y] != 'normal')
-## can be replaced by
-# all(cho$rep1[y] != 'normal')
-## Using any() means that if any of the transcripts with which the disjoint
-## segment overlaps with is DE, then label the disjoint segment as DE
-segments <- GRangesList(lapply(split(chosen, chosen$gene_id), function(cho) {
-    i <- unique(cho$tx_idx)
-    
-    stopifnot(nrow(cho) == length(tx[[i]]))
-    
-    ## Find segments
-    segs <- disjoin(tx[[i]])
-    ov <- findOverlaps(segs, tx[[i]])
-    
-    ## Find DE status per segment
-    sHits <- subjectHits(ov)
-    qHits <- queryHits(ov)
-    segs$DEr1 <- as.vector(tapply(sHits, qHits, function(y) {
-        any(cho$rep1[y] != 'normal')
-    }))
-    segs$DEr2 <- as.vector(tapply(sHits, qHits, function(y) {
-        any(cho$rep2[y] != 'normal')
-    }))
-    segs$DEr3 <- as.vector(tapply(sHits, qHits, function(y) {
-        any(cho$rep3[y] != 'normal')
-    }))
-    
-    segs$case1 <- as.vector(tapply(sHits, qHits, function(y) {
-        unique(cho$case1[y])
-    }))
-    segs$case2 <- as.vector(tapply(sHits, qHits, function(y) {
-        unique(cho$case2[y])
-    }))
-    segs$case3 <- as.vector(tapply(sHits, qHits, function(y) {
-        unique(cho$case3[y])
-    }))
-    
-    ## Finish
-    return(segs)
-}))
-names(segments) <- unique(chosen$gene_id)
-segs <- unlist(segments)
+## Create exon level reference
+exons <- processExons(unlist(tx))
+
+## Create disjoint exon level reference
+exons_disjoin <- processExons(disjoin(unlist(tx)))
+
 
 ## Explore the number and percent of DE cases
+percDE <- function(reference) {
+    res <- lapply(1:3, function(r) {
+        round(table(mcols(reference)[[paste0('DEr', r)]]) / length(reference) * 100, 2)
+    })
+    names(res) <- paste0('rep', 1:3)
+    unlist(res)
+}
+
 ## First at the transcript level, which matches exactly the 2/6 of transcripts 
 ## set to be DE (1/6 low, 1/6 high)
-round(table(trans$DEr1) / length(trans) * 100, 2)
-round(table(trans$DEr2) / length(trans) * 100, 2)
-round(table(trans$DEr2) / length(trans) * 100, 2)
+percDE(trans)
 
-## Next at the transcript level with DE given by transcripts from a given gene
+## Next at the transcript level with DE status given by the gene level
 ## The percent DE is highly increased given that genes with more than 1
 ## transcript are likely to have at least 1 DE.
-round(table(trans_case$DEr1) / length(trans_case) * 100, 2)
-round(table(trans_case$DEr2) / length(trans_case) * 100, 2)
-round(table(trans_case$DEr2) / length(trans_case) * 100, 2)
+percDE(trans_case)
 
-## Finally, at the transcript segment level. The percent is in between the
-## previous two.
-round(table(segs$DEr1) / length(segs) * 100, 2)
-round(table(segs$DEr2) / length(segs) * 100, 2)
-round(table(segs$DEr2) / length(segs) * 100, 2)
+## At the exon level, the percent is similar than at the transcript (DE by 
+## gene) level
+percDE(exons)
+
+## Finally, at the disjoint exon segment level, the percent DE is lower but
+## not as low as at the transcript level (1st reference set)
+percDE(exons_disjoin)
+
+
+## For each reference set, see how many other units of that set each piece overlaps
+table(countOverlaps(trans) - 1)
+table(countOverlaps(trans_case) - 1)
+table(countOverlaps(exons) - 1)
+table(countOverlaps(exons_disjoin) - 1)
 ```
+
+Note how the overlap between the different units of the same reference set is considerable, except by design on the disjoint exons level.
+
+
+Number of units per reference level:
+
+* Transcript level: `r length(trans)`
+* Transcript level (DE status by gene): `r length(trans_case)`
+* Exon level: `r length(exons)`
+* Disjoint exon segmeent level: `r length(exons_disjoin)`
 
 
 # Evaluation
@@ -316,7 +342,7 @@ round(table(segs$DEr2) / length(segs) * 100, 2)
 
 ## Evaluate results
 
-The following code actually runs the evaluation functions for the three different reference sets.
+The following code actually runs the evaluation functions for the different reference sets.
 
 ```{r 'runEval'}
 ## Get type and replicate info
@@ -346,27 +372,41 @@ case_result_trans_c <- mapply(case_result, index_trans_c, replicates,
     SIMPLIFY = FALSE, MoreArgs = list(reference = trans_case))
 
 
-## Evaluate at the transcript segments level
-tables_segs <- mapply(count_comp, stats_GR, replicates, types,
-    SIMPLIFY = FALSE, MoreArgs = list(reference = segs, cut = 0.05))
-empirical_segs <- emp(tables_segs)
-index_segs <- mapply(index_comp, stats_GR, replicates, types,
-    SIMPLIFY = FALSE, MoreArgs = list(reference = segs, cut = 0.05))
-case_result_segs <- mapply(case_result, index_segs, replicates,
-    SIMPLIFY = FALSE, MoreArgs = list(reference = segs))
+## Evaluate at the exons level
+## DE if any of the transcripts it overlaps is DE
+tables_exons <- mapply(count_comp, stats_GR, replicates, types,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = exons, cut = 0.05))
+empirical_exons <- emp(tables_exons)
+index_exons <- mapply(index_comp, stats_GR, replicates, types,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = exons, cut = 0.05))
+case_result_exons <- mapply(case_result, index_exons, replicates,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = exons))
+    
+    
+## Evaluate at the disjoint exon segments level
+## DE if any of the transcripts it overlaps is DE
+tables_exons_d <- mapply(count_comp, stats_GR, replicates, types,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = exons_disjoin, cut = 0.05))
+empirical_exons_d <- emp(tables_exons_d)
+index_exons_d <- mapply(index_comp, stats_GR, replicates, types,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = exons_disjoin, cut = 0.05))
+case_result_exons_d <- mapply(case_result, index_exons_d, replicates,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = exons_disjoin))
 ```
 
 ## Summaries
 
-Below are summaries of showing the minimum and maximum empirical power, false positive rate (FPR) and false discovery rate (FDR) per replicate for each of the analysis pipelines.
+Below are summaries of showing the minimum and maximum empirical power, false positive rate (FPR) and false discovery rate (FDR) per replicate for each of the analysis pipelines by the different reference sets.
 
 ```{r 'displayEmpiricalSummaries', results = 'asis'}
 ## Transcript level
 kable(emp_sum(empirical_trans), format = 'html')
-## Transcript level with DE status given by transcripts from the same gene
+## Transcript level with DE status given by the gene level
 kable(emp_sum(empirical_trans_c), format = 'html')
-## Transcript segment level
-kable(emp_sum(empirical_segs), format = 'html')
+## Exon level
+kable(emp_sum(empirical_exons), format = 'html')
+## Disjoint exon segments level
+kable(emp_sum(empirical_exons_d), format = 'html')
 ```
 
 From these summaries we can see that in most cases the minimum and maximum values are nearly the same, except under the `HISAT` -> `StringTie` -> `ballgown` pipeline. Also, `edgeR` achieves slightly greater empirical power than `DESeq2` at the cost of a higher empirical FPR and FDR.
@@ -378,26 +418,47 @@ The following tables show the results for all the replicates.
 
 ```{r 'displayEmpirical', results = 'asis'}
 ## Transcript level
-kable(empirical_trans, format = 'html')
+kable(empirical_trans, format = 'html', row.names = TRUE)
 ## Transcript level with DE status given by transcripts from the same gene
-kable(empirical_trans_c, format = 'html')
+kable(empirical_trans_c, format = 'html', row.names = TRUE)
 ## Transcript segment level
-kable(empirical_segs, format = 'html')
+kable(empirical_exons, format = 'html', row.names = TRUE)
+## Disjoint exons level
+kable(empirical_exons_d, format = 'html', row.names = TRUE)
 ```
 
 
 ## Specific case
 
-In this section we focus on the specific case of using `HISAT` -> `derfinder` -> `edgeR` from the first replicate because it has the highest empirical FPR from all the `derfinder` analyses when using the transcript disjoint segments as the reference. 
+In this section we focus on the specific case of using `HISAT` -> `derfinder` -> `edgeR` from the first replicate because it has the highest empirical FPR from all the `derfinder` analyses when using either of the exon reference sets (row 20 in the last two tables).
 
-Note how when using the transcript level information as reference, most of the false positives (1593 out of 2038) are from the case `someDE`. That is, from genes that have multiple transcripts and at least one of them is DE. These false positives go away when using as the reference the transcripts with DE status by gene (second table). In that scenario, most of the remaining false positives are from the `noneDE` case, where about half of them are correctly detected as negatives. It turns out that when using the transcript disjoint segments (third table), only about a third (173 / 510) of the `noneDE` cases are incorrectly labeled.
+Note how when using the transcript level information as reference, most of the false positives (`r case_result_trans[['regionMatrix.1.edgeR']][5, 2]` out of `r case_result_trans[['regionMatrix.1.edgeR']][6, 2]`) are from the case `someDE`. That is, from genes that have multiple transcripts and at least one of them is DE. These false positives go away when using as the reference the transcripts with DE status by gene (second table). In that scenario, most of the remaining false positives are from the `noneDE` case, where about half of them are correctly detected as negatives (`r case_result_trans_c[['regionMatrix.1.edgeR']][2, 2]` / `r case_result_trans_c[['regionMatrix.1.edgeR']][2, 5]`). 
+
+When using the exon level reference set (third table), only about a then [(`r case_result_exons[['regionMatrix.1.edgeR']][2, 1]` + `r case_result_exons[['regionMatrix.1.edgeR']][2, 2]`) / `r case_result_exons[['regionMatrix.1.edgeR']][2, 5]` = `r round(100 * (case_result_exons[['regionMatrix.1.edgeR']][2, 1] + case_result_exons[['regionMatrix.1.edgeR']][2, 2]) / case_result_exons[['regionMatrix.1.edgeR']][2, 5], 2)`%] of the `noneDE` cases are incorrectly labeled. The numbers are similar in the disjoint exon segments reference set (fourth table): [(`r case_result_exons_d[['regionMatrix.1.edgeR']][2, 1]` + `r case_result_exons_d[['regionMatrix.1.edgeR']][2, 2]`) / `r case_result_exons_d[['regionMatrix.1.edgeR']][2, 5]` = `r round(100 * (case_result_exons_d[['regionMatrix.1.edgeR']][2, 1] + case_result_exons_d[['regionMatrix.1.edgeR']][2, 2]) / case_result_exons_d[['regionMatrix.1.edgeR']][2, 5], 2)`%]
 
 ```{r 'regionMatrix.1.edgeR'}
 ## Compare all three references for one simulation scenario
 case_result_trans[['regionMatrix.1.edgeR']]
 case_result_trans_c[['regionMatrix.1.edgeR']]
-case_result_segs[['regionMatrix.1.edgeR']]
+case_result_exons[['regionMatrix.1.edgeR']]
+case_result_exons_d[['regionMatrix.1.edgeR']]
 ```
+
+Next we show the same tables but in percent of the total reference set units.
+
+```{r 'regionMatrix.1.edgeR.percent'}
+## Now in percent
+round(case_result_trans[['regionMatrix.1.edgeR']] /
+    case_result_trans[['regionMatrix.1.edgeR']][6, 5] * 100, 2)
+round(case_result_trans_c[['regionMatrix.1.edgeR']] /
+    case_result_trans_c[['regionMatrix.1.edgeR']][6, 5] * 100, 2)
+round(case_result_exons[['regionMatrix.1.edgeR']] /
+    case_result_exons[['regionMatrix.1.edgeR']][6, 5] * 100, 2)
+round(case_result_exons_d[['regionMatrix.1.edgeR']] /
+    case_result_exons_d[['regionMatrix.1.edgeR']][6, 5] * 100, 2)
+```
+
+The transcript level sets have much higher false positives than the exon level sets, however, the exon level sets have increase false negatives. In both the exons and disjoint exon segments reference sets, most of the false negatives are from the `someDE` scenario. Those are ambiguous cases and it's the main reason why the power is decreased when using these reference sets. Note how the percent of total reference units from the `someDE` case that result in false negatives decreases from `r round(case_result_exons[['regionMatrix.1.edgeR']] / case_result_exons[['regionMatrix.1.edgeR']][6, 5] * 100, 2)[5, 1]` to `r round(case_result_exons_d[['regionMatrix.1.edgeR']] / case_result_exons_d[['regionMatrix.1.edgeR']][6, 5] * 100, 2)[5, 1]` between the exons set that does not take into account multiplicity and the disjoint exons set.
 
 # Reproducibility
 

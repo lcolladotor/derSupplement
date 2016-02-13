@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <li><a href="#setup"><span class="toc-section-number">1</span> Setup</a><ul>
 <li><a href="#load-data"><span class="toc-section-number">1.1</span> Load data</a></li>
 <li><a href="#evaluation-functions"><span class="toc-section-number">1.2</span> Evaluation functions</a></li>
-<li><a href="#section"><span class="toc-section-number">1.3</span> </a></li>
+<li><a href="#reference-sets"><span class="toc-section-number">1.3</span> Reference sets</a></li>
 </ul></li>
 <li><a href="#evaluation"><span class="toc-section-number">2</span> Evaluation</a><ul>
 <li><a href="#evaluate-results"><span class="toc-section-number">2.1</span> Evaluate results</a></li>
@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </div>
 
 <p>This document is a work in progress.</p>
-<p>Here we evaluate the performance of the different pipelines we used to analyze the simulated data. Evaluating the performance is tricky and depends on how you define the reference set. At this moment we are considering three options detailed later.</p>
+<p>Here we evaluate the performance of the different pipelines we used to analyze the simulated data. Evaluating the performance is tricky and depends on how you define the reference set. At this moment we are considering four options detailed later.</p>
 <div id="setup" class="section level1">
 <h1><span class="header-section-number">1</span> Setup</h1>
 <p>First, we load the required libraries.</p>
@@ -86,24 +86,25 @@ library('devtools')</code></pre>
 <div id="load-data" class="section level2">
 <h2><span class="header-section-number">1.1</span> Load data</h2>
 <p>Next we load the required data from the simulation setup as well as the statistical results from the different pipelines. We then format the results in a way that we can easily access them later on.</p>
-<pre class="r"><code>## Load transcripts used
-txdb &lt;- keepSeqlevels(TxDb.Hsapiens.UCSC.hg19.knownGene, 'chr17')
-tx &lt;- transcriptsBy(txdb, 'gene')
-
-## Transcripts per gene
-txs &lt;- sapply(tx, length)
-
-## Load simulation information
+<pre class="r"><code>## Load simulation information
 load(file.path('..', 'generateReads', 'simulation_info.Rdata'))
 
-if(!identical(nrow(chosen), length(rep(txs, txs)))) {
+## Load transcripts used
+txdb &lt;- keepSeqlevels(TxDb.Hsapiens.UCSC.hg19.knownGene, 'chr17')
+txinfo &lt;- select(txdb, keys = chosen$ucsckg_id, columns = columns(txdb), keytype = 'TXNAME')</code></pre>
+<pre><code>## 'select()' returned 1:many mapping between keys and columns</code></pre>
+<pre class="r"><code>## Build GRangesList with exons grouped by transcript
+tx &lt;- split(GRanges(seqnames = txinfo$EXONCHROM, IRanges(start = txinfo$EXONSTART, end = txinfo$EXONEND), strand = txinfo$EXONSTRAND), txinfo$TXNAME)
+tx &lt;- tx[match(chosen$ucsckg_id, names(tx))]
+
+
+if(!identical(nrow(chosen), length(tx))) {
     message(paste(Sys.time(), 'Subsetting list of transcripts to those that were used when simulating the reads'))
     tx &lt;- tx[names(tx) %in% chosen$gene_id]
-    txs &lt;- sapply(tx, length)
-    stopifnot(identical(nrow(chosen), length(rep(txs, txs))))
-}</code></pre>
-<pre><code>## 2016-02-13 00:24:04 Subsetting list of transcripts to those that were used when simulating the reads</code></pre>
-<pre class="r"><code>## Load stat results
+    stopifnot(unique(sum(width(tx)) - chosen$width) == 0)
+}
+
+## Load stat results
 inputs &lt;- c('featureCounts', 'railMatrix', 'regionMatrix', 'ballgown')
 reps &lt;- 1:3
 softwares &lt;- c('DESeq2', 'edgeR')
@@ -170,7 +171,7 @@ stats_GR &lt;- unlist(stats_GR)</code></pre>
 <div id="evaluation-functions" class="section level2">
 <h2><span class="header-section-number">1.2</span> Evaluation functions</h2>
 <p>The following code defines the functions we will use to evaluate the statistical results.</p>
-<pre class="r"><code>## count_comp compares the information at hand versus the reference
+<pre class="r"><code>## count_comp compares the information at hand versus the reference set
 count_comp &lt;- function(info, rep = 1, type = 'padj', reference, cut = 0.05) {
     if(type == 'padj') {
         idx &lt;- mcols(info)$padj &lt; cut
@@ -180,9 +181,9 @@ count_comp &lt;- function(info, rep = 1, type = 'padj', reference, cut = 0.05) {
     
     idx[is.na(idx)] &lt;- FALSE
 
-    ## Overlaps at least 1 DE exon
-    addmargins(table('DE status' = mcols(reference)[[paste0('DEr', rep)]],
-        'Overlaps DE transcript' = countOverlaps(reference, info[idx]) &gt; 0))
+    ## Overlaps at least 1 DE 'reference' unit
+    addmargins(table('DE truth' = mcols(reference)[[paste0('DEr', rep)]],
+        'Overlaps DE' = countOverlaps(reference, info[idx]) &gt; 0))
 }
 
 
@@ -252,7 +253,7 @@ index_comp &lt;- function(info, rep = 1, type = 'padj', reference, cut = 0.05) {
     
     idx[is.na(idx)] &lt;- FALSE
 
-    ## Overlaps at least 1 DE exon
+    ## Overlaps at least 1 DE 'reference' unit
     ov &lt;- countOverlaps(reference, info[idx]) &gt; 0
     TP &lt;- mcols(reference)[[paste0('DEr', rep)]] &amp; ov
     TN &lt;- !mcols(reference)[[paste0('DEr', rep)]] &amp; !ov
@@ -264,133 +265,154 @@ index_comp &lt;- function(info, rep = 1, type = 'padj', reference, cut = 0.05) {
 ## case_result uses the information from index_comp to make a nice summary table
 case_result &lt;- function(idx, r, reference) { 
     res &lt;- lapply(names(idx), function(i) {
-        data.frame(case = mcols(reference)[[paste0('case', r)]][idx[[i]]], 
-            result = i, stringsAsFactors = FALSE)
+        cases &lt;- mcols(reference)[[paste0('case', r)]][idx[[i]]]
+        if(length(cases) == 0) return(NULL)
+        data.frame(case = cases, result = i, stringsAsFactors = FALSE)
     })
     res &lt;- do.call(rbind, res)
     addmargins(table(&quot;Case&quot; = res$case, &quot;Result&quot; = res$result))
-}</code></pre>
-</div>
-<div id="section" class="section level2">
-<h2><span class="header-section-number">1.3</span> </h2>
-<p>We can now proceed to defining our reference sets. They are:</p>
-<ol style="list-style-type: decimal">
-<li>The transcripts as defined on the simulation. A transcript is marked as differentially expressed (DE) if it’s expression was set to be low or high. This ignores whether the transcript in question overlaps other transcripts from the same gene and the status assigned to them.</li>
-<li>Transcripts as defined on the simulation but with the DE status dependent on other transcripts from the same gene. If any transcript for a given gene is set to low or high expression, all the transcripts of that gene are marked as differentially expressed.</li>
-<li>For each gene, we identify the disjoint segments that compose all transcripts. Then each transcript segment is marked as DE if it overlaps a transcript from that gene with low or high expression.</li>
-</ol>
-<pre class="r"><code>## Transcript level info
-trans &lt;- unlist(tx)
-trans$DEr1 &lt;- chosen$rep1 != 'normal'
-trans$DEr2 &lt;- chosen$rep2 != 'normal'
-trans$DEr3 &lt;- chosen$rep3 != 'normal'
-trans$case1 &lt;- chosen$case1
-trans$case2 &lt;- chosen$case2
-trans$case3 &lt;- chosen$case3
+}
 
-## Transcript level information where the DE status is given by the gene level
-trans_case &lt;- trans
-trans_case$DEr1 &lt;- chosen$case1 %in% c('allDE', 'singleDE', 'someDE')
-trans_case$DEr2 &lt;- chosen$case2 %in% c('allDE', 'singleDE', 'someDE')
-trans_case$DEr3 &lt;- chosen$case3 %in% c('allDE', 'singleDE', 'someDE')
+## Chose the most frequent case, used for choosing the case in the exons 
+## reference sets.exon
+mostFreq &lt;- function(cases) {
+    if(length(cases) == 1) return(cases)
+    names(sort(table(cases), decreasing = TRUE))[1]
+}
 
-
-## Create transcript level disjoint segments
-## Note that the lines
-# any(cho$rep1[y] != 'normal')
-## can be replaced by
-# all(cho$rep1[y] != 'normal')
-## Using any() means that if any of the transcripts with which the disjoint
-## segment overlaps with is DE, then label the disjoint segment as DE
-segments &lt;- GRangesList(lapply(split(chosen, chosen$gene_id), function(cho) {
-    i &lt;- unique(cho$tx_idx)
-    
-    stopifnot(nrow(cho) == length(tx[[i]]))
-    
-    ## Find segments
-    segs &lt;- disjoin(tx[[i]])
-    ov &lt;- findOverlaps(segs, tx[[i]])
-    
-    ## Find DE status per segment
+## Process exons set to create a reference set
+processExons &lt;- function(exons_set) {
+    ov &lt;- findOverlaps(exons_set, tx)
+    ## Find DE status per exon
     sHits &lt;- subjectHits(ov)
     qHits &lt;- queryHits(ov)
-    segs$DEr1 &lt;- as.vector(tapply(sHits, qHits, function(y) {
-        any(cho$rep1[y] != 'normal')
+    exons_set$DEr1 &lt;- as.vector(tapply(sHits, qHits, function(y) {
+        ## Note that we could change this from any() to all() and that
+        ## would impact change whether the exon is labeled as DE or not.
+        any(chosen$rep1[y] != 'normal')
     }))
-    segs$DEr2 &lt;- as.vector(tapply(sHits, qHits, function(y) {
-        any(cho$rep2[y] != 'normal')
+    exons_set$DEr2 &lt;- as.vector(tapply(sHits, qHits, function(y) {
+        any(chosen$rep2[y] != 'normal')
     }))
-    segs$DEr3 &lt;- as.vector(tapply(sHits, qHits, function(y) {
-        any(cho$rep3[y] != 'normal')
+    exons_set$DEr3 &lt;- as.vector(tapply(sHits, qHits, function(y) {
+        any(chosen$rep3[y] != 'normal')
     }))
-    
-    segs$case1 &lt;- as.vector(tapply(sHits, qHits, function(y) {
-        unique(cho$case1[y])
+
+    exons_set$cases1 &lt;- as.vector(tapply(sHits, qHits, function(y) {
+        chosen$case1[y]
     }))
-    segs$case2 &lt;- as.vector(tapply(sHits, qHits, function(y) {
-        unique(cho$case2[y])
+    exons_set$cases2 &lt;- as.vector(tapply(sHits, qHits, function(y) {
+        chosen$case2[y]
     }))
-    segs$case3 &lt;- as.vector(tapply(sHits, qHits, function(y) {
-        unique(cho$case3[y])
+    exons_set$cases3 &lt;- as.vector(tapply(sHits, qHits, function(y) {
+        chosen$case3[y]
     }))
-    
-    ## Finish
-    return(segs)
-}))
-names(segments) &lt;- unique(chosen$gene_id)
-segs &lt;- unlist(segments)
+    exons_set$case1 &lt;- unname(sapply(exons_set$cases1, mostFreq))
+    exons_set$case2 &lt;- unname(sapply(exons_set$cases2, mostFreq))
+    exons_set$case3 &lt;- unname(sapply(exons_set$cases3, mostFreq))
+    return(exons_set)
+}</code></pre>
+</div>
+<div id="reference-sets" class="section level2">
+<h2><span class="header-section-number">1.3</span> Reference sets</h2>
+<p>We can now proceed to defining our reference sets. They are:</p>
+<ol style="list-style-type: decimal">
+<li>Transcript level with exons grouped by the transcript they belong to. A transcript is marked as differentially expressed (DE) if it’s expression was set to be low or high. This ignores whether the transcript in question overlaps other transcripts from the same gene and the status assigned to them.</li>
+<li>Transcripts (exons grouped by transcript) with the DE status dependent on other transcripts from the same gene. If any transcript for a given gene is set to low or high expression, all the transcripts of that gene are marked as differentially expressed.</li>
+<li>Exon level with DE status given by whether the exon overlaps any transcript with low or high expression. Note that two transcripts share the same exon, that exon will appear twice in this reference set.</li>
+<li>Disjoint exon level with DE status given by whether the disjoint exon segment overlaps any transcript with low or high expression. This reference set is smaller than the previous one because if two transcripts share the same exon, that exon will only appear once in this reference set.</li>
+</ol>
+<pre class="r"><code>## Transcript level info
+trans &lt;- tx
+mcols(trans)$DEr1 &lt;- chosen$rep1 != 'normal'
+mcols(trans)$DEr2 &lt;- chosen$rep2 != 'normal'
+mcols(trans)$DEr3 &lt;- chosen$rep3 != 'normal'
+mcols(trans)$case1 &lt;- chosen$case1
+mcols(trans)$case2 &lt;- chosen$case2
+mcols(trans)$case3 &lt;- chosen$case3
+
+## Transcript level information with DE status given by the gene level
+trans_case &lt;- trans
+mcols(trans_case)$DEr1 &lt;- chosen$case1 %in% c('allDE', 'singleDE', 'someDE')
+mcols(trans_case)$DEr2 &lt;- chosen$case2 %in% c('allDE', 'singleDE', 'someDE')
+mcols(trans_case)$DEr3 &lt;- chosen$case3 %in% c('allDE', 'singleDE', 'someDE')
+
+
+## Create exon level reference
+exons &lt;- processExons(unlist(tx))
+
+## Create disjoint exon level reference
+exons_disjoin &lt;- processExons(disjoin(unlist(tx)))
+
 
 ## Explore the number and percent of DE cases
+percDE &lt;- function(reference) {
+    res &lt;- lapply(1:3, function(r) {
+        round(table(mcols(reference)[[paste0('DEr', r)]]) / length(reference) * 100, 2)
+    })
+    names(res) &lt;- paste0('rep', 1:3)
+    unlist(res)
+}
+
 ## First at the transcript level, which matches exactly the 2/6 of transcripts 
 ## set to be DE (1/6 low, 1/6 high)
-round(table(trans$DEr1) / length(trans) * 100, 2)</code></pre>
-<pre><code>## 
-## FALSE  TRUE 
-## 66.67 33.33</code></pre>
-<pre class="r"><code>round(table(trans$DEr2) / length(trans) * 100, 2)</code></pre>
-<pre><code>## 
-## FALSE  TRUE 
-## 66.67 33.33</code></pre>
-<pre class="r"><code>round(table(trans$DEr2) / length(trans) * 100, 2)</code></pre>
-<pre><code>## 
-## FALSE  TRUE 
-## 66.67 33.33</code></pre>
-<pre class="r"><code>## Next at the transcript level with DE given by transcripts from a given gene
+percDE(trans)</code></pre>
+<pre><code>## rep1.FALSE  rep1.TRUE rep2.FALSE  rep2.TRUE rep3.FALSE  rep3.TRUE 
+##      66.67      33.33      66.67      33.33      66.67      33.33</code></pre>
+<pre class="r"><code>## Next at the transcript level with DE status given by the gene level
 ## The percent DE is highly increased given that genes with more than 1
 ## transcript are likely to have at least 1 DE.
-round(table(trans_case$DEr1) / length(trans_case) * 100, 2)</code></pre>
+percDE(trans_case)</code></pre>
+<pre><code>## rep1.FALSE  rep1.TRUE rep2.FALSE  rep2.TRUE rep3.FALSE  rep3.TRUE 
+##      24.87      75.13      25.72      74.28      24.00      76.00</code></pre>
+<pre class="r"><code>## At the exon level, the percent is similar than at the transcript (DE by 
+## gene) level
+percDE(exons)</code></pre>
+<pre><code>## rep1.FALSE  rep1.TRUE rep2.FALSE  rep2.TRUE rep3.FALSE  rep3.TRUE 
+##      24.34      75.66      26.20      73.80      24.56      75.44</code></pre>
+<pre class="r"><code>## Finally, at the disjoint exon segment level, the percent DE is lower but
+## not as low as at the transcript level (1st reference set)
+percDE(exons_disjoin)</code></pre>
+<pre><code>## rep1.FALSE  rep1.TRUE rep2.FALSE  rep2.TRUE rep3.FALSE  rep3.TRUE 
+##      39.13      60.87      42.38      57.62      40.27      59.73</code></pre>
+<pre class="r"><code>## For each reference set, see how many other units of that set each piece overlaps
+table(countOverlaps(trans) - 1)</code></pre>
 <pre><code>## 
-## FALSE  TRUE 
-## 24.87 75.13</code></pre>
-<pre class="r"><code>round(table(trans_case$DEr2) / length(trans_case) * 100, 2)</code></pre>
+##   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17 
+## 488 511 536 571 450 351 337 154 154  48  51  38   4  32   8  44  10   2 
+##  18  19  21  25  26 
+##   2  34  22  23  30</code></pre>
+<pre class="r"><code>table(countOverlaps(trans_case) - 1)</code></pre>
 <pre><code>## 
-## FALSE  TRUE 
-## 25.72 74.28</code></pre>
-<pre class="r"><code>round(table(trans_case$DEr2) / length(trans_case) * 100, 2)</code></pre>
+##   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17 
+## 488 511 536 571 450 351 337 154 154  48  51  38   4  32   8  44  10   2 
+##  18  19  21  25  26 
+##   2  34  22  23  30</code></pre>
+<pre class="r"><code>table(countOverlaps(exons) - 1)</code></pre>
 <pre><code>## 
-## FALSE  TRUE 
-## 25.72 74.28</code></pre>
-<pre class="r"><code>## Finally, at the transcript segment level. The percent is in between the
-## previous two.
-round(table(segs$DEr1) / length(segs) * 100, 2)</code></pre>
+##    0    1    2    3    4    5    6    7    8    9   10   11   12   13   14 
+## 3868 5874 7205 5901 4788 3734 3039 1311 1075  405  424  161  107  162   63 
+##   15   16   17   19   20   21   23   24   25   26   27   46   47 
+##   70   71   36   64   21    1    1  303  439  189   22    1    3</code></pre>
+<pre class="r"><code>table(countOverlaps(exons_disjoin) - 1)</code></pre>
 <pre><code>## 
-## FALSE  TRUE 
-## 38.29 61.71</code></pre>
-<pre class="r"><code>round(table(segs$DEr2) / length(segs) * 100, 2)</code></pre>
-<pre><code>## 
-## FALSE  TRUE 
-## 40.17 59.83</code></pre>
-<pre class="r"><code>round(table(segs$DEr2) / length(segs) * 100, 2)</code></pre>
-<pre><code>## 
-## FALSE  TRUE 
-## 40.17 59.83</code></pre>
+##     0 
+## 15136</code></pre>
+<p>Note how the overlap between the different units of the same reference set is considerable, except by design on the disjoint exons level.</p>
+<p>Number of units per reference level:</p>
+<ul>
+<li>Transcript level: 3900</li>
+<li>Transcript level (DE status by gene): 3900</li>
+<li>Exon level: 39338</li>
+<li>Disjoint exon segmeent level: 15136</li>
+</ul>
 </div>
 </div>
 <div id="evaluation" class="section level1">
 <h1><span class="header-section-number">2</span> Evaluation</h1>
 <div id="evaluate-results" class="section level2">
 <h2><span class="header-section-number">2.1</span> Evaluate results</h2>
-<p>The following code actually runs the evaluation functions for the three different reference sets.</p>
+<p>The following code actually runs the evaluation functions for the different reference sets.</p>
 <pre class="r"><code>## Get type and replicate info
 types &lt;- ifelse(grepl('ballgown', names(stats_GR)), 'qval', 'padj')
 replicates &lt;- as.integer(sapply(strsplit(names(stats_GR), '\\.'), '[[', 2))
@@ -418,18 +440,30 @@ case_result_trans_c &lt;- mapply(case_result, index_trans_c, replicates,
     SIMPLIFY = FALSE, MoreArgs = list(reference = trans_case))
 
 
-## Evaluate at the transcript segments level
-tables_segs &lt;- mapply(count_comp, stats_GR, replicates, types,
-    SIMPLIFY = FALSE, MoreArgs = list(reference = segs, cut = 0.05))
-empirical_segs &lt;- emp(tables_segs)
-index_segs &lt;- mapply(index_comp, stats_GR, replicates, types,
-    SIMPLIFY = FALSE, MoreArgs = list(reference = segs, cut = 0.05))
-case_result_segs &lt;- mapply(case_result, index_segs, replicates,
-    SIMPLIFY = FALSE, MoreArgs = list(reference = segs))</code></pre>
+## Evaluate at the exons level
+## DE if any of the transcripts it overlaps is DE
+tables_exons &lt;- mapply(count_comp, stats_GR, replicates, types,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = exons, cut = 0.05))
+empirical_exons &lt;- emp(tables_exons)
+index_exons &lt;- mapply(index_comp, stats_GR, replicates, types,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = exons, cut = 0.05))
+case_result_exons &lt;- mapply(case_result, index_exons, replicates,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = exons))
+    
+    
+## Evaluate at the disjoint exon segments level
+## DE if any of the transcripts it overlaps is DE
+tables_exons_d &lt;- mapply(count_comp, stats_GR, replicates, types,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = exons_disjoin, cut = 0.05))
+empirical_exons_d &lt;- emp(tables_exons_d)
+index_exons_d &lt;- mapply(index_comp, stats_GR, replicates, types,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = exons_disjoin, cut = 0.05))
+case_result_exons_d &lt;- mapply(case_result, index_exons_d, replicates,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = exons_disjoin))</code></pre>
 </div>
 <div id="summaries" class="section level2">
 <h2><span class="header-section-number">2.2</span> Summaries</h2>
-<p>Below are summaries of showing the minimum and maximum empirical power, false positive rate (FPR) and false discovery rate (FDR) per replicate for each of the analysis pipelines.</p>
+<p>Below are summaries of showing the minimum and maximum empirical power, false positive rate (FPR) and false discovery rate (FDR) per replicate for each of the analysis pipelines by the different reference sets.</p>
 <pre class="r"><code>## Transcript level
 kable(emp_sum(empirical_trans), format = 'html')</code></pre>
 <table>
@@ -461,13 +495,13 @@ StatMethod
 <tbody>
 <tr>
 <td style="text-align:left;">
-93.92,94.54
+92,93.23
 </td>
 <td style="text-align:left;">
-69.96,71.85
+68.81,70.54
 </td>
 <td style="text-align:left;">
-59.72,60.32
+59.63,60.24
 </td>
 <td style="text-align:left;">
 FALSE
@@ -484,13 +518,13 @@ DESeq2
 </tr>
 <tr>
 <td style="text-align:left;">
-97.38,97.77
+95.23,96.69
 </td>
 <td style="text-align:left;">
-70.85,73.38
+69.77,71.62
 </td>
 <td style="text-align:left;">
-59.17,60.11
+59.07,60.06
 </td>
 <td style="text-align:left;">
 TRUE
@@ -507,13 +541,13 @@ DESeq2
 </tr>
 <tr>
 <td style="text-align:left;">
-95,95.69
+93.62,94.85
 </td>
 <td style="text-align:left;">
-76.08,77.54
+74.92,76.77
 </td>
 <td style="text-align:left;">
-61.49,61.84
+61.26,61.81
 </td>
 <td style="text-align:left;">
 FALSE
@@ -530,13 +564,13 @@ edgeR
 </tr>
 <tr>
 <td style="text-align:left;">
-98.31,98.54
+97.23,98
 </td>
 <td style="text-align:left;">
-77.08,78.69
+75.96,77.77
 </td>
 <td style="text-align:left;">
-61.06,61.5
+60.83,61.35
 </td>
 <td style="text-align:left;">
 TRUE
@@ -553,13 +587,13 @@ edgeR
 </tr>
 <tr>
 <td style="text-align:left;">
-10.38,39
+10.23,38.08
 </td>
 <td style="text-align:left;">
-4.65,20.04
+4.54,19.31
 </td>
 <td style="text-align:left;">
-47.27,52.32
+47.01,51.8
 </td>
 <td style="text-align:left;">
 FALSE
@@ -576,13 +610,13 @@ ballgown
 </tr>
 <tr>
 <td style="text-align:left;">
-11.31,43.38
+11.08,42.38
 </td>
 <td style="text-align:left;">
-4.54,22.04
+4.27,21.31
 </td>
 <td style="text-align:left;">
-44.53,50.4
+43.53,50.14
 </td>
 <td style="text-align:left;">
 TRUE
@@ -599,13 +633,13 @@ ballgown
 </tr>
 <tr>
 <td style="text-align:left;">
-97.54,97.92
+95.85,97.23
 </td>
 <td style="text-align:left;">
-74.58,76.5
+72.96,75.23
 </td>
 <td style="text-align:left;">
-60.46,60.97
+60.15,60.75
 </td>
 <td style="text-align:left;">
 NA
@@ -622,13 +656,13 @@ DESeq2
 </tr>
 <tr>
 <td style="text-align:left;">
-97.54,98
+96.38,97.23
 </td>
 <td style="text-align:left;">
-74.69,76
+73,74.12
 </td>
 <td style="text-align:left;">
-60.5,60.8
+60.12,60.46
 </td>
 <td style="text-align:left;">
 NA
@@ -645,13 +679,13 @@ DESeq2
 </tr>
 <tr>
 <td style="text-align:left;">
-98.08,98.23
+96.54,97.62
 </td>
 <td style="text-align:left;">
-77.19,78.38
+74.96,76.69
 </td>
 <td style="text-align:left;">
-61.15,61.48
+60.83,61.15
 </td>
 <td style="text-align:left;">
 NA
@@ -668,13 +702,13 @@ edgeR
 </tr>
 <tr>
 <td style="text-align:left;">
-98,98.69
+97.23,97.38
 </td>
 <td style="text-align:left;">
-77.38,77.88
+75.62,76
 </td>
 <td style="text-align:left;">
-61.19,61.32
+60.83,60.97
 </td>
 <td style="text-align:left;">
 NA
@@ -691,7 +725,7 @@ edgeR
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>## Transcript level with DE status given by transcripts from the same gene
+<pre class="r"><code>## Transcript level with DE status given by the gene level
 kable(emp_sum(empirical_trans_c), format = 'html')</code></pre>
 <table>
 <thead>
@@ -722,13 +756,13 @@ StatMethod
 <tbody>
 <tr>
 <td style="text-align:left;">
-94.64,95.9
+92.68,94.54
 </td>
 <td style="text-align:left;">
-28.41,29.59
+27.42,28.45
 </td>
 <td style="text-align:left;">
-8.81,9.36
+8.68,9.17
 </td>
 <td style="text-align:left;">
 FALSE
@@ -745,13 +779,13 @@ DESeq2
 </tr>
 <tr>
 <td style="text-align:left;">
-96.46,97.24
+94.3,96
 </td>
 <td style="text-align:left;">
-29.91,33.65
+28.87,32.59
 </td>
 <td style="text-align:left;">
-9.3,9.92
+9.06,9.84
 </td>
 <td style="text-align:left;">
 TRUE
@@ -768,13 +802,13 @@ DESeq2
 </tr>
 <tr>
 <td style="text-align:left;">
-95.72,96.83
+94.43,96.08
 </td>
 <td style="text-align:left;">
-42.37,43.61
+40.17,42.68
 </td>
 <td style="text-align:left;">
-12.28,13.21
+11.84,12.86
 </td>
 <td style="text-align:left;">
 FALSE
@@ -791,13 +825,13 @@ edgeR
 </tr>
 <tr>
 <td style="text-align:left;">
-97.57,98.16
+96.36,97.65
 </td>
 <td style="text-align:left;">
-44.37,46.49
+42.67,44.85
 </td>
 <td style="text-align:left;">
-13,13.56
+12.63,13.2
 </td>
 <td style="text-align:left;">
 TRUE
@@ -814,13 +848,13 @@ edgeR
 </tr>
 <tr>
 <td style="text-align:left;">
-8.6,34.69
+8.43,33.62
 </td>
 <td style="text-align:left;">
-0.11,4.02
+0.11,3.92
 </td>
 <td style="text-align:left;">
-0.39,4.89
+0.4,4.9
 </td>
 <td style="text-align:left;">
 FALSE
@@ -837,13 +871,13 @@ ballgown
 </tr>
 <tr>
 <td style="text-align:left;">
-8.91,38.35
+8.57,37.25
 </td>
 <td style="text-align:left;">
 0.11,2.59
 </td>
 <td style="text-align:left;">
-0.38,3.8
+0.39,3.72
 </td>
 <td style="text-align:left;">
 TRUE
@@ -860,13 +894,13 @@ ballgown
 </tr>
 <tr>
 <td style="text-align:left;">
-96.49,97.68
+94.64,97.03
 </td>
 <td style="text-align:left;">
-39.32,41.24
+36.75,38.87
 </td>
 <td style="text-align:left;">
-11.4,12.5
+10.92,12.11
 </td>
 <td style="text-align:left;">
 NA
@@ -883,13 +917,13 @@ DESeq2
 </tr>
 <tr>
 <td style="text-align:left;">
-96.9,97.47
+94.94,96.79
 </td>
 <td style="text-align:left;">
-39.28,40.38
+36.6,38.09
 </td>
 <td style="text-align:left;">
-11.63,12.52
+11.13,12.1
 </td>
 <td style="text-align:left;">
 NA
@@ -906,13 +940,13 @@ DESeq2
 </tr>
 <tr>
 <td style="text-align:left;">
-96.79,97.95
+95.04,97.27
 </td>
 <td style="text-align:left;">
-44.12,47.96
+41.35,44.77
 </td>
 <td style="text-align:left;">
-12.58,14.56
+12.08,13.84
 </td>
 <td style="text-align:left;">
 NA
@@ -929,13 +963,13 @@ edgeR
 </tr>
 <tr>
 <td style="text-align:left;">
-97.4,97.71
+95.61,96.93
 </td>
 <td style="text-align:left;">
-44.43,46.16
+41.34,43.47
 </td>
 <td style="text-align:left;">
-12.73,14.08
+12.37,13.49
 </td>
 <td style="text-align:left;">
 NA
@@ -952,8 +986,8 @@ edgeR
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>## Transcript segment level
-kable(emp_sum(empirical_segs), format = 'html')</code></pre>
+<pre class="r"><code>## Exon level
+kable(emp_sum(empirical_exons), format = 'html')</code></pre>
 <table>
 <thead>
 <tr>
@@ -983,13 +1017,13 @@ StatMethod
 <tbody>
 <tr>
 <td style="text-align:left;">
-81.63,82.41
+72.22,74.03
 </td>
 <td style="text-align:left;">
-14.27,18.98
+5.23,6.74
 </td>
 <td style="text-align:left;">
-10.5,12.51
+2.3,2.84
 </td>
 <td style="text-align:left;">
 FALSE
@@ -1006,13 +1040,13 @@ DESeq2
 </tr>
 <tr>
 <td style="text-align:left;">
-86.2,86.28
+73.43,74.97
 </td>
 <td style="text-align:left;">
-15.97,20.68
+5.61,6.64
 </td>
 <td style="text-align:left;">
-11.07,12.79
+2.62,2.86
 </td>
 <td style="text-align:left;">
 TRUE
@@ -1029,13 +1063,13 @@ DESeq2
 </tr>
 <tr>
 <td style="text-align:left;">
-84.16,85.73
+77.4,79.64
 </td>
 <td style="text-align:left;">
-23.02,27.54
+10.87,12.61
 </td>
 <td style="text-align:left;">
-15.41,16.62
+4.37,5.02
 </td>
 <td style="text-align:left;">
 FALSE
@@ -1052,13 +1086,13 @@ edgeR
 </tr>
 <tr>
 <td style="text-align:left;">
-89,89.88
+78.42,80.64
 </td>
 <td style="text-align:left;">
-25.91,30.31
+12.18,13.13
 </td>
 <td style="text-align:left;">
-16.3,17.24
+4.98,5.13
 </td>
 <td style="text-align:left;">
 TRUE
@@ -1075,13 +1109,13 @@ edgeR
 </tr>
 <tr>
 <td style="text-align:left;">
-5.78,22.99
+6.52,22.26
 </td>
 <td style="text-align:left;">
-0.09,2.5
+0,3.48
 </td>
 <td style="text-align:left;">
-0.94,7.84
+0,5.99
 </td>
 <td style="text-align:left;">
 FALSE
@@ -1098,13 +1132,13 @@ ballgown
 </tr>
 <tr>
 <td style="text-align:left;">
-6.05,26.58
+5.67,24.79
 </td>
 <td style="text-align:left;">
-0.18,1.44
+0,2.47
 </td>
 <td style="text-align:left;">
-1.79,5.93
+0,6.79
 </td>
 <td style="text-align:left;">
 TRUE
@@ -1121,13 +1155,13 @@ ballgown
 </tr>
 <tr>
 <td style="text-align:left;">
-86.42,88.11
+71.65,73.04
 </td>
 <td style="text-align:left;">
-27.19,31.55
+8.32,10.07
 </td>
 <td style="text-align:left;">
-17.44,18.18
+3.61,4.25
 </td>
 <td style="text-align:left;">
 NA
@@ -1144,13 +1178,13 @@ DESeq2
 </tr>
 <tr>
 <td style="text-align:left;">
-86.52,87.44
+71.59,72.69
 </td>
 <td style="text-align:left;">
-27.1,30.49
+8.32,9.43
 </td>
 <td style="text-align:left;">
-17.37,17.73
+3.86,4.01
 </td>
 <td style="text-align:left;">
 NA
@@ -1167,13 +1201,13 @@ DESeq2
 </tr>
 <tr>
 <td style="text-align:left;">
-87.57,88.5
+72.64,73.36
 </td>
 <td style="text-align:left;">
-32.97,35.29
+9.94,10.81
 </td>
 <td style="text-align:left;">
-19.43,20.11
+4.25,4.94
 </td>
 <td style="text-align:left;">
 NA
@@ -1190,13 +1224,274 @@ edgeR
 </tr>
 <tr>
 <td style="text-align:left;">
-87.67,87.74
+72.39,73.24
 </td>
 <td style="text-align:left;">
-31.69,33.9
+10.04,10.61
 </td>
 <td style="text-align:left;">
-19.13,19.52
+4.39,4.69
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>## Disjoint exon segments level
+kable(emp_sum(empirical_exons_d), format = 'html')</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Power
+</th>
+<th style="text-align:left;">
+FPR
+</th>
+<th style="text-align:left;">
+FDR
+</th>
+<th style="text-align:left;">
+AnnotationComplete
+</th>
+<th style="text-align:left;">
+Aligner
+</th>
+<th style="text-align:left;">
+SummaryMethod
+</th>
+<th style="text-align:left;">
+StatMethod
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+75.47,77.83
+</td>
+<td style="text-align:left;">
+8.43,10.35
+</td>
+<td style="text-align:left;">
+7.53,8.05
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+80.04,81.76
+</td>
+<td style="text-align:left;">
+9.71,12.04
+</td>
+<td style="text-align:left;">
+8.17,9.21
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+79.56,82.32
+</td>
+<td style="text-align:left;">
+13.45,15.42
+</td>
+<td style="text-align:left;">
+10.74,11
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+84.18,86.33
+</td>
+<td style="text-align:left;">
+15.23,17.69
+</td>
+<td style="text-align:left;">
+11.61,12.41
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7.73,26.2
+</td>
+<td style="text-align:left;">
+0.02,2.04
+</td>
+<td style="text-align:left;">
+0.14,5.57
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6.86,30.1
+</td>
+<td style="text-align:left;">
+0.02,1.5
+</td>
+<td style="text-align:left;">
+0.16,5.79
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+79.05,81.06
+</td>
+<td style="text-align:left;">
+12.25,14.47
+</td>
+<td style="text-align:left;">
+10.23,10.34
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+79.21,80.84
+</td>
+<td style="text-align:left;">
+12.03,13.83
+</td>
+<td style="text-align:left;">
+9.91,10.42
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+80.17,81.69
+</td>
+<td style="text-align:left;">
+13.97,15.64
+</td>
+<td style="text-align:left;">
+10.95,11.43
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+80.19,81.52
+</td>
+<td style="text-align:left;">
+13.75,15.29
+</td>
+<td style="text-align:left;">
+10.75,11.35
 </td>
 <td style="text-align:left;">
 NA
@@ -1219,10 +1514,12 @@ edgeR
 <h2><span class="header-section-number">2.3</span> Details</h2>
 <p>The following tables show the results for all the replicates.</p>
 <pre class="r"><code>## Transcript level
-kable(empirical_trans, format = 'html')</code></pre>
+kable(empirical_trans, format = 'html', row.names = TRUE)</code></pre>
 <table>
 <thead>
 <tr>
+<th style="text-align:left;">
+</th>
 <th style="text-align:right;">
 power
 </th>
@@ -1251,14 +1548,17 @@ StatMethod
 </thead>
 <tbody>
 <tr>
-<td style="text-align:right;">
-97.38
+<td style="text-align:left;">
+1
 </td>
 <td style="text-align:right;">
-72.12
+96.31
 </td>
 <td style="text-align:right;">
-59.69
+70.77
+</td>
+<td style="text-align:right;">
+59.51
 </td>
 <td style="text-align:right;">
 1
@@ -1277,14 +1577,17 @@ DESeq2
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-98.54
+<td style="text-align:left;">
+2
 </td>
 <td style="text-align:right;">
-78.69
+98.00
 </td>
 <td style="text-align:right;">
-61.50
+77.77
+</td>
+<td style="text-align:right;">
+61.35
 </td>
 <td style="text-align:right;">
 1
@@ -1303,225 +1606,20 @@ edgeR
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-94.54
-</td>
-<td style="text-align:right;">
-71.85
-</td>
-<td style="text-align:right;">
-60.32
-</td>
-<td style="text-align:right;">
-1
-</td>
 <td style="text-align:left;">
-FALSE
-</td>
-<td style="text-align:left;">
-HISAT
-</td>
-<td style="text-align:left;">
-featureCounts
-</td>
-<td style="text-align:left;">
-DESeq2
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-95.69
-</td>
-<td style="text-align:right;">
-77.54
-</td>
-<td style="text-align:right;">
-61.84
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-<td style="text-align:left;">
-HISAT
-</td>
-<td style="text-align:left;">
-featureCounts
-</td>
-<td style="text-align:left;">
-edgeR
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-97.77
-</td>
-<td style="text-align:right;">
-70.85
-</td>
-<td style="text-align:right;">
-59.17
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
-<td style="text-align:left;">
-HISAT
-</td>
-<td style="text-align:left;">
-featureCounts
-</td>
-<td style="text-align:left;">
-DESeq2
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-98.31
-</td>
-<td style="text-align:right;">
-77.08
-</td>
-<td style="text-align:right;">
-61.06
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
-<td style="text-align:left;">
-HISAT
-</td>
-<td style="text-align:left;">
-featureCounts
-</td>
-<td style="text-align:left;">
-edgeR
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-94.38
-</td>
-<td style="text-align:right;">
-69.96
-</td>
-<td style="text-align:right;">
-59.72
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-<td style="text-align:left;">
-HISAT
-</td>
-<td style="text-align:left;">
-featureCounts
-</td>
-<td style="text-align:left;">
-DESeq2
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-95.31
-</td>
-<td style="text-align:right;">
-76.08
-</td>
-<td style="text-align:right;">
-61.49
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-<td style="text-align:left;">
-HISAT
-</td>
-<td style="text-align:left;">
-featureCounts
-</td>
-<td style="text-align:left;">
-edgeR
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-97.38
-</td>
-<td style="text-align:right;">
-73.38
-</td>
-<td style="text-align:right;">
-60.11
-</td>
-<td style="text-align:right;">
 3
 </td>
-<td style="text-align:left;">
-TRUE
-</td>
-<td style="text-align:left;">
-HISAT
-</td>
-<td style="text-align:left;">
-featureCounts
-</td>
-<td style="text-align:left;">
-DESeq2
-</td>
-</tr>
-<tr>
 <td style="text-align:right;">
-98.46
+93.23
 </td>
 <td style="text-align:right;">
-78.62
+70.54
 </td>
 <td style="text-align:right;">
-61.49
+60.21
 </td>
 <td style="text-align:right;">
-3
-</td>
-<td style="text-align:left;">
-TRUE
-</td>
-<td style="text-align:left;">
-HISAT
-</td>
-<td style="text-align:left;">
-featureCounts
-</td>
-<td style="text-align:left;">
-edgeR
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-93.92
-</td>
-<td style="text-align:right;">
-71.35
-</td>
-<td style="text-align:right;">
-60.31
-</td>
-<td style="text-align:right;">
-3
+1
 </td>
 <td style="text-align:left;">
 FALSE
@@ -1537,16 +1635,251 @@ DESeq2
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-95.00
+<td style="text-align:left;">
+4
 </td>
 <td style="text-align:right;">
-76.88
+94.85
+</td>
+<td style="text-align:right;">
+76.77
 </td>
 <td style="text-align:right;">
 61.81
 </td>
 <td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:right;">
+96.69
+</td>
+<td style="text-align:right;">
+69.77
+</td>
+<td style="text-align:right;">
+59.07
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:right;">
+97.85
+</td>
+<td style="text-align:right;">
+75.96
+</td>
+<td style="text-align:right;">
+60.83
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7
+</td>
+<td style="text-align:right;">
+93.15
+</td>
+<td style="text-align:right;">
+68.81
+</td>
+<td style="text-align:right;">
+59.63
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:right;">
+94.77
+</td>
+<td style="text-align:right;">
+74.92
+</td>
+<td style="text-align:right;">
+61.26
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+9
+</td>
+<td style="text-align:right;">
+95.23
+</td>
+<td style="text-align:right;">
+71.62
+</td>
+<td style="text-align:right;">
+60.06
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:right;">
+97.23
+</td>
+<td style="text-align:right;">
+77.12
+</td>
+<td style="text-align:right;">
+61.33
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:right;">
+92.00
+</td>
+<td style="text-align:right;">
+69.69
+</td>
+<td style="text-align:right;">
+60.24
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:right;">
+93.62
+</td>
+<td style="text-align:right;">
+75.31
+</td>
+<td style="text-align:right;">
+61.67
+</td>
+<td style="text-align:right;">
 3
 </td>
 <td style="text-align:left;">
@@ -1563,14 +1896,17 @@ edgeR
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-97.85
+<td style="text-align:left;">
+13
 </td>
 <td style="text-align:right;">
-75.58
+97.23
 </td>
 <td style="text-align:right;">
-60.70
+74.12
+</td>
+<td style="text-align:right;">
+60.39
 </td>
 <td style="text-align:right;">
 1
@@ -1589,141 +1925,14 @@ DESeq2
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-98.00
-</td>
-<td style="text-align:right;">
-77.69
-</td>
-<td style="text-align:right;">
-61.32
-</td>
-<td style="text-align:right;">
-1
-</td>
 <td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-Rail-RNA
-</td>
-<td style="text-align:left;">
-derfinder
-</td>
-<td style="text-align:left;">
-edgeR
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-97.54
+14
 </td>
 <td style="text-align:right;">
-74.69
-</td>
-<td style="text-align:right;">
-60.50
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-Rail-RNA
-</td>
-<td style="text-align:left;">
-derfinder
-</td>
-<td style="text-align:left;">
-DESeq2
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-98.15
-</td>
-<td style="text-align:right;">
-77.38
-</td>
-<td style="text-align:right;">
-61.19
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-Rail-RNA
-</td>
-<td style="text-align:left;">
-derfinder
-</td>
-<td style="text-align:left;">
-edgeR
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-98.00
+97.31
 </td>
 <td style="text-align:right;">
 76.00
-</td>
-<td style="text-align:right;">
-60.80
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-Rail-RNA
-</td>
-<td style="text-align:left;">
-derfinder
-</td>
-<td style="text-align:left;">
-DESeq2
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-98.69
-</td>
-<td style="text-align:right;">
-77.88
-</td>
-<td style="text-align:right;">
-61.22
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-Rail-RNA
-</td>
-<td style="text-align:left;">
-derfinder
-</td>
-<td style="text-align:left;">
-edgeR
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-97.92
-</td>
-<td style="text-align:right;">
-76.50
 </td>
 <td style="text-align:right;">
 60.97
@@ -1735,33 +1944,7 @@ edgeR
 NA
 </td>
 <td style="text-align:left;">
-HISAT
-</td>
-<td style="text-align:left;">
-derfinder
-</td>
-<td style="text-align:left;">
-DESeq2
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-98.23
-</td>
-<td style="text-align:right;">
-78.38
-</td>
-<td style="text-align:right;">
-61.48
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-HISAT
+Rail-RNA
 </td>
 <td style="text-align:left;">
 derfinder
@@ -1771,23 +1954,84 @@ edgeR
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-97.54
+<td style="text-align:left;">
+15
 </td>
 <td style="text-align:right;">
-74.58
+96.85
+</td>
+<td style="text-align:right;">
+73.00
+</td>
+<td style="text-align:right;">
+60.12
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:right;">
+97.38
+</td>
+<td style="text-align:right;">
+75.62
+</td>
+<td style="text-align:right;">
+60.83
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+17
+</td>
+<td style="text-align:right;">
+96.38
+</td>
+<td style="text-align:right;">
+73.69
 </td>
 <td style="text-align:right;">
 60.46
 </td>
 <td style="text-align:right;">
-2
+3
 </td>
 <td style="text-align:left;">
 NA
 </td>
 <td style="text-align:left;">
-HISAT
+Rail-RNA
 </td>
 <td style="text-align:left;">
 derfinder
@@ -1797,23 +2041,26 @@ DESeq2
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-98.23
+<td style="text-align:left;">
+18
 </td>
 <td style="text-align:right;">
-77.92
+97.23
 </td>
 <td style="text-align:right;">
-61.34
+75.81
 </td>
 <td style="text-align:right;">
-2
+60.93
+</td>
+<td style="text-align:right;">
+3
 </td>
 <td style="text-align:left;">
 NA
 </td>
 <td style="text-align:left;">
-HISAT
+Rail-RNA
 </td>
 <td style="text-align:left;">
 derfinder
@@ -1823,17 +2070,20 @@ edgeR
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-97.54
+<td style="text-align:left;">
+19
 </td>
 <td style="text-align:right;">
-75.38
+97.23
 </td>
 <td style="text-align:right;">
-60.72
+75.23
 </td>
 <td style="text-align:right;">
-3
+60.75
+</td>
+<td style="text-align:right;">
+1
 </td>
 <td style="text-align:left;">
 NA
@@ -1849,16 +2099,135 @@ DESeq2
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-98.08
+<td style="text-align:left;">
+20
 </td>
 <td style="text-align:right;">
-77.19
+97.46
+</td>
+<td style="text-align:right;">
+76.69
 </td>
 <td style="text-align:right;">
 61.15
 </td>
 <td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:right;">
+96.69
+</td>
+<td style="text-align:right;">
+72.96
+</td>
+<td style="text-align:right;">
+60.15
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:right;">
+97.62
+</td>
+<td style="text-align:right;">
+75.96
+</td>
+<td style="text-align:right;">
+60.88
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:right;">
+95.85
+</td>
+<td style="text-align:right;">
+73.19
+</td>
+<td style="text-align:right;">
+60.43
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+24
+</td>
+<td style="text-align:right;">
+96.54
+</td>
+<td style="text-align:right;">
+74.96
+</td>
+<td style="text-align:right;">
+60.83
+</td>
+<td style="text-align:right;">
 3
 </td>
 <td style="text-align:left;">
@@ -1875,14 +2244,17 @@ edgeR
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-20.92
+<td style="text-align:left;">
+25
 </td>
 <td style="text-align:right;">
-9.81
+20.62
 </td>
 <td style="text-align:right;">
-48.39
+9.35
+</td>
+<td style="text-align:right;">
+47.55
 </td>
 <td style="text-align:right;">
 1
@@ -1901,14 +2273,17 @@ ballgown
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-29.23
+<td style="text-align:left;">
+26
 </td>
 <td style="text-align:right;">
-16.04
+28.77
 </td>
 <td style="text-align:right;">
-52.32
+15.46
+</td>
+<td style="text-align:right;">
+51.80
 </td>
 <td style="text-align:right;">
 1
@@ -1927,14 +2302,17 @@ ballgown
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-43.38
+<td style="text-align:left;">
+27
 </td>
 <td style="text-align:right;">
-22.04
+42.38
 </td>
 <td style="text-align:right;">
-50.40
+21.31
+</td>
+<td style="text-align:right;">
+50.14
 </td>
 <td style="text-align:right;">
 2
@@ -1953,14 +2331,17 @@ ballgown
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-39.00
+<td style="text-align:left;">
+28
 </td>
 <td style="text-align:right;">
-20.04
+38.08
 </td>
 <td style="text-align:right;">
-50.68
+19.31
+</td>
+<td style="text-align:right;">
+50.35
 </td>
 <td style="text-align:right;">
 2
@@ -1979,14 +2360,17 @@ ballgown
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-11.31
+<td style="text-align:left;">
+29
 </td>
 <td style="text-align:right;">
-4.54
+11.08
 </td>
 <td style="text-align:right;">
-44.53
+4.27
+</td>
+<td style="text-align:right;">
+43.53
 </td>
 <td style="text-align:right;">
 3
@@ -2005,14 +2389,17 @@ ballgown
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-10.38
+<td style="text-align:left;">
+30
 </td>
 <td style="text-align:right;">
-4.65
+10.23
 </td>
 <td style="text-align:right;">
-47.27
+4.54
+</td>
+<td style="text-align:right;">
+47.01
 </td>
 <td style="text-align:right;">
 3
@@ -2033,10 +2420,12 @@ ballgown
 </tbody>
 </table>
 <pre class="r"><code>## Transcript level with DE status given by transcripts from the same gene
-kable(empirical_trans_c, format = 'html')</code></pre>
+kable(empirical_trans_c, format = 'html', row.names = TRUE)</code></pre>
 <table>
 <thead>
 <tr>
+<th style="text-align:left;">
+</th>
 <th style="text-align:right;">
 power
 </th>
@@ -2065,14 +2454,17 @@ StatMethod
 </thead>
 <tbody>
 <tr>
-<td style="text-align:right;">
-97.24
+<td style="text-align:left;">
+1
 </td>
 <td style="text-align:right;">
-30.10
+95.97
 </td>
 <td style="text-align:right;">
-9.30
+28.87
+</td>
+<td style="text-align:right;">
+9.06
 </td>
 <td style="text-align:right;">
 1
@@ -2091,14 +2483,17 @@ DESeq2
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-98.16
+<td style="text-align:left;">
+2
 </td>
 <td style="text-align:right;">
-46.49
+97.65
 </td>
 <td style="text-align:right;">
-13.56
+44.85
+</td>
+<td style="text-align:right;">
+13.20
 </td>
 <td style="text-align:right;">
 1
@@ -2117,14 +2512,17 @@ edgeR
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-95.90
+<td style="text-align:left;">
+3
 </td>
 <td style="text-align:right;">
-29.59
+94.54
 </td>
 <td style="text-align:right;">
-9.27
+28.45
+</td>
+<td style="text-align:right;">
+9.06
 </td>
 <td style="text-align:right;">
 1
@@ -2143,14 +2541,17 @@ DESeq2
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-96.83
+<td style="text-align:left;">
+4
 </td>
 <td style="text-align:right;">
-43.61
+96.08
 </td>
 <td style="text-align:right;">
-12.98
+42.68
+</td>
+<td style="text-align:right;">
+12.82
 </td>
 <td style="text-align:right;">
 1
@@ -2169,14 +2570,17 @@ edgeR
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-97.10
+<td style="text-align:left;">
+5
 </td>
 <td style="text-align:right;">
-29.91
+96.00
 </td>
 <td style="text-align:right;">
-9.64
+28.91
+</td>
+<td style="text-align:right;">
+9.44
 </td>
 <td style="text-align:right;">
 2
@@ -2195,14 +2599,17 @@ DESeq2
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-97.93
+<td style="text-align:left;">
+6
 </td>
 <td style="text-align:right;">
-44.37
+97.31
 </td>
 <td style="text-align:right;">
-13.56
+42.67
+</td>
+<td style="text-align:right;">
+13.18
 </td>
 <td style="text-align:right;">
 2
@@ -2221,14 +2628,17 @@ edgeR
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-95.31
+<td style="text-align:left;">
+7
 </td>
 <td style="text-align:right;">
-28.41
+94.06
 </td>
 <td style="text-align:right;">
-9.36
+27.42
+</td>
+<td style="text-align:right;">
+9.17
 </td>
 <td style="text-align:right;">
 2
@@ -2247,14 +2657,17 @@ DESeq2
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-96.38
+<td style="text-align:left;">
+8
 </td>
 <td style="text-align:right;">
-42.37
+95.65
 </td>
 <td style="text-align:right;">
-13.21
+40.78
+</td>
+<td style="text-align:right;">
+12.86
 </td>
 <td style="text-align:right;">
 2
@@ -2273,14 +2686,17 @@ edgeR
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-96.46
+<td style="text-align:left;">
+9
 </td>
 <td style="text-align:right;">
-33.65
+94.30
 </td>
 <td style="text-align:right;">
-9.92
+32.59
+</td>
+<td style="text-align:right;">
+9.84
 </td>
 <td style="text-align:right;">
 3
@@ -2299,378 +2715,423 @@ DESeq2
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-97.57
-</td>
-<td style="text-align:right;">
-46.15
-</td>
-<td style="text-align:right;">
-13.00
-</td>
-<td style="text-align:right;">
-3
-</td>
 <td style="text-align:left;">
-TRUE
-</td>
-<td style="text-align:left;">
-HISAT
-</td>
-<td style="text-align:left;">
-featureCounts
-</td>
-<td style="text-align:left;">
-edgeR
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-94.64
+10
 </td>
 <td style="text-align:right;">
-28.95
-</td>
-<td style="text-align:right;">
-8.81
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-<td style="text-align:left;">
-HISAT
-</td>
-<td style="text-align:left;">
-featureCounts
-</td>
-<td style="text-align:left;">
-DESeq2
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-95.72
-</td>
-<td style="text-align:right;">
-42.41
-</td>
-<td style="text-align:right;">
-12.28
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-<td style="text-align:left;">
-HISAT
-</td>
-<td style="text-align:left;">
-featureCounts
-</td>
-<td style="text-align:left;">
-edgeR
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-97.47
-</td>
-<td style="text-align:right;">
-39.28
-</td>
-<td style="text-align:right;">
-11.77
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-Rail-RNA
-</td>
-<td style="text-align:left;">
-derfinder
-</td>
-<td style="text-align:left;">
-DESeq2
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-97.71
-</td>
-<td style="text-align:right;">
-44.43
-</td>
-<td style="text-align:right;">
-13.08
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-Rail-RNA
-</td>
-<td style="text-align:left;">
-derfinder
-</td>
-<td style="text-align:left;">
-edgeR
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-96.93
-</td>
-<td style="text-align:right;">
-40.08
-</td>
-<td style="text-align:right;">
-12.52
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-Rail-RNA
-</td>
-<td style="text-align:left;">
-derfinder
-</td>
-<td style="text-align:left;">
-DESeq2
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-97.51
-</td>
-<td style="text-align:right;">
-46.16
-</td>
-<td style="text-align:right;">
-14.08
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-Rail-RNA
-</td>
-<td style="text-align:left;">
-derfinder
-</td>
-<td style="text-align:left;">
-edgeR
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-96.90
-</td>
-<td style="text-align:right;">
-40.38
-</td>
-<td style="text-align:right;">
-11.63
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-Rail-RNA
-</td>
-<td style="text-align:left;">
-derfinder
-</td>
-<td style="text-align:left;">
-DESeq2
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-97.40
-</td>
-<td style="text-align:right;">
-44.98
-</td>
-<td style="text-align:right;">
-12.73
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-Rail-RNA
-</td>
-<td style="text-align:left;">
-derfinder
-</td>
-<td style="text-align:left;">
-edgeR
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-97.68
-</td>
-<td style="text-align:right;">
-41.24
-</td>
-<td style="text-align:right;">
-12.26
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-HISAT
-</td>
-<td style="text-align:left;">
-derfinder
-</td>
-<td style="text-align:left;">
-DESeq2
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-97.95
-</td>
-<td style="text-align:right;">
-45.88
-</td>
-<td style="text-align:right;">
-13.42
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-HISAT
-</td>
-<td style="text-align:left;">
-derfinder
-</td>
-<td style="text-align:left;">
-edgeR
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-96.86
-</td>
-<td style="text-align:right;">
-39.98
-</td>
-<td style="text-align:right;">
-12.50
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-HISAT
-</td>
-<td style="text-align:left;">
-derfinder
-</td>
-<td style="text-align:left;">
-DESeq2
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-97.41
-</td>
-<td style="text-align:right;">
-47.96
-</td>
-<td style="text-align:right;">
-14.56
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-HISAT
-</td>
-<td style="text-align:left;">
-derfinder
-</td>
-<td style="text-align:left;">
-edgeR
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-96.49
-</td>
-<td style="text-align:right;">
-39.32
-</td>
-<td style="text-align:right;">
-11.40
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-HISAT
-</td>
-<td style="text-align:left;">
-derfinder
-</td>
-<td style="text-align:left;">
-DESeq2
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-96.79
+96.36
 </td>
 <td style="text-align:right;">
 44.12
 </td>
 <td style="text-align:right;">
-12.58
+12.63
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:right;">
+92.68
+</td>
+<td style="text-align:right;">
+27.88
+</td>
+<td style="text-align:right;">
+8.68
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:right;">
+94.43
+</td>
+<td style="text-align:right;">
+40.17
+</td>
+<td style="text-align:right;">
+11.84
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:right;">
+96.79
+</td>
+<td style="text-align:right;">
+36.60
+</td>
+<td style="text-align:right;">
+11.13
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:right;">
+96.93
+</td>
+<td style="text-align:right;">
+41.34
+</td>
+<td style="text-align:right;">
+12.37
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:right;">
+95.79
+</td>
+<td style="text-align:right;">
+38.09
+</td>
+<td style="text-align:right;">
+12.10
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:right;">
+96.51
+</td>
+<td style="text-align:right;">
+43.47
+</td>
+<td style="text-align:right;">
+13.49
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+17
+</td>
+<td style="text-align:right;">
+94.94
+</td>
+<td style="text-align:right;">
+37.93
+</td>
+<td style="text-align:right;">
+11.20
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+18
+</td>
+<td style="text-align:right;">
+95.61
+</td>
+<td style="text-align:right;">
+42.84
+</td>
+<td style="text-align:right;">
+12.40
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:right;">
+97.03
+</td>
+<td style="text-align:right;">
+38.87
+</td>
+<td style="text-align:right;">
+11.71
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:right;">
+97.27
+</td>
+<td style="text-align:right;">
+42.37
+</td>
+<td style="text-align:right;">
+12.60
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:right;">
+95.69
+</td>
+<td style="text-align:right;">
+38.09
+</td>
+<td style="text-align:right;">
+12.11
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:right;">
+96.48
+</td>
+<td style="text-align:right;">
+44.77
+</td>
+<td style="text-align:right;">
+13.84
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:right;">
+94.64
+</td>
+<td style="text-align:right;">
+36.75
+</td>
+<td style="text-align:right;">
+10.92
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+24
+</td>
+<td style="text-align:right;">
+95.04
+</td>
+<td style="text-align:right;">
+41.35
+</td>
+<td style="text-align:right;">
+12.08
 </td>
 <td style="text-align:right;">
 3
@@ -2689,14 +3150,17 @@ edgeR
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-17.30
+<td style="text-align:left;">
+25
 </td>
 <td style="text-align:right;">
-2.06
+16.79
 </td>
 <td style="text-align:right;">
-3.80
+1.96
+</td>
+<td style="text-align:right;">
+3.72
 </td>
 <td style="text-align:right;">
 1
@@ -2715,14 +3179,17 @@ ballgown
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-25.87
+<td style="text-align:left;">
+26
 </td>
 <td style="text-align:right;">
-4.02
+25.19
 </td>
 <td style="text-align:right;">
-4.89
+3.92
+</td>
+<td style="text-align:right;">
+4.90
 </td>
 <td style="text-align:right;">
 1
@@ -2741,14 +3208,17 @@ ballgown
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+27
+</td>
 <td style="text-align:right;">
-38.35
+37.25
 </td>
 <td style="text-align:right;">
 2.59
 </td>
 <td style="text-align:right;">
-2.29
+2.35
 </td>
 <td style="text-align:right;">
 2
@@ -2767,14 +3237,17 @@ ballgown
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+28
+</td>
 <td style="text-align:right;">
-34.69
+33.62
 </td>
 <td style="text-align:right;">
 2.29
 </td>
 <td style="text-align:right;">
-2.24
+2.31
 </td>
 <td style="text-align:right;">
 2
@@ -2793,40 +3266,46 @@ ballgown
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-8.91
-</td>
-<td style="text-align:right;">
-0.11
-</td>
-<td style="text-align:right;">
-0.38
-</td>
-<td style="text-align:right;">
-3
-</td>
 <td style="text-align:left;">
-TRUE
+29
 </td>
-<td style="text-align:left;">
-HISAT
-</td>
-<td style="text-align:left;">
-StringTie
-</td>
-<td style="text-align:left;">
-ballgown
-</td>
-</tr>
-<tr>
 <td style="text-align:right;">
-8.60
+8.57
 </td>
 <td style="text-align:right;">
 0.11
 </td>
 <td style="text-align:right;">
 0.39
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:right;">
+8.43
+</td>
+<td style="text-align:right;">
+0.11
+</td>
+<td style="text-align:right;">
+0.40
 </td>
 <td style="text-align:right;">
 3
@@ -2847,10 +3326,12 @@ ballgown
 </tbody>
 </table>
 <pre class="r"><code>## Transcript segment level
-kable(empirical_segs, format = 'html')</code></pre>
+kable(empirical_exons, format = 'html', row.names = TRUE)</code></pre>
 <table>
 <thead>
 <tr>
+<th style="text-align:left;">
+</th>
 <th style="text-align:right;">
 power
 </th>
@@ -2879,14 +3360,17 @@ StatMethod
 </thead>
 <tbody>
 <tr>
-<td style="text-align:right;">
-86.28
+<td style="text-align:left;">
+1
 </td>
 <td style="text-align:right;">
-20.14
+74.97
 </td>
 <td style="text-align:right;">
-12.65
+6.64
+</td>
+<td style="text-align:right;">
+2.77
 </td>
 <td style="text-align:right;">
 1
@@ -2905,14 +3389,17 @@ DESeq2
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-89.88
+<td style="text-align:left;">
+2
 </td>
 <td style="text-align:right;">
-30.12
+80.64
 </td>
 <td style="text-align:right;">
-17.22
+13.13
+</td>
+<td style="text-align:right;">
+4.98
 </td>
 <td style="text-align:right;">
 1
@@ -2931,14 +3418,17 @@ edgeR
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-82.41
+<td style="text-align:left;">
+3
 </td>
 <td style="text-align:right;">
-18.98
+74.03
 </td>
 <td style="text-align:right;">
-12.51
+6.74
+</td>
+<td style="text-align:right;">
+2.84
 </td>
 <td style="text-align:right;">
 1
@@ -2957,14 +3447,17 @@ DESeq2
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-85.73
+<td style="text-align:left;">
+4
 </td>
 <td style="text-align:right;">
-27.54
+79.64
 </td>
 <td style="text-align:right;">
-16.62
+12.61
+</td>
+<td style="text-align:right;">
+4.85
 </td>
 <td style="text-align:right;">
 1
@@ -2983,14 +3476,17 @@ edgeR
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-86.20
+<td style="text-align:left;">
+5
 </td>
 <td style="text-align:right;">
-15.97
+74.01
 </td>
 <td style="text-align:right;">
-11.07
+5.61
+</td>
+<td style="text-align:right;">
+2.62
 </td>
 <td style="text-align:right;">
 2
@@ -3009,14 +3505,17 @@ DESeq2
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-89.33
+<td style="text-align:left;">
+6
 </td>
 <td style="text-align:right;">
-25.91
+80.00
 </td>
 <td style="text-align:right;">
-16.30
+12.18
+</td>
+<td style="text-align:right;">
+5.13
 </td>
 <td style="text-align:right;">
 2
@@ -3035,14 +3534,17 @@ edgeR
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-81.69
+<td style="text-align:left;">
+7
 </td>
 <td style="text-align:right;">
-14.27
+72.92
 </td>
 <td style="text-align:right;">
-10.50
+5.25
+</td>
+<td style="text-align:right;">
+2.49
 </td>
 <td style="text-align:right;">
 2
@@ -3061,14 +3563,17 @@ DESeq2
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-84.88
+<td style="text-align:left;">
+8
 </td>
 <td style="text-align:right;">
-23.02
+78.86
 </td>
 <td style="text-align:right;">
-15.41
+11.74
+</td>
+<td style="text-align:right;">
+5.02
 </td>
 <td style="text-align:right;">
 2
@@ -3087,14 +3592,17 @@ edgeR
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-86.25
+<td style="text-align:left;">
+9
 </td>
 <td style="text-align:right;">
-20.68
+73.43
 </td>
 <td style="text-align:right;">
-12.79
+6.63
+</td>
+<td style="text-align:right;">
+2.86
 </td>
 <td style="text-align:right;">
 3
@@ -3113,14 +3621,17 @@ DESeq2
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-89.00
+<td style="text-align:left;">
+10
 </td>
 <td style="text-align:right;">
-30.31
+78.42
 </td>
 <td style="text-align:right;">
-17.24
+12.93
+</td>
+<td style="text-align:right;">
+5.09
 </td>
 <td style="text-align:right;">
 3
@@ -3139,11 +3650,1123 @@ edgeR
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-81.63
+<td style="text-align:left;">
+11
 </td>
 <td style="text-align:right;">
-17.09
+72.22
+</td>
+<td style="text-align:right;">
+5.23
+</td>
+<td style="text-align:right;">
+2.30
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:right;">
+77.40
+</td>
+<td style="text-align:right;">
+10.87
+</td>
+<td style="text-align:right;">
+4.37
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:right;">
+72.69
+</td>
+<td style="text-align:right;">
+9.43
+</td>
+<td style="text-align:right;">
+4.01
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:right;">
+73.24
+</td>
+<td style="text-align:right;">
+10.61
+</td>
+<td style="text-align:right;">
+4.45
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:right;">
+71.59
+</td>
+<td style="text-align:right;">
+8.32
+</td>
+<td style="text-align:right;">
+3.96
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:right;">
+72.39
+</td>
+<td style="text-align:right;">
+10.04
+</td>
+<td style="text-align:right;">
+4.69
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+17
+</td>
+<td style="text-align:right;">
+72.25
+</td>
+<td style="text-align:right;">
+8.92
+</td>
+<td style="text-align:right;">
+3.86
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+18
+</td>
+<td style="text-align:right;">
+72.97
+</td>
+<td style="text-align:right;">
+10.29
+</td>
+<td style="text-align:right;">
+4.39
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:right;">
+73.04
+</td>
+<td style="text-align:right;">
+10.07
+</td>
+<td style="text-align:right;">
+4.25
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:right;">
+73.36
+</td>
+<td style="text-align:right;">
+10.81
+</td>
+<td style="text-align:right;">
+4.53
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:right;">
+71.65
+</td>
+<td style="text-align:right;">
+8.77
+</td>
+<td style="text-align:right;">
+4.16
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:right;">
+72.64
+</td>
+<td style="text-align:right;">
+10.63
+</td>
+<td style="text-align:right;">
+4.94
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:right;">
+72.34
+</td>
+<td style="text-align:right;">
+8.32
+</td>
+<td style="text-align:right;">
+3.61
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+24
+</td>
+<td style="text-align:right;">
+72.81
+</td>
+<td style="text-align:right;">
+9.94
+</td>
+<td style="text-align:right;">
+4.25
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+25
+</td>
+<td style="text-align:right;">
+10.92
+</td>
+<td style="text-align:right;">
+2.47
+</td>
+<td style="text-align:right;">
+6.79
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+26
+</td>
+<td style="text-align:right;">
+17.56
+</td>
+<td style="text-align:right;">
+3.48
+</td>
+<td style="text-align:right;">
+5.99
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+27
+</td>
+<td style="text-align:right;">
+24.79
+</td>
+<td style="text-align:right;">
+0.89
+</td>
+<td style="text-align:right;">
+1.26
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+28
+</td>
+<td style="text-align:right;">
+22.26
+</td>
+<td style="text-align:right;">
+1.67
+</td>
+<td style="text-align:right;">
+2.59
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:right;">
+5.67
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:right;">
+6.52
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>## Disjoint exons level
+kable(empirical_exons_d, format = 'html', row.names = TRUE)</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+power
+</th>
+<th style="text-align:right;">
+FPR
+</th>
+<th style="text-align:right;">
+FDR
+</th>
+<th style="text-align:right;">
+replicate
+</th>
+<th style="text-align:left;">
+AnnotationComplete
+</th>
+<th style="text-align:left;">
+Aligner
+</th>
+<th style="text-align:left;">
+SummaryMethod
+</th>
+<th style="text-align:left;">
+StatMethod
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:right;">
+81.76
+</td>
+<td style="text-align:right;">
+11.82
+</td>
+<td style="text-align:right;">
+8.50
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:right;">
+86.33
+</td>
+<td style="text-align:right;">
+17.65
+</td>
+<td style="text-align:right;">
+11.61
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:right;">
+77.83
+</td>
+<td style="text-align:right;">
+10.35
+</td>
+<td style="text-align:right;">
+7.88
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:right;">
+82.32
+</td>
+<td style="text-align:right;">
+15.42
+</td>
+<td style="text-align:right;">
+10.74
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:right;">
+80.25
+</td>
+<td style="text-align:right;">
+9.71
+</td>
+<td style="text-align:right;">
+8.17
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:right;">
+85.12
+</td>
+<td style="text-align:right;">
+15.23
+</td>
+<td style="text-align:right;">
+11.63
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7
+</td>
+<td style="text-align:right;">
+76.23
+</td>
+<td style="text-align:right;">
+8.43
+</td>
+<td style="text-align:right;">
+7.53
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:right;">
+80.94
+</td>
+<td style="text-align:right;">
+13.45
+</td>
+<td style="text-align:right;">
+10.89
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+9
+</td>
+<td style="text-align:right;">
+80.04
+</td>
+<td style="text-align:right;">
+12.04
+</td>
+<td style="text-align:right;">
+9.21
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:right;">
+84.18
+</td>
+<td style="text-align:right;">
+17.69
+</td>
+<td style="text-align:right;">
+12.41
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:right;">
+75.47
+</td>
+<td style="text-align:right;">
+9.79
+</td>
+<td style="text-align:right;">
+8.05
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:right;">
+79.56
+</td>
+<td style="text-align:right;">
+14.59
+</td>
+<td style="text-align:right;">
+11.00
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:right;">
+80.84
+</td>
+<td style="text-align:right;">
+13.83
+</td>
+<td style="text-align:right;">
+9.91
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:right;">
+81.52
+</td>
+<td style="text-align:right;">
+15.28
+</td>
+<td style="text-align:right;">
+10.75
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:right;">
+79.21
+</td>
+<td style="text-align:right;">
+12.03
+</td>
+<td style="text-align:right;">
+10.05
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:right;">
+80.19
+</td>
+<td style="text-align:right;">
+13.75
+</td>
+<td style="text-align:right;">
+11.20
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+17
+</td>
+<td style="text-align:right;">
+79.71
+</td>
+<td style="text-align:right;">
+13.75
+</td>
+<td style="text-align:right;">
+10.42
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+18
+</td>
+<td style="text-align:right;">
+80.56
+</td>
+<td style="text-align:right;">
+15.29
 </td>
 <td style="text-align:right;">
 11.35
@@ -3152,84 +4775,6 @@ edgeR
 3
 </td>
 <td style="text-align:left;">
-FALSE
-</td>
-<td style="text-align:left;">
-HISAT
-</td>
-<td style="text-align:left;">
-featureCounts
-</td>
-<td style="text-align:left;">
-DESeq2
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-84.16
-</td>
-<td style="text-align:right;">
-26.35
-</td>
-<td style="text-align:right;">
-16.07
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-<td style="text-align:left;">
-HISAT
-</td>
-<td style="text-align:left;">
-featureCounts
-</td>
-<td style="text-align:left;">
-edgeR
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-87.44
-</td>
-<td style="text-align:right;">
-30.12
-</td>
-<td style="text-align:right;">
-17.61
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-Rail-RNA
-</td>
-<td style="text-align:left;">
-derfinder
-</td>
-<td style="text-align:left;">
-DESeq2
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-87.67
-</td>
-<td style="text-align:right;">
-33.42
-</td>
-<td style="text-align:right;">
-19.13
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
 NA
 </td>
 <td style="text-align:left;">
@@ -3243,118 +4788,17 @@ edgeR
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-86.59
-</td>
-<td style="text-align:right;">
-27.10
-</td>
-<td style="text-align:right;">
-17.37
-</td>
-<td style="text-align:right;">
-2
-</td>
 <td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-Rail-RNA
-</td>
-<td style="text-align:left;">
-derfinder
-</td>
-<td style="text-align:left;">
-DESeq2
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-87.74
+19
 </td>
 <td style="text-align:right;">
-31.69
+81.06
 </td>
 <td style="text-align:right;">
-19.52
+14.47
 </td>
 <td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-Rail-RNA
-</td>
-<td style="text-align:left;">
-derfinder
-</td>
-<td style="text-align:left;">
-edgeR
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-86.52
-</td>
-<td style="text-align:right;">
-30.49
-</td>
-<td style="text-align:right;">
-17.73
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-Rail-RNA
-</td>
-<td style="text-align:left;">
-derfinder
-</td>
-<td style="text-align:left;">
-DESeq2
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-87.68
-</td>
-<td style="text-align:right;">
-33.90
-</td>
-<td style="text-align:right;">
-19.13
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-Rail-RNA
-</td>
-<td style="text-align:left;">
-derfinder
-</td>
-<td style="text-align:left;">
-edgeR
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-88.11
-</td>
-<td style="text-align:right;">
-31.55
-</td>
-<td style="text-align:right;">
-18.18
+10.29
 </td>
 <td style="text-align:right;">
 1
@@ -3373,14 +4817,17 @@ DESeq2
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-88.50
+<td style="text-align:left;">
+20
 </td>
 <td style="text-align:right;">
-35.29
+81.69
 </td>
 <td style="text-align:right;">
-19.84
+15.64
+</td>
+<td style="text-align:right;">
+10.95
 </td>
 <td style="text-align:right;">
 1
@@ -3399,14 +4846,17 @@ edgeR
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-86.42
+<td style="text-align:left;">
+21
 </td>
 <td style="text-align:right;">
-27.19
+79.05
 </td>
 <td style="text-align:right;">
-17.44
+12.25
+</td>
+<td style="text-align:right;">
+10.23
 </td>
 <td style="text-align:right;">
 2
@@ -3425,14 +4875,17 @@ DESeq2
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-87.91
+<td style="text-align:left;">
+22
 </td>
 <td style="text-align:right;">
-32.97
+80.17
 </td>
 <td style="text-align:right;">
-20.11
+13.97
+</td>
+<td style="text-align:right;">
+11.36
 </td>
 <td style="text-align:right;">
 2
@@ -3451,14 +4904,17 @@ edgeR
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-86.69
+<td style="text-align:left;">
+23
 </td>
 <td style="text-align:right;">
-30.85
+79.71
 </td>
 <td style="text-align:right;">
-17.87
+13.63
+</td>
+<td style="text-align:right;">
+10.34
 </td>
 <td style="text-align:right;">
 3
@@ -3477,14 +4933,17 @@ DESeq2
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-87.57
+<td style="text-align:left;">
+24
 </td>
 <td style="text-align:right;">
-34.53
+80.33
 </td>
 <td style="text-align:right;">
-19.43
+15.37
+</td>
+<td style="text-align:right;">
+11.43
 </td>
 <td style="text-align:right;">
 3
@@ -3503,14 +4962,17 @@ edgeR
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-12.28
+<td style="text-align:left;">
+25
 </td>
 <td style="text-align:right;">
-1.25
+15.72
 </td>
 <td style="text-align:right;">
-5.93
+1.50
+</td>
+<td style="text-align:right;">
+5.79
 </td>
 <td style="text-align:right;">
 1
@@ -3529,14 +4991,17 @@ ballgown
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-18.20
+<td style="text-align:left;">
+26
 </td>
 <td style="text-align:right;">
-2.50
+22.25
 </td>
 <td style="text-align:right;">
-7.84
+2.04
+</td>
+<td style="text-align:right;">
+5.57
 </td>
 <td style="text-align:right;">
 1
@@ -3555,14 +5020,17 @@ ballgown
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-26.58
+<td style="text-align:left;">
+27
 </td>
 <td style="text-align:right;">
-1.44
+30.10
 </td>
 <td style="text-align:right;">
-3.52
+0.72
+</td>
+<td style="text-align:right;">
+1.72
 </td>
 <td style="text-align:right;">
 2
@@ -3581,14 +5049,17 @@ ballgown
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-22.99
+<td style="text-align:left;">
+28
 </td>
 <td style="text-align:right;">
-1.27
+26.20
 </td>
 <td style="text-align:right;">
-3.59
+1.26
+</td>
+<td style="text-align:right;">
+3.42
 </td>
 <td style="text-align:right;">
 2
@@ -3607,14 +5078,17 @@ ballgown
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-6.05
+<td style="text-align:left;">
+29
 </td>
 <td style="text-align:right;">
-0.18
+6.86
 </td>
 <td style="text-align:right;">
-1.79
+0.02
+</td>
+<td style="text-align:right;">
+0.16
 </td>
 <td style="text-align:right;">
 3
@@ -3633,14 +5107,17 @@ ballgown
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
-5.78
+<td style="text-align:left;">
+30
 </td>
 <td style="text-align:right;">
-0.09
+7.73
 </td>
 <td style="text-align:right;">
-0.94
+0.02
+</td>
+<td style="text-align:right;">
+0.14
 </td>
 <td style="text-align:right;">
 3
@@ -3663,46 +5140,99 @@ ballgown
 </div>
 <div id="specific-case" class="section level2">
 <h2><span class="header-section-number">2.4</span> Specific case</h2>
-<p>In this section we focus on the specific case of using <code>HISAT</code> -&gt; <code>derfinder</code> -&gt; <code>edgeR</code> from the first replicate because it has the highest empirical FPR from all the <code>derfinder</code> analyses when using the transcript disjoint segments as the reference.</p>
-<p>Note how when using the transcript level information as reference, most of the false positives (1593 out of 2038) are from the case <code>someDE</code>. That is, from genes that have multiple transcripts and at least one of them is DE. These false positives go away when using as the reference the transcripts with DE status by gene (second table). In that scenario, most of the remaining false positives are from the <code>noneDE</code> case, where about half of them are correctly detected as negatives. It turns out that when using the transcript disjoint segments (third table), only about a third (173 / 510) of the <code>noneDE</code> cases are incorrectly labeled.</p>
+<p>In this section we focus on the specific case of using <code>HISAT</code> -&gt; <code>derfinder</code> -&gt; <code>edgeR</code> from the first replicate because it has the highest empirical FPR from all the <code>derfinder</code> analyses when using either of the exon reference sets (row 20 in the last two tables).</p>
+<p>Note how when using the transcript level information as reference, most of the false positives (1583 out of 1994) are from the case <code>someDE</code>. That is, from genes that have multiple transcripts and at least one of them is DE. These false positives go away when using as the reference the transcripts with DE status by gene (second table). In that scenario, most of the remaining false positives are from the <code>noneDE</code> case, where about half of them are correctly detected as negatives (307 / 649).</p>
+<p>When using the exon level reference set (third table), only about a then [(37 + 642) / 6018 = 11.28%] of the <code>noneDE</code> cases are incorrectly labeled. The numbers are similar in the disjoint exon segments reference set (fourth table): [(9 + 304) / 2864 = 10.93%]</p>
 <pre class="r"><code>## Compare all three references for one simulation scenario
 case_result_trans[['regionMatrix.1.edgeR']]</code></pre>
 <pre><code>##              Result
 ## Case          FalseNegative FalsePositive TrueNegative TruePositive  Sum
 ##   allDE                   0             0            0           84   84
-##   noneDE                  0           339          310            0  649
+##   noneDE                  0           307          342            0  649
 ##   singleDE                8             0            0          185  193
-##   singleNotDE             0           106          215            0  321
-##   someDE                 15          1593           37         1008 2653
-##   Sum                    23          2038          562         1277 3900</code></pre>
+##   singleNotDE             0           104          217            0  321
+##   someDE                 25          1583           47          998 2653
+##   Sum                    33          1994          606         1267 3900</code></pre>
 <pre class="r"><code>case_result_trans_c[['regionMatrix.1.edgeR']]</code></pre>
 <pre><code>##              Result
 ## Case          FalseNegative FalsePositive TrueNegative TruePositive  Sum
 ##   allDE                   0             0            0           84   84
-##   noneDE                  0           339          310            0  649
+##   noneDE                  0           307          342            0  649
 ##   singleDE                8             0            0          185  193
-##   singleNotDE             0           106          215            0  321
-##   someDE                 52             0            0         2601 2653
-##   Sum                    60           445          525         2870 3900</code></pre>
-<pre class="r"><code>case_result_segs[['regionMatrix.1.edgeR']]</code></pre>
+##   singleNotDE             0           104          217            0  321
+##   someDE                 72             0            0         2581 2653
+##   Sum                    80           411          559         2850 3900</code></pre>
+<pre class="r"><code>case_result_exons[['regionMatrix.1.edgeR']]</code></pre>
 <pre><code>##              Result
-## Case          FalseNegative FalsePositive TrueNegative TruePositive  Sum
-##   allDE                   2             0            0           69   71
-##   noneDE                  0           173          337            0  510
-##   singleDE                8             0            0          185  193
-##   singleNotDE             0           106          215            0  321
-##   someDE                198           117          174         1346 1835
-##   Sum                   208           396          726         1600 2930</code></pre>
+## Case          FalseNegative FalsePositive TrueNegative TruePositive   Sum
+##   allDE                  81             0            0          595   676
+##   noneDE                 37           642         5304           35  6018
+##   singleDE               35             0            0          885   920
+##   singleNotDE             0           149         1127            9  1285
+##   someDE               7775           244         2110        20310 30439
+##   Sum                  7928          1035         8541        21834 39338</code></pre>
+<pre class="r"><code>case_result_exons_d[['regionMatrix.1.edgeR']]</code></pre>
+<pre><code>##              Result
+## Case          FalseNegative FalsePositive TrueNegative TruePositive   Sum
+##   allDE                  39             0            0          387   426
+##   noneDE                  9           304         2543            8  2864
+##   singleDE               35             0            0          885   920
+##   singleNotDE             1           149         1125            5  1280
+##   someDE               1603           473         1328         6242  9646
+##   Sum                  1687           926         4996         7527 15136</code></pre>
+<p>Next we show the same tables but in percent of the total reference set units.</p>
+<pre class="r"><code>## Now in percent
+round(case_result_trans[['regionMatrix.1.edgeR']] /
+    case_result_trans[['regionMatrix.1.edgeR']][6, 5] * 100, 2)</code></pre>
+<pre><code>##              Result
+## Case          FalseNegative FalsePositive TrueNegative TruePositive    Sum
+##   allDE                0.00          0.00         0.00         2.15   2.15
+##   noneDE               0.00          7.87         8.77         0.00  16.64
+##   singleDE             0.21          0.00         0.00         4.74   4.95
+##   singleNotDE          0.00          2.67         5.56         0.00   8.23
+##   someDE               0.64         40.59         1.21        25.59  68.03
+##   Sum                  0.85         51.13        15.54        32.49 100.00</code></pre>
+<pre class="r"><code>round(case_result_trans_c[['regionMatrix.1.edgeR']] /
+    case_result_trans_c[['regionMatrix.1.edgeR']][6, 5] * 100, 2)</code></pre>
+<pre><code>##              Result
+## Case          FalseNegative FalsePositive TrueNegative TruePositive    Sum
+##   allDE                0.00          0.00         0.00         2.15   2.15
+##   noneDE               0.00          7.87         8.77         0.00  16.64
+##   singleDE             0.21          0.00         0.00         4.74   4.95
+##   singleNotDE          0.00          2.67         5.56         0.00   8.23
+##   someDE               1.85          0.00         0.00        66.18  68.03
+##   Sum                  2.05         10.54        14.33        73.08 100.00</code></pre>
+<pre class="r"><code>round(case_result_exons[['regionMatrix.1.edgeR']] /
+    case_result_exons[['regionMatrix.1.edgeR']][6, 5] * 100, 2)</code></pre>
+<pre><code>##              Result
+## Case          FalseNegative FalsePositive TrueNegative TruePositive    Sum
+##   allDE                0.21          0.00         0.00         1.51   1.72
+##   noneDE               0.09          1.63        13.48         0.09  15.30
+##   singleDE             0.09          0.00         0.00         2.25   2.34
+##   singleNotDE          0.00          0.38         2.86         0.02   3.27
+##   someDE              19.76          0.62         5.36        51.63  77.38
+##   Sum                 20.15          2.63        21.71        55.50 100.00</code></pre>
+<pre class="r"><code>round(case_result_exons_d[['regionMatrix.1.edgeR']] /
+    case_result_exons_d[['regionMatrix.1.edgeR']][6, 5] * 100, 2)</code></pre>
+<pre><code>##              Result
+## Case          FalseNegative FalsePositive TrueNegative TruePositive    Sum
+##   allDE                0.26          0.00         0.00         2.56   2.81
+##   noneDE               0.06          2.01        16.80         0.05  18.92
+##   singleDE             0.23          0.00         0.00         5.85   6.08
+##   singleNotDE          0.01          0.98         7.43         0.03   8.46
+##   someDE              10.59          3.12         8.77        41.24  63.73
+##   Sum                 11.15          6.12        33.01        49.73 100.00</code></pre>
+<p>The transcript level sets have much higher false positives than the exon level sets, however, the exon level sets have increase false negatives. In both the exons and disjoint exon segments reference sets, most of the false negatives are from the <code>someDE</code> scenario. Those are ambiguous cases and it’s the main reason why the power is decreased when using these reference sets. Note how the percent of total reference units from the <code>someDE</code> case that result in false negatives decreases from 19.76 to 10.59 between the exons set that does not take into account multiplicity and the disjoint exons set.</p>
 </div>
 </div>
 <div id="reproducibility" class="section level1">
 <h1><span class="header-section-number">3</span> Reproducibility</h1>
 <pre class="r"><code>## Reproducibility info
 Sys.time()</code></pre>
-<pre><code>## [1] &quot;2016-02-13 00:26:25 EST&quot;</code></pre>
+<pre><code>## [1] &quot;2016-02-13 14:00:25 EST&quot;</code></pre>
 <pre class="r"><code>proc.time()</code></pre>
 <pre><code>##    user  system elapsed 
-## 156.778   2.275 163.076</code></pre>
+## 107.424   2.742 114.940</code></pre>
 <pre class="r"><code>options(width = 120)
 session_info()</code></pre>
 <pre><code>## Session info -----------------------------------------------------------------------------------------------------------</code></pre>
