@@ -28,7 +28,7 @@ Loading required package: S4Vectors
 Loading required package: stats4
 Loading required package: IRanges
 Loading required package: GenomeInfoDb
-2016-02-12 08:53:45 running DESeq2 analysis
+2016-02-12 21:21:42 running DESeq2 analysis
 Loading required package: SummarizedExperiment
 Loading required package: Biobase
 Welcome to Bioconductor
@@ -46,10 +46,7 @@ gene-wise dispersion estimates
 mean-dispersion relationship
 final dispersion estimates
 fitting model and testing
-Warning message:
-In DESeqDataSet(se, design = design, ignoreRank) :
-  12358 duplicate rownames were renamed by adding numbers
-2016-02-12 08:54:02 running edgeR analysis
+2016-02-12 21:22:05 running edgeR analysis
 Loading required package: limma
 
 Attaching package: ‘limma’

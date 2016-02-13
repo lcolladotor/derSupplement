@@ -1,21 +1,22 @@
 **** Job starts ****
-Fri Feb 12 08:53:41 EST 2016
+Fri Feb 12 21:21:37 EST 2016
 [1] "DESeq2 summary - sig FDR 5%"
 
 FALSE  TRUE  <NA> 
- 6777  6368    13 
+ 6577  7040   171 
 [1] "edgeR summary - sig FDR 5%"
 
 FALSE  TRUE 
- 6612  6546 
+ 6073  7715 
 [1] "DEseq2 vs edgeR summary"
                  edgeR sig FDR 5%
-DESeq2 sig FDR 5% FALSE TRUE
-            FALSE  6545  232
-            TRUE     56 6312
-[1] "2016-02-12 08:54:48 EST"
+DESeq2 sig FDR 5% FALSE  TRUE   Sum
+            FALSE  5889   688  6577
+            TRUE     13  7027  7040
+            Sum    5902  7715 13617
+[1] "2016-02-12 21:23:12 EST"
    user  system elapsed 
- 66.178   0.469  66.968 
+ 91.888   1.297  94.891 
  setting  value                                      
  version  R version 3.2.2 Patched (2015-08-31 r69235)
  system   x86_64, linux-gnu                          
@@ -76,4 +77,4 @@ DESeq2 sig FDR 5% FALSE TRUE
  XVector                0.10.0      2015-10-15 Bioconductor  
  zlibbioc               1.16.0      2015-10-15 Bioconductor  
 **** Job ends ****
-Fri Feb 12 08:54:48 EST 2016
+Fri Feb 12 21:23:12 EST 2016

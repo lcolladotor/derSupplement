@@ -28,7 +28,7 @@ Loading required package: S4Vectors
 Loading required package: stats4
 Loading required package: IRanges
 Loading required package: GenomeInfoDb
-2016-02-12 09:10:57 running DESeq2 analysis
+2016-02-12 21:21:42 running DESeq2 analysis
 Loading required package: SummarizedExperiment
 Loading required package: Biobase
 Welcome to Bioconductor
@@ -48,8 +48,8 @@ final dispersion estimates
 fitting model and testing
 Warning message:
 In DESeqDataSet(se, design = design, ignoreRank) :
-  12352 duplicate rownames were renamed by adding numbers
-2016-02-12 09:11:12 running edgeR analysis
+  12507 duplicate rownames were renamed by adding numbers
+2016-02-12 21:22:06 running edgeR analysis
 Loading required package: limma
 
 Attaching package: ‘limma’
