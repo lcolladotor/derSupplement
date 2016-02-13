@@ -62,21 +62,26 @@ if(opt$pipeline == 'featureCounts') {
 
 
 ## DESeq2 analysis
-run_deseq <- function(counts, regions, file = NULL) {
+run_deseq <- function(counts, regions, file = NULL, use_zero = FALSE) {
     counts <- round(counts, 0)
     groupInfo <- as.factor(as.integer(gsub('.*G|R.*', '', colnames(counts))))
-    nonzero <- sapply(rowSums(counts), function(x) {x > 0})
+    if(use_zero) {
+        nonzero <- TRUE
+    } else {
+        nonzero <- sapply(rowSums(counts), function(x) {x > 0})
+    }
+    
     
     ## Round matrix and specify design
     library('DESeq2')
     dse <- DESeqDataSetFromMatrix(counts[nonzero, ], data.frame(group = groupInfo), ~ group)
 
     ## Perform DE analysis
-    system.time( dse <- DESeq(dse, test = 'LRT', reduced = ~ 1) )
+    dse <- DESeq(dse)
 
     ## Extract results
     deseq <- regions[nonzero]
-    mcols(deseq) <- cbind(mcols(deseq), results(dse))
+    mcols(deseq) <- cbind(mcols(deseq), results(dse, alpha = 0.05))
 
     ## Which are significant?
     mcols(deseq)$sig <- mcols(deseq)$padj < 0.05
@@ -91,10 +96,14 @@ run_deseq <- function(counts, regions, file = NULL) {
 }
 
 ## edgeR analysis
-run_edger <- function(counts, regions, file = NULL) {
+run_edger <- function(counts, regions, file = NULL, use_zero = FALSE) {
     counts <- round(counts, 0)
     groupInfo <- as.factor(as.integer(gsub('.*G|R.*', '', colnames(counts))))
-    nonzero <- sapply(rowSums(counts), function(x) {x > 0})
+    if(use_zero) {
+        nonzero <- TRUE
+    } else {
+        nonzero <- sapply(rowSums(counts), function(x) {x > 0})
+    }
     
     ## Determine design matrix
     design <- model.matrix(~ groupInfo)
@@ -103,7 +112,7 @@ run_edger <- function(counts, regions, file = NULL) {
     library('edgeR')
     d <- DGEList(counts = counts[nonzero, ], group = groupInfo)
     d <- calcNormFactors(d)
-    system.time(dw <- estimateGLMRobustDisp(d, design = design, prior.df = 10, maxit = 6))
+    dw <- estimateGLMRobustDisp(d, design = design)
     fw <- glmFit(dw, design = design, coef = 2)
     lrw <- glmLRT(fw, coef = 2)
 
@@ -127,10 +136,10 @@ run_edger <- function(counts, regions, file = NULL) {
 
 ## Run DE analyses
 message(paste(Sys.time(), 'running DESeq2 analysis'))
-deseq <- run_deseq(counts, regions, file)
+deseq <- run_deseq(counts, regions, file, TRUE)
 
 message(paste(Sys.time(), 'running edgeR analysis'))
-edger <- run_edger(counts, regions, file)
+edger <- run_edger(counts, regions, file, TRUE)
 
 ## Print some summary info
 print('DESeq2 summary - sig FDR 5%')
@@ -140,7 +149,7 @@ print('edgeR summary - sig FDR 5%')
 table(mcols(edger)$padj < 0.05, useNA = 'ifany')
 
 print('DEseq2 vs edgeR summary')
-table(mcols(deseq)$padj < 0.05, mcols(edger)$padj < 0.05, dnn = list('DESeq2 sig FDR 5%', 'edgeR sig FDR 5%'))
+addmargins(table(mcols(deseq)$padj < 0.05, mcols(edger)$padj < 0.05, dnn = list('DESeq2 sig FDR 5%', 'edgeR sig FDR 5%')))
 
 
 
