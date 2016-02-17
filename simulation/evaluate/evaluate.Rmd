@@ -461,6 +461,21 @@ round(case_result_exons_d[['regionMatrix.1.edgeR']] /
 
 The transcript level sets have much higher false positives than the exon level sets, however, the exon level sets have increase false negatives. In both the exons and disjoint exon segments reference sets, most of the false negatives are from the `someDE` scenario. Those are ambiguous cases and it's the main reason why the power is decreased when using these reference sets. Note how the percent of total reference units from the `someDE` case that result in false negatives decreases from `r round(case_result_exons[['regionMatrix.1.edgeR']] / case_result_exons[['regionMatrix.1.edgeR']][6, 5] * 100, 2)[5, 1]` to `r round(case_result_exons_d[['regionMatrix.1.edgeR']] / case_result_exons_d[['regionMatrix.1.edgeR']][6, 5] * 100, 2)[5, 1]` between the exons set that does not take into account multiplicity and the disjoint exons set.
 
+```{r 'saveResults', echo = FALSE}
+## Calculate summaries
+empirical_trans_sum <- emp_sum(empirical_trans)
+empirical_trans_c_sum <- emp_sum(empirical_trans_c)
+empirical_exons_sum <- emp_sum(empirical_exons)
+empirical_exons_d_sum <- emp_sum(empirical_exons_d)
+
+## Save results
+save(tables_trans, empirical_trans, empirical_trans_sum, case_result_trans, file = 'results-trans.Rdata')
+save(tables_trans_c, empirical_trans_c, empirical_trans_c_sum, case_result_trans_c, file = 'results-trans_c.Rdata')
+save(tables_exons, empirical_exons, empirical_exons_sum, case_result_exons, file = 'results-exons.Rdata')
+save(tables_exons_d, empirical_exons_d, empirical_exons_d_sum, case_result_exons_d, file = 'results-exons_d.Rdata')
+```
+
+
 # Reproducibility
 
 ```{r 'reproducibility'}
