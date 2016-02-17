@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </div>
 
 <p>This document is a work in progress.</p>
-<p>Here we evaluate the performance of the different pipelines we used to analyze the simulated data. Evaluating the performance is tricky and depends on how you define the reference set. At this moment we are considering four options detailed later.</p>
+<p>Here we evaluate the performance of the different pipelines we used to analyze the simulated data. Evaluating the performance is tricky and depends on how you define the reference set. At this moment we are considering six options detailed later.</p>
 <div id="setup" class="section level1">
 <h1><span class="header-section-number">1</span> Setup</h1>
 <p>First, we load the required libraries.</p>
@@ -345,6 +345,12 @@ exons &lt;- processExons(unlist(tx))
 ## Create disjoint exon level reference
 exons_disjoin &lt;- processExons(disjoin(unlist(tx)))
 
+## Exons overlapping only 1 transcript
+exons_one &lt;- exons[countOverlaps(exons, trans) == 1]
+
+## Disjoint exons overlapping only 1 transcript
+exons_disjoin_one &lt;- exons_disjoin[countOverlaps(exons_disjoin, trans) == 1]
+
 
 ## Explore the number and percent of DE cases
 percDE &lt;- function(reference) {
@@ -371,11 +377,19 @@ percDE(trans_case)</code></pre>
 percDE(exons)</code></pre>
 <pre><code>## rep1.FALSE  rep1.TRUE rep2.FALSE  rep2.TRUE rep3.FALSE  rep3.TRUE 
 ##      24.34      75.66      26.20      73.80      24.56      75.44</code></pre>
-<pre class="r"><code>## Finally, at the disjoint exon segment level, the percent DE is lower but
+<pre class="r"><code>## At the disjoint exon segment level, the percent DE is lower but
 ## not as low as at the transcript level (1st reference set)
 percDE(exons_disjoin)</code></pre>
 <pre><code>## rep1.FALSE  rep1.TRUE rep2.FALSE  rep2.TRUE rep3.FALSE  rep3.TRUE 
 ##      39.13      60.87      42.38      57.62      40.27      59.73</code></pre>
+<pre class="r"><code>## Exons overlapping only 1 transcript
+percDE(exons_one)</code></pre>
+<pre><code>## rep1.FALSE  rep1.TRUE rep2.FALSE  rep2.TRUE rep3.FALSE  rep3.TRUE 
+##      59.64      40.36      68.69      31.31      68.12      31.88</code></pre>
+<pre class="r"><code>## Disjoint exons overlapping only 1 transcript
+percDE(exons_disjoin_one)</code></pre>
+<pre><code>## rep1.FALSE  rep1.TRUE rep2.FALSE  rep2.TRUE rep3.FALSE  rep3.TRUE 
+##      61.69      38.31      68.40      31.60      67.98      32.02</code></pre>
 <pre class="r"><code>## For each reference set, see how many other units of that set each piece overlaps
 table(countOverlaps(trans) - 1)</code></pre>
 <pre><code>## 
@@ -399,13 +413,23 @@ table(countOverlaps(trans) - 1)</code></pre>
 <pre><code>## 
 ##     0 
 ## 15136</code></pre>
-<p>Note how the overlap between the different units of the same reference set is considerable, except by design on the disjoint exons level.</p>
+<pre class="r"><code>table(countOverlaps(exons_one) - 1)</code></pre>
+<pre><code>## 
+##    0 
+## 3868</code></pre>
+<pre class="r"><code>table(countOverlaps(exons_disjoin_one) - 1)</code></pre>
+<pre><code>## 
+##    0 
+## 4968</code></pre>
+<p>Note how the overlap between the different units of the same reference set is considerable for the first three sets.</p>
 <p>Number of units per reference level:</p>
 <ul>
 <li>Transcript level: 3900</li>
 <li>Transcript level (DE status by gene): 3900</li>
 <li>Exon level: 39338</li>
-<li>Disjoint exon segmeent level: 15136</li>
+<li>Disjoint exon segment level: 15136</li>
+<li>Exon level subsetted to those that overlap only 1 transcript: 3868</li>
+<li>Disjoint exon segment level (overlapping only 1 transcript): 4968</li>
 </ul>
 </div>
 </div>
@@ -460,7 +484,27 @@ empirical_exons_d &lt;- emp(tables_exons_d)
 index_exons_d &lt;- mapply(index_comp, stats_GR, replicates, types,
     SIMPLIFY = FALSE, MoreArgs = list(reference = exons_disjoin, cut = 0.05))
 case_result_exons_d &lt;- mapply(case_result, index_exons_d, replicates,
-    SIMPLIFY = FALSE, MoreArgs = list(reference = exons_disjoin))</code></pre>
+    SIMPLIFY = FALSE, MoreArgs = list(reference = exons_disjoin))
+    
+## Evaluate at the exons level (overlapping only 1 transcript)
+## DE if any of the transcripts it overlaps is DE
+tables_exons_one &lt;- mapply(count_comp, stats_GR, replicates, types,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = exons_one, cut = 0.05))
+empirical_exons_one &lt;- emp(tables_exons_one)
+index_exons_one &lt;- mapply(index_comp, stats_GR, replicates, types,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = exons_one, cut = 0.05))
+case_result_exons_one &lt;- mapply(case_result, index_exons_one, replicates,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = exons_one))
+
+## Evaluate at the disjoint exon segments level (overlapping only 1 transcript)
+## DE if any of the transcripts it overlaps is DE
+tables_exons_d_one &lt;- mapply(count_comp, stats_GR, replicates, types,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = exons_disjoin_one, cut = 0.05))
+empirical_exons_d_one &lt;- emp(tables_exons_d_one)
+index_exons_d_one &lt;- mapply(index_comp, stats_GR, replicates, types,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = exons_disjoin_one, cut = 0.05))
+case_result_exons_d_one &lt;- mapply(case_result, index_exons_d_one, replicates,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = exons_disjoin_one))</code></pre>
 </div>
 <div id="summaries" class="section level2">
 <h2><span class="header-section-number">2.2</span> Summaries</h2>
@@ -1693,7 +1737,622 @@ edgeR
 </tr>
 </tbody>
 </table>
-<p>From these summaries we can see that in most cases the minimum and maximum values are nearly the same, with more variability for the <code>HISAT</code> -&gt; <code>StringTie</code> -&gt; <code>ballgown</code> pipeline results. Note that for this pipeline we conducted tests at the transcript level (StatMethod = <code>ballgown-trans</code>) and at the exon level (<code>ballgown-exon</code>). Finally <code>edgeR</code> achieves slightly greater empirical power than <code>DESeq2</code> at the cost of a higher empirical FPR and FDR.</p>
+<pre class="r"><code>## Exon level (overlapping only 1 transcript)
+kable(emp_sum(empirical_exons_one), format = 'html')</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Power
+</th>
+<th style="text-align:left;">
+FPR
+</th>
+<th style="text-align:left;">
+FDR
+</th>
+<th style="text-align:left;">
+AnnotationComplete
+</th>
+<th style="text-align:left;">
+Aligner
+</th>
+<th style="text-align:left;">
+SummaryMethod
+</th>
+<th style="text-align:left;">
+StatMethod
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+69.99,78.28
+</td>
+<td style="text-align:left;">
+2.11,3.57
+</td>
+<td style="text-align:left;">
+5.63,9.82
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+95.13,95.9
+</td>
+<td style="text-align:left;">
+2.94,4.78
+</td>
+<td style="text-align:left;">
+6.34,9.68
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+71.21,79.24
+</td>
+<td style="text-align:left;">
+5.01,8.08
+</td>
+<td style="text-align:left;">
+12.02,19.52
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+96.37,97.25
+</td>
+<td style="text-align:left;">
+6.85,9.94
+</td>
+<td style="text-align:left;">
+12.66,18.06
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+68.37,77.04
+</td>
+<td style="text-align:left;">
+2.82,3.03
+</td>
+<td style="text-align:left;">
+5.5,8.27
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown-exon
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+93.67,94.55
+</td>
+<td style="text-align:left;">
+3.61,3.99
+</td>
+<td style="text-align:left;">
+5.87,7.75
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown-exon
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+53.2,60.03
+</td>
+<td style="text-align:left;">
+0.56,2.2
+</td>
+<td style="text-align:left;">
+1.37,8.12
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown-trans
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+67.23,71.92
+</td>
+<td style="text-align:left;">
+0.57,1.09
+</td>
+<td style="text-align:left;">
+1.42,3.22
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown-trans
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+94.3,95.45
+</td>
+<td style="text-align:left;">
+6.81,8.97
+</td>
+<td style="text-align:left;">
+12.2,16.07
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+94.05,95.13
+</td>
+<td style="text-align:left;">
+6.47,8.27
+</td>
+<td style="text-align:left;">
+11.09,15.67
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+95.62,96.11
+</td>
+<td style="text-align:left;">
+8.39,10.51
+</td>
+<td style="text-align:left;">
+13.92,18.95
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+94.72,95.94
+</td>
+<td style="text-align:left;">
+8.28,10.21
+</td>
+<td style="text-align:left;">
+12.79,18.53
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>## Disjoint exon segments level (overlapping only 1 transcript)
+kable(emp_sum(empirical_exons_d_one), format = 'html')</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Power
+</th>
+<th style="text-align:left;">
+FPR
+</th>
+<th style="text-align:left;">
+FDR
+</th>
+<th style="text-align:left;">
+AnnotationComplete
+</th>
+<th style="text-align:left;">
+Aligner
+</th>
+<th style="text-align:left;">
+SummaryMethod
+</th>
+<th style="text-align:left;">
+StatMethod
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+69.39,76.25
+</td>
+<td style="text-align:left;">
+8.65,11.52
+</td>
+<td style="text-align:left;">
+19.57,24.95
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+92.52,93.64
+</td>
+<td style="text-align:left;">
+10.89,14.49
+</td>
+<td style="text-align:left;">
+19.95,23.97
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+70.71,77.56
+</td>
+<td style="text-align:left;">
+11.98,15.69
+</td>
+<td style="text-align:left;">
+24.58,30.9
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+94.03,95.38
+</td>
+<td style="text-align:left;">
+15.19,19.93
+</td>
+<td style="text-align:left;">
+25.19,29.77
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+68.51,75.67
+</td>
+<td style="text-align:left;">
+7.33,8.65
+</td>
+<td style="text-align:left;">
+15.54,20.9
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown-exon
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+91.91,93.17
+</td>
+<td style="text-align:left;">
+9.3,10.93
+</td>
+<td style="text-align:left;">
+15.89,19.55
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown-exon
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+48.02,54.7
+</td>
+<td style="text-align:left;">
+0.95,2.24
+</td>
+<td style="text-align:left;">
+2.71,8.52
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown-trans
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+60.21,65
+</td>
+<td style="text-align:left;">
+1.07,1.53
+</td>
+<td style="text-align:left;">
+2.83,4.86
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown-trans
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+92.55,94.01
+</td>
+<td style="text-align:left;">
+13.54,17.26
+</td>
+<td style="text-align:left;">
+22.82,26.65
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+92.29,93.64
+</td>
+<td style="text-align:left;">
+13.6,16.41
+</td>
+<td style="text-align:left;">
+22.01,26.34
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+93.57,94.43
+</td>
+<td style="text-align:left;">
+15.01,18.83
+</td>
+<td style="text-align:left;">
+24.3,28.68
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+92.8,94.15
+</td>
+<td style="text-align:left;">
+15.24,18.04
+</td>
+<td style="text-align:left;">
+23.64,28.22
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+</tbody>
+</table>
+<p>From these summaries we can see that in most cases the minimum and maximum values are nearly the same, with more variability for the <code>HISAT</code> -&gt; <code>StringTie</code> -&gt; <code>ballgown</code> pipeline results. Note that for this pipeline we conducted tests at the transcript level (StatMethod = <code>ballgown-trans</code>) and at the exon level (<code>ballgown-exon</code>). <code>edgeR</code> achieves slightly greater empirical power than <code>DESeq2</code> at the cost of a higher empirical FPR and FDR.</p>
+<p>The sets where we consider exons or exon segments overlapping only 1 transcript show a clear difference in power for the methods that rely on annotation between the analyses that used the complete annotation and those that used the incomplete one. The <code>derfinder</code> analyses do have higher FPR and FDR than other pipelines, but achieve nearly the same power as the other methods when the annotation is complete.</p>
 </div>
 <div id="details" class="section level2">
 <h2><span class="header-section-number">2.3</span> Details</h2>
@@ -3858,7 +4517,7 @@ ballgown-exon
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>## Transcript segment level
+<pre class="r"><code>## Exon level
 kable(empirical_exons, format = 'html', row.names = TRUE)</code></pre>
 <table>
 <thead>
@@ -6018,12 +6677,2172 @@ ballgown-exon
 </tr>
 </tbody>
 </table>
+<pre class="r"><code>## Exon level (overlapping only 1 transcript)
+kable(empirical_exons_one, format = 'html', row.names = TRUE)</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+power
+</th>
+<th style="text-align:right;">
+FPR
+</th>
+<th style="text-align:right;">
+FDR
+</th>
+<th style="text-align:right;">
+replicate
+</th>
+<th style="text-align:left;">
+AnnotationComplete
+</th>
+<th style="text-align:left;">
+Aligner
+</th>
+<th style="text-align:left;">
+SummaryMethod
+</th>
+<th style="text-align:left;">
+StatMethod
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:right;">
+95.90
+</td>
+<td style="text-align:right;">
+4.51
+</td>
+<td style="text-align:right;">
+6.50
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:right;">
+97.25
+</td>
+<td style="text-align:right;">
+9.54
+</td>
+<td style="text-align:right;">
+12.66
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:right;">
+78.28
+</td>
+<td style="text-align:right;">
+3.51
+</td>
+<td style="text-align:right;">
+6.22
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:right;">
+79.24
+</td>
+<td style="text-align:right;">
+7.33
+</td>
+<td style="text-align:right;">
+12.02
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:right;">
+95.13
+</td>
+<td style="text-align:right;">
+2.94
+</td>
+<td style="text-align:right;">
+6.34
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:right;">
+96.37
+</td>
+<td style="text-align:right;">
+6.85
+</td>
+<td style="text-align:right;">
+13.49
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7
+</td>
+<td style="text-align:right;">
+77.46
+</td>
+<td style="text-align:right;">
+2.11
+</td>
+<td style="text-align:right;">
+5.63
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:right;">
+78.36
+</td>
+<td style="text-align:right;">
+5.01
+</td>
+<td style="text-align:right;">
+12.29
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+9
+</td>
+<td style="text-align:right;">
+95.38
+</td>
+<td style="text-align:right;">
+4.78
+</td>
+<td style="text-align:right;">
+9.68
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:right;">
+96.43
+</td>
+<td style="text-align:right;">
+9.94
+</td>
+<td style="text-align:right;">
+18.06
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:right;">
+69.99
+</td>
+<td style="text-align:right;">
+3.57
+</td>
+<td style="text-align:right;">
+9.82
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:right;">
+71.21
+</td>
+<td style="text-align:right;">
+8.08
+</td>
+<td style="text-align:right;">
+19.52
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:right;">
+95.00
+</td>
+<td style="text-align:right;">
+8.02
+</td>
+<td style="text-align:right;">
+11.09
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:right;">
+95.26
+</td>
+<td style="text-align:right;">
+9.45
+</td>
+<td style="text-align:right;">
+12.79
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:right;">
+94.05
+</td>
+<td style="text-align:right;">
+6.47
+</td>
+<td style="text-align:right;">
+13.12
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:right;">
+94.72
+</td>
+<td style="text-align:right;">
+8.28
+</td>
+<td style="text-align:right;">
+16.09
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+17
+</td>
+<td style="text-align:right;">
+95.13
+</td>
+<td style="text-align:right;">
+8.27
+</td>
+<td style="text-align:right;">
+15.67
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+18
+</td>
+<td style="text-align:right;">
+95.94
+</td>
+<td style="text-align:right;">
+10.21
+</td>
+<td style="text-align:right;">
+18.53
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:right;">
+95.45
+</td>
+<td style="text-align:right;">
+8.97
+</td>
+<td style="text-align:right;">
+12.20
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:right;">
+95.84
+</td>
+<td style="text-align:right;">
+10.49
+</td>
+<td style="text-align:right;">
+13.92
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:right;">
+94.30
+</td>
+<td style="text-align:right;">
+6.81
+</td>
+<td style="text-align:right;">
+13.68
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:right;">
+95.62
+</td>
+<td style="text-align:right;">
+8.39
+</td>
+<td style="text-align:right;">
+16.15
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:right;">
+95.30
+</td>
+<td style="text-align:right;">
+8.54
+</td>
+<td style="text-align:right;">
+16.07
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+24
+</td>
+<td style="text-align:right;">
+96.11
+</td>
+<td style="text-align:right;">
+10.51
+</td>
+<td style="text-align:right;">
+18.95
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+25
+</td>
+<td style="text-align:right;">
+70.92
+</td>
+<td style="text-align:right;">
+0.69
+</td>
+<td style="text-align:right;">
+1.42
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown-trans
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+26
+</td>
+<td style="text-align:right;">
+94.55
+</td>
+<td style="text-align:right;">
+3.99
+</td>
+<td style="text-align:right;">
+5.87
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown-exon
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+27
+</td>
+<td style="text-align:right;">
+60.03
+</td>
+<td style="text-align:right;">
+0.56
+</td>
+<td style="text-align:right;">
+1.37
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown-trans
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+28
+</td>
+<td style="text-align:right;">
+77.00
+</td>
+<td style="text-align:right;">
+3.03
+</td>
+<td style="text-align:right;">
+5.50
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown-exon
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:right;">
+71.92
+</td>
+<td style="text-align:right;">
+1.09
+</td>
+<td style="text-align:right;">
+3.22
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown-trans
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:right;">
+94.30
+</td>
+<td style="text-align:right;">
+3.61
+</td>
+<td style="text-align:right;">
+7.75
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown-exon
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+31
+</td>
+<td style="text-align:right;">
+58.05
+</td>
+<td style="text-align:right;">
+1.96
+</td>
+<td style="text-align:right;">
+6.89
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown-trans
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+32
+</td>
+<td style="text-align:right;">
+77.04
+</td>
+<td style="text-align:right;">
+2.82
+</td>
+<td style="text-align:right;">
+7.44
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown-exon
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+33
+</td>
+<td style="text-align:right;">
+67.23
+</td>
+<td style="text-align:right;">
+0.57
+</td>
+<td style="text-align:right;">
+1.78
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown-trans
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+34
+</td>
+<td style="text-align:right;">
+93.67
+</td>
+<td style="text-align:right;">
+3.64
+</td>
+<td style="text-align:right;">
+7.67
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown-exon
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+35
+</td>
+<td style="text-align:right;">
+53.20
+</td>
+<td style="text-align:right;">
+2.20
+</td>
+<td style="text-align:right;">
+8.12
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown-trans
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+36
+</td>
+<td style="text-align:right;">
+68.37
+</td>
+<td style="text-align:right;">
+2.88
+</td>
+<td style="text-align:right;">
+8.27
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown-exon
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>## Disjoint exons level (overlapping only 1 transcript)
+kable(empirical_exons_d_one, format = 'html', row.names = TRUE)</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+power
+</th>
+<th style="text-align:right;">
+FPR
+</th>
+<th style="text-align:right;">
+FDR
+</th>
+<th style="text-align:right;">
+replicate
+</th>
+<th style="text-align:left;">
+AnnotationComplete
+</th>
+<th style="text-align:left;">
+Aligner
+</th>
+<th style="text-align:left;">
+SummaryMethod
+</th>
+<th style="text-align:left;">
+StatMethod
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:right;">
+93.64
+</td>
+<td style="text-align:right;">
+14.49
+</td>
+<td style="text-align:right;">
+19.95
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:right;">
+95.38
+</td>
+<td style="text-align:right;">
+19.93
+</td>
+<td style="text-align:right;">
+25.19
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:right;">
+76.25
+</td>
+<td style="text-align:right;">
+11.52
+</td>
+<td style="text-align:right;">
+19.57
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:right;">
+77.56
+</td>
+<td style="text-align:right;">
+15.69
+</td>
+<td style="text-align:right;">
+24.58
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:right;">
+92.55
+</td>
+<td style="text-align:right;">
+10.89
+</td>
+<td style="text-align:right;">
+20.30
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:right;">
+94.14
+</td>
+<td style="text-align:right;">
+15.19
+</td>
+<td style="text-align:right;">
+25.88
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7
+</td>
+<td style="text-align:right;">
+74.65
+</td>
+<td style="text-align:right;">
+8.65
+</td>
+<td style="text-align:right;">
+20.05
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:right;">
+75.92
+</td>
+<td style="text-align:right;">
+11.98
+</td>
+<td style="text-align:right;">
+25.45
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+9
+</td>
+<td style="text-align:right;">
+92.52
+</td>
+<td style="text-align:right;">
+13.74
+</td>
+<td style="text-align:right;">
+23.97
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:right;">
+94.03
+</td>
+<td style="text-align:right;">
+18.77
+</td>
+<td style="text-align:right;">
+29.77
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:right;">
+69.39
+</td>
+<td style="text-align:right;">
+10.87
+</td>
+<td style="text-align:right;">
+24.95
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:right;">
+70.71
+</td>
+<td style="text-align:right;">
+14.89
+</td>
+<td style="text-align:right;">
+30.90
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+featureCounts
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:right;">
+93.64
+</td>
+<td style="text-align:right;">
+16.41
+</td>
+<td style="text-align:right;">
+22.01
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:right;">
+93.85
+</td>
+<td style="text-align:right;">
+18.04
+</td>
+<td style="text-align:right;">
+23.64
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:right;">
+92.29
+</td>
+<td style="text-align:right;">
+13.60
+</td>
+<td style="text-align:right;">
+24.18
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:right;">
+92.80
+</td>
+<td style="text-align:right;">
+15.24
+</td>
+<td style="text-align:right;">
+26.23
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+17
+</td>
+<td style="text-align:right;">
+93.34
+</td>
+<td style="text-align:right;">
+15.72
+</td>
+<td style="text-align:right;">
+26.34
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+18
+</td>
+<td style="text-align:right;">
+94.15
+</td>
+<td style="text-align:right;">
+17.44
+</td>
+<td style="text-align:right;">
+28.22
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Rail-RNA
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:right;">
+94.01
+</td>
+<td style="text-align:right;">
+17.26
+</td>
+<td style="text-align:right;">
+22.82
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:right;">
+94.43
+</td>
+<td style="text-align:right;">
+18.83
+</td>
+<td style="text-align:right;">
+24.30
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+21
+</td>
+<td style="text-align:right;">
+92.55
+</td>
+<td style="text-align:right;">
+13.54
+</td>
+<td style="text-align:right;">
+24.05
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:right;">
+93.57
+</td>
+<td style="text-align:right;">
+15.01
+</td>
+<td style="text-align:right;">
+25.77
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:right;">
+93.59
+</td>
+<td style="text-align:right;">
+16.02
+</td>
+<td style="text-align:right;">
+26.65
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+DESeq2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+24
+</td>
+<td style="text-align:right;">
+94.41
+</td>
+<td style="text-align:right;">
+17.89
+</td>
+<td style="text-align:right;">
+28.68
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+derfinder
+</td>
+<td style="text-align:left;">
+edgeR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+25
+</td>
+<td style="text-align:right;">
+65.00
+</td>
+<td style="text-align:right;">
+1.17
+</td>
+<td style="text-align:right;">
+2.83
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown-trans
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+26
+</td>
+<td style="text-align:right;">
+93.17
+</td>
+<td style="text-align:right;">
+10.93
+</td>
+<td style="text-align:right;">
+15.89
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown-exon
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+27
+</td>
+<td style="text-align:right;">
+54.70
+</td>
+<td style="text-align:right;">
+0.95
+</td>
+<td style="text-align:right;">
+2.71
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown-trans
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+28
+</td>
+<td style="text-align:right;">
+75.67
+</td>
+<td style="text-align:right;">
+8.65
+</td>
+<td style="text-align:right;">
+15.54
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown-exon
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+29
+</td>
+<td style="text-align:right;">
+64.78
+</td>
+<td style="text-align:right;">
+1.53
+</td>
+<td style="text-align:right;">
+4.86
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown-trans
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:right;">
+91.91
+</td>
+<td style="text-align:right;">
+9.30
+</td>
+<td style="text-align:right;">
+17.96
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown-exon
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+31
+</td>
+<td style="text-align:right;">
+51.97
+</td>
+<td style="text-align:right;">
+2.24
+</td>
+<td style="text-align:right;">
+8.52
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown-trans
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+32
+</td>
+<td style="text-align:right;">
+74.65
+</td>
+<td style="text-align:right;">
+7.33
+</td>
+<td style="text-align:right;">
+17.52
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown-exon
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+33
+</td>
+<td style="text-align:right;">
+60.21
+</td>
+<td style="text-align:right;">
+1.07
+</td>
+<td style="text-align:right;">
+3.62
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown-trans
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+34
+</td>
+<td style="text-align:right;">
+92.08
+</td>
+<td style="text-align:right;">
+10.54
+</td>
+<td style="text-align:right;">
+19.55
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown-exon
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+35
+</td>
+<td style="text-align:right;">
+48.02
+</td>
+<td style="text-align:right;">
+2.07
+</td>
+<td style="text-align:right;">
+8.39
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown-trans
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+36
+</td>
+<td style="text-align:right;">
+68.51
+</td>
+<td style="text-align:right;">
+8.53
+</td>
+<td style="text-align:right;">
+20.90
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+HISAT
+</td>
+<td style="text-align:left;">
+StringTie
+</td>
+<td style="text-align:left;">
+ballgown-exon
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="specific-case" class="section level2">
 <h2><span class="header-section-number">2.4</span> Specific case</h2>
 <p>In this section we focus on the specific case of using <code>HISAT</code> -&gt; <code>derfinder</code> -&gt; <code>edgeR</code> from the first replicate because it has the highest empirical FPR from all the <code>derfinder</code> analyses when using either of the exon reference sets (row 20 in the last two tables).</p>
 <p>Note how when using the transcript level information as reference, most of the false positives (1583 out of 1994) are from the case <code>someDE</code>. That is, from genes that have multiple transcripts and at least one of them is DE. These false positives go away when using as the reference the transcripts with DE status by gene (second table). In that scenario, most of the remaining false positives are from the <code>noneDE</code> case, where about half of them are correctly detected as negatives (307 / 649).</p>
-<p>When using the exon level reference set (third table), only about a then [(37 + 642) / 6018 = 11.28%] of the <code>noneDE</code> cases are incorrectly labeled. The numbers are similar in the disjoint exon segments reference set (fourth table): [(9 + 304) / 2864 = 10.93%]</p>
+<p>When using the exon level reference set (third table), only about a tenth [(37 + 642) / 6018 = 11.28%] of the <code>noneDE</code> cases are incorrectly labeled. The numbers are similar in the disjoint exon segments reference set (fourth table): [(9 + 304) / 2864 = 10.93%]</p>
 <pre class="r"><code>## Compare all three references for one simulation scenario
 case_result_trans[['regionMatrix.1.edgeR']]</code></pre>
 <pre><code>##              Result
@@ -6061,6 +8880,24 @@ case_result_trans[['regionMatrix.1.edgeR']]</code></pre>
 ##   singleNotDE             1           149         1125            5  1280
 ##   someDE               1603           473         1328         6242  9646
 ##   Sum                  1687           926         4996         7527 15136</code></pre>
+<pre class="r"><code>case_result_exons_one[['regionMatrix.1.edgeR']]</code></pre>
+<pre><code>##              Result
+## Case          FalseNegative FalsePositive TrueNegative TruePositive  Sum
+##   allDE                   2             0            0          137  139
+##   noneDE                  0            37          411            0  448
+##   singleDE               35             0            0          870  905
+##   singleNotDE             0           145         1117            0 1262
+##   someDE                 28            60          537          489 1114
+##   Sum                    65           242         2065         1496 3868</code></pre>
+<pre class="r"><code>case_result_exons_d_one[['regionMatrix.1.edgeR']]</code></pre>
+<pre><code>##              Result
+## Case          FalseNegative FalsePositive TrueNegative TruePositive  Sum
+##   allDE                   3             0            0          175  178
+##   noneDE                  0            77          638            0  715
+##   singleDE               35             0            0          877  912
+##   singleNotDE             0           147         1120            0 1267
+##   someDE                 68           353          730          745 1896
+##   Sum                   106           577         2488         1797 4968</code></pre>
 <p>Next we show the same tables but in percent of the total reference set units.</p>
 <pre class="r"><code>## Now in percent
 round(case_result_trans[['regionMatrix.1.edgeR']] /
@@ -6103,17 +8940,38 @@ round(case_result_trans[['regionMatrix.1.edgeR']] /
 ##   singleNotDE          0.01          0.98         7.43         0.03   8.46
 ##   someDE              10.59          3.12         8.77        41.24  63.73
 ##   Sum                 11.15          6.12        33.01        49.73 100.00</code></pre>
+<pre class="r"><code>round(case_result_exons_one[['regionMatrix.1.edgeR']] /
+    case_result_exons_one[['regionMatrix.1.edgeR']][6, 5] * 100, 2)</code></pre>
+<pre><code>##              Result
+## Case          FalseNegative FalsePositive TrueNegative TruePositive    Sum
+##   allDE                0.05          0.00         0.00         3.54   3.59
+##   noneDE               0.00          0.96        10.63         0.00  11.58
+##   singleDE             0.90          0.00         0.00        22.49  23.40
+##   singleNotDE          0.00          3.75        28.88         0.00  32.63
+##   someDE               0.72          1.55        13.88        12.64  28.80
+##   Sum                  1.68          6.26        53.39        38.68 100.00</code></pre>
+<pre class="r"><code>round(case_result_exons_d_one[['regionMatrix.1.edgeR']] /
+    case_result_exons_d_one[['regionMatrix.1.edgeR']][6, 5] * 100, 2)</code></pre>
+<pre><code>##              Result
+## Case          FalseNegative FalsePositive TrueNegative TruePositive    Sum
+##   allDE                0.06          0.00         0.00         3.52   3.58
+##   noneDE               0.00          1.55        12.84         0.00  14.39
+##   singleDE             0.70          0.00         0.00        17.65  18.36
+##   singleNotDE          0.00          2.96        22.54         0.00  25.50
+##   someDE               1.37          7.11        14.69        15.00  38.16
+##   Sum                  2.13         11.61        50.08        36.17 100.00</code></pre>
 <p>The transcript level sets have much higher false positives than the exon level sets, however, the exon level sets have increase false negatives. In both the exons and disjoint exon segments reference sets, most of the false negatives are from the <code>someDE</code> scenario. Those are ambiguous cases and it’s the main reason why the power is decreased when using these reference sets. Note how the percent of total reference units from the <code>someDE</code> case that result in false negatives decreases from 19.76 to 10.59 between the exons set that does not take into account multiplicity and the disjoint exons set.</p>
+<p>The percent of false negatives is further decreased on the exon and disjoint exon segment sets subsetted to those that overlap only 1 transcript. That is, the reference units where there is no ambiguity in terms of the the assignment of the DE status.</p>
 </div>
 </div>
 <div id="reproducibility" class="section level1">
 <h1><span class="header-section-number">3</span> Reproducibility</h1>
 <pre class="r"><code>## Reproducibility info
 Sys.time()</code></pre>
-<pre><code>## [1] &quot;2016-02-17 09:31:17 EST&quot;</code></pre>
+<pre><code>## [1] &quot;2016-02-17 18:08:08 EST&quot;</code></pre>
 <pre class="r"><code>proc.time()</code></pre>
 <pre><code>##    user  system elapsed 
-##  95.989   2.065  99.828</code></pre>
+## 104.055   2.606 111.046</code></pre>
 <pre class="r"><code>options(width = 120)
 session_info()</code></pre>
 <pre><code>## Session info -----------------------------------------------------------------------------------------------------------</code></pre>

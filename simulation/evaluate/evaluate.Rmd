@@ -8,7 +8,7 @@ output:
 
 This document is a work in progress.
 
-Here we evaluate the performance of the different pipelines we used to analyze the simulated data. Evaluating the performance is tricky and depends on how you define the reference set. At this moment we are considering four options detailed later.
+Here we evaluate the performance of the different pipelines we used to analyze the simulated data. Evaluating the performance is tricky and depends on how you define the reference set. At this moment we are considering six options detailed later.
 
 # Setup
 
@@ -292,6 +292,12 @@ exons <- processExons(unlist(tx))
 ## Create disjoint exon level reference
 exons_disjoin <- processExons(disjoin(unlist(tx)))
 
+## Exons overlapping only 1 transcript
+exons_one <- exons[countOverlaps(exons, trans) == 1]
+
+## Disjoint exons overlapping only 1 transcript
+exons_disjoin_one <- exons_disjoin[countOverlaps(exons_disjoin, trans) == 1]
+
 
 ## Explore the number and percent of DE cases
 percDE <- function(reference) {
@@ -315,9 +321,15 @@ percDE(trans_case)
 ## gene) level
 percDE(exons)
 
-## Finally, at the disjoint exon segment level, the percent DE is lower but
+## At the disjoint exon segment level, the percent DE is lower but
 ## not as low as at the transcript level (1st reference set)
 percDE(exons_disjoin)
+
+## Exons overlapping only 1 transcript
+percDE(exons_one)
+
+## Disjoint exons overlapping only 1 transcript
+percDE(exons_disjoin_one)
 
 
 ## For each reference set, see how many other units of that set each piece overlaps
@@ -325,9 +337,11 @@ table(countOverlaps(trans) - 1)
 table(countOverlaps(trans_case) - 1)
 table(countOverlaps(exons) - 1)
 table(countOverlaps(exons_disjoin) - 1)
+table(countOverlaps(exons_one) - 1)
+table(countOverlaps(exons_disjoin_one) - 1)
 ```
 
-Note how the overlap between the different units of the same reference set is considerable, except by design on the disjoint exons level.
+Note how the overlap between the different units of the same reference set is considerable for the first three sets.
 
 
 Number of units per reference level:
@@ -335,7 +349,9 @@ Number of units per reference level:
 * Transcript level: `r length(trans)`
 * Transcript level (DE status by gene): `r length(trans_case)`
 * Exon level: `r length(exons)`
-* Disjoint exon segmeent level: `r length(exons_disjoin)`
+* Disjoint exon segment level: `r length(exons_disjoin)`
+* Exon level subsetted to those that overlap only 1 transcript: `r length(exons_one)`
+* Disjoint exon segment level (overlapping only 1 transcript): `r length(exons_disjoin_one)`
 
 
 # Evaluation
@@ -393,6 +409,26 @@ index_exons_d <- mapply(index_comp, stats_GR, replicates, types,
     SIMPLIFY = FALSE, MoreArgs = list(reference = exons_disjoin, cut = 0.05))
 case_result_exons_d <- mapply(case_result, index_exons_d, replicates,
     SIMPLIFY = FALSE, MoreArgs = list(reference = exons_disjoin))
+    
+## Evaluate at the exons level (overlapping only 1 transcript)
+## DE if any of the transcripts it overlaps is DE
+tables_exons_one <- mapply(count_comp, stats_GR, replicates, types,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = exons_one, cut = 0.05))
+empirical_exons_one <- emp(tables_exons_one)
+index_exons_one <- mapply(index_comp, stats_GR, replicates, types,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = exons_one, cut = 0.05))
+case_result_exons_one <- mapply(case_result, index_exons_one, replicates,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = exons_one))
+
+## Evaluate at the disjoint exon segments level (overlapping only 1 transcript)
+## DE if any of the transcripts it overlaps is DE
+tables_exons_d_one <- mapply(count_comp, stats_GR, replicates, types,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = exons_disjoin_one, cut = 0.05))
+empirical_exons_d_one <- emp(tables_exons_d_one)
+index_exons_d_one <- mapply(index_comp, stats_GR, replicates, types,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = exons_disjoin_one, cut = 0.05))
+case_result_exons_d_one <- mapply(case_result, index_exons_d_one, replicates,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = exons_disjoin_one))
 ```
 
 ## Summaries
@@ -408,9 +444,15 @@ kable(emp_sum(empirical_trans_c), format = 'html')
 kable(emp_sum(empirical_exons), format = 'html')
 ## Disjoint exon segments level
 kable(emp_sum(empirical_exons_d), format = 'html')
+## Exon level (overlapping only 1 transcript)
+kable(emp_sum(empirical_exons_one), format = 'html')
+## Disjoint exon segments level (overlapping only 1 transcript)
+kable(emp_sum(empirical_exons_d_one), format = 'html')
 ```
 
-From these summaries we can see that in most cases the minimum and maximum values are nearly the same, with more variability for the `HISAT` -> `StringTie` -> `ballgown` pipeline results. Note that for this pipeline we conducted tests at the transcript level (StatMethod = `ballgown-trans`) and at the exon level (`ballgown-exon`). Finally `edgeR` achieves slightly greater empirical power than `DESeq2` at the cost of a higher empirical FPR and FDR.
+From these summaries we can see that in most cases the minimum and maximum values are nearly the same, with more variability for the `HISAT` -> `StringTie` -> `ballgown` pipeline results. Note that for this pipeline we conducted tests at the transcript level (StatMethod = `ballgown-trans`) and at the exon level (`ballgown-exon`). `edgeR` achieves slightly greater empirical power than `DESeq2` at the cost of a higher empirical FPR and FDR.
+
+The sets where we consider exons or exon segments overlapping only 1 transcript show a clear difference in power for the methods that rely on annotation between the analyses that used the complete annotation and those that used the incomplete one. The `derfinder` analyses do have higher FPR and FDR than other pipelines, but achieve nearly the same power as the other methods when the annotation is complete.
 
 
 ## Details
@@ -422,10 +464,14 @@ The following tables show the results for all the replicates.
 kable(empirical_trans, format = 'html', row.names = TRUE)
 ## Transcript level with DE status given by transcripts from the same gene
 kable(empirical_trans_c, format = 'html', row.names = TRUE)
-## Transcript segment level
+## Exon level
 kable(empirical_exons, format = 'html', row.names = TRUE)
 ## Disjoint exons level
 kable(empirical_exons_d, format = 'html', row.names = TRUE)
+## Exon level (overlapping only 1 transcript)
+kable(empirical_exons_one, format = 'html', row.names = TRUE)
+## Disjoint exons level (overlapping only 1 transcript)
+kable(empirical_exons_d_one, format = 'html', row.names = TRUE)
 ```
 
 
@@ -435,7 +481,7 @@ In this section we focus on the specific case of using `HISAT` -> `derfinder` ->
 
 Note how when using the transcript level information as reference, most of the false positives (`r case_result_trans[['regionMatrix.1.edgeR']][5, 2]` out of `r case_result_trans[['regionMatrix.1.edgeR']][6, 2]`) are from the case `someDE`. That is, from genes that have multiple transcripts and at least one of them is DE. These false positives go away when using as the reference the transcripts with DE status by gene (second table). In that scenario, most of the remaining false positives are from the `noneDE` case, where about half of them are correctly detected as negatives (`r case_result_trans_c[['regionMatrix.1.edgeR']][2, 2]` / `r case_result_trans_c[['regionMatrix.1.edgeR']][2, 5]`). 
 
-When using the exon level reference set (third table), only about a then [(`r case_result_exons[['regionMatrix.1.edgeR']][2, 1]` + `r case_result_exons[['regionMatrix.1.edgeR']][2, 2]`) / `r case_result_exons[['regionMatrix.1.edgeR']][2, 5]` = `r round(100 * (case_result_exons[['regionMatrix.1.edgeR']][2, 1] + case_result_exons[['regionMatrix.1.edgeR']][2, 2]) / case_result_exons[['regionMatrix.1.edgeR']][2, 5], 2)`%] of the `noneDE` cases are incorrectly labeled. The numbers are similar in the disjoint exon segments reference set (fourth table): [(`r case_result_exons_d[['regionMatrix.1.edgeR']][2, 1]` + `r case_result_exons_d[['regionMatrix.1.edgeR']][2, 2]`) / `r case_result_exons_d[['regionMatrix.1.edgeR']][2, 5]` = `r round(100 * (case_result_exons_d[['regionMatrix.1.edgeR']][2, 1] + case_result_exons_d[['regionMatrix.1.edgeR']][2, 2]) / case_result_exons_d[['regionMatrix.1.edgeR']][2, 5], 2)`%]
+When using the exon level reference set (third table), only about a tenth [(`r case_result_exons[['regionMatrix.1.edgeR']][2, 1]` + `r case_result_exons[['regionMatrix.1.edgeR']][2, 2]`) / `r case_result_exons[['regionMatrix.1.edgeR']][2, 5]` = `r round(100 * (case_result_exons[['regionMatrix.1.edgeR']][2, 1] + case_result_exons[['regionMatrix.1.edgeR']][2, 2]) / case_result_exons[['regionMatrix.1.edgeR']][2, 5], 2)`%] of the `noneDE` cases are incorrectly labeled. The numbers are similar in the disjoint exon segments reference set (fourth table): [(`r case_result_exons_d[['regionMatrix.1.edgeR']][2, 1]` + `r case_result_exons_d[['regionMatrix.1.edgeR']][2, 2]`) / `r case_result_exons_d[['regionMatrix.1.edgeR']][2, 5]` = `r round(100 * (case_result_exons_d[['regionMatrix.1.edgeR']][2, 1] + case_result_exons_d[['regionMatrix.1.edgeR']][2, 2]) / case_result_exons_d[['regionMatrix.1.edgeR']][2, 5], 2)`%]
 
 ```{r 'regionMatrix.1.edgeR'}
 ## Compare all three references for one simulation scenario
@@ -443,6 +489,8 @@ case_result_trans[['regionMatrix.1.edgeR']]
 case_result_trans_c[['regionMatrix.1.edgeR']]
 case_result_exons[['regionMatrix.1.edgeR']]
 case_result_exons_d[['regionMatrix.1.edgeR']]
+case_result_exons_one[['regionMatrix.1.edgeR']]
+case_result_exons_d_one[['regionMatrix.1.edgeR']]
 ```
 
 Next we show the same tables but in percent of the total reference set units.
@@ -457,9 +505,15 @@ round(case_result_exons[['regionMatrix.1.edgeR']] /
     case_result_exons[['regionMatrix.1.edgeR']][6, 5] * 100, 2)
 round(case_result_exons_d[['regionMatrix.1.edgeR']] /
     case_result_exons_d[['regionMatrix.1.edgeR']][6, 5] * 100, 2)
+round(case_result_exons_one[['regionMatrix.1.edgeR']] /
+    case_result_exons_one[['regionMatrix.1.edgeR']][6, 5] * 100, 2)
+round(case_result_exons_d_one[['regionMatrix.1.edgeR']] /
+    case_result_exons_d_one[['regionMatrix.1.edgeR']][6, 5] * 100, 2)
 ```
 
 The transcript level sets have much higher false positives than the exon level sets, however, the exon level sets have increase false negatives. In both the exons and disjoint exon segments reference sets, most of the false negatives are from the `someDE` scenario. Those are ambiguous cases and it's the main reason why the power is decreased when using these reference sets. Note how the percent of total reference units from the `someDE` case that result in false negatives decreases from `r round(case_result_exons[['regionMatrix.1.edgeR']] / case_result_exons[['regionMatrix.1.edgeR']][6, 5] * 100, 2)[5, 1]` to `r round(case_result_exons_d[['regionMatrix.1.edgeR']] / case_result_exons_d[['regionMatrix.1.edgeR']][6, 5] * 100, 2)[5, 1]` between the exons set that does not take into account multiplicity and the disjoint exons set.
+
+The percent of false negatives is further decreased on the exon and disjoint exon segment sets subsetted to those that overlap only 1 transcript. That is, the reference units where there is no ambiguity in terms of the the assignment of the DE status.
 
 ```{r 'saveResults', echo = FALSE}
 ## Calculate summaries
@@ -467,12 +521,16 @@ empirical_trans_sum <- emp_sum(empirical_trans)
 empirical_trans_c_sum <- emp_sum(empirical_trans_c)
 empirical_exons_sum <- emp_sum(empirical_exons)
 empirical_exons_d_sum <- emp_sum(empirical_exons_d)
+empirical_exons_one_sum <- emp_sum(empirical_exons_one)
+empirical_exons_d_one_sum <- emp_sum(empirical_exons_d_one)
 
 ## Save results
 save(tables_trans, empirical_trans, empirical_trans_sum, case_result_trans, file = 'results-trans.Rdata')
 save(tables_trans_c, empirical_trans_c, empirical_trans_c_sum, case_result_trans_c, file = 'results-trans_c.Rdata')
 save(tables_exons, empirical_exons, empirical_exons_sum, case_result_exons, file = 'results-exons.Rdata')
 save(tables_exons_d, empirical_exons_d, empirical_exons_d_sum, case_result_exons_d, file = 'results-exons_d.Rdata')
+save(tables_exons_one, empirical_exons_one, empirical_exons_one_sum, case_result_exons_one, file = 'results-exons_one.Rdata')
+save(tables_exons_d_one, empirical_exons_d_one, empirical_exons_d_one_sum, case_result_exons_d_one, file = 'results-exons_d_one.Rdata')
 ```
 
 
