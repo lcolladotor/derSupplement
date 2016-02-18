@@ -52,6 +52,8 @@ pd2 <- pd1
 pd2$sampleFile <- sampleFiles
 pd2$totalMapped <- counts$totalMapped
 pd2$SumCoverage <- pheno$SumCoverage
+pd2$avgLength <- pheno$avgLength
+pd2$LibraryLayout <- pheno$LibraryLayout
 save(pd2, file = 'gtex_pheno_with_mapped.Rdata')
 
 ## Get chr length

@@ -5,7 +5,6 @@ library('devtools')
 
 ## Options
 cutoff <- 5L
-L <- 76L
 maxClusterGap <- 3000L
 targetSize <- 40e6
 
@@ -27,9 +26,13 @@ summaryFiles <- rep('/dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/normalizedMe
 sampleFiles <- pd2$sampleFile
 names(sampleFiles) <- pd2$sra_accession
 
+## Read length
+L <- pd2$avgLength / ifelse(pd2$LibraryLayout == 'SINGLE', 1, 2)
+## What is the observed read length
+table(L) # They are all L = 76
 
 ## Calculate regionMatrix
-regionMat <- railMatrix(chrs, summaryFiles, sampleFiles, L = L, cutoff = cutoff, targetSize = 40e6, totalMapped = pd2$totalMapped, file.cores = 8L, chunksize = 10000, verbose.load = FALSE, chrlens = chrlens)
+regionMat <- railMatrix(chrs, summaryFiles, sampleFiles, L = L, cutoff = cutoff, targetSize = targetSize, totalMapped = pd2$totalMapped, file.cores = 8L, chunksize = 10000, verbose.load = FALSE, chrlens = chrlens, maxClusterGap = maxClusterGap)
 
 timeinfo <- c(timeinfo, list(Sys.time()))
 
