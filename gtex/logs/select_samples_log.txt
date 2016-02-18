@@ -1,0 +1,30 @@
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Loading required package: colorout
+[1] 11011   256
+[1] 397 256
+[1] 8
+ [1] "SRR614683"  "SRR1344445" "SRR1380699" "SRR807901"  "SRR1403434"
+ [6] "SRR1409022" "SRR810619"  "SRR1349409" "SRR1335536" "SRR1389777"
+[11] "SRR1310433" "SRR1455236" "SRR1358582" "SRR1409790" "SRR1339130"
+[16] "SRR1430639" "SRR1412969" "SRR1419518" "SRR1337388" "SRR1478789"
+[21] "SRR1380139" "SRR1369536" "SRR1446203" "SRR1347100"
+[1]  24 256
+[1] "2016-02-18 11:06:44 EST"
+   user  system elapsed 
+  0.952   0.101   1.335 
+Session info -----------------------------------------------------------------------------------------------------------
+ setting  value                                      
+ version  R version 3.2.2 Patched (2015-08-31 r69235)
+ system   x86_64, linux-gnu                          
+ ui       X11                                        
+ language (EN)                                       
+ collate  en_US.UTF-8                                
+ tz       <NA>                                       
+ date     2016-02-18                                 
+
+Packages ---------------------------------------------------------------------------------------------------------------
+ package  * version date       source        
+ colorout * 1.0-2   2015-05-19 local         
+ devtools * 1.9.1   2015-09-11 CRAN (R 3.2.2)
+ digest     0.6.9   2016-01-08 CRAN (R 3.2.2)
+ memoise    1.0.0   2016-01-29 CRAN (R 3.2.2)
