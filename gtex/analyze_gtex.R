@@ -1,10 +1,19 @@
 ## Original script: /home/epi/ajaffe/Lieber/Projects/derfinderPaper/analyze_gtex.R
 ##
-library(derfinder)
-library(GenomicRanges)
-library(rafalib)
+## Usage:
+# mkdir -p logs
+# Rscript analyze_gtex.R > logs/annotated_bp_log.txt 2>&1
+library('derfinder')
+library('derfinderPlot')
+library('GenomicRanges')
+library('rafalib')
+library('devtools')
 getPcaVars = function(pca)  signif(((pca$sdev)^2)/(sum((pca$sdev)^2)),3)*100
 ss = function(x, pattern, slot=1,...) sapply(strsplit(x,pattern,...), "[", slot)
+
+## Create dir for saving rdas and plots to preserve structure from the original script
+dir.create('rdas', recursive = TRUE, showWarnings = FALSE)
+dir.create('plots', recursive = TRUE, showWarnings = FALSE)
 
 # get the f statistic from 2 lmFit objects
 getF = function(fit, fit0, theData) {
@@ -23,8 +32,8 @@ getF = function(fit, fit0, theData) {
 }
 
 # load processed data
-load('/dcs01/ajaffe/Brain/derRuns/railDER/gtex36/regionMat-cut5.Rdata')
-load('/dcs01/ajaffe/Brain/derRuns/derSoftware/gtex/mappedInfo.Rdata')
+load('/dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/regionMat-cut5.Rdata')
+load('/dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/mappedInfo.Rdata')
 xx = load("/home/epi/ajaffe/Lieber/Projects/derfinderPaper/gtex_pheno.rda")
 mappedInfo$Tissue = pd1$SMTS[match(mappedInfo$sample, pd1$sra_accession)]
 mappedInfo$SubjectID = pd1$SUBJID[match(mappedInfo$sample, pd1$sra_accession)]
@@ -55,6 +64,10 @@ load("/home/epi/ajaffe/GenomicStates/GenomicState.Hsapiens.ensembl.GRCh37.p12.rd
 gs = GenomicState.Hsapiens.ensembl.GRCh37.p12$fullGenome
 ensemblAnno = annotateRegions(regions,gs)
 countTable = ensemblAnno$countTable
+
+pdf(file = 'venn-GRCh37.p12.pdf')
+vennRegions(ensemblAnno, main = 'GTEx expressed regions by GRCh37.p12', counts.col = 'blue')
+dev.off()
 
 ## annotation ####
 dim(countTable)
@@ -89,6 +102,7 @@ pc2Mat = sapply(pcList, function(x) x$x[,2])
 
 ## plots
 ind = c(1:3,5)
+pdf(file = 'pca-simple.pdf')
 rafalib::mypar(2,2,cex.axis=1)
 for(i in ind) boxplot(pc1Mat[,i] ~ mappedInfo$Tissue, 
 	main = colnames(pc1Mat)[i],
@@ -97,10 +111,55 @@ for(i in ind) boxplot(pc1Mat[,i] ~ mappedInfo$Tissue,
 for(i in ind) boxplot(pc2Mat[,i] ~ mappedInfo$Tissue, 
 	main = colnames(pc2Mat)[i],
 	ylab=paste0("PC2: ", pcVarMat[2,i], "% of Var Explain"))
+dev.off()
+    
+    
+## Simple plots for PC1 and PC2 with some added color and text
+pdf(file = 'plots/pca-plots-gtex36.pdf', width = 14, height = 7)
+cnames <- c('Strictly exonic ERs', 'Strictly intronic ERs')
+rafalib::mypar(1,2,cex.axis=1)
+for(i in ind[1:2]) {
+    boxplot(pc1Mat[,i] ~ mappedInfo$Tissue, main = cnames[i], ylab = '', cex.axis = 1.5, cex.main = 2)
+    text(3, sum(range(pc1Mat[,i])) / 2, labels = paste0("PC1: ", pcVarMat[1,i], "%\nof Var Explain"), col = 'dodgerblue2', cex = 2, font = 2)
+}
+
+for(i in ind[1:2]) {
+    boxplot(pc2Mat[,i] ~ mappedInfo$Tissue, main = cnames[i], ylab = '', cex.axis = 1.5, cex.main = 2)
+    text(3, sum(range(pc2Mat[,i])) / 2, labels = paste0("PC2: ", pcVarMat[2,i], "%\nof Var Explain"), col = 'dodgerblue2', cex = 2, font = 2)
+}
+dev.off()
+
+
+library('RColorBrewer')
+colors <- brewer.pal(3, 'Set1')
+names(colors) <- c('Liver', 'Heart', 'Testis')
+titles <- c('strictExonic' = 'Strictly exonic ERs', 'strictIntronic' = 'Strictly intronic ERs', 'strictIntergenic' = 'Strictly intergenic ERs', 'All' = 'All ERs')
+
+pdf(file = 'plots/pca-PC1-vs-PC2_all.pdf')
+rafalib::mypar(2,2,cex.axis=1)
+for(i in ind) {
+    plot(x = pc1Mat[,i], y = pc2Mat[, i], col = colors[mappedInfo$Tissue], pch = 20, xlab = paste0("PC1: ", pcVarMat[1,i], "% of variance explained"), ylab = paste0("PC2: ", pcVarMat[2, i], "% of variance explained"), main = titles[colnames(pc2Mat)[i]])
+    if(i == 1)
+        legend(0.5, 0.5, names(colors), bty = 'n', lwd = 4, col = colors, cex = 2)
+}
+dev.off()
+
+pdf(file = 'plots/pca-PC1-vs-PC2.pdf', width = 12, height = 6)
+rafalib::mypar(1,2,cex.axis=1, cex.lab = 1.5, mar = c(3, 3, 1.6, 1.1))
+for(i in ind) {
+    plot(x = pc1Mat[,i], y = pc2Mat[, i], col = colors[mappedInfo$Tissue], pch = 20, xlab = paste0("PC1: ", pcVarMat[1,i], "% of variance explained"), ylab = paste0("PC2: ", pcVarMat[2, i], "% of variance explained"), main = titles[colnames(pc2Mat)[i]], cex = 2, cex.main = 2)
+    if(i == 1 | i == 5)
+        legend(0.5, 0.5, names(colors), bty = 'n', lwd = 4, col = colors, cex = 2)
+}
+dev.off()
+
+
+
+
 	
 #################
 ## DE analysis ##
-library(limma)
+library('limma')
 mod = model.matrix(~mappedInfo$Tissue)
 mod0 = model.matrix(~1, data=mappedInfo)
 fit = lmFit(y, mod)
@@ -138,6 +197,16 @@ ooExon = distanceToNearest(intronRegions, exonRegions)
 exonMatMatch = exonMat[subjectHits(ooExon),]
 exonRegionsMatch = exonRegions[subjectHits(ooExon)]
 
+# PC1 versus distance
+pdf(file = "plots/PC1vsDistance.pdf")
+plot(x = mcols(ooExon)$distance, y = pcList$strictIntronic$rot[, 1], ylab = 'PC1', xlab = 'Distance to nearest exon', cex = 0.5)
+reg1 <- lm(pcList$strictIntronic$rot[, 1] ~ mcols(ooExon)$distance)
+abline(reg1, col = 'orange')
+plot(x = log(mcols(ooExon)$distance + 1), y = pcList$strictIntronic$rot[, 1], ylab = 'PC1', xlab = 'Distance to nearest exon: log(x + 1)', cex = 0.5)
+reg2 <- lm(pcList$strictIntronic$rot[, 1] ~ log(mcols(ooExon)$distance + 1))
+abline(reg2, col = 'orange')
+dev.off()
+
 # conditional regression
 outStatsExon = matrix(NA, ncol = 2, nrow = nrow(intronMat))
 for(i in 1:nrow(outStatsExon)) {
@@ -155,13 +224,13 @@ outStatsExon$nearExon = rownames(exonMatMatch)
 outStatsExon$nearDist = mcols(ooExon)$distance
 
 ## get gene symbol
-library(GenomicFeatures)
+library('GenomicFeatures')
 TranscriptDb=loadDb("/home/epi/ajaffe/Lieber/Projects/RNAseq/Ribozero_Compare/TxDb.Hsapiens.BioMart.ensembl.GRCh37.p12/inst/extdata/TxDb.Hsapiens.BioMart.ensembl.GRCh37.p12.sqlite")
 seqlevels(TranscriptDb,force=TRUE) = c(1:22,"X","Y","MT")
 seqlevels(TranscriptDb) = paste0("chr", c(1:22,"X","Y","M"))
 ensGene = genes(TranscriptDb)
 
-library(biomaRt)
+library('biomaRt')
 ensembl = useMart("ENSEMBL_MART_ENSEMBL", # VERSION 75, hg19
 	dataset="hsapiens_gene_ensembl",
 	host="feb2014.archive.ensembl.org")
@@ -189,23 +258,51 @@ outStatsExonSig = outStatsExonSig[order(outStatsExonSig$pval),]
 intronToPlot = intronMat[match(rownames(outStatsExonSig), rownames(intronMat)),]
 exonToPlot = exonMat[match(outStatsExonSig$nearExon, rownames(exonMat)),]
 
-pdf("plots/conditional_intronic_ERs.pdf",h=6,w=12)
-par(mfrow = c(1,2))
-for(i in 1:1000) {
-	if(i %% 100 == 0) cat(".")
-	par(mar = c(5,6,3,0))
+
+conditionalIntron <- function(i) {
 	boxplot(intronToPlot[i,] ~ mappedInfo$Tissue, ylim = c(0,12),
 		ylab="Log2(Adjusted Coverage)",cex.axis=2, cex.lab=2, 
 		main="Intronic ER", cex.main=2)
+    points(x = jitter(tissueToNum[mappedInfo$Tissue]), y = intronToPlot[i,], col = colors[mappedInfo$Tissue], pch = 20, cex = 1.5)
 	legend("top", paste0("p=",signif(outStatsExonSig$pval[i], 3)),cex=1.4)
 	par(mar = c(5,3,3,2))
 	boxplot(exonToPlot[i,] ~ mappedInfo$Tissue, ylim = c(0,12),
 		ylab="",cex.axis=2, cex.lab=2, 
 		main="Nearest Exonic ER", cex.main=2)
+    points(x = jitter(tissueToNum[mappedInfo$Tissue]), y = exonToPlot[i,], col = colors[mappedInfo$Tissue], pch = 20, cex = 1.5)
 	mtext(paste(outStatsExonSig$intronSym[i], "-",
 		round(outStatsExonSig$nearDist[i]/1000), "kb away"), 
 		side=1, outer=TRUE, line = -2, cex=2)
 }
+
+
+tissueToNum <- c('Heart' = 1, 'Liver' = 2, 'Testis' = 3)
+
+pdf("plots/conditional_intronic_ERs_subset.pdf", h=6, w=12)
+par(mfrow = c(1,2))
+for(i in c(5, 23, 30)) {
+	if(i %% 100 == 0) cat(".")
+	par(mar = c(5,6,3,0))
+	conditionalIntron(i)
+}
 dev.off()
 
+pdf("plots/conditional_intronic_ERs.pdf", h=6, w=12)
+par(mfrow = c(1,2))
+for(i in seq_len(1000)) {
+	if(i %% 100 == 0) cat(".")
+	par(mar = c(5,6,3,0))
+	conditionalIntron(i)
+}
+dev.off()
+
+
 save(outStatsExon, outStatsExonSig, file="rdas/conditionalIntronicERs.rda")
+
+
+## Reproducibility info
+Sys.time()
+proc.time()
+options(width = 120)
+session_info()
+
