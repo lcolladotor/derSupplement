@@ -39,8 +39,8 @@ Loading required package: IRanges
 Loading required package: GenomeInfoDb
    0%   25%   50%   75%  100% 
     9    42   101   169 18171 
-2016-02-18 02:24:15 annotateRegions: counting
-2016-02-18 02:24:18 annotateRegions: annotating
+2016-02-18 02:49:50 annotateRegions: counting
+2016-02-18 02:49:52 annotateRegions: annotating
   exon intergenic intron Counts
 1    0          0      0      0
 2    0          0      1  22375
@@ -101,9 +101,9 @@ null device
           1 
 ..........null device 
           1 
-[1] "2016-02-18 02:28:41 EST"
+[1] "2016-02-18 02:54:10 EST"
    user  system elapsed 
-302.176   2.705 312.860 
+298.265   3.050 308.539 
 Session info -----------------------------------------------------------------------------------------------------------
  setting  value                                      
  version  R version 3.2.2 Patched (2015-08-31 r69235)
