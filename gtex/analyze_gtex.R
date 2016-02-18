@@ -33,16 +33,19 @@ getF = function(fit, fit0, theData) {
 
 # load processed data
 load('/dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/regionMat-cut5.Rdata')
-load('/dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/mappedInfo.Rdata')
-xx = load("/home/epi/ajaffe/Lieber/Projects/derfinderPaper/gtex_pheno.rda")
-mappedInfo$Tissue = pd1$SMTS[match(mappedInfo$sample, pd1$sra_accession)]
-mappedInfo$SubjectID = pd1$SUBJID[match(mappedInfo$sample, pd1$sra_accession)]
+load("/dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/gtex_pheno_with_mapped.Rdata")
+## Should be the same:
+stopifnot(identical(match(colnames(regionMat[[1]]$coverageMatrix), pd2$sra_accession), seq_len(ncol(regionMat[[1]]$coverageMatrix))))
+pd2$Tissue <- pd2$SMTS
+pd2$SubjectID <- pd2$SUBJID
+
+## Check that we have the same number of samples per tissue
+stopifnot(table(pd2$Tissue) - max(table(pd2$Tissue)) == 0)
 
 ### extract coverage data
 regions = unlist(GRangesList(lapply(regionMat, '[[', 'regions')))
 names(regions) = NULL
 regionMat = do.call("rbind", lapply(regionMat, '[[', 'coverageMatrix'))
-regionMat = regionMat[,mappedInfo$sample] # put in order
 rownames(regionMat) = names(regions) = paste0("er", 1:nrow(regionMat))
 
 ### filter out short DERs
@@ -104,11 +107,11 @@ pc2Mat = sapply(pcList, function(x) x$x[,2])
 ind = c(1:3,5)
 pdf(file = 'plots/pca-simple.pdf')
 rafalib::mypar(2,2,cex.axis=1)
-for(i in ind) boxplot(pc1Mat[,i] ~ mappedInfo$Tissue, 
+for(i in ind) boxplot(pc1Mat[,i] ~ pd2$Tissue, 
 	main = colnames(pc1Mat)[i],
 	ylab=paste0("PC1: ", pcVarMat[1,i], "% of Var Explain"))
 
-for(i in ind) boxplot(pc2Mat[,i] ~ mappedInfo$Tissue, 
+for(i in ind) boxplot(pc2Mat[,i] ~ pd2$Tissue, 
 	main = colnames(pc2Mat)[i],
 	ylab=paste0("PC2: ", pcVarMat[2,i], "% of Var Explain"))
 dev.off()
@@ -119,12 +122,12 @@ pdf(file = 'plots/pca-plots-gtex36.pdf', width = 14, height = 7)
 cnames <- c('Strictly exonic ERs', 'Strictly intronic ERs')
 rafalib::mypar(1,2,cex.axis=1)
 for(i in ind[1:2]) {
-    boxplot(pc1Mat[,i] ~ mappedInfo$Tissue, main = cnames[i], ylab = '', cex.axis = 1.5, cex.main = 2)
+    boxplot(pc1Mat[,i] ~ pd2$Tissue, main = cnames[i], ylab = '', cex.axis = 1.5, cex.main = 2)
     text(3, sum(range(pc1Mat[,i])) / 2, labels = paste0("PC1: ", pcVarMat[1,i], "%\nof Var Explain"), col = 'dodgerblue2', cex = 2, font = 2)
 }
 
 for(i in ind[1:2]) {
-    boxplot(pc2Mat[,i] ~ mappedInfo$Tissue, main = cnames[i], ylab = '', cex.axis = 1.5, cex.main = 2)
+    boxplot(pc2Mat[,i] ~ pd2$Tissue, main = cnames[i], ylab = '', cex.axis = 1.5, cex.main = 2)
     text(3, sum(range(pc2Mat[,i])) / 2, labels = paste0("PC2: ", pcVarMat[2,i], "%\nof Var Explain"), col = 'dodgerblue2', cex = 2, font = 2)
 }
 dev.off()
@@ -138,7 +141,7 @@ titles <- c('strictExonic' = 'Strictly exonic ERs', 'strictIntronic' = 'Strictly
 pdf(file = 'plots/pca-PC1-vs-PC2_all.pdf')
 rafalib::mypar(2,2,cex.axis=1)
 for(i in ind) {
-    plot(x = pc1Mat[,i], y = pc2Mat[, i], col = colors[mappedInfo$Tissue], pch = 20, xlab = paste0("PC1: ", pcVarMat[1,i], "% of variance explained"), ylab = paste0("PC2: ", pcVarMat[2, i], "% of variance explained"), main = titles[colnames(pc2Mat)[i]])
+    plot(x = pc1Mat[,i], y = pc2Mat[, i], col = colors[pd2$Tissue], pch = 20, xlab = paste0("PC1: ", pcVarMat[1,i], "% of variance explained"), ylab = paste0("PC2: ", pcVarMat[2, i], "% of variance explained"), main = titles[colnames(pc2Mat)[i]])
     if(i == 1)
         legend(0.5, 0.5, names(colors), bty = 'n', lwd = 4, col = colors, cex = 2)
 }
@@ -147,7 +150,7 @@ dev.off()
 pdf(file = 'plots/pca-PC1-vs-PC2.pdf', width = 12, height = 6)
 rafalib::mypar(1,2,cex.axis=1, cex.lab = 1.5, mar = c(3, 3, 1.6, 1.1))
 for(i in ind) {
-    plot(x = pc1Mat[,i], y = pc2Mat[, i], col = colors[mappedInfo$Tissue], pch = 20, xlab = paste0("PC1: ", pcVarMat[1,i], "% of variance explained"), ylab = paste0("PC2: ", pcVarMat[2, i], "% of variance explained"), main = titles[colnames(pc2Mat)[i]], cex = 2, cex.main = 2)
+    plot(x = pc1Mat[,i], y = pc2Mat[, i], col = colors[pd2$Tissue], pch = 20, xlab = paste0("PC1: ", pcVarMat[1,i], "% of variance explained"), ylab = paste0("PC2: ", pcVarMat[2, i], "% of variance explained"), main = titles[colnames(pc2Mat)[i]], cex = 2, cex.main = 2)
     if(i == 1 | i == 5)
         legend(0.5, 0.5, names(colors), bty = 'n', lwd = 4, col = colors, cex = 2)
 }
@@ -160,8 +163,8 @@ dev.off()
 #################
 ## DE analysis ##
 library('limma')
-mod = model.matrix(~mappedInfo$Tissue)
-mod0 = model.matrix(~1, data=mappedInfo)
+mod = model.matrix(~pd2$Tissue)
+mod0 = model.matrix(~1, data=pd2)
 fit = lmFit(y, mod)
 eb = ebayes(fit)
 fit0 = lmFit(y,mod0)
@@ -212,7 +215,7 @@ outStatsExon = matrix(NA, ncol = 2, nrow = nrow(intronMat))
 for(i in 1:nrow(outStatsExon)) {
 	if(i %% 1000 == 0) cat(".")
 	f = lm(intronMat[i,] ~ 
-			mappedInfo$Tissue + exonMatMatch[i,])
+			pd2$Tissue + exonMatMatch[i,])
 	f0 = lm(intronMat[i,] ~ exonMatMatch[i,])
 	outStatsExon[i,] = as.numeric(anova(f,f0)[2,5:6])
 }
@@ -271,16 +274,16 @@ conditionalIntron <- function(i, subset = FALSE) {
     } else {
         ylim <- c(0, 12)
     }
-	boxplot(intronToPlot[i,] ~ mappedInfo$Tissue, ylim = ylim,
+	boxplot(intronToPlot[i,] ~ pd2$Tissue, ylim = ylim,
 		ylab="Log2(Adjusted Coverage)",cex.axis=2, cex.lab=2, 
-		main="Intronic ER", cex.main=2)
-    points(x = jitter(tissueToNum[mappedInfo$Tissue]), y = intronToPlot[i,], col = colors[mappedInfo$Tissue], pch = 20, cex = 1.5)
+		main="Intronic ER", cex.main=2, outline=FALSE)
+    points(x = jitter(tissueToNum[pd2$Tissue]), y = intronToPlot[i,], col = colors[pd2$Tissue], pch = 20, cex = 1.5)
 	legend("top", paste0("p=",signif(outStatsExonSig$pval[i], 3)),cex=1.4)
 	par(mar = c(5,3,3,2))
-	boxplot(exonToPlot[i,] ~ mappedInfo$Tissue, ylim = ylim,
+	boxplot(exonToPlot[i,] ~ pd2$Tissue, ylim = ylim,
 		ylab="",cex.axis=2, cex.lab=2, 
-		main="Nearest Exonic ER", cex.main=2)
-    points(x = jitter(tissueToNum[mappedInfo$Tissue]), y = exonToPlot[i,], col = colors[mappedInfo$Tissue], pch = 20, cex = 1.5)
+		main="Nearest Exonic ER", cex.main=2, outline=FALSE)
+    points(x = jitter(tissueToNum[pd2$Tissue]), y = exonToPlot[i,], col = colors[pd2$Tissue], pch = 20, cex = 1.5)
 	mtext(paste(outStatsExonSig$intronSym[i], "-",
 		round(outStatsExonSig$nearDist[i]/1000), "kb away"), 
 		side=1, outer=TRUE, line = -2, cex=2)

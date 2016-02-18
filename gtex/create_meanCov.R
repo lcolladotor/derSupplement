@@ -10,9 +10,11 @@ library('devtools')
 targetSize <- 40e6
 
 ## Load GTEx pheno table
+## This table is created by https://github.com/nellore/runs/blob/master/gtex/DER_analysis/pheno/format_pheno.R
 load('/dcl01/leek/data/gtex_work/runs/gtex/DER_analysis/pheno/pheno_missing_less_10.Rdata')
 
 ## Load pheno info from samples of interest
+## This table is created by the select_samples.R script
 load('/dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/gtex_pheno.rda')
 
 ## Subset to use only samples of interest

@@ -4,6 +4,8 @@
 # Rscript select_samples.R > logs/select_samples_log.txt 2>&1
 library('devtools')
 
+## Load pheno data
+## This table is created by the mergeInfo.R script
 load('/dcl01/lieber/ajaffe/PublicData/SRA_GTEX/gtexPd.Rdata')
 dim(gtexPd)
 gtexPd$sra_accession <- gsub(' ', '', gtexPd$sra_accession)

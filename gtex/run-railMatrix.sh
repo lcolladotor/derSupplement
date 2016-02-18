@@ -5,6 +5,8 @@
 #$ -N rmat-gtex36
 #$ -pe local 8
 
+## You need to run create_meanCov.R first!
+
 echo '**** Job starts ****'
 date
 
