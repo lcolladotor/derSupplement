@@ -1,0 +1,1313 @@
+**** Job starts ****
+Tue Oct 20 17:15:58 EDT 2015
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+ 58300000  76360000  98140000 102100000 123600000 188600000 
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  58.30   76.36   98.14  102.10  123.60  188.60 
+2015-10-20 17:16:28 loadCoverage: finding chromosome lengths
+2015-10-20 17:16:28 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/mean.chr20.bw
+2015-10-20 17:16:40 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:16:40 filterData: originally there were 63025520 rows, now there are 63025520 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:16:40 findRegions: identifying potential segments
+2015-10-20 17:16:40 findRegions: segmenting F-stats information
+2015-10-20 17:16:47 findRegions: identifying candidate regions
+2015-10-20 17:16:48 findRegions: identifying region clusters
+2015-10-20 17:16:54 getRegionCoverage : attempting to load coverage data from 'files'.
+2015-10-20 17:16:54 fullCoverage: processing chromosome chr20
+2015-10-20 17:16:54 loadCoverage: finding chromosome lengths
+2015-10-20 17:16:54 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1080415-1-1.bw
+2015-10-20 17:16:56 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1310433-1-1.bw
+2015-10-20 17:16:58 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1321505-1-1.bw
+2015-10-20 17:17:01 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1334338-1-1.bw
+2015-10-20 17:17:04 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1335536-1-1.bw
+2015-10-20 17:17:06 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1339130-1-1.bw
+2015-10-20 17:17:10 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1344445-1-1.bw
+2015-10-20 17:17:12 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1345221-1-1.bw
+2015-10-20 17:17:15 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1347100-1-1.bw
+2015-10-20 17:17:18 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1349409-1-1.bw
+2015-10-20 17:17:21 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1358582-1-1.bw
+2015-10-20 17:17:23 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1369536-1-1.bw
+2015-10-20 17:17:26 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380139-1-1.bw
+2015-10-20 17:17:29 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380699-1-1.bw
+2015-10-20 17:17:32 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1387702-1-1.bw
+2015-10-20 17:17:34 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1389777-1-1.bw
+2015-10-20 17:17:36 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1403434-1-1.bw
+2015-10-20 17:17:39 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409022-1-1.bw
+2015-10-20 17:17:42 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409790-1-1.bw
+2015-10-20 17:17:44 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1412969-1-1.bw
+2015-10-20 17:17:47 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1419518-1-1.bw
+2015-10-20 17:17:50 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1430639-1-1.bw
+2015-10-20 17:17:52 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1446203-1-1.bw
+2015-10-20 17:17:54 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1455236-1-1.bw
+2015-10-20 17:17:57 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1477033-1-1.bw
+2015-10-20 17:17:59 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1478789-1-1.bw
+2015-10-20 17:18:02 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1481012-1-1.bw
+2015-10-20 17:18:04 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607252-1-1.bw
+2015-10-20 17:18:07 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607970-1-1.bw
+2015-10-20 17:18:09 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR614683-1-1.bw
+2015-10-20 17:18:12 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR656588-1-1.bw
+2015-10-20 17:18:14 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR660366-1-1.bw
+2015-10-20 17:18:17 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR661192-1-1.bw
+2015-10-20 17:18:19 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR807901-1-1.bw
+2015-10-20 17:18:22 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR810507-1-1.bw
+2015-10-20 17:18:24 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR815735-1-1.bw
+2015-10-20 17:18:27 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:18:27 filterData: originally there were 63025520 rows, now there are 63025520 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:18:27 getRegionCoverage: processing chr20
+2015-10-20 17:18:59 getRegionCoverage: done processing chr20
+2015-10-20 17:19:04 loadCoverage: finding chromosome lengths
+2015-10-20 17:19:04 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/mean.chr21.bw
+2015-10-20 17:19:06 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:19:06 filterData: originally there were 48129895 rows, now there are 48129895 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:19:06 findRegions: identifying potential segments
+2015-10-20 17:19:06 findRegions: segmenting F-stats information
+2015-10-20 17:19:09 findRegions: identifying candidate regions
+2015-10-20 17:19:09 findRegions: identifying region clusters
+2015-10-20 17:19:11 getRegionCoverage : attempting to load coverage data from 'files'.
+2015-10-20 17:19:11 fullCoverage: processing chromosome chr21
+2015-10-20 17:19:11 loadCoverage: finding chromosome lengths
+2015-10-20 17:19:11 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1080415-1-1.bw
+2015-10-20 17:19:13 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1310433-1-1.bw
+2015-10-20 17:19:14 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1321505-1-1.bw
+2015-10-20 17:19:15 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1334338-1-1.bw
+2015-10-20 17:19:17 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1335536-1-1.bw
+2015-10-20 17:19:18 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1339130-1-1.bw
+2015-10-20 17:19:20 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1344445-1-1.bw
+2015-10-20 17:19:21 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1345221-1-1.bw
+2015-10-20 17:19:23 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1347100-1-1.bw
+2015-10-20 17:19:25 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1349409-1-1.bw
+2015-10-20 17:19:26 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1358582-1-1.bw
+2015-10-20 17:19:28 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1369536-1-1.bw
+2015-10-20 17:19:29 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380139-1-1.bw
+2015-10-20 17:19:31 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380699-1-1.bw
+2015-10-20 17:19:33 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1387702-1-1.bw
+2015-10-20 17:19:34 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1389777-1-1.bw
+2015-10-20 17:19:35 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1403434-1-1.bw
+2015-10-20 17:19:37 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409022-1-1.bw
+2015-10-20 17:19:38 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409790-1-1.bw
+2015-10-20 17:19:40 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1412969-1-1.bw
+2015-10-20 17:19:42 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1419518-1-1.bw
+2015-10-20 17:19:43 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1430639-1-1.bw
+2015-10-20 17:19:45 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1446203-1-1.bw
+2015-10-20 17:19:46 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1455236-1-1.bw
+2015-10-20 17:19:48 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1477033-1-1.bw
+2015-10-20 17:19:49 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1478789-1-1.bw
+2015-10-20 17:19:51 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1481012-1-1.bw
+2015-10-20 17:19:52 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607252-1-1.bw
+2015-10-20 17:19:53 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607970-1-1.bw
+2015-10-20 17:19:54 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR614683-1-1.bw
+2015-10-20 17:19:56 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR656588-1-1.bw
+2015-10-20 17:19:57 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR660366-1-1.bw
+2015-10-20 17:19:59 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR661192-1-1.bw
+2015-10-20 17:20:00 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR807901-1-1.bw
+2015-10-20 17:20:02 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR810507-1-1.bw
+2015-10-20 17:20:03 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR815735-1-1.bw
+2015-10-20 17:20:05 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:20:05 filterData: originally there were 48129895 rows, now there are 48129895 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:20:05 getRegionCoverage: processing chr21
+2015-10-20 17:20:16 getRegionCoverage: done processing chr21 
+2015-10-20 17:16:28 loadCoverage: finding chromosome lengths
+2015-10-20 17:16:28 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/mean.chr13.bw
+2015-10-20 17:16:40 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:16:40 filterData: originally there were 115169878 rows, now there are 115169878 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:16:40 findRegions: identifying potential segments
+2015-10-20 17:16:40 findRegions: segmenting F-stats information
+2015-10-20 17:16:48 findRegions: identifying candidate regions
+2015-10-20 17:16:49 findRegions: identifying region clusters
+2015-10-20 17:16:55 getRegionCoverage : attempting to load coverage data from 'files'.
+2015-10-20 17:16:55 fullCoverage: processing chromosome chr13
+2015-10-20 17:16:55 loadCoverage: finding chromosome lengths
+2015-10-20 17:16:55 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1080415-1-1.bw
+2015-10-20 17:16:57 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1310433-1-1.bw
+2015-10-20 17:16:59 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1321505-1-1.bw
+2015-10-20 17:17:01 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1334338-1-1.bw
+2015-10-20 17:17:03 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1335536-1-1.bw
+2015-10-20 17:17:05 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1339130-1-1.bw
+2015-10-20 17:17:08 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1344445-1-1.bw
+2015-10-20 17:17:09 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1345221-1-1.bw
+2015-10-20 17:17:11 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1347100-1-1.bw
+2015-10-20 17:17:13 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1349409-1-1.bw
+2015-10-20 17:17:15 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1358582-1-1.bw
+2015-10-20 17:17:17 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1369536-1-1.bw
+2015-10-20 17:17:19 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380139-1-1.bw
+2015-10-20 17:17:22 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380699-1-1.bw
+2015-10-20 17:17:24 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1387702-1-1.bw
+2015-10-20 17:17:26 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1389777-1-1.bw
+2015-10-20 17:17:29 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1403434-1-1.bw
+2015-10-20 17:17:31 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409022-1-1.bw
+2015-10-20 17:17:33 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409790-1-1.bw
+2015-10-20 17:17:35 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1412969-1-1.bw
+2015-10-20 17:17:38 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1419518-1-1.bw
+2015-10-20 17:17:40 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1430639-1-1.bw
+2015-10-20 17:17:42 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1446203-1-1.bw
+2015-10-20 17:17:44 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1455236-1-1.bw
+2015-10-20 17:17:47 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1477033-1-1.bw
+2015-10-20 17:17:49 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1478789-1-1.bw
+2015-10-20 17:17:51 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1481012-1-1.bw
+2015-10-20 17:17:54 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607252-1-1.bw
+2015-10-20 17:17:56 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607970-1-1.bw
+2015-10-20 17:17:58 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR614683-1-1.bw
+2015-10-20 17:18:00 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR656588-1-1.bw
+2015-10-20 17:18:03 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR660366-1-1.bw
+2015-10-20 17:18:05 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR661192-1-1.bw
+2015-10-20 17:18:07 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR807901-1-1.bw
+2015-10-20 17:18:10 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR810507-1-1.bw
+2015-10-20 17:18:12 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR815735-1-1.bw
+2015-10-20 17:18:14 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:18:15 filterData: originally there were 115169878 rows, now there are 115169878 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:18:15 getRegionCoverage: processing chr13
+2015-10-20 17:18:35 getRegionCoverage: done processing chr13
+2015-10-20 17:18:41 loadCoverage: finding chromosome lengths
+2015-10-20 17:18:41 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/mean.chr14.bw
+2015-10-20 17:18:45 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:18:45 filterData: originally there were 107349540 rows, now there are 107349540 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:18:45 findRegions: identifying potential segments
+2015-10-20 17:18:45 findRegions: segmenting F-stats information
+2015-10-20 17:18:52 findRegions: identifying candidate regions
+2015-10-20 17:18:52 findRegions: identifying region clusters
+2015-10-20 17:18:59 getRegionCoverage : attempting to load coverage data from 'files'.
+2015-10-20 17:18:59 fullCoverage: processing chromosome chr14
+2015-10-20 17:18:59 loadCoverage: finding chromosome lengths
+2015-10-20 17:18:59 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1080415-1-1.bw
+2015-10-20 17:19:02 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1310433-1-1.bw
+2015-10-20 17:19:05 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1321505-1-1.bw
+2015-10-20 17:19:09 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1334338-1-1.bw
+2015-10-20 17:19:12 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1335536-1-1.bw
+2015-10-20 17:19:16 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1339130-1-1.bw
+2015-10-20 17:19:20 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1344445-1-1.bw
+2015-10-20 17:19:24 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1345221-1-1.bw
+2015-10-20 17:19:27 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1347100-1-1.bw
+2015-10-20 17:19:32 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1349409-1-1.bw
+2015-10-20 17:19:35 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1358582-1-1.bw
+2015-10-20 17:19:39 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1369536-1-1.bw
+2015-10-20 17:19:42 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380139-1-1.bw
+2015-10-20 17:19:46 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380699-1-1.bw
+2015-10-20 17:19:50 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1387702-1-1.bw
+2015-10-20 17:19:54 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1389777-1-1.bw
+2015-10-20 17:19:57 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1403434-1-1.bw
+2015-10-20 17:20:01 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409022-1-1.bw
+2015-10-20 17:20:05 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409790-1-1.bw
+2015-10-20 17:20:08 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1412969-1-1.bw
+2015-10-20 17:20:11 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1419518-1-1.bw
+2015-10-20 17:20:14 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1430639-1-1.bw
+2015-10-20 17:20:17 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1446203-1-1.bw
+2015-10-20 17:20:20 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1455236-1-1.bw
+2015-10-20 17:20:23 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1477033-1-1.bw
+2015-10-20 17:20:26 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1478789-1-1.bw
+2015-10-20 17:20:29 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1481012-1-1.bw
+2015-10-20 17:20:31 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607252-1-1.bw
+2015-10-20 17:20:34 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607970-1-1.bw
+2015-10-20 17:20:37 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR614683-1-1.bw
+2015-10-20 17:20:40 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR656588-1-1.bw
+2015-10-20 17:20:43 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR660366-1-1.bw
+2015-10-20 17:20:45 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR661192-1-1.bw
+2015-10-20 17:20:48 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR807901-1-1.bw
+2015-10-20 17:20:51 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR810507-1-1.bw
+2015-10-20 17:20:54 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR815735-1-1.bw
+2015-10-20 17:20:57 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:20:57 filterData: originally there were 107349540 rows, now there are 107349540 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:20:58 getRegionCoverage: processing chr14
+2015-10-20 17:21:54 getRegionCoverage: done processing chr14 
+2015-10-20 17:16:28 loadCoverage: finding chromosome lengths
+2015-10-20 17:16:28 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/mean.chr22.bw
+2015-10-20 17:16:40 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:16:40 filterData: originally there were 51304566 rows, now there are 51304566 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:16:40 findRegions: identifying potential segments
+2015-10-20 17:16:40 findRegions: segmenting F-stats information
+2015-10-20 17:16:47 findRegions: identifying candidate regions
+2015-10-20 17:16:47 findRegions: identifying region clusters
+2015-10-20 17:16:55 getRegionCoverage : attempting to load coverage data from 'files'.
+2015-10-20 17:16:55 fullCoverage: processing chromosome chr22
+2015-10-20 17:16:55 loadCoverage: finding chromosome lengths
+2015-10-20 17:16:55 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1080415-1-1.bw
+2015-10-20 17:16:58 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1310433-1-1.bw
+2015-10-20 17:17:00 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1321505-1-1.bw
+2015-10-20 17:17:03 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1334338-1-1.bw
+2015-10-20 17:17:05 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1335536-1-1.bw
+2015-10-20 17:17:08 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1339130-1-1.bw
+2015-10-20 17:17:11 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1344445-1-1.bw
+2015-10-20 17:17:14 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1345221-1-1.bw
+2015-10-20 17:17:17 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1347100-1-1.bw
+2015-10-20 17:17:20 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1349409-1-1.bw
+2015-10-20 17:17:23 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1358582-1-1.bw
+2015-10-20 17:17:25 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1369536-1-1.bw
+2015-10-20 17:17:28 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380139-1-1.bw
+2015-10-20 17:17:31 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380699-1-1.bw
+2015-10-20 17:17:35 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1387702-1-1.bw
+2015-10-20 17:17:38 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1389777-1-1.bw
+2015-10-20 17:17:41 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1403434-1-1.bw
+2015-10-20 17:17:44 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409022-1-1.bw
+2015-10-20 17:17:47 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409790-1-1.bw
+2015-10-20 17:17:51 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1412969-1-1.bw
+2015-10-20 17:17:54 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1419518-1-1.bw
+2015-10-20 17:17:57 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1430639-1-1.bw
+2015-10-20 17:18:00 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1446203-1-1.bw
+2015-10-20 17:18:03 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1455236-1-1.bw
+2015-10-20 17:18:06 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1477033-1-1.bw
+2015-10-20 17:18:09 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1478789-1-1.bw
+2015-10-20 17:18:13 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1481012-1-1.bw
+2015-10-20 17:18:16 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607252-1-1.bw
+2015-10-20 17:18:19 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607970-1-1.bw
+2015-10-20 17:18:23 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR614683-1-1.bw
+2015-10-20 17:18:26 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR656588-1-1.bw
+2015-10-20 17:18:29 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR660366-1-1.bw
+2015-10-20 17:18:32 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR661192-1-1.bw
+2015-10-20 17:18:35 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR807901-1-1.bw
+2015-10-20 17:18:38 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR810507-1-1.bw
+2015-10-20 17:18:41 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR815735-1-1.bw
+2015-10-20 17:18:44 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:18:44 filterData: originally there were 51304566 rows, now there are 51304566 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:18:44 getRegionCoverage: processing chr22
+2015-10-20 17:19:21 getRegionCoverage: done processing chr22
+2015-10-20 17:19:28 loadCoverage: finding chromosome lengths
+2015-10-20 17:19:28 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/mean.chrX.bw
+2015-10-20 17:19:32 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:19:32 filterData: originally there were 155270560 rows, now there are 155270560 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:19:32 findRegions: identifying potential segments
+2015-10-20 17:19:32 findRegions: segmenting F-stats information
+2015-10-20 17:19:38 findRegions: identifying candidate regions
+2015-10-20 17:19:39 findRegions: identifying region clusters
+2015-10-20 17:19:47 getRegionCoverage : attempting to load coverage data from 'files'.
+2015-10-20 17:19:47 fullCoverage: processing chromosome chrX
+2015-10-20 17:19:47 loadCoverage: finding chromosome lengths
+2015-10-20 17:19:47 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1080415-1-1.bw
+2015-10-20 17:19:50 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1310433-1-1.bw
+2015-10-20 17:19:54 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1321505-1-1.bw
+2015-10-20 17:19:57 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1334338-1-1.bw
+2015-10-20 17:20:01 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1335536-1-1.bw
+2015-10-20 17:20:05 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1339130-1-1.bw
+2015-10-20 17:20:08 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1344445-1-1.bw
+2015-10-20 17:20:10 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1345221-1-1.bw
+2015-10-20 17:20:13 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1347100-1-1.bw
+2015-10-20 17:20:16 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1349409-1-1.bw
+2015-10-20 17:20:19 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1358582-1-1.bw
+2015-10-20 17:20:22 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1369536-1-1.bw
+2015-10-20 17:20:25 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380139-1-1.bw
+2015-10-20 17:20:29 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380699-1-1.bw
+2015-10-20 17:20:32 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1387702-1-1.bw
+2015-10-20 17:20:35 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1389777-1-1.bw
+2015-10-20 17:20:38 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1403434-1-1.bw
+2015-10-20 17:20:41 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409022-1-1.bw
+2015-10-20 17:20:45 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409790-1-1.bw
+2015-10-20 17:20:48 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1412969-1-1.bw
+2015-10-20 17:20:51 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1419518-1-1.bw
+2015-10-20 17:20:55 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1430639-1-1.bw
+2015-10-20 17:20:58 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1446203-1-1.bw
+2015-10-20 17:21:01 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1455236-1-1.bw
+2015-10-20 17:21:05 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1477033-1-1.bw
+2015-10-20 17:21:08 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1478789-1-1.bw
+2015-10-20 17:21:12 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1481012-1-1.bw
+2015-10-20 17:21:15 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607252-1-1.bw
+2015-10-20 17:21:19 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607970-1-1.bw
+2015-10-20 17:21:22 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR614683-1-1.bw
+2015-10-20 17:21:25 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR656588-1-1.bw
+2015-10-20 17:21:29 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR660366-1-1.bw
+2015-10-20 17:21:32 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR661192-1-1.bw
+2015-10-20 17:21:36 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR807901-1-1.bw
+2015-10-20 17:21:39 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR810507-1-1.bw
+2015-10-20 17:21:42 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR815735-1-1.bw
+2015-10-20 17:21:45 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:21:45 filterData: originally there were 155270560 rows, now there are 155270560 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:21:45 getRegionCoverage: processing chrX
+2015-10-20 17:22:41 getRegionCoverage: done processing chrX
+2015-10-20 17:22:50 loadCoverage: finding chromosome lengths
+2015-10-20 17:22:50 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/mean.chrY.bw
+2015-10-20 17:22:50 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:22:50 filterData: originally there were 59373566 rows, now there are 59373566 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:22:50 findRegions: identifying potential segments
+2015-10-20 17:22:50 findRegions: segmenting F-stats information
+2015-10-20 17:22:51 findRegions: identifying candidate regions
+2015-10-20 17:22:52 findRegions: identifying region clusters
+2015-10-20 17:22:52 getRegionCoverage : attempting to load coverage data from 'files'.
+2015-10-20 17:22:52 fullCoverage: processing chromosome chrY
+2015-10-20 17:22:52 loadCoverage: finding chromosome lengths
+2015-10-20 17:22:52 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1080415-1-1.bw
+2015-10-20 17:22:53 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1310433-1-1.bw
+2015-10-20 17:22:53 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1321505-1-1.bw
+2015-10-20 17:22:54 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1334338-1-1.bw
+2015-10-20 17:22:54 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1335536-1-1.bw
+2015-10-20 17:22:54 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1339130-1-1.bw
+2015-10-20 17:22:55 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1344445-1-1.bw
+2015-10-20 17:22:55 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1345221-1-1.bw
+2015-10-20 17:22:55 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1347100-1-1.bw
+2015-10-20 17:22:56 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1349409-1-1.bw
+2015-10-20 17:22:56 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1358582-1-1.bw
+2015-10-20 17:22:56 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1369536-1-1.bw
+2015-10-20 17:22:57 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380139-1-1.bw
+2015-10-20 17:22:57 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380699-1-1.bw
+2015-10-20 17:22:57 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1387702-1-1.bw
+2015-10-20 17:22:58 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1389777-1-1.bw
+2015-10-20 17:22:58 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1403434-1-1.bw
+2015-10-20 17:22:58 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409022-1-1.bw
+2015-10-20 17:22:59 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409790-1-1.bw
+2015-10-20 17:22:59 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1412969-1-1.bw
+2015-10-20 17:22:59 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1419518-1-1.bw
+2015-10-20 17:23:00 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1430639-1-1.bw
+2015-10-20 17:23:00 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1446203-1-1.bw
+2015-10-20 17:23:00 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1455236-1-1.bw
+2015-10-20 17:23:01 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1477033-1-1.bw
+2015-10-20 17:23:01 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1478789-1-1.bw
+2015-10-20 17:23:01 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1481012-1-1.bw
+2015-10-20 17:23:01 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607252-1-1.bw
+2015-10-20 17:23:02 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607970-1-1.bw
+2015-10-20 17:23:02 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR614683-1-1.bw
+2015-10-20 17:23:02 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR656588-1-1.bw
+2015-10-20 17:23:03 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR660366-1-1.bw
+2015-10-20 17:23:03 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR661192-1-1.bw
+2015-10-20 17:23:04 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR807901-1-1.bw
+2015-10-20 17:23:04 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR810507-1-1.bw
+2015-10-20 17:23:04 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR815735-1-1.bw
+2015-10-20 17:23:05 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:23:05 filterData: originally there were 59373566 rows, now there are 59373566 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:23:05 getRegionCoverage: processing chrY
+2015-10-20 17:23:06 getRegionCoverage: done processing chrY 
+2015-10-20 17:16:28 loadCoverage: finding chromosome lengths
+2015-10-20 17:16:28 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/mean.chr18.bw
+2015-10-20 17:16:39 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:16:39 filterData: originally there were 78077248 rows, now there are 78077248 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:16:39 findRegions: identifying potential segments
+2015-10-20 17:16:39 findRegions: segmenting F-stats information
+2015-10-20 17:16:44 findRegions: identifying candidate regions
+2015-10-20 17:16:45 findRegions: identifying region clusters
+2015-10-20 17:16:50 getRegionCoverage : attempting to load coverage data from 'files'.
+2015-10-20 17:16:50 fullCoverage: processing chromosome chr18
+2015-10-20 17:16:50 loadCoverage: finding chromosome lengths
+2015-10-20 17:16:50 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1080415-1-1.bw
+2015-10-20 17:16:52 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1310433-1-1.bw
+2015-10-20 17:16:54 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1321505-1-1.bw
+2015-10-20 17:16:56 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1334338-1-1.bw
+2015-10-20 17:16:58 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1335536-1-1.bw
+2015-10-20 17:17:00 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1339130-1-1.bw
+2015-10-20 17:17:02 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1344445-1-1.bw
+2015-10-20 17:17:03 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1345221-1-1.bw
+2015-10-20 17:17:05 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1347100-1-1.bw
+2015-10-20 17:17:07 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1349409-1-1.bw
+2015-10-20 17:17:08 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1358582-1-1.bw
+2015-10-20 17:17:10 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1369536-1-1.bw
+2015-10-20 17:17:11 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380139-1-1.bw
+2015-10-20 17:17:14 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380699-1-1.bw
+2015-10-20 17:17:15 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1387702-1-1.bw
+2015-10-20 17:17:17 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1389777-1-1.bw
+2015-10-20 17:17:19 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1403434-1-1.bw
+2015-10-20 17:17:20 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409022-1-1.bw
+2015-10-20 17:17:22 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409790-1-1.bw
+2015-10-20 17:17:24 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1412969-1-1.bw
+2015-10-20 17:17:26 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1419518-1-1.bw
+2015-10-20 17:17:28 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1430639-1-1.bw
+2015-10-20 17:17:29 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1446203-1-1.bw
+2015-10-20 17:17:31 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1455236-1-1.bw
+2015-10-20 17:17:33 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1477033-1-1.bw
+2015-10-20 17:17:35 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1478789-1-1.bw
+2015-10-20 17:17:36 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1481012-1-1.bw
+2015-10-20 17:17:38 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607252-1-1.bw
+2015-10-20 17:17:40 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607970-1-1.bw
+2015-10-20 17:17:42 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR614683-1-1.bw
+2015-10-20 17:17:43 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR656588-1-1.bw
+2015-10-20 17:17:45 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR660366-1-1.bw
+2015-10-20 17:17:47 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR661192-1-1.bw
+2015-10-20 17:17:49 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR807901-1-1.bw
+2015-10-20 17:17:51 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR810507-1-1.bw
+2015-10-20 17:17:52 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR815735-1-1.bw
+2015-10-20 17:17:54 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:17:54 filterData: originally there were 78077248 rows, now there are 78077248 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:17:54 getRegionCoverage: processing chr18
+2015-10-20 17:18:09 getRegionCoverage: done processing chr18
+2015-10-20 17:18:12 loadCoverage: finding chromosome lengths
+2015-10-20 17:18:12 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/mean.chr19.bw
+2015-10-20 17:18:18 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:18:18 filterData: originally there were 59128983 rows, now there are 59128983 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:18:18 findRegions: identifying potential segments
+2015-10-20 17:18:18 findRegions: segmenting F-stats information
+2015-10-20 17:18:28 findRegions: identifying candidate regions
+2015-10-20 17:18:29 findRegions: identifying region clusters
+2015-10-20 17:18:36 getRegionCoverage : attempting to load coverage data from 'files'.
+2015-10-20 17:18:36 fullCoverage: processing chromosome chr19
+2015-10-20 17:18:36 loadCoverage: finding chromosome lengths
+2015-10-20 17:18:36 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1080415-1-1.bw
+2015-10-20 17:18:42 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1310433-1-1.bw
+2015-10-20 17:18:47 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1321505-1-1.bw
+2015-10-20 17:18:53 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1334338-1-1.bw
+2015-10-20 17:18:59 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1335536-1-1.bw
+2015-10-20 17:19:05 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1339130-1-1.bw
+2015-10-20 17:19:12 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1344445-1-1.bw
+2015-10-20 17:19:17 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1345221-1-1.bw
+2015-10-20 17:19:23 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1347100-1-1.bw
+2015-10-20 17:19:30 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1349409-1-1.bw
+2015-10-20 17:19:35 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1358582-1-1.bw
+2015-10-20 17:19:41 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1369536-1-1.bw
+2015-10-20 17:19:47 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380139-1-1.bw
+2015-10-20 17:19:53 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380699-1-1.bw
+2015-10-20 17:19:59 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1387702-1-1.bw
+2015-10-20 17:20:04 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1389777-1-1.bw
+2015-10-20 17:20:10 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1403434-1-1.bw
+2015-10-20 17:20:15 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409022-1-1.bw
+2015-10-20 17:20:22 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409790-1-1.bw
+2015-10-20 17:20:27 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1412969-1-1.bw
+2015-10-20 17:20:32 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1419518-1-1.bw
+2015-10-20 17:20:38 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1430639-1-1.bw
+2015-10-20 17:20:43 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1446203-1-1.bw
+2015-10-20 17:20:48 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1455236-1-1.bw
+2015-10-20 17:20:54 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1477033-1-1.bw
+2015-10-20 17:20:59 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1478789-1-1.bw
+2015-10-20 17:21:04 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1481012-1-1.bw
+2015-10-20 17:21:09 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607252-1-1.bw
+2015-10-20 17:21:14 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607970-1-1.bw
+2015-10-20 17:21:19 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR614683-1-1.bw
+2015-10-20 17:21:25 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR656588-1-1.bw
+2015-10-20 17:21:31 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR660366-1-1.bw
+2015-10-20 17:21:36 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR661192-1-1.bw
+2015-10-20 17:21:42 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR807901-1-1.bw
+2015-10-20 17:21:47 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR810507-1-1.bw
+2015-10-20 17:21:53 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR815735-1-1.bw
+2015-10-20 17:21:58 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:21:59 filterData: originally there were 59128983 rows, now there are 59128983 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:21:59 getRegionCoverage: processing chr19
+2015-10-20 17:23:52 getRegionCoverage: done processing chr19 
+2015-10-20 17:16:28 loadCoverage: finding chromosome lengths
+2015-10-20 17:16:28 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/mean.chr4.bw
+2015-10-20 17:16:44 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:16:44 filterData: originally there were 191154276 rows, now there are 191154276 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:16:45 findRegions: identifying potential segments
+2015-10-20 17:16:45 findRegions: segmenting F-stats information
+2015-10-20 17:16:56 findRegions: identifying candidate regions
+2015-10-20 17:16:57 findRegions: identifying region clusters
+2015-10-20 17:17:07 getRegionCoverage : attempting to load coverage data from 'files'.
+2015-10-20 17:17:07 fullCoverage: processing chromosome chr4
+2015-10-20 17:17:07 loadCoverage: finding chromosome lengths
+2015-10-20 17:17:07 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1080415-1-1.bw
+2015-10-20 17:17:11 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1310433-1-1.bw
+2015-10-20 17:17:15 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1321505-1-1.bw
+2015-10-20 17:17:19 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1334338-1-1.bw
+2015-10-20 17:17:24 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1335536-1-1.bw
+2015-10-20 17:17:29 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1339130-1-1.bw
+2015-10-20 17:17:35 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1344445-1-1.bw
+2015-10-20 17:17:39 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1345221-1-1.bw
+2015-10-20 17:17:44 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1347100-1-1.bw
+2015-10-20 17:17:49 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1349409-1-1.bw
+2015-10-20 17:17:54 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1358582-1-1.bw
+2015-10-20 17:17:58 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1369536-1-1.bw
+2015-10-20 17:18:03 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380139-1-1.bw
+2015-10-20 17:18:08 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380699-1-1.bw
+2015-10-20 17:18:13 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1387702-1-1.bw
+2015-10-20 17:18:17 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1389777-1-1.bw
+2015-10-20 17:18:22 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1403434-1-1.bw
+2015-10-20 17:18:27 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409022-1-1.bw
+2015-10-20 17:18:31 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409790-1-1.bw
+2015-10-20 17:18:35 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1412969-1-1.bw
+2015-10-20 17:18:39 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1419518-1-1.bw
+2015-10-20 17:18:43 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1430639-1-1.bw
+2015-10-20 17:18:46 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1446203-1-1.bw
+2015-10-20 17:18:50 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1455236-1-1.bw
+2015-10-20 17:18:55 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1477033-1-1.bw
+2015-10-20 17:19:00 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1478789-1-1.bw
+2015-10-20 17:19:04 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1481012-1-1.bw
+2015-10-20 17:19:09 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607252-1-1.bw
+2015-10-20 17:19:12 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607970-1-1.bw
+2015-10-20 17:19:16 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR614683-1-1.bw
+2015-10-20 17:19:20 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR656588-1-1.bw
+2015-10-20 17:19:23 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR660366-1-1.bw
+2015-10-20 17:19:27 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR661192-1-1.bw
+2015-10-20 17:19:31 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR807901-1-1.bw
+2015-10-20 17:19:35 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR810507-1-1.bw
+2015-10-20 17:19:38 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR815735-1-1.bw
+2015-10-20 17:19:42 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:19:42 filterData: originally there were 191154276 rows, now there are 191154276 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:19:42 getRegionCoverage: processing chr4
+2015-10-20 17:20:30 getRegionCoverage: done processing chr4
+2015-10-20 17:20:40 loadCoverage: finding chromosome lengths
+2015-10-20 17:20:40 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/mean.chr5.bw
+2015-10-20 17:20:46 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:20:46 filterData: originally there were 180915260 rows, now there are 180915260 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:20:47 findRegions: identifying potential segments
+2015-10-20 17:20:47 findRegions: segmenting F-stats information
+2015-10-20 17:21:00 findRegions: identifying candidate regions
+2015-10-20 17:21:00 findRegions: identifying region clusters
+2015-10-20 17:21:11 getRegionCoverage : attempting to load coverage data from 'files'.
+2015-10-20 17:21:11 fullCoverage: processing chromosome chr5
+2015-10-20 17:21:11 loadCoverage: finding chromosome lengths
+2015-10-20 17:21:11 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1080415-1-1.bw
+2015-10-20 17:21:17 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1310433-1-1.bw
+2015-10-20 17:21:22 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1321505-1-1.bw
+2015-10-20 17:21:28 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1334338-1-1.bw
+2015-10-20 17:21:33 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1335536-1-1.bw
+2015-10-20 17:21:39 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1339130-1-1.bw
+2015-10-20 17:21:44 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1344445-1-1.bw
+2015-10-20 17:21:49 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1345221-1-1.bw
+2015-10-20 17:21:53 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1347100-1-1.bw
+2015-10-20 17:21:58 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1349409-1-1.bw
+2015-10-20 17:22:02 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1358582-1-1.bw
+2015-10-20 17:22:07 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1369536-1-1.bw
+2015-10-20 17:22:13 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380139-1-1.bw
+2015-10-20 17:22:19 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380699-1-1.bw
+2015-10-20 17:22:24 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1387702-1-1.bw
+2015-10-20 17:22:28 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1389777-1-1.bw
+2015-10-20 17:22:32 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1403434-1-1.bw
+2015-10-20 17:22:37 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409022-1-1.bw
+2015-10-20 17:22:41 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409790-1-1.bw
+2015-10-20 17:22:46 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1412969-1-1.bw
+2015-10-20 17:22:50 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1419518-1-1.bw
+2015-10-20 17:22:54 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1430639-1-1.bw
+2015-10-20 17:22:59 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1446203-1-1.bw
+2015-10-20 17:23:04 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1455236-1-1.bw
+2015-10-20 17:23:09 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1477033-1-1.bw
+2015-10-20 17:23:13 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1478789-1-1.bw
+2015-10-20 17:23:17 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1481012-1-1.bw
+2015-10-20 17:23:22 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607252-1-1.bw
+2015-10-20 17:23:26 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607970-1-1.bw
+2015-10-20 17:23:30 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR614683-1-1.bw
+2015-10-20 17:23:35 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR656588-1-1.bw
+2015-10-20 17:23:39 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR660366-1-1.bw
+2015-10-20 17:23:44 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR661192-1-1.bw
+2015-10-20 17:23:48 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR807901-1-1.bw
+2015-10-20 17:23:53 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR810507-1-1.bw
+2015-10-20 17:23:57 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR815735-1-1.bw
+2015-10-20 17:24:01 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:24:01 filterData: originally there were 180915260 rows, now there are 180915260 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:24:01 getRegionCoverage: processing chr5
+2015-10-20 17:25:44 getRegionCoverage: done processing chr5 
+2015-10-20 17:16:28 loadCoverage: finding chromosome lengths
+2015-10-20 17:16:28 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/mean.chr6.bw
+2015-10-20 17:16:44 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:16:44 filterData: originally there were 171115067 rows, now there are 171115067 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:16:45 findRegions: identifying potential segments
+2015-10-20 17:16:45 findRegions: segmenting F-stats information
+2015-10-20 17:16:58 findRegions: identifying candidate regions
+2015-10-20 17:16:59 findRegions: identifying region clusters
+2015-10-20 17:17:08 getRegionCoverage : attempting to load coverage data from 'files'.
+2015-10-20 17:17:08 fullCoverage: processing chromosome chr6
+2015-10-20 17:17:08 loadCoverage: finding chromosome lengths
+2015-10-20 17:17:08 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1080415-1-1.bw
+2015-10-20 17:17:14 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1310433-1-1.bw
+2015-10-20 17:17:20 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1321505-1-1.bw
+2015-10-20 17:17:25 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1334338-1-1.bw
+2015-10-20 17:17:31 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1335536-1-1.bw
+2015-10-20 17:17:36 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1339130-1-1.bw
+2015-10-20 17:17:42 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1344445-1-1.bw
+2015-10-20 17:17:47 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1345221-1-1.bw
+2015-10-20 17:17:53 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1347100-1-1.bw
+2015-10-20 17:17:59 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1349409-1-1.bw
+2015-10-20 17:18:05 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1358582-1-1.bw
+2015-10-20 17:18:10 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1369536-1-1.bw
+2015-10-20 17:18:16 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380139-1-1.bw
+2015-10-20 17:18:22 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380699-1-1.bw
+2015-10-20 17:18:27 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1387702-1-1.bw
+2015-10-20 17:18:33 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1389777-1-1.bw
+2015-10-20 17:18:39 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1403434-1-1.bw
+2015-10-20 17:18:45 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409022-1-1.bw
+2015-10-20 17:18:51 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409790-1-1.bw
+2015-10-20 17:18:57 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1412969-1-1.bw
+2015-10-20 17:19:03 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1419518-1-1.bw
+2015-10-20 17:19:09 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1430639-1-1.bw
+2015-10-20 17:19:13 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1446203-1-1.bw
+2015-10-20 17:19:18 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1455236-1-1.bw
+2015-10-20 17:19:23 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1477033-1-1.bw
+2015-10-20 17:19:28 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1478789-1-1.bw
+2015-10-20 17:19:33 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1481012-1-1.bw
+2015-10-20 17:19:37 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607252-1-1.bw
+2015-10-20 17:19:42 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607970-1-1.bw
+2015-10-20 17:19:46 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR614683-1-1.bw
+2015-10-20 17:19:51 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR656588-1-1.bw
+2015-10-20 17:19:56 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR660366-1-1.bw
+2015-10-20 17:20:01 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR661192-1-1.bw
+2015-10-20 17:20:06 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR807901-1-1.bw
+2015-10-20 17:20:11 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR810507-1-1.bw
+2015-10-20 17:20:15 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR815735-1-1.bw
+2015-10-20 17:20:20 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:20:21 filterData: originally there were 171115067 rows, now there are 171115067 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:20:21 getRegionCoverage: processing chr6
+2015-10-20 17:21:33 getRegionCoverage: done processing chr6
+2015-10-20 17:21:44 loadCoverage: finding chromosome lengths
+2015-10-20 17:21:44 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/mean.chr7.bw
+2015-10-20 17:21:49 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:21:49 filterData: originally there were 159138663 rows, now there are 159138663 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:21:49 findRegions: identifying potential segments
+2015-10-20 17:21:49 findRegions: segmenting F-stats information
+2015-10-20 17:21:59 findRegions: identifying candidate regions
+2015-10-20 17:22:00 findRegions: identifying region clusters
+2015-10-20 17:22:11 getRegionCoverage : attempting to load coverage data from 'files'.
+2015-10-20 17:22:11 fullCoverage: processing chromosome chr7
+2015-10-20 17:22:11 loadCoverage: finding chromosome lengths
+2015-10-20 17:22:11 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1080415-1-1.bw
+2015-10-20 17:22:17 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1310433-1-1.bw
+2015-10-20 17:22:22 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1321505-1-1.bw
+2015-10-20 17:22:28 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1334338-1-1.bw
+2015-10-20 17:22:32 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1335536-1-1.bw
+2015-10-20 17:22:37 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1339130-1-1.bw
+2015-10-20 17:22:43 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1344445-1-1.bw
+2015-10-20 17:22:47 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1345221-1-1.bw
+2015-10-20 17:22:52 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1347100-1-1.bw
+2015-10-20 17:22:57 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1349409-1-1.bw
+2015-10-20 17:23:02 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1358582-1-1.bw
+2015-10-20 17:23:06 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1369536-1-1.bw
+2015-10-20 17:23:11 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380139-1-1.bw
+2015-10-20 17:23:16 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380699-1-1.bw
+2015-10-20 17:23:21 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1387702-1-1.bw
+2015-10-20 17:23:26 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1389777-1-1.bw
+2015-10-20 17:23:31 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1403434-1-1.bw
+2015-10-20 17:23:35 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409022-1-1.bw
+2015-10-20 17:23:40 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409790-1-1.bw
+2015-10-20 17:23:45 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1412969-1-1.bw
+2015-10-20 17:23:50 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1419518-1-1.bw
+2015-10-20 17:23:55 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1430639-1-1.bw
+2015-10-20 17:23:59 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1446203-1-1.bw
+2015-10-20 17:24:03 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1455236-1-1.bw
+2015-10-20 17:24:08 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1477033-1-1.bw
+2015-10-20 17:24:12 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1478789-1-1.bw
+2015-10-20 17:24:17 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1481012-1-1.bw
+2015-10-20 17:24:21 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607252-1-1.bw
+2015-10-20 17:24:25 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607970-1-1.bw
+2015-10-20 17:24:29 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR614683-1-1.bw
+2015-10-20 17:24:33 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR656588-1-1.bw
+2015-10-20 17:24:38 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR660366-1-1.bw
+2015-10-20 17:24:42 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR661192-1-1.bw
+2015-10-20 17:24:46 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR807901-1-1.bw
+2015-10-20 17:24:51 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR810507-1-1.bw
+2015-10-20 17:24:55 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR815735-1-1.bw
+2015-10-20 17:24:59 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:24:59 filterData: originally there were 159138663 rows, now there are 159138663 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:25:00 getRegionCoverage: processing chr7
+2015-10-20 17:26:42 getRegionCoverage: done processing chr7 
+2015-10-20 17:16:28 loadCoverage: finding chromosome lengths
+2015-10-20 17:16:28 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/mean.chr11.bw
+2015-10-20 17:16:41 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:16:41 filterData: originally there were 135006516 rows, now there are 135006516 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:16:41 findRegions: identifying potential segments
+2015-10-20 17:16:41 findRegions: segmenting F-stats information
+2015-10-20 17:16:56 findRegions: identifying candidate regions
+2015-10-20 17:16:57 findRegions: identifying region clusters
+2015-10-20 17:17:06 getRegionCoverage : attempting to load coverage data from 'files'.
+2015-10-20 17:17:06 fullCoverage: processing chromosome chr11
+2015-10-20 17:17:06 loadCoverage: finding chromosome lengths
+2015-10-20 17:17:06 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1080415-1-1.bw
+2015-10-20 17:17:12 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1310433-1-1.bw
+2015-10-20 17:17:18 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1321505-1-1.bw
+2015-10-20 17:17:24 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1334338-1-1.bw
+2015-10-20 17:17:29 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1335536-1-1.bw
+2015-10-20 17:17:36 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1339130-1-1.bw
+2015-10-20 17:17:42 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1344445-1-1.bw
+2015-10-20 17:17:48 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1345221-1-1.bw
+2015-10-20 17:17:54 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1347100-1-1.bw
+2015-10-20 17:18:00 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1349409-1-1.bw
+2015-10-20 17:18:06 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1358582-1-1.bw
+2015-10-20 17:18:12 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1369536-1-1.bw
+2015-10-20 17:18:17 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380139-1-1.bw
+2015-10-20 17:18:23 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380699-1-1.bw
+2015-10-20 17:18:29 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1387702-1-1.bw
+2015-10-20 17:18:35 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1389777-1-1.bw
+2015-10-20 17:18:40 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1403434-1-1.bw
+2015-10-20 17:18:45 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409022-1-1.bw
+2015-10-20 17:18:51 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409790-1-1.bw
+2015-10-20 17:18:57 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1412969-1-1.bw
+2015-10-20 17:19:02 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1419518-1-1.bw
+2015-10-20 17:19:08 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1430639-1-1.bw
+2015-10-20 17:19:13 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1446203-1-1.bw
+2015-10-20 17:19:19 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1455236-1-1.bw
+2015-10-20 17:19:24 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1477033-1-1.bw
+2015-10-20 17:19:29 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1478789-1-1.bw
+2015-10-20 17:19:34 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1481012-1-1.bw
+2015-10-20 17:19:40 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607252-1-1.bw
+2015-10-20 17:19:44 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607970-1-1.bw
+2015-10-20 17:19:50 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR614683-1-1.bw
+2015-10-20 17:19:55 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR656588-1-1.bw
+2015-10-20 17:20:00 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR660366-1-1.bw
+2015-10-20 17:20:05 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR661192-1-1.bw
+2015-10-20 17:20:11 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR807901-1-1.bw
+2015-10-20 17:20:16 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR810507-1-1.bw
+2015-10-20 17:20:21 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR815735-1-1.bw
+2015-10-20 17:20:26 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:20:26 filterData: originally there were 135006516 rows, now there are 135006516 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:20:27 getRegionCoverage: processing chr11
+2015-10-20 17:22:08 getRegionCoverage: done processing chr11
+2015-10-20 17:22:22 loadCoverage: finding chromosome lengths
+2015-10-20 17:22:22 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/mean.chr12.bw
+2015-10-20 17:22:27 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:22:27 filterData: originally there were 133851895 rows, now there are 133851895 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:22:28 findRegions: identifying potential segments
+2015-10-20 17:22:28 findRegions: segmenting F-stats information
+2015-10-20 17:22:38 findRegions: identifying candidate regions
+2015-10-20 17:22:39 findRegions: identifying region clusters
+2015-10-20 17:22:51 getRegionCoverage : attempting to load coverage data from 'files'.
+2015-10-20 17:22:51 fullCoverage: processing chromosome chr12
+2015-10-20 17:22:51 loadCoverage: finding chromosome lengths
+2015-10-20 17:22:51 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1080415-1-1.bw
+2015-10-20 17:22:57 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1310433-1-1.bw
+2015-10-20 17:23:03 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1321505-1-1.bw
+2015-10-20 17:23:09 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1334338-1-1.bw
+2015-10-20 17:23:14 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1335536-1-1.bw
+2015-10-20 17:23:19 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1339130-1-1.bw
+2015-10-20 17:23:25 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1344445-1-1.bw
+2015-10-20 17:23:30 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1345221-1-1.bw
+2015-10-20 17:23:37 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1347100-1-1.bw
+2015-10-20 17:23:43 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1349409-1-1.bw
+2015-10-20 17:23:49 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1358582-1-1.bw
+2015-10-20 17:23:54 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1369536-1-1.bw
+2015-10-20 17:24:00 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380139-1-1.bw
+2015-10-20 17:24:07 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380699-1-1.bw
+2015-10-20 17:24:14 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1387702-1-1.bw
+2015-10-20 17:24:20 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1389777-1-1.bw
+2015-10-20 17:24:26 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1403434-1-1.bw
+2015-10-20 17:24:33 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409022-1-1.bw
+2015-10-20 17:24:38 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409790-1-1.bw
+2015-10-20 17:24:43 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1412969-1-1.bw
+2015-10-20 17:24:49 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1419518-1-1.bw
+2015-10-20 17:24:54 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1430639-1-1.bw
+2015-10-20 17:24:59 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1446203-1-1.bw
+2015-10-20 17:25:04 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1455236-1-1.bw
+2015-10-20 17:25:10 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1477033-1-1.bw
+2015-10-20 17:25:14 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1478789-1-1.bw
+2015-10-20 17:25:18 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1481012-1-1.bw
+2015-10-20 17:25:23 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607252-1-1.bw
+2015-10-20 17:25:27 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607970-1-1.bw
+2015-10-20 17:25:31 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR614683-1-1.bw
+2015-10-20 17:25:35 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR656588-1-1.bw
+2015-10-20 17:25:39 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR660366-1-1.bw
+2015-10-20 17:25:43 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR661192-1-1.bw
+2015-10-20 17:25:48 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR807901-1-1.bw
+2015-10-20 17:25:52 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR810507-1-1.bw
+2015-10-20 17:25:57 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR815735-1-1.bw
+2015-10-20 17:26:02 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:26:02 filterData: originally there were 133851895 rows, now there are 133851895 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:26:02 getRegionCoverage: processing chr12
+2015-10-20 17:28:02 getRegionCoverage: done processing chr12 
+2015-10-20 17:16:27 loadCoverage: finding chromosome lengths
+2015-10-20 17:16:27 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/mean.chr8.bw
+2015-10-20 17:16:37 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:16:38 filterData: originally there were 146364022 rows, now there are 146364022 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:16:38 findRegions: identifying potential segments
+2015-10-20 17:16:38 findRegions: segmenting F-stats information
+2015-10-20 17:16:48 findRegions: identifying candidate regions
+2015-10-20 17:16:49 findRegions: identifying region clusters
+2015-10-20 17:16:58 getRegionCoverage : attempting to load coverage data from 'files'.
+2015-10-20 17:16:58 fullCoverage: processing chromosome chr8
+2015-10-20 17:16:59 loadCoverage: finding chromosome lengths
+2015-10-20 17:16:59 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1080415-1-1.bw
+2015-10-20 17:17:02 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1310433-1-1.bw
+2015-10-20 17:17:05 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1321505-1-1.bw
+2015-10-20 17:17:08 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1334338-1-1.bw
+2015-10-20 17:17:12 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1335536-1-1.bw
+2015-10-20 17:17:16 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1339130-1-1.bw
+2015-10-20 17:17:19 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1344445-1-1.bw
+2015-10-20 17:17:23 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1345221-1-1.bw
+2015-10-20 17:17:27 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1347100-1-1.bw
+2015-10-20 17:17:31 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1349409-1-1.bw
+2015-10-20 17:17:34 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1358582-1-1.bw
+2015-10-20 17:17:37 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1369536-1-1.bw
+2015-10-20 17:17:41 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380139-1-1.bw
+2015-10-20 17:17:45 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380699-1-1.bw
+2015-10-20 17:17:49 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1387702-1-1.bw
+2015-10-20 17:17:53 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1389777-1-1.bw
+2015-10-20 17:17:57 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1403434-1-1.bw
+2015-10-20 17:18:00 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409022-1-1.bw
+2015-10-20 17:18:04 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409790-1-1.bw
+2015-10-20 17:18:08 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1412969-1-1.bw
+2015-10-20 17:18:11 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1419518-1-1.bw
+2015-10-20 17:18:16 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1430639-1-1.bw
+2015-10-20 17:18:19 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1446203-1-1.bw
+2015-10-20 17:18:23 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1455236-1-1.bw
+2015-10-20 17:18:27 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1477033-1-1.bw
+2015-10-20 17:18:30 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1478789-1-1.bw
+2015-10-20 17:18:33 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1481012-1-1.bw
+2015-10-20 17:18:37 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607252-1-1.bw
+2015-10-20 17:18:40 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607970-1-1.bw
+2015-10-20 17:18:43 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR614683-1-1.bw
+2015-10-20 17:18:46 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR656588-1-1.bw
+2015-10-20 17:18:49 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR660366-1-1.bw
+2015-10-20 17:18:53 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR661192-1-1.bw
+2015-10-20 17:18:56 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR807901-1-1.bw
+2015-10-20 17:19:00 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR810507-1-1.bw
+2015-10-20 17:19:03 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR815735-1-1.bw
+2015-10-20 17:19:07 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:19:07 filterData: originally there were 146364022 rows, now there are 146364022 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:19:08 getRegionCoverage: processing chr8
+2015-10-20 17:20:06 getRegionCoverage: done processing chr8
+2015-10-20 17:20:16 loadCoverage: finding chromosome lengths
+2015-10-20 17:20:16 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/mean.chr9.bw
+2015-10-20 17:20:22 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:20:22 filterData: originally there were 141213431 rows, now there are 141213431 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:20:22 findRegions: identifying potential segments
+2015-10-20 17:20:22 findRegions: segmenting F-stats information
+2015-10-20 17:20:32 findRegions: identifying candidate regions
+2015-10-20 17:20:33 findRegions: identifying region clusters
+2015-10-20 17:20:43 getRegionCoverage : attempting to load coverage data from 'files'.
+2015-10-20 17:20:43 fullCoverage: processing chromosome chr9
+2015-10-20 17:20:43 loadCoverage: finding chromosome lengths
+2015-10-20 17:20:43 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1080415-1-1.bw
+2015-10-20 17:20:48 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1310433-1-1.bw
+2015-10-20 17:20:54 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1321505-1-1.bw
+2015-10-20 17:20:59 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1334338-1-1.bw
+2015-10-20 17:21:04 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1335536-1-1.bw
+2015-10-20 17:21:10 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1339130-1-1.bw
+2015-10-20 17:21:15 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1344445-1-1.bw
+2015-10-20 17:21:19 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1345221-1-1.bw
+2015-10-20 17:21:24 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1347100-1-1.bw
+2015-10-20 17:21:29 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1349409-1-1.bw
+2015-10-20 17:21:33 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1358582-1-1.bw
+2015-10-20 17:21:37 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1369536-1-1.bw
+2015-10-20 17:21:42 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380139-1-1.bw
+2015-10-20 17:21:47 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380699-1-1.bw
+2015-10-20 17:21:52 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1387702-1-1.bw
+2015-10-20 17:21:56 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1389777-1-1.bw
+2015-10-20 17:22:00 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1403434-1-1.bw
+2015-10-20 17:22:04 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409022-1-1.bw
+2015-10-20 17:22:09 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409790-1-1.bw
+2015-10-20 17:22:14 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1412969-1-1.bw
+2015-10-20 17:22:18 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1419518-1-1.bw
+2015-10-20 17:22:22 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1430639-1-1.bw
+2015-10-20 17:22:26 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1446203-1-1.bw
+2015-10-20 17:22:30 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1455236-1-1.bw
+2015-10-20 17:22:35 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1477033-1-1.bw
+2015-10-20 17:22:39 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1478789-1-1.bw
+2015-10-20 17:22:43 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1481012-1-1.bw
+2015-10-20 17:22:47 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607252-1-1.bw
+2015-10-20 17:22:50 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607970-1-1.bw
+2015-10-20 17:22:54 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR614683-1-1.bw
+2015-10-20 17:22:58 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR656588-1-1.bw
+2015-10-20 17:23:03 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR660366-1-1.bw
+2015-10-20 17:23:07 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR661192-1-1.bw
+2015-10-20 17:23:11 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR807901-1-1.bw
+2015-10-20 17:23:15 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR810507-1-1.bw
+2015-10-20 17:23:19 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR815735-1-1.bw
+2015-10-20 17:23:23 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:23:24 filterData: originally there were 141213431 rows, now there are 141213431 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:23:24 getRegionCoverage: processing chr9
+2015-10-20 17:25:09 getRegionCoverage: done processing chr9
+2015-10-20 17:25:22 loadCoverage: finding chromosome lengths
+2015-10-20 17:25:22 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/mean.chr10.bw
+2015-10-20 17:25:28 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:25:28 filterData: originally there were 135534747 rows, now there are 135534747 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:25:28 findRegions: identifying potential segments
+2015-10-20 17:25:28 findRegions: segmenting F-stats information
+2015-10-20 17:25:36 findRegions: identifying candidate regions
+2015-10-20 17:25:37 findRegions: identifying region clusters
+2015-10-20 17:25:45 getRegionCoverage : attempting to load coverage data from 'files'.
+2015-10-20 17:25:45 fullCoverage: processing chromosome chr10
+2015-10-20 17:25:45 loadCoverage: finding chromosome lengths
+2015-10-20 17:25:45 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1080415-1-1.bw
+2015-10-20 17:25:49 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1310433-1-1.bw
+2015-10-20 17:25:52 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1321505-1-1.bw
+2015-10-20 17:25:56 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1334338-1-1.bw
+2015-10-20 17:25:59 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1335536-1-1.bw
+2015-10-20 17:26:03 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1339130-1-1.bw
+2015-10-20 17:26:08 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1344445-1-1.bw
+2015-10-20 17:26:11 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1345221-1-1.bw
+2015-10-20 17:26:15 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1347100-1-1.bw
+2015-10-20 17:26:18 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1349409-1-1.bw
+2015-10-20 17:26:22 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1358582-1-1.bw
+2015-10-20 17:26:25 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1369536-1-1.bw
+2015-10-20 17:26:29 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380139-1-1.bw
+2015-10-20 17:26:33 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380699-1-1.bw
+2015-10-20 17:26:37 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1387702-1-1.bw
+2015-10-20 17:26:40 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1389777-1-1.bw
+2015-10-20 17:26:44 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1403434-1-1.bw
+2015-10-20 17:26:48 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409022-1-1.bw
+2015-10-20 17:26:52 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409790-1-1.bw
+2015-10-20 17:26:55 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1412969-1-1.bw
+2015-10-20 17:26:59 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1419518-1-1.bw
+2015-10-20 17:27:03 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1430639-1-1.bw
+2015-10-20 17:27:06 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1446203-1-1.bw
+2015-10-20 17:27:10 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1455236-1-1.bw
+2015-10-20 17:27:14 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1477033-1-1.bw
+2015-10-20 17:27:18 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1478789-1-1.bw
+2015-10-20 17:27:22 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1481012-1-1.bw
+2015-10-20 17:27:26 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607252-1-1.bw
+2015-10-20 17:27:29 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607970-1-1.bw
+2015-10-20 17:27:33 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR614683-1-1.bw
+2015-10-20 17:27:36 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR656588-1-1.bw
+2015-10-20 17:27:40 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR660366-1-1.bw
+2015-10-20 17:27:44 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR661192-1-1.bw
+2015-10-20 17:27:48 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR807901-1-1.bw
+2015-10-20 17:27:52 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR810507-1-1.bw
+2015-10-20 17:27:55 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR815735-1-1.bw
+2015-10-20 17:27:59 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:27:59 filterData: originally there were 135534747 rows, now there are 135534747 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:27:59 getRegionCoverage: processing chr10
+2015-10-20 17:29:05 getRegionCoverage: done processing chr10 
+2015-10-20 17:16:28 loadCoverage: finding chromosome lengths
+2015-10-20 17:16:28 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/mean.chr15.bw
+2015-10-20 17:16:42 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:16:42 filterData: originally there were 102531392 rows, now there are 102531392 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:16:42 findRegions: identifying potential segments
+2015-10-20 17:16:42 findRegions: segmenting F-stats information
+2015-10-20 17:16:53 findRegions: identifying candidate regions
+2015-10-20 17:16:54 findRegions: identifying region clusters
+2015-10-20 17:17:03 getRegionCoverage : attempting to load coverage data from 'files'.
+2015-10-20 17:17:03 fullCoverage: processing chromosome chr15
+2015-10-20 17:17:03 loadCoverage: finding chromosome lengths
+2015-10-20 17:17:03 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1080415-1-1.bw
+2015-10-20 17:17:07 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1310433-1-1.bw
+2015-10-20 17:17:11 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1321505-1-1.bw
+2015-10-20 17:17:15 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1334338-1-1.bw
+2015-10-20 17:17:19 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1335536-1-1.bw
+2015-10-20 17:17:24 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1339130-1-1.bw
+2015-10-20 17:17:29 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1344445-1-1.bw
+2015-10-20 17:17:33 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1345221-1-1.bw
+2015-10-20 17:17:37 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1347100-1-1.bw
+2015-10-20 17:17:42 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1349409-1-1.bw
+2015-10-20 17:17:46 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1358582-1-1.bw
+2015-10-20 17:17:49 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1369536-1-1.bw
+2015-10-20 17:17:53 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380139-1-1.bw
+2015-10-20 17:17:57 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380699-1-1.bw
+2015-10-20 17:18:01 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1387702-1-1.bw
+2015-10-20 17:18:04 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1389777-1-1.bw
+2015-10-20 17:18:07 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1403434-1-1.bw
+2015-10-20 17:18:11 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409022-1-1.bw
+2015-10-20 17:18:15 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409790-1-1.bw
+2015-10-20 17:18:18 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1412969-1-1.bw
+2015-10-20 17:18:23 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1419518-1-1.bw
+2015-10-20 17:18:27 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1430639-1-1.bw
+2015-10-20 17:18:31 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1446203-1-1.bw
+2015-10-20 17:18:34 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1455236-1-1.bw
+2015-10-20 17:18:38 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1477033-1-1.bw
+2015-10-20 17:18:42 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1478789-1-1.bw
+2015-10-20 17:18:45 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1481012-1-1.bw
+2015-10-20 17:18:49 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607252-1-1.bw
+2015-10-20 17:18:52 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607970-1-1.bw
+2015-10-20 17:18:55 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR614683-1-1.bw
+2015-10-20 17:18:59 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR656588-1-1.bw
+2015-10-20 17:19:02 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR660366-1-1.bw
+2015-10-20 17:19:06 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR661192-1-1.bw
+2015-10-20 17:19:10 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR807901-1-1.bw
+2015-10-20 17:19:13 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR810507-1-1.bw
+2015-10-20 17:19:16 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR815735-1-1.bw
+2015-10-20 17:19:20 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:19:20 filterData: originally there were 102531392 rows, now there are 102531392 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:19:20 getRegionCoverage: processing chr15
+2015-10-20 17:20:26 getRegionCoverage: done processing chr15
+2015-10-20 17:20:36 loadCoverage: finding chromosome lengths
+2015-10-20 17:20:36 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/mean.chr16.bw
+2015-10-20 17:20:41 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:20:41 filterData: originally there were 90354753 rows, now there are 90354753 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:20:41 findRegions: identifying potential segments
+2015-10-20 17:20:41 findRegions: segmenting F-stats information
+2015-10-20 17:20:49 findRegions: identifying candidate regions
+2015-10-20 17:20:50 findRegions: identifying region clusters
+2015-10-20 17:21:00 getRegionCoverage : attempting to load coverage data from 'files'.
+2015-10-20 17:21:00 fullCoverage: processing chromosome chr16
+2015-10-20 17:21:00 loadCoverage: finding chromosome lengths
+2015-10-20 17:21:00 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1080415-1-1.bw
+2015-10-20 17:21:05 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1310433-1-1.bw
+2015-10-20 17:21:10 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1321505-1-1.bw
+2015-10-20 17:21:15 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1334338-1-1.bw
+2015-10-20 17:21:20 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1335536-1-1.bw
+2015-10-20 17:21:25 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1339130-1-1.bw
+2015-10-20 17:21:31 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1344445-1-1.bw
+2015-10-20 17:21:36 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1345221-1-1.bw
+2015-10-20 17:21:40 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1347100-1-1.bw
+2015-10-20 17:21:46 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1349409-1-1.bw
+2015-10-20 17:21:50 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1358582-1-1.bw
+2015-10-20 17:21:54 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1369536-1-1.bw
+2015-10-20 17:21:58 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380139-1-1.bw
+2015-10-20 17:22:04 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380699-1-1.bw
+2015-10-20 17:22:09 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1387702-1-1.bw
+2015-10-20 17:22:13 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1389777-1-1.bw
+2015-10-20 17:22:17 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1403434-1-1.bw
+2015-10-20 17:22:22 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409022-1-1.bw
+2015-10-20 17:22:27 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409790-1-1.bw
+2015-10-20 17:22:32 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1412969-1-1.bw
+2015-10-20 17:22:37 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1419518-1-1.bw
+2015-10-20 17:22:43 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1430639-1-1.bw
+2015-10-20 17:22:48 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1446203-1-1.bw
+2015-10-20 17:22:53 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1455236-1-1.bw
+2015-10-20 17:22:58 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1477033-1-1.bw
+2015-10-20 17:23:02 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1478789-1-1.bw
+2015-10-20 17:23:07 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1481012-1-1.bw
+2015-10-20 17:23:11 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607252-1-1.bw
+2015-10-20 17:23:16 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607970-1-1.bw
+2015-10-20 17:23:20 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR614683-1-1.bw
+2015-10-20 17:23:24 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR656588-1-1.bw
+2015-10-20 17:23:29 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR660366-1-1.bw
+2015-10-20 17:23:34 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR661192-1-1.bw
+2015-10-20 17:23:39 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR807901-1-1.bw
+2015-10-20 17:23:44 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR810507-1-1.bw
+2015-10-20 17:23:48 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR815735-1-1.bw
+2015-10-20 17:23:53 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:23:53 filterData: originally there were 90354753 rows, now there are 90354753 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:23:53 getRegionCoverage: processing chr16
+2015-10-20 17:25:42 getRegionCoverage: done processing chr16
+2015-10-20 17:25:54 loadCoverage: finding chromosome lengths
+2015-10-20 17:25:54 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/mean.chr17.bw
+2015-10-20 17:26:00 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:26:00 filterData: originally there were 81195210 rows, now there are 81195210 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:26:00 findRegions: identifying potential segments
+2015-10-20 17:26:01 findRegions: segmenting F-stats information
+2015-10-20 17:26:09 findRegions: identifying candidate regions
+2015-10-20 17:26:10 findRegions: identifying region clusters
+2015-10-20 17:26:19 getRegionCoverage : attempting to load coverage data from 'files'.
+2015-10-20 17:26:19 fullCoverage: processing chromosome chr17
+2015-10-20 17:26:19 loadCoverage: finding chromosome lengths
+2015-10-20 17:26:19 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1080415-1-1.bw
+2015-10-20 17:26:24 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1310433-1-1.bw
+2015-10-20 17:26:29 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1321505-1-1.bw
+2015-10-20 17:26:34 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1334338-1-1.bw
+2015-10-20 17:26:39 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1335536-1-1.bw
+2015-10-20 17:26:45 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1339130-1-1.bw
+2015-10-20 17:26:51 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1344445-1-1.bw
+2015-10-20 17:26:56 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1345221-1-1.bw
+2015-10-20 17:27:01 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1347100-1-1.bw
+2015-10-20 17:27:08 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1349409-1-1.bw
+2015-10-20 17:27:13 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1358582-1-1.bw
+2015-10-20 17:27:18 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1369536-1-1.bw
+2015-10-20 17:27:23 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380139-1-1.bw
+2015-10-20 17:27:29 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380699-1-1.bw
+2015-10-20 17:27:34 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1387702-1-1.bw
+2015-10-20 17:27:39 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1389777-1-1.bw
+2015-10-20 17:27:44 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1403434-1-1.bw
+2015-10-20 17:27:49 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409022-1-1.bw
+2015-10-20 17:27:54 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409790-1-1.bw
+2015-10-20 17:28:00 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1412969-1-1.bw
+2015-10-20 17:28:04 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1419518-1-1.bw
+2015-10-20 17:28:10 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1430639-1-1.bw
+2015-10-20 17:28:14 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1446203-1-1.bw
+2015-10-20 17:28:19 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1455236-1-1.bw
+2015-10-20 17:28:24 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1477033-1-1.bw
+2015-10-20 17:28:29 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1478789-1-1.bw
+2015-10-20 17:28:34 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1481012-1-1.bw
+2015-10-20 17:28:39 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607252-1-1.bw
+2015-10-20 17:28:43 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607970-1-1.bw
+2015-10-20 17:28:48 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR614683-1-1.bw
+2015-10-20 17:28:52 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR656588-1-1.bw
+2015-10-20 17:28:57 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR660366-1-1.bw
+2015-10-20 17:29:02 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR661192-1-1.bw
+2015-10-20 17:29:07 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR807901-1-1.bw
+2015-10-20 17:29:12 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR810507-1-1.bw
+2015-10-20 17:29:16 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR815735-1-1.bw
+2015-10-20 17:29:21 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:29:21 filterData: originally there were 81195210 rows, now there are 81195210 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:29:21 getRegionCoverage: processing chr17
+2015-10-20 17:31:50 getRegionCoverage: done processing chr17 
+2015-10-20 17:16:28 loadCoverage: finding chromosome lengths
+2015-10-20 17:16:28 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/mean.chr1.bw
+2015-10-20 17:16:46 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:16:46 filterData: originally there were 249250621 rows, now there are 249250621 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:16:46 findRegions: identifying potential segments
+2015-10-20 17:16:46 findRegions: segmenting F-stats information
+2015-10-20 17:17:10 findRegions: identifying candidate regions
+2015-10-20 17:17:12 findRegions: identifying region clusters
+2015-10-20 17:17:31 getRegionCoverage : attempting to load coverage data from 'files'.
+2015-10-20 17:17:31 fullCoverage: processing chromosome chr1
+2015-10-20 17:17:31 loadCoverage: finding chromosome lengths
+2015-10-20 17:17:31 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1080415-1-1.bw
+2015-10-20 17:17:42 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1310433-1-1.bw
+2015-10-20 17:17:54 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1321505-1-1.bw
+2015-10-20 17:18:06 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1334338-1-1.bw
+2015-10-20 17:18:18 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1335536-1-1.bw
+2015-10-20 17:18:30 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1339130-1-1.bw
+2015-10-20 17:18:45 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1344445-1-1.bw
+2015-10-20 17:18:55 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1345221-1-1.bw
+2015-10-20 17:19:05 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1347100-1-1.bw
+2015-10-20 17:19:17 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1349409-1-1.bw
+2015-10-20 17:19:28 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1358582-1-1.bw
+2015-10-20 17:19:40 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1369536-1-1.bw
+2015-10-20 17:19:52 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380139-1-1.bw
+2015-10-20 17:20:06 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380699-1-1.bw
+2015-10-20 17:20:15 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1387702-1-1.bw
+2015-10-20 17:20:24 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1389777-1-1.bw
+2015-10-20 17:20:34 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1403434-1-1.bw
+2015-10-20 17:20:46 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409022-1-1.bw
+2015-10-20 17:20:58 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409790-1-1.bw
+2015-10-20 17:21:08 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1412969-1-1.bw
+2015-10-20 17:21:18 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1419518-1-1.bw
+2015-10-20 17:21:29 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1430639-1-1.bw
+2015-10-20 17:21:38 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1446203-1-1.bw
+2015-10-20 17:21:47 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1455236-1-1.bw
+2015-10-20 17:21:58 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1477033-1-1.bw
+2015-10-20 17:22:07 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1478789-1-1.bw
+2015-10-20 17:22:17 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1481012-1-1.bw
+2015-10-20 17:22:26 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607252-1-1.bw
+2015-10-20 17:22:36 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607970-1-1.bw
+2015-10-20 17:22:45 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR614683-1-1.bw
+2015-10-20 17:22:55 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR656588-1-1.bw
+2015-10-20 17:23:06 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR660366-1-1.bw
+2015-10-20 17:23:15 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR661192-1-1.bw
+2015-10-20 17:23:25 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR807901-1-1.bw
+2015-10-20 17:23:35 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR810507-1-1.bw
+2015-10-20 17:23:45 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR815735-1-1.bw
+2015-10-20 17:23:55 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:23:56 filterData: originally there were 249250621 rows, now there are 249250621 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:23:56 getRegionCoverage: processing chr1
+2015-10-20 17:28:54 getRegionCoverage: done processing chr1
+2015-10-20 17:29:16 loadCoverage: finding chromosome lengths
+2015-10-20 17:29:16 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/mean.chr2.bw
+2015-10-20 17:29:24 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:29:24 filterData: originally there were 243199373 rows, now there are 243199373 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:29:24 findRegions: identifying potential segments
+2015-10-20 17:29:24 findRegions: segmenting F-stats information
+2015-10-20 17:29:37 findRegions: identifying candidate regions
+2015-10-20 17:29:38 findRegions: identifying region clusters
+2015-10-20 17:29:54 getRegionCoverage : attempting to load coverage data from 'files'.
+2015-10-20 17:29:54 fullCoverage: processing chromosome chr2
+2015-10-20 17:29:54 loadCoverage: finding chromosome lengths
+2015-10-20 17:29:54 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1080415-1-1.bw
+2015-10-20 17:29:59 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1310433-1-1.bw
+2015-10-20 17:30:04 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1321505-1-1.bw
+2015-10-20 17:30:10 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1334338-1-1.bw
+2015-10-20 17:30:16 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1335536-1-1.bw
+2015-10-20 17:30:22 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1339130-1-1.bw
+2015-10-20 17:30:29 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1344445-1-1.bw
+2015-10-20 17:30:34 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1345221-1-1.bw
+2015-10-20 17:30:40 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1347100-1-1.bw
+2015-10-20 17:30:46 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1349409-1-1.bw
+2015-10-20 17:30:51 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1358582-1-1.bw
+2015-10-20 17:30:57 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1369536-1-1.bw
+2015-10-20 17:31:02 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380139-1-1.bw
+2015-10-20 17:31:09 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380699-1-1.bw
+2015-10-20 17:31:15 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1387702-1-1.bw
+2015-10-20 17:31:20 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1389777-1-1.bw
+2015-10-20 17:31:26 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1403434-1-1.bw
+2015-10-20 17:31:31 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409022-1-1.bw
+2015-10-20 17:31:38 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409790-1-1.bw
+2015-10-20 17:31:43 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1412969-1-1.bw
+2015-10-20 17:31:49 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1419518-1-1.bw
+2015-10-20 17:31:55 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1430639-1-1.bw
+2015-10-20 17:32:00 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1446203-1-1.bw
+2015-10-20 17:32:06 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1455236-1-1.bw
+2015-10-20 17:32:12 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1477033-1-1.bw
+2015-10-20 17:32:17 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1478789-1-1.bw
+2015-10-20 17:32:23 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1481012-1-1.bw
+2015-10-20 17:32:28 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607252-1-1.bw
+2015-10-20 17:32:34 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607970-1-1.bw
+2015-10-20 17:32:39 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR614683-1-1.bw
+2015-10-20 17:32:45 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR656588-1-1.bw
+2015-10-20 17:32:51 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR660366-1-1.bw
+2015-10-20 17:32:56 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR661192-1-1.bw
+2015-10-20 17:33:02 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR807901-1-1.bw
+2015-10-20 17:33:08 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR810507-1-1.bw
+2015-10-20 17:33:13 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR815735-1-1.bw
+2015-10-20 17:33:19 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:33:19 filterData: originally there were 243199373 rows, now there are 243199373 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:33:19 getRegionCoverage: processing chr2
+2015-10-20 17:35:58 getRegionCoverage: done processing chr2
+2015-10-20 17:36:14 loadCoverage: finding chromosome lengths
+2015-10-20 17:36:14 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/mean.chr3.bw
+2015-10-20 17:36:20 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:36:20 filterData: originally there were 198022430 rows, now there are 198022430 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:36:20 findRegions: identifying potential segments
+2015-10-20 17:36:20 findRegions: segmenting F-stats information
+2015-10-20 17:36:31 findRegions: identifying candidate regions
+2015-10-20 17:36:32 findRegions: identifying region clusters
+2015-10-20 17:36:45 getRegionCoverage : attempting to load coverage data from 'files'.
+2015-10-20 17:36:45 fullCoverage: processing chromosome chr3
+2015-10-20 17:36:45 loadCoverage: finding chromosome lengths
+2015-10-20 17:36:45 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1080415-1-1.bw
+2015-10-20 17:36:49 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1310433-1-1.bw
+2015-10-20 17:36:54 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1321505-1-1.bw
+2015-10-20 17:36:59 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1334338-1-1.bw
+2015-10-20 17:37:04 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1335536-1-1.bw
+2015-10-20 17:37:09 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1339130-1-1.bw
+2015-10-20 17:37:15 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1344445-1-1.bw
+2015-10-20 17:37:19 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1345221-1-1.bw
+2015-10-20 17:37:24 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1347100-1-1.bw
+2015-10-20 17:37:29 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1349409-1-1.bw
+2015-10-20 17:37:34 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1358582-1-1.bw
+2015-10-20 17:37:39 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1369536-1-1.bw
+2015-10-20 17:37:43 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380139-1-1.bw
+2015-10-20 17:37:49 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1380699-1-1.bw
+2015-10-20 17:37:54 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1387702-1-1.bw
+2015-10-20 17:37:59 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1389777-1-1.bw
+2015-10-20 17:38:04 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1403434-1-1.bw
+2015-10-20 17:38:09 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409022-1-1.bw
+2015-10-20 17:38:14 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1409790-1-1.bw
+2015-10-20 17:38:19 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1412969-1-1.bw
+2015-10-20 17:38:24 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1419518-1-1.bw
+2015-10-20 17:38:29 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1430639-1-1.bw
+2015-10-20 17:38:34 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1446203-1-1.bw
+2015-10-20 17:38:38 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1455236-1-1.bw
+2015-10-20 17:38:43 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1477033-1-1.bw
+2015-10-20 17:38:47 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1478789-1-1.bw
+2015-10-20 17:38:51 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR1481012-1-1.bw
+2015-10-20 17:38:56 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607252-1-1.bw
+2015-10-20 17:39:01 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR607970-1-1.bw
+2015-10-20 17:39:06 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR614683-1-1.bw
+2015-10-20 17:39:10 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR656588-1-1.bw
+2015-10-20 17:39:15 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR660366-1-1.bw
+2015-10-20 17:39:20 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR661192-1-1.bw
+2015-10-20 17:39:25 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR807901-1-1.bw
+2015-10-20 17:39:30 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR810507-1-1.bw
+2015-10-20 17:39:35 loadCoverage: loading BigWig file /dcl01/leek/data/cwilks/gtex36/coverage_bigwigs/SRR815735-1-1.bw
+2015-10-20 17:39:40 loadCoverage: applying the cutoff to the merged data
+2015-10-20 17:39:41 filterData: originally there were 198022430 rows, now there are 198022430 rows. Meaning that 0 percent was filtered.
+2015-10-20 17:39:41 getRegionCoverage: processing chr3
+2015-10-20 17:42:28 getRegionCoverage: done processing chr3 
+    user   system  elapsed 
+4494.620 1514.774 1617.515 
+ setting  value                                      
+ version  R version 3.2.2 Patched (2015-08-31 r69235)
+ system   x86_64, linux-gnu                          
+ ui       X11                                        
+ language (EN)                                       
+ collate  en_US.UTF-8                                
+ tz       <NA>                                       
+ date     2015-10-20                                 
+
+ package              * version  date       source        
+ acepack                1.3-3.3  2014-11-24 CRAN (R 3.2.0)
+ AnnotationDbi          1.32.0   2015-10-15 Bioconductor  
+ Biobase                2.30.0   2015-10-15 Bioconductor  
+ BiocGenerics         * 0.16.0   2015-10-15 Bioconductor  
+ BiocParallel         * 1.4.0    2015-10-16 Bioconductor  
+ biomaRt                2.26.0   2015-10-15 Bioconductor  
+ Biostrings             2.38.0   2015-10-15 Bioconductor  
+ bitops                 1.0-6    2013-08-17 CRAN (R 3.2.0)
+ bumphunter             1.10.0   2015-10-15 Bioconductor  
+ cluster                2.0.3    2015-07-21 CRAN (R 3.2.2)
+ codetools              0.2-14   2015-07-15 CRAN (R 3.2.2)
+ colorspace             1.2-6    2015-03-11 CRAN (R 3.2.0)
+ DBI                    0.3.1    2014-09-24 CRAN (R 3.2.0)
+ derfinder            * 1.4.0    2015-10-19 Bioconductor  
+ derfinderHelper        1.4.0    2015-10-19 Bioconductor  
+ devtools             * 1.9.1    2015-09-11 CRAN (R 3.2.2)
+ digest                 0.6.8    2014-12-31 CRAN (R 3.2.0)
+ doRNG                  1.6      2014-03-07 CRAN (R 3.2.0)
+ foreach                1.4.3    2015-10-13 CRAN (R 3.2.2)
+ foreign                0.8-66   2015-08-19 CRAN (R 3.2.2)
+ Formula                1.2-1    2015-04-07 CRAN (R 3.2.0)
+ futile.logger          1.4.1    2015-04-20 CRAN (R 3.2.0)
+ futile.options         1.0.0    2010-04-06 CRAN (R 3.2.0)
+ GenomeInfoDb         * 1.6.0    2015-10-15 Bioconductor  
+ GenomicAlignments      1.6.0    2015-10-15 Bioconductor  
+ GenomicFeatures        1.22.0   2015-10-15 Bioconductor  
+ GenomicFiles           1.6.0    2015-10-15 Bioconductor  
+ GenomicRanges        * 1.22.0   2015-10-15 Bioconductor  
+ ggplot2                1.0.1    2015-03-17 CRAN (R 3.2.0)
+ gridExtra              2.0.0    2015-07-14 CRAN (R 3.2.1)
+ gtable                 0.1.2    2012-12-05 CRAN (R 3.2.0)
+ Hmisc                  3.17-0   2015-09-21 CRAN (R 3.2.2)
+ IRanges              * 2.4.0    2015-10-15 Bioconductor  
+ iterators              1.0.8    2015-10-13 CRAN (R 3.2.2)
+ lambda.r               1.1.7    2015-03-20 CRAN (R 3.2.0)
+ lattice                0.20-33  2015-07-14 CRAN (R 3.2.2)
+ latticeExtra           0.6-26   2013-08-15 CRAN (R 3.2.0)
+ locfit                 1.5-9.1  2013-04-20 CRAN (R 3.2.0)
+ magrittr               1.5      2014-11-22 CRAN (R 3.2.0)
+ MASS                   7.3-44   2015-08-30 CRAN (R 3.2.2)
+ Matrix                 1.2-2    2015-07-08 CRAN (R 3.2.2)
+ matrixStats            0.14.2   2015-06-24 CRAN (R 3.2.1)
+ memoise                0.2.1    2014-04-22 CRAN (R 3.2.0)
+ munsell                0.4.2    2013-07-11 CRAN (R 3.2.0)
+ nnet                   7.3-11   2015-08-30 CRAN (R 3.2.2)
+ pkgmaker               0.22     2014-05-14 CRAN (R 3.2.0)
+ plyr                   1.8.3    2015-06-12 CRAN (R 3.2.1)
+ proto                  0.3-10   2012-12-22 CRAN (R 3.2.0)
+ qvalue                 2.2.0    2015-10-15 Bioconductor  
+ RColorBrewer           1.1-2    2014-12-07 CRAN (R 3.2.0)
+ Rcpp                   0.12.1   2015-09-10 CRAN (R 3.2.2)
+ RCurl                  1.95-4.7 2015-06-30 CRAN (R 3.2.1)
+ registry               0.3      2015-07-08 CRAN (R 3.2.1)
+ reshape2               1.4.1    2014-12-06 CRAN (R 3.2.0)
+ rngtools               1.2.4    2014-03-06 CRAN (R 3.2.0)
+ rpart                  4.1-10   2015-06-29 CRAN (R 3.2.2)
+ Rsamtools              1.22.0   2015-10-15 Bioconductor  
+ RSQLite                1.0.0    2014-10-25 CRAN (R 3.2.0)
+ rtracklayer          * 1.30.0   2015-10-15 Bioconductor  
+ S4Vectors            * 0.8.0    2015-10-15 Bioconductor  
+ scales                 0.3.0    2015-08-25 CRAN (R 3.2.2)
+ stringi                0.5-5    2015-06-29 CRAN (R 3.2.1)
+ stringr                1.0.0    2015-04-30 CRAN (R 3.2.0)
+ SummarizedExperiment   1.0.0    2015-10-15 Bioconductor  
+ survival               2.38-3   2015-07-02 CRAN (R 3.2.2)
+ XML                    3.98-1.3 2015-06-30 CRAN (R 3.2.1)
+ xtable                 1.7-4    2014-09-12 CRAN (R 3.2.0)
+ XVector                0.10.0   2015-10-15 Bioconductor  
+ zlibbioc               1.16.0   2015-10-15 Bioconductor  
+**** Job ends ****
+Tue Oct 20 17:42:56 EDT 2015
