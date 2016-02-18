@@ -2,7 +2,7 @@
 ##
 ## Usage:
 # mkdir -p logs
-# Rscript analyze_gtex.R > logs/annotated_bp_log.txt 2>&1
+# Rscript analyze_gtex.R > logs/analyze_gtex_log.txt 2>&1
 library('derfinder')
 library('derfinderPlot')
 library('GenomicRanges')
