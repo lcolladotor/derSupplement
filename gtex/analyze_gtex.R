@@ -65,7 +65,7 @@ gs = GenomicState.Hsapiens.ensembl.GRCh37.p12$fullGenome
 ensemblAnno = annotateRegions(regions,gs)
 countTable = ensemblAnno$countTable
 
-pdf(file = 'venn-GRCh37.p12.pdf')
+pdf(file = 'plots/venn-GRCh37.p12.pdf')
 vennRegions(ensemblAnno, main = 'GTEx expressed regions by GRCh37.p12', counts.col = 'blue')
 dev.off()
 
@@ -102,7 +102,7 @@ pc2Mat = sapply(pcList, function(x) x$x[,2])
 
 ## plots
 ind = c(1:3,5)
-pdf(file = 'pca-simple.pdf')
+pdf(file = 'plots/pca-simple.pdf')
 rafalib::mypar(2,2,cex.axis=1)
 for(i in ind) boxplot(pc1Mat[,i] ~ mappedInfo$Tissue, 
 	main = colnames(pc1Mat)[i],
