@@ -1,0 +1,819 @@
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Loading required package: colorout
+Warning message:
+In .doLoadActions(where, attach) :
+  trying to execute load actions without 'methods' package
+Loading required package: GenomicRanges
+Loading required package: BiocGenerics
+Loading required package: parallel
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:parallel’:
+
+    clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
+    clusterExport, clusterMap, parApply, parCapply, parLapply,
+    parLapplyLB, parRapply, parSapply, parSapplyLB
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    anyDuplicated, append, as.data.frame, as.vector, cbind, colnames,
+    do.call, duplicated, eval, evalq, Filter, Find, get, grep, grepl,
+    intersect, is.unsorted, lapply, lengths, Map, mapply, match, mget,
+    order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
+    rbind, Reduce, rownames, sapply, setdiff, sort, table, tapply,
+    union, unique, unlist, unsplit
+
+Loading required package: S4Vectors
+Loading required package: stats4
+Loading required package: IRanges
+Loading required package: GenomeInfoDb
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+ 37900000  70940000  84830000  92140000 106900000 161700000 
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  37.90   70.94   84.83   92.14  106.90  161.70 
+2016-02-18 12:19:40 fullCoverage: processing chromosome chr1
+2016-02-18 12:19:40 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR614683_SRS374832_SRX203727_male_heart.left.ventricle.bw
+2016-02-18 12:19:44 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR807901_SRS408124_SRX259897_male_heart.left.ventricle.bw
+2016-02-18 12:19:46 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR810619_SRS408294_SRX260321_male_heart.atrial.appendage.bw
+2016-02-18 12:19:47 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR1389777_SRS636330_SRX595287_male_heart.left.ventricle.bw
+2016-02-18 12:19:49 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_6/coverage_bigwigs/SRR1310433_SRS623952_SRX558468_male_liver.bw
+2016-02-18 12:19:51 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1455236_SRS645850_SRX623276_male_testis.bw
+2016-02-18 12:19:55 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_29/coverage_bigwigs/SRR1409790_SRS638407_SRX603281_male_liver.bw
+2016-02-18 12:19:58 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_15/coverage_bigwigs/SRR1339130_SRS627798_SRX571736_male_testis.bw
+2016-02-18 12:20:03 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR1358582_SRS629860_SRX579839_male_heart.left.ventricle.bw
+2016-02-18 12:20:04 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_22/coverage_bigwigs/SRR1430639_SRS643886_SRX613602_male_heart.left.ventricle.bw
+2016-02-18 12:20:05 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_27/coverage_bigwigs/SRR1412969_SRS639143_SRX604560_male_liver.bw
+2016-02-18 12:20:07 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_17/coverage_bigwigs/SRR1419518_SRS639476_SRX607232_male_testis.bw
+2016-02-18 12:20:09 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_21/coverage_bigwigs/SRR1344445_SRS628435_SRX574094_male_liver.bw
+2016-02-18 12:20:10 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1380699_SRS634795_SRX591154_male_testis.bw
+2016-02-18 12:20:13 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_24/coverage_bigwigs/SRR1403434_SRS638026_SRX600980_male_liver.bw
+2016-02-18 12:20:14 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_20/coverage_bigwigs/SRR1409022_SRS638361_SRX602936_male_testis.bw
+2016-02-18 12:20:17 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1335536_SRS627448_SRX570250_male_testis.bw
+2016-02-18 12:20:19 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_8/coverage_bigwigs/SRR1349409_SRS629384_SRX576402_male_liver.bw
+2016-02-18 12:20:20 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1337388_SRS627714_SRX571034_male_heart.atrial.appendage.bw
+2016-02-18 12:20:22 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR1478789_SRS648802_SRX633743_male_liver.bw
+2016-02-18 12:20:23 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_12/coverage_bigwigs/SRR1380139_SRS634768_SRX590919_male_testis.bw
+2016-02-18 12:20:25 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1369536_SRS631499_SRX584511_male_heart.left.ventricle.bw
+2016-02-18 12:20:27 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1446203_SRS644684_SRX619369_male_liver.bw
+2016-02-18 12:20:28 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_2/coverage_bigwigs/SRR1347100_SRS629238_SRX575500_male_testis.bw
+2016-02-18 12:20:31 loadCoverage: applying the cutoff to the merged data
+2016-02-18 12:20:31 filterData: normalizing coverage
+2016-02-18 12:20:46 filterData: done normalizing coverage
+2016-02-18 12:20:46 filterData: originally there were 248956422 rows, now there are 248956422 rows. Meaning that 0 percent was filtered.
+2016-02-18 12:20:46 fullCoverage: processing chromosome chr2
+2016-02-18 12:20:46 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR614683_SRS374832_SRX203727_male_heart.left.ventricle.bw
+2016-02-18 12:20:47 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR807901_SRS408124_SRX259897_male_heart.left.ventricle.bw
+2016-02-18 12:20:48 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR810619_SRS408294_SRX260321_male_heart.atrial.appendage.bw
+2016-02-18 12:20:48 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR1389777_SRS636330_SRX595287_male_heart.left.ventricle.bw
+2016-02-18 12:20:49 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_6/coverage_bigwigs/SRR1310433_SRS623952_SRX558468_male_liver.bw
+2016-02-18 12:20:50 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1455236_SRS645850_SRX623276_male_testis.bw
+2016-02-18 12:20:51 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_29/coverage_bigwigs/SRR1409790_SRS638407_SRX603281_male_liver.bw
+2016-02-18 12:20:52 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_15/coverage_bigwigs/SRR1339130_SRS627798_SRX571736_male_testis.bw
+2016-02-18 12:20:55 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR1358582_SRS629860_SRX579839_male_heart.left.ventricle.bw
+2016-02-18 12:20:56 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_22/coverage_bigwigs/SRR1430639_SRS643886_SRX613602_male_heart.left.ventricle.bw
+2016-02-18 12:20:56 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_27/coverage_bigwigs/SRR1412969_SRS639143_SRX604560_male_liver.bw
+2016-02-18 12:20:57 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_17/coverage_bigwigs/SRR1419518_SRS639476_SRX607232_male_testis.bw
+2016-02-18 12:20:58 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_21/coverage_bigwigs/SRR1344445_SRS628435_SRX574094_male_liver.bw
+2016-02-18 12:20:59 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1380699_SRS634795_SRX591154_male_testis.bw
+2016-02-18 12:21:00 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_24/coverage_bigwigs/SRR1403434_SRS638026_SRX600980_male_liver.bw
+2016-02-18 12:21:01 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_20/coverage_bigwigs/SRR1409022_SRS638361_SRX602936_male_testis.bw
+2016-02-18 12:21:02 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1335536_SRS627448_SRX570250_male_testis.bw
+2016-02-18 12:21:04 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_8/coverage_bigwigs/SRR1349409_SRS629384_SRX576402_male_liver.bw
+2016-02-18 12:21:04 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1337388_SRS627714_SRX571034_male_heart.atrial.appendage.bw
+2016-02-18 12:21:05 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR1478789_SRS648802_SRX633743_male_liver.bw
+2016-02-18 12:21:06 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_12/coverage_bigwigs/SRR1380139_SRS634768_SRX590919_male_testis.bw
+2016-02-18 12:21:08 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1369536_SRS631499_SRX584511_male_heart.left.ventricle.bw
+2016-02-18 12:21:09 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1446203_SRS644684_SRX619369_male_liver.bw
+2016-02-18 12:21:10 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_2/coverage_bigwigs/SRR1347100_SRS629238_SRX575500_male_testis.bw
+2016-02-18 12:21:11 loadCoverage: applying the cutoff to the merged data
+2016-02-18 12:21:11 filterData: normalizing coverage
+2016-02-18 12:21:23 filterData: done normalizing coverage
+2016-02-18 12:21:23 filterData: originally there were 242193529 rows, now there are 242193529 rows. Meaning that 0 percent was filtered.
+2016-02-18 12:21:23 fullCoverage: processing chromosome chr3
+2016-02-18 12:21:23 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR614683_SRS374832_SRX203727_male_heart.left.ventricle.bw
+2016-02-18 12:21:25 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR807901_SRS408124_SRX259897_male_heart.left.ventricle.bw
+2016-02-18 12:21:26 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR810619_SRS408294_SRX260321_male_heart.atrial.appendage.bw
+2016-02-18 12:21:26 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR1389777_SRS636330_SRX595287_male_heart.left.ventricle.bw
+2016-02-18 12:21:27 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_6/coverage_bigwigs/SRR1310433_SRS623952_SRX558468_male_liver.bw
+2016-02-18 12:21:27 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1455236_SRS645850_SRX623276_male_testis.bw
+2016-02-18 12:21:29 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_29/coverage_bigwigs/SRR1409790_SRS638407_SRX603281_male_liver.bw
+2016-02-18 12:21:29 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_15/coverage_bigwigs/SRR1339130_SRS627798_SRX571736_male_testis.bw
+2016-02-18 12:21:31 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR1358582_SRS629860_SRX579839_male_heart.left.ventricle.bw
+2016-02-18 12:21:32 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_22/coverage_bigwigs/SRR1430639_SRS643886_SRX613602_male_heart.left.ventricle.bw
+2016-02-18 12:21:33 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_27/coverage_bigwigs/SRR1412969_SRS639143_SRX604560_male_liver.bw
+2016-02-18 12:21:33 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_17/coverage_bigwigs/SRR1419518_SRS639476_SRX607232_male_testis.bw
+2016-02-18 12:21:35 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_21/coverage_bigwigs/SRR1344445_SRS628435_SRX574094_male_liver.bw
+2016-02-18 12:21:35 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1380699_SRS634795_SRX591154_male_testis.bw
+2016-02-18 12:21:37 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_24/coverage_bigwigs/SRR1403434_SRS638026_SRX600980_male_liver.bw
+2016-02-18 12:21:38 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_20/coverage_bigwigs/SRR1409022_SRS638361_SRX602936_male_testis.bw
+2016-02-18 12:21:39 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1335536_SRS627448_SRX570250_male_testis.bw
+2016-02-18 12:21:40 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_8/coverage_bigwigs/SRR1349409_SRS629384_SRX576402_male_liver.bw
+2016-02-18 12:21:41 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1337388_SRS627714_SRX571034_male_heart.atrial.appendage.bw
+2016-02-18 12:21:42 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR1478789_SRS648802_SRX633743_male_liver.bw
+2016-02-18 12:21:43 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_12/coverage_bigwigs/SRR1380139_SRS634768_SRX590919_male_testis.bw
+2016-02-18 12:21:44 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1369536_SRS631499_SRX584511_male_heart.left.ventricle.bw
+2016-02-18 12:21:45 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1446203_SRS644684_SRX619369_male_liver.bw
+2016-02-18 12:21:46 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_2/coverage_bigwigs/SRR1347100_SRS629238_SRX575500_male_testis.bw
+2016-02-18 12:21:48 loadCoverage: applying the cutoff to the merged data
+2016-02-18 12:21:48 filterData: normalizing coverage
+2016-02-18 12:21:59 filterData: done normalizing coverage
+2016-02-18 12:21:59 filterData: originally there were 198295559 rows, now there are 198295559 rows. Meaning that 0 percent was filtered.
+2016-02-18 12:21:59 fullCoverage: processing chromosome chr4
+2016-02-18 12:21:59 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR614683_SRS374832_SRX203727_male_heart.left.ventricle.bw
+2016-02-18 12:22:00 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR807901_SRS408124_SRX259897_male_heart.left.ventricle.bw
+2016-02-18 12:22:00 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR810619_SRS408294_SRX260321_male_heart.atrial.appendage.bw
+2016-02-18 12:22:00 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR1389777_SRS636330_SRX595287_male_heart.left.ventricle.bw
+2016-02-18 12:22:01 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_6/coverage_bigwigs/SRR1310433_SRS623952_SRX558468_male_liver.bw
+2016-02-18 12:22:01 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1455236_SRS645850_SRX623276_male_testis.bw
+2016-02-18 12:22:02 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_29/coverage_bigwigs/SRR1409790_SRS638407_SRX603281_male_liver.bw
+2016-02-18 12:22:03 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_15/coverage_bigwigs/SRR1339130_SRS627798_SRX571736_male_testis.bw
+2016-02-18 12:22:04 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR1358582_SRS629860_SRX579839_male_heart.left.ventricle.bw
+2016-02-18 12:22:04 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_22/coverage_bigwigs/SRR1430639_SRS643886_SRX613602_male_heart.left.ventricle.bw
+2016-02-18 12:22:05 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_27/coverage_bigwigs/SRR1412969_SRS639143_SRX604560_male_liver.bw
+2016-02-18 12:22:05 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_17/coverage_bigwigs/SRR1419518_SRS639476_SRX607232_male_testis.bw
+2016-02-18 12:22:06 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_21/coverage_bigwigs/SRR1344445_SRS628435_SRX574094_male_liver.bw
+2016-02-18 12:22:07 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1380699_SRS634795_SRX591154_male_testis.bw
+2016-02-18 12:22:07 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_24/coverage_bigwigs/SRR1403434_SRS638026_SRX600980_male_liver.bw
+2016-02-18 12:22:08 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_20/coverage_bigwigs/SRR1409022_SRS638361_SRX602936_male_testis.bw
+2016-02-18 12:22:09 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1335536_SRS627448_SRX570250_male_testis.bw
+2016-02-18 12:22:10 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_8/coverage_bigwigs/SRR1349409_SRS629384_SRX576402_male_liver.bw
+2016-02-18 12:22:10 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1337388_SRS627714_SRX571034_male_heart.atrial.appendage.bw
+2016-02-18 12:22:11 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR1478789_SRS648802_SRX633743_male_liver.bw
+2016-02-18 12:22:11 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_12/coverage_bigwigs/SRR1380139_SRS634768_SRX590919_male_testis.bw
+2016-02-18 12:22:12 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1369536_SRS631499_SRX584511_male_heart.left.ventricle.bw
+2016-02-18 12:22:13 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1446203_SRS644684_SRX619369_male_liver.bw
+2016-02-18 12:22:13 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_2/coverage_bigwigs/SRR1347100_SRS629238_SRX575500_male_testis.bw
+2016-02-18 12:22:15 loadCoverage: applying the cutoff to the merged data
+2016-02-18 12:22:15 filterData: normalizing coverage
+2016-02-18 12:22:22 filterData: done normalizing coverage
+2016-02-18 12:22:22 filterData: originally there were 190214555 rows, now there are 190214555 rows. Meaning that 0 percent was filtered.
+2016-02-18 12:22:22 fullCoverage: processing chromosome chr5
+2016-02-18 12:22:22 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR614683_SRS374832_SRX203727_male_heart.left.ventricle.bw
+2016-02-18 12:22:23 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR807901_SRS408124_SRX259897_male_heart.left.ventricle.bw
+2016-02-18 12:22:23 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR810619_SRS408294_SRX260321_male_heart.atrial.appendage.bw
+2016-02-18 12:22:23 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR1389777_SRS636330_SRX595287_male_heart.left.ventricle.bw
+2016-02-18 12:22:24 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_6/coverage_bigwigs/SRR1310433_SRS623952_SRX558468_male_liver.bw
+2016-02-18 12:22:24 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1455236_SRS645850_SRX623276_male_testis.bw
+2016-02-18 12:22:25 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_29/coverage_bigwigs/SRR1409790_SRS638407_SRX603281_male_liver.bw
+2016-02-18 12:22:25 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_15/coverage_bigwigs/SRR1339130_SRS627798_SRX571736_male_testis.bw
+2016-02-18 12:22:26 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR1358582_SRS629860_SRX579839_male_heart.left.ventricle.bw
+2016-02-18 12:22:26 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_22/coverage_bigwigs/SRR1430639_SRS643886_SRX613602_male_heart.left.ventricle.bw
+2016-02-18 12:22:27 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_27/coverage_bigwigs/SRR1412969_SRS639143_SRX604560_male_liver.bw
+2016-02-18 12:22:27 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_17/coverage_bigwigs/SRR1419518_SRS639476_SRX607232_male_testis.bw
+2016-02-18 12:22:28 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_21/coverage_bigwigs/SRR1344445_SRS628435_SRX574094_male_liver.bw
+2016-02-18 12:22:28 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1380699_SRS634795_SRX591154_male_testis.bw
+2016-02-18 12:22:29 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_24/coverage_bigwigs/SRR1403434_SRS638026_SRX600980_male_liver.bw
+2016-02-18 12:22:29 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_20/coverage_bigwigs/SRR1409022_SRS638361_SRX602936_male_testis.bw
+2016-02-18 12:22:30 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1335536_SRS627448_SRX570250_male_testis.bw
+2016-02-18 12:22:30 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_8/coverage_bigwigs/SRR1349409_SRS629384_SRX576402_male_liver.bw
+2016-02-18 12:22:30 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1337388_SRS627714_SRX571034_male_heart.atrial.appendage.bw
+2016-02-18 12:22:31 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR1478789_SRS648802_SRX633743_male_liver.bw
+2016-02-18 12:22:31 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_12/coverage_bigwigs/SRR1380139_SRS634768_SRX590919_male_testis.bw
+2016-02-18 12:22:32 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1369536_SRS631499_SRX584511_male_heart.left.ventricle.bw
+2016-02-18 12:22:32 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1446203_SRS644684_SRX619369_male_liver.bw
+2016-02-18 12:22:33 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_2/coverage_bigwigs/SRR1347100_SRS629238_SRX575500_male_testis.bw
+2016-02-18 12:22:34 loadCoverage: applying the cutoff to the merged data
+2016-02-18 12:22:34 filterData: normalizing coverage
+2016-02-18 12:22:39 filterData: done normalizing coverage
+2016-02-18 12:22:39 filterData: originally there were 181538259 rows, now there are 181538259 rows. Meaning that 0 percent was filtered.
+2016-02-18 12:22:39 fullCoverage: processing chromosome chr6
+2016-02-18 12:22:39 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR614683_SRS374832_SRX203727_male_heart.left.ventricle.bw
+2016-02-18 12:22:39 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR807901_SRS408124_SRX259897_male_heart.left.ventricle.bw
+2016-02-18 12:22:40 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR810619_SRS408294_SRX260321_male_heart.atrial.appendage.bw
+2016-02-18 12:22:40 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR1389777_SRS636330_SRX595287_male_heart.left.ventricle.bw
+2016-02-18 12:22:41 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_6/coverage_bigwigs/SRR1310433_SRS623952_SRX558468_male_liver.bw
+2016-02-18 12:22:42 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1455236_SRS645850_SRX623276_male_testis.bw
+2016-02-18 12:22:43 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_29/coverage_bigwigs/SRR1409790_SRS638407_SRX603281_male_liver.bw
+2016-02-18 12:22:44 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_15/coverage_bigwigs/SRR1339130_SRS627798_SRX571736_male_testis.bw
+2016-02-18 12:22:45 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR1358582_SRS629860_SRX579839_male_heart.left.ventricle.bw
+2016-02-18 12:22:46 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_22/coverage_bigwigs/SRR1430639_SRS643886_SRX613602_male_heart.left.ventricle.bw
+2016-02-18 12:22:46 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_27/coverage_bigwigs/SRR1412969_SRS639143_SRX604560_male_liver.bw
+2016-02-18 12:22:47 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_17/coverage_bigwigs/SRR1419518_SRS639476_SRX607232_male_testis.bw
+2016-02-18 12:22:48 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_21/coverage_bigwigs/SRR1344445_SRS628435_SRX574094_male_liver.bw
+2016-02-18 12:22:49 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1380699_SRS634795_SRX591154_male_testis.bw
+2016-02-18 12:22:49 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_24/coverage_bigwigs/SRR1403434_SRS638026_SRX600980_male_liver.bw
+2016-02-18 12:22:50 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_20/coverage_bigwigs/SRR1409022_SRS638361_SRX602936_male_testis.bw
+2016-02-18 12:22:51 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1335536_SRS627448_SRX570250_male_testis.bw
+2016-02-18 12:22:52 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_8/coverage_bigwigs/SRR1349409_SRS629384_SRX576402_male_liver.bw
+2016-02-18 12:22:52 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1337388_SRS627714_SRX571034_male_heart.atrial.appendage.bw
+2016-02-18 12:22:53 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR1478789_SRS648802_SRX633743_male_liver.bw
+2016-02-18 12:22:54 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_12/coverage_bigwigs/SRR1380139_SRS634768_SRX590919_male_testis.bw
+2016-02-18 12:22:55 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1369536_SRS631499_SRX584511_male_heart.left.ventricle.bw
+2016-02-18 12:22:55 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1446203_SRS644684_SRX619369_male_liver.bw
+2016-02-18 12:22:56 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_2/coverage_bigwigs/SRR1347100_SRS629238_SRX575500_male_testis.bw
+2016-02-18 12:22:57 loadCoverage: applying the cutoff to the merged data
+2016-02-18 12:22:57 filterData: normalizing coverage
+2016-02-18 12:23:03 filterData: done normalizing coverage
+2016-02-18 12:23:03 filterData: originally there were 170805979 rows, now there are 170805979 rows. Meaning that 0 percent was filtered.
+2016-02-18 12:23:03 fullCoverage: processing chromosome chr7
+2016-02-18 12:23:03 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR614683_SRS374832_SRX203727_male_heart.left.ventricle.bw
+2016-02-18 12:23:04 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR807901_SRS408124_SRX259897_male_heart.left.ventricle.bw
+2016-02-18 12:23:04 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR810619_SRS408294_SRX260321_male_heart.atrial.appendage.bw
+2016-02-18 12:23:05 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR1389777_SRS636330_SRX595287_male_heart.left.ventricle.bw
+2016-02-18 12:23:05 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_6/coverage_bigwigs/SRR1310433_SRS623952_SRX558468_male_liver.bw
+2016-02-18 12:23:06 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1455236_SRS645850_SRX623276_male_testis.bw
+2016-02-18 12:23:07 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_29/coverage_bigwigs/SRR1409790_SRS638407_SRX603281_male_liver.bw
+2016-02-18 12:23:08 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_15/coverage_bigwigs/SRR1339130_SRS627798_SRX571736_male_testis.bw
+2016-02-18 12:23:09 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR1358582_SRS629860_SRX579839_male_heart.left.ventricle.bw
+2016-02-18 12:23:10 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_22/coverage_bigwigs/SRR1430639_SRS643886_SRX613602_male_heart.left.ventricle.bw
+2016-02-18 12:23:10 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_27/coverage_bigwigs/SRR1412969_SRS639143_SRX604560_male_liver.bw
+2016-02-18 12:23:11 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_17/coverage_bigwigs/SRR1419518_SRS639476_SRX607232_male_testis.bw
+2016-02-18 12:23:12 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_21/coverage_bigwigs/SRR1344445_SRS628435_SRX574094_male_liver.bw
+2016-02-18 12:23:13 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1380699_SRS634795_SRX591154_male_testis.bw
+2016-02-18 12:23:14 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_24/coverage_bigwigs/SRR1403434_SRS638026_SRX600980_male_liver.bw
+2016-02-18 12:23:14 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_20/coverage_bigwigs/SRR1409022_SRS638361_SRX602936_male_testis.bw
+2016-02-18 12:23:15 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1335536_SRS627448_SRX570250_male_testis.bw
+2016-02-18 12:23:16 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_8/coverage_bigwigs/SRR1349409_SRS629384_SRX576402_male_liver.bw
+2016-02-18 12:23:17 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1337388_SRS627714_SRX571034_male_heart.atrial.appendage.bw
+2016-02-18 12:23:17 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR1478789_SRS648802_SRX633743_male_liver.bw
+2016-02-18 12:23:18 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_12/coverage_bigwigs/SRR1380139_SRS634768_SRX590919_male_testis.bw
+2016-02-18 12:23:19 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1369536_SRS631499_SRX584511_male_heart.left.ventricle.bw
+2016-02-18 12:23:20 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1446203_SRS644684_SRX619369_male_liver.bw
+2016-02-18 12:23:21 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_2/coverage_bigwigs/SRR1347100_SRS629238_SRX575500_male_testis.bw
+2016-02-18 12:23:22 loadCoverage: applying the cutoff to the merged data
+2016-02-18 12:23:22 filterData: normalizing coverage
+2016-02-18 12:23:31 filterData: done normalizing coverage
+2016-02-18 12:23:31 filterData: originally there were 159345973 rows, now there are 159345973 rows. Meaning that 0 percent was filtered.
+2016-02-18 12:23:31 fullCoverage: processing chromosome chr8
+2016-02-18 12:23:31 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR614683_SRS374832_SRX203727_male_heart.left.ventricle.bw
+2016-02-18 12:23:31 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR807901_SRS408124_SRX259897_male_heart.left.ventricle.bw
+2016-02-18 12:23:32 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR810619_SRS408294_SRX260321_male_heart.atrial.appendage.bw
+2016-02-18 12:23:32 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR1389777_SRS636330_SRX595287_male_heart.left.ventricle.bw
+2016-02-18 12:23:32 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_6/coverage_bigwigs/SRR1310433_SRS623952_SRX558468_male_liver.bw
+2016-02-18 12:23:33 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1455236_SRS645850_SRX623276_male_testis.bw
+2016-02-18 12:23:34 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_29/coverage_bigwigs/SRR1409790_SRS638407_SRX603281_male_liver.bw
+2016-02-18 12:23:34 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_15/coverage_bigwigs/SRR1339130_SRS627798_SRX571736_male_testis.bw
+2016-02-18 12:23:35 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR1358582_SRS629860_SRX579839_male_heart.left.ventricle.bw
+2016-02-18 12:23:35 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_22/coverage_bigwigs/SRR1430639_SRS643886_SRX613602_male_heart.left.ventricle.bw
+2016-02-18 12:23:36 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_27/coverage_bigwigs/SRR1412969_SRS639143_SRX604560_male_liver.bw
+2016-02-18 12:23:36 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_17/coverage_bigwigs/SRR1419518_SRS639476_SRX607232_male_testis.bw
+2016-02-18 12:23:37 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_21/coverage_bigwigs/SRR1344445_SRS628435_SRX574094_male_liver.bw
+2016-02-18 12:23:37 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1380699_SRS634795_SRX591154_male_testis.bw
+2016-02-18 12:23:37 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_24/coverage_bigwigs/SRR1403434_SRS638026_SRX600980_male_liver.bw
+2016-02-18 12:23:38 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_20/coverage_bigwigs/SRR1409022_SRS638361_SRX602936_male_testis.bw
+2016-02-18 12:23:38 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1335536_SRS627448_SRX570250_male_testis.bw
+2016-02-18 12:23:39 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_8/coverage_bigwigs/SRR1349409_SRS629384_SRX576402_male_liver.bw
+2016-02-18 12:23:39 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1337388_SRS627714_SRX571034_male_heart.atrial.appendage.bw
+2016-02-18 12:23:39 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR1478789_SRS648802_SRX633743_male_liver.bw
+2016-02-18 12:23:40 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_12/coverage_bigwigs/SRR1380139_SRS634768_SRX590919_male_testis.bw
+2016-02-18 12:23:40 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1369536_SRS631499_SRX584511_male_heart.left.ventricle.bw
+2016-02-18 12:23:41 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1446203_SRS644684_SRX619369_male_liver.bw
+2016-02-18 12:23:41 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_2/coverage_bigwigs/SRR1347100_SRS629238_SRX575500_male_testis.bw
+2016-02-18 12:23:42 loadCoverage: applying the cutoff to the merged data
+2016-02-18 12:23:42 filterData: normalizing coverage
+2016-02-18 12:23:46 filterData: done normalizing coverage
+2016-02-18 12:23:46 filterData: originally there were 145138636 rows, now there are 145138636 rows. Meaning that 0 percent was filtered.
+2016-02-18 12:23:46 fullCoverage: processing chromosome chr9
+2016-02-18 12:23:46 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR614683_SRS374832_SRX203727_male_heart.left.ventricle.bw
+2016-02-18 12:23:47 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR807901_SRS408124_SRX259897_male_heart.left.ventricle.bw
+2016-02-18 12:23:47 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR810619_SRS408294_SRX260321_male_heart.atrial.appendage.bw
+2016-02-18 12:23:47 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR1389777_SRS636330_SRX595287_male_heart.left.ventricle.bw
+2016-02-18 12:23:47 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_6/coverage_bigwigs/SRR1310433_SRS623952_SRX558468_male_liver.bw
+2016-02-18 12:23:48 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1455236_SRS645850_SRX623276_male_testis.bw
+2016-02-18 12:23:48 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_29/coverage_bigwigs/SRR1409790_SRS638407_SRX603281_male_liver.bw
+2016-02-18 12:23:49 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_15/coverage_bigwigs/SRR1339130_SRS627798_SRX571736_male_testis.bw
+2016-02-18 12:23:50 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR1358582_SRS629860_SRX579839_male_heart.left.ventricle.bw
+2016-02-18 12:23:50 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_22/coverage_bigwigs/SRR1430639_SRS643886_SRX613602_male_heart.left.ventricle.bw
+2016-02-18 12:23:50 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_27/coverage_bigwigs/SRR1412969_SRS639143_SRX604560_male_liver.bw
+2016-02-18 12:23:50 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_17/coverage_bigwigs/SRR1419518_SRS639476_SRX607232_male_testis.bw
+2016-02-18 12:23:51 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_21/coverage_bigwigs/SRR1344445_SRS628435_SRX574094_male_liver.bw
+2016-02-18 12:23:51 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1380699_SRS634795_SRX591154_male_testis.bw
+2016-02-18 12:23:52 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_24/coverage_bigwigs/SRR1403434_SRS638026_SRX600980_male_liver.bw
+2016-02-18 12:23:52 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_20/coverage_bigwigs/SRR1409022_SRS638361_SRX602936_male_testis.bw
+2016-02-18 12:23:53 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1335536_SRS627448_SRX570250_male_testis.bw
+2016-02-18 12:23:53 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_8/coverage_bigwigs/SRR1349409_SRS629384_SRX576402_male_liver.bw
+2016-02-18 12:23:54 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1337388_SRS627714_SRX571034_male_heart.atrial.appendage.bw
+2016-02-18 12:23:54 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR1478789_SRS648802_SRX633743_male_liver.bw
+2016-02-18 12:23:54 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_12/coverage_bigwigs/SRR1380139_SRS634768_SRX590919_male_testis.bw
+2016-02-18 12:23:55 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1369536_SRS631499_SRX584511_male_heart.left.ventricle.bw
+2016-02-18 12:23:55 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1446203_SRS644684_SRX619369_male_liver.bw
+2016-02-18 12:23:56 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_2/coverage_bigwigs/SRR1347100_SRS629238_SRX575500_male_testis.bw
+2016-02-18 12:23:57 loadCoverage: applying the cutoff to the merged data
+2016-02-18 12:23:57 filterData: normalizing coverage
+2016-02-18 12:24:01 filterData: done normalizing coverage
+2016-02-18 12:24:01 filterData: originally there were 138394717 rows, now there are 138394717 rows. Meaning that 0 percent was filtered.
+2016-02-18 12:24:01 fullCoverage: processing chromosome chr10
+2016-02-18 12:24:01 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR614683_SRS374832_SRX203727_male_heart.left.ventricle.bw
+2016-02-18 12:24:02 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR807901_SRS408124_SRX259897_male_heart.left.ventricle.bw
+2016-02-18 12:24:02 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR810619_SRS408294_SRX260321_male_heart.atrial.appendage.bw
+2016-02-18 12:24:03 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR1389777_SRS636330_SRX595287_male_heart.left.ventricle.bw
+2016-02-18 12:24:03 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_6/coverage_bigwigs/SRR1310433_SRS623952_SRX558468_male_liver.bw
+2016-02-18 12:24:04 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1455236_SRS645850_SRX623276_male_testis.bw
+2016-02-18 12:24:05 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_29/coverage_bigwigs/SRR1409790_SRS638407_SRX603281_male_liver.bw
+2016-02-18 12:24:06 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_15/coverage_bigwigs/SRR1339130_SRS627798_SRX571736_male_testis.bw
+2016-02-18 12:24:08 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR1358582_SRS629860_SRX579839_male_heart.left.ventricle.bw
+2016-02-18 12:24:08 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_22/coverage_bigwigs/SRR1430639_SRS643886_SRX613602_male_heart.left.ventricle.bw
+2016-02-18 12:24:09 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_27/coverage_bigwigs/SRR1412969_SRS639143_SRX604560_male_liver.bw
+2016-02-18 12:24:10 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_17/coverage_bigwigs/SRR1419518_SRS639476_SRX607232_male_testis.bw
+2016-02-18 12:24:11 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_21/coverage_bigwigs/SRR1344445_SRS628435_SRX574094_male_liver.bw
+2016-02-18 12:24:11 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1380699_SRS634795_SRX591154_male_testis.bw
+2016-02-18 12:24:12 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_24/coverage_bigwigs/SRR1403434_SRS638026_SRX600980_male_liver.bw
+2016-02-18 12:24:13 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_20/coverage_bigwigs/SRR1409022_SRS638361_SRX602936_male_testis.bw
+2016-02-18 12:24:14 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1335536_SRS627448_SRX570250_male_testis.bw
+2016-02-18 12:24:15 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_8/coverage_bigwigs/SRR1349409_SRS629384_SRX576402_male_liver.bw
+2016-02-18 12:24:16 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1337388_SRS627714_SRX571034_male_heart.atrial.appendage.bw
+2016-02-18 12:24:17 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR1478789_SRS648802_SRX633743_male_liver.bw
+2016-02-18 12:24:18 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_12/coverage_bigwigs/SRR1380139_SRS634768_SRX590919_male_testis.bw
+2016-02-18 12:24:19 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1369536_SRS631499_SRX584511_male_heart.left.ventricle.bw
+2016-02-18 12:24:20 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1446203_SRS644684_SRX619369_male_liver.bw
+2016-02-18 12:24:20 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_2/coverage_bigwigs/SRR1347100_SRS629238_SRX575500_male_testis.bw
+2016-02-18 12:24:22 loadCoverage: applying the cutoff to the merged data
+2016-02-18 12:24:22 filterData: normalizing coverage
+2016-02-18 12:24:32 filterData: done normalizing coverage
+2016-02-18 12:24:32 filterData: originally there were 133797422 rows, now there are 133797422 rows. Meaning that 0 percent was filtered.
+2016-02-18 12:24:32 fullCoverage: processing chromosome chr11
+2016-02-18 12:24:32 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR614683_SRS374832_SRX203727_male_heart.left.ventricle.bw
+2016-02-18 12:24:32 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR807901_SRS408124_SRX259897_male_heart.left.ventricle.bw
+2016-02-18 12:24:33 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR810619_SRS408294_SRX260321_male_heart.atrial.appendage.bw
+2016-02-18 12:24:33 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR1389777_SRS636330_SRX595287_male_heart.left.ventricle.bw
+2016-02-18 12:24:34 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_6/coverage_bigwigs/SRR1310433_SRS623952_SRX558468_male_liver.bw
+2016-02-18 12:24:34 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1455236_SRS645850_SRX623276_male_testis.bw
+2016-02-18 12:24:35 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_29/coverage_bigwigs/SRR1409790_SRS638407_SRX603281_male_liver.bw
+2016-02-18 12:24:36 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_15/coverage_bigwigs/SRR1339130_SRS627798_SRX571736_male_testis.bw
+2016-02-18 12:24:37 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR1358582_SRS629860_SRX579839_male_heart.left.ventricle.bw
+2016-02-18 12:24:38 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_22/coverage_bigwigs/SRR1430639_SRS643886_SRX613602_male_heart.left.ventricle.bw
+2016-02-18 12:24:38 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_27/coverage_bigwigs/SRR1412969_SRS639143_SRX604560_male_liver.bw
+2016-02-18 12:24:39 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_17/coverage_bigwigs/SRR1419518_SRS639476_SRX607232_male_testis.bw
+2016-02-18 12:24:39 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_21/coverage_bigwigs/SRR1344445_SRS628435_SRX574094_male_liver.bw
+2016-02-18 12:24:40 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1380699_SRS634795_SRX591154_male_testis.bw
+2016-02-18 12:24:41 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_24/coverage_bigwigs/SRR1403434_SRS638026_SRX600980_male_liver.bw
+2016-02-18 12:24:41 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_20/coverage_bigwigs/SRR1409022_SRS638361_SRX602936_male_testis.bw
+2016-02-18 12:24:42 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1335536_SRS627448_SRX570250_male_testis.bw
+2016-02-18 12:24:43 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_8/coverage_bigwigs/SRR1349409_SRS629384_SRX576402_male_liver.bw
+2016-02-18 12:24:43 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1337388_SRS627714_SRX571034_male_heart.atrial.appendage.bw
+2016-02-18 12:24:44 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR1478789_SRS648802_SRX633743_male_liver.bw
+2016-02-18 12:24:45 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_12/coverage_bigwigs/SRR1380139_SRS634768_SRX590919_male_testis.bw
+2016-02-18 12:24:46 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1369536_SRS631499_SRX584511_male_heart.left.ventricle.bw
+2016-02-18 12:24:46 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1446203_SRS644684_SRX619369_male_liver.bw
+2016-02-18 12:24:47 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_2/coverage_bigwigs/SRR1347100_SRS629238_SRX575500_male_testis.bw
+2016-02-18 12:24:48 loadCoverage: applying the cutoff to the merged data
+2016-02-18 12:24:48 filterData: normalizing coverage
+2016-02-18 12:25:03 filterData: done normalizing coverage
+2016-02-18 12:25:03 filterData: originally there were 135086622 rows, now there are 135086622 rows. Meaning that 0 percent was filtered.
+2016-02-18 12:25:03 fullCoverage: processing chromosome chr12
+2016-02-18 12:25:03 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR614683_SRS374832_SRX203727_male_heart.left.ventricle.bw
+2016-02-18 12:25:03 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR807901_SRS408124_SRX259897_male_heart.left.ventricle.bw
+2016-02-18 12:25:04 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR810619_SRS408294_SRX260321_male_heart.atrial.appendage.bw
+2016-02-18 12:25:04 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR1389777_SRS636330_SRX595287_male_heart.left.ventricle.bw
+2016-02-18 12:25:05 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_6/coverage_bigwigs/SRR1310433_SRS623952_SRX558468_male_liver.bw
+2016-02-18 12:25:05 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1455236_SRS645850_SRX623276_male_testis.bw
+2016-02-18 12:25:06 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_29/coverage_bigwigs/SRR1409790_SRS638407_SRX603281_male_liver.bw
+2016-02-18 12:25:07 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_15/coverage_bigwigs/SRR1339130_SRS627798_SRX571736_male_testis.bw
+2016-02-18 12:25:08 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR1358582_SRS629860_SRX579839_male_heart.left.ventricle.bw
+2016-02-18 12:25:08 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_22/coverage_bigwigs/SRR1430639_SRS643886_SRX613602_male_heart.left.ventricle.bw
+2016-02-18 12:25:08 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_27/coverage_bigwigs/SRR1412969_SRS639143_SRX604560_male_liver.bw
+2016-02-18 12:25:09 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_17/coverage_bigwigs/SRR1419518_SRS639476_SRX607232_male_testis.bw
+2016-02-18 12:25:10 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_21/coverage_bigwigs/SRR1344445_SRS628435_SRX574094_male_liver.bw
+2016-02-18 12:25:10 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1380699_SRS634795_SRX591154_male_testis.bw
+2016-02-18 12:25:11 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_24/coverage_bigwigs/SRR1403434_SRS638026_SRX600980_male_liver.bw
+2016-02-18 12:25:11 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_20/coverage_bigwigs/SRR1409022_SRS638361_SRX602936_male_testis.bw
+2016-02-18 12:25:12 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1335536_SRS627448_SRX570250_male_testis.bw
+2016-02-18 12:25:13 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_8/coverage_bigwigs/SRR1349409_SRS629384_SRX576402_male_liver.bw
+2016-02-18 12:25:13 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1337388_SRS627714_SRX571034_male_heart.atrial.appendage.bw
+2016-02-18 12:25:14 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR1478789_SRS648802_SRX633743_male_liver.bw
+2016-02-18 12:25:14 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_12/coverage_bigwigs/SRR1380139_SRS634768_SRX590919_male_testis.bw
+2016-02-18 12:25:15 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1369536_SRS631499_SRX584511_male_heart.left.ventricle.bw
+2016-02-18 12:25:16 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1446203_SRS644684_SRX619369_male_liver.bw
+2016-02-18 12:25:16 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_2/coverage_bigwigs/SRR1347100_SRS629238_SRX575500_male_testis.bw
+2016-02-18 12:25:17 loadCoverage: applying the cutoff to the merged data
+2016-02-18 12:25:17 filterData: normalizing coverage
+2016-02-18 12:25:24 filterData: done normalizing coverage
+2016-02-18 12:25:24 filterData: originally there were 133275309 rows, now there are 133275309 rows. Meaning that 0 percent was filtered.
+2016-02-18 12:25:24 fullCoverage: processing chromosome chr13
+2016-02-18 12:25:24 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR614683_SRS374832_SRX203727_male_heart.left.ventricle.bw
+2016-02-18 12:25:24 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR807901_SRS408124_SRX259897_male_heart.left.ventricle.bw
+2016-02-18 12:25:25 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR810619_SRS408294_SRX260321_male_heart.atrial.appendage.bw
+2016-02-18 12:25:25 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR1389777_SRS636330_SRX595287_male_heart.left.ventricle.bw
+2016-02-18 12:25:25 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_6/coverage_bigwigs/SRR1310433_SRS623952_SRX558468_male_liver.bw
+2016-02-18 12:25:25 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1455236_SRS645850_SRX623276_male_testis.bw
+2016-02-18 12:25:26 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_29/coverage_bigwigs/SRR1409790_SRS638407_SRX603281_male_liver.bw
+2016-02-18 12:25:26 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_15/coverage_bigwigs/SRR1339130_SRS627798_SRX571736_male_testis.bw
+2016-02-18 12:25:27 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR1358582_SRS629860_SRX579839_male_heart.left.ventricle.bw
+2016-02-18 12:25:27 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_22/coverage_bigwigs/SRR1430639_SRS643886_SRX613602_male_heart.left.ventricle.bw
+2016-02-18 12:25:27 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_27/coverage_bigwigs/SRR1412969_SRS639143_SRX604560_male_liver.bw
+2016-02-18 12:25:27 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_17/coverage_bigwigs/SRR1419518_SRS639476_SRX607232_male_testis.bw
+2016-02-18 12:25:28 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_21/coverage_bigwigs/SRR1344445_SRS628435_SRX574094_male_liver.bw
+2016-02-18 12:25:28 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1380699_SRS634795_SRX591154_male_testis.bw
+2016-02-18 12:25:29 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_24/coverage_bigwigs/SRR1403434_SRS638026_SRX600980_male_liver.bw
+2016-02-18 12:25:29 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_20/coverage_bigwigs/SRR1409022_SRS638361_SRX602936_male_testis.bw
+2016-02-18 12:25:29 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1335536_SRS627448_SRX570250_male_testis.bw
+2016-02-18 12:25:30 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_8/coverage_bigwigs/SRR1349409_SRS629384_SRX576402_male_liver.bw
+2016-02-18 12:25:30 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1337388_SRS627714_SRX571034_male_heart.atrial.appendage.bw
+2016-02-18 12:25:30 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR1478789_SRS648802_SRX633743_male_liver.bw
+2016-02-18 12:25:31 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_12/coverage_bigwigs/SRR1380139_SRS634768_SRX590919_male_testis.bw
+2016-02-18 12:25:31 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1369536_SRS631499_SRX584511_male_heart.left.ventricle.bw
+2016-02-18 12:25:31 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1446203_SRS644684_SRX619369_male_liver.bw
+2016-02-18 12:25:32 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_2/coverage_bigwigs/SRR1347100_SRS629238_SRX575500_male_testis.bw
+2016-02-18 12:25:32 loadCoverage: applying the cutoff to the merged data
+2016-02-18 12:25:32 filterData: normalizing coverage
+2016-02-18 12:25:38 filterData: done normalizing coverage
+2016-02-18 12:25:38 filterData: originally there were 114364328 rows, now there are 114364328 rows. Meaning that 0 percent was filtered.
+2016-02-18 12:25:38 fullCoverage: processing chromosome chr14
+2016-02-18 12:25:38 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR614683_SRS374832_SRX203727_male_heart.left.ventricle.bw
+2016-02-18 12:25:38 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR807901_SRS408124_SRX259897_male_heart.left.ventricle.bw
+2016-02-18 12:25:39 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR810619_SRS408294_SRX260321_male_heart.atrial.appendage.bw
+2016-02-18 12:25:39 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR1389777_SRS636330_SRX595287_male_heart.left.ventricle.bw
+2016-02-18 12:25:39 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_6/coverage_bigwigs/SRR1310433_SRS623952_SRX558468_male_liver.bw
+2016-02-18 12:25:39 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1455236_SRS645850_SRX623276_male_testis.bw
+2016-02-18 12:25:40 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_29/coverage_bigwigs/SRR1409790_SRS638407_SRX603281_male_liver.bw
+2016-02-18 12:25:40 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_15/coverage_bigwigs/SRR1339130_SRS627798_SRX571736_male_testis.bw
+2016-02-18 12:25:40 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR1358582_SRS629860_SRX579839_male_heart.left.ventricle.bw
+2016-02-18 12:25:41 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_22/coverage_bigwigs/SRR1430639_SRS643886_SRX613602_male_heart.left.ventricle.bw
+2016-02-18 12:25:41 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_27/coverage_bigwigs/SRR1412969_SRS639143_SRX604560_male_liver.bw
+2016-02-18 12:25:42 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_17/coverage_bigwigs/SRR1419518_SRS639476_SRX607232_male_testis.bw
+2016-02-18 12:25:42 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_21/coverage_bigwigs/SRR1344445_SRS628435_SRX574094_male_liver.bw
+2016-02-18 12:25:42 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1380699_SRS634795_SRX591154_male_testis.bw
+2016-02-18 12:25:43 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_24/coverage_bigwigs/SRR1403434_SRS638026_SRX600980_male_liver.bw
+2016-02-18 12:25:43 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_20/coverage_bigwigs/SRR1409022_SRS638361_SRX602936_male_testis.bw
+2016-02-18 12:25:43 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1335536_SRS627448_SRX570250_male_testis.bw
+2016-02-18 12:25:44 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_8/coverage_bigwigs/SRR1349409_SRS629384_SRX576402_male_liver.bw
+2016-02-18 12:25:44 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1337388_SRS627714_SRX571034_male_heart.atrial.appendage.bw
+2016-02-18 12:25:44 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR1478789_SRS648802_SRX633743_male_liver.bw
+2016-02-18 12:25:44 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_12/coverage_bigwigs/SRR1380139_SRS634768_SRX590919_male_testis.bw
+2016-02-18 12:25:45 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1369536_SRS631499_SRX584511_male_heart.left.ventricle.bw
+2016-02-18 12:25:45 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1446203_SRS644684_SRX619369_male_liver.bw
+2016-02-18 12:25:45 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_2/coverage_bigwigs/SRR1347100_SRS629238_SRX575500_male_testis.bw
+2016-02-18 12:25:46 loadCoverage: applying the cutoff to the merged data
+2016-02-18 12:25:46 filterData: normalizing coverage
+2016-02-18 12:25:48 filterData: done normalizing coverage
+2016-02-18 12:25:48 filterData: originally there were 107043718 rows, now there are 107043718 rows. Meaning that 0 percent was filtered.
+2016-02-18 12:25:48 fullCoverage: processing chromosome chr15
+2016-02-18 12:25:48 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR614683_SRS374832_SRX203727_male_heart.left.ventricle.bw
+2016-02-18 12:25:49 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR807901_SRS408124_SRX259897_male_heart.left.ventricle.bw
+2016-02-18 12:25:49 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR810619_SRS408294_SRX260321_male_heart.atrial.appendage.bw
+2016-02-18 12:25:49 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR1389777_SRS636330_SRX595287_male_heart.left.ventricle.bw
+2016-02-18 12:25:50 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_6/coverage_bigwigs/SRR1310433_SRS623952_SRX558468_male_liver.bw
+2016-02-18 12:25:50 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1455236_SRS645850_SRX623276_male_testis.bw
+2016-02-18 12:25:51 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_29/coverage_bigwigs/SRR1409790_SRS638407_SRX603281_male_liver.bw
+2016-02-18 12:25:51 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_15/coverage_bigwigs/SRR1339130_SRS627798_SRX571736_male_testis.bw
+2016-02-18 12:25:52 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR1358582_SRS629860_SRX579839_male_heart.left.ventricle.bw
+2016-02-18 12:25:53 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_22/coverage_bigwigs/SRR1430639_SRS643886_SRX613602_male_heart.left.ventricle.bw
+2016-02-18 12:25:53 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_27/coverage_bigwigs/SRR1412969_SRS639143_SRX604560_male_liver.bw
+2016-02-18 12:25:53 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_17/coverage_bigwigs/SRR1419518_SRS639476_SRX607232_male_testis.bw
+2016-02-18 12:25:54 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_21/coverage_bigwigs/SRR1344445_SRS628435_SRX574094_male_liver.bw
+2016-02-18 12:25:54 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1380699_SRS634795_SRX591154_male_testis.bw
+2016-02-18 12:25:55 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_24/coverage_bigwigs/SRR1403434_SRS638026_SRX600980_male_liver.bw
+2016-02-18 12:25:55 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_20/coverage_bigwigs/SRR1409022_SRS638361_SRX602936_male_testis.bw
+2016-02-18 12:25:56 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1335536_SRS627448_SRX570250_male_testis.bw
+2016-02-18 12:25:57 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_8/coverage_bigwigs/SRR1349409_SRS629384_SRX576402_male_liver.bw
+2016-02-18 12:25:57 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1337388_SRS627714_SRX571034_male_heart.atrial.appendage.bw
+2016-02-18 12:25:58 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR1478789_SRS648802_SRX633743_male_liver.bw
+2016-02-18 12:25:58 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_12/coverage_bigwigs/SRR1380139_SRS634768_SRX590919_male_testis.bw
+2016-02-18 12:25:59 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1369536_SRS631499_SRX584511_male_heart.left.ventricle.bw
+2016-02-18 12:25:59 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1446203_SRS644684_SRX619369_male_liver.bw
+2016-02-18 12:25:59 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_2/coverage_bigwigs/SRR1347100_SRS629238_SRX575500_male_testis.bw
+2016-02-18 12:26:00 loadCoverage: applying the cutoff to the merged data
+2016-02-18 12:26:00 filterData: normalizing coverage
+2016-02-18 12:26:05 filterData: done normalizing coverage
+2016-02-18 12:26:05 filterData: originally there were 101991189 rows, now there are 101991189 rows. Meaning that 0 percent was filtered.
+2016-02-18 12:26:05 fullCoverage: processing chromosome chr16
+2016-02-18 12:26:05 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR614683_SRS374832_SRX203727_male_heart.left.ventricle.bw
+2016-02-18 12:26:06 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR807901_SRS408124_SRX259897_male_heart.left.ventricle.bw
+2016-02-18 12:26:06 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR810619_SRS408294_SRX260321_male_heart.atrial.appendage.bw
+2016-02-18 12:26:07 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR1389777_SRS636330_SRX595287_male_heart.left.ventricle.bw
+2016-02-18 12:26:07 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_6/coverage_bigwigs/SRR1310433_SRS623952_SRX558468_male_liver.bw
+2016-02-18 12:26:07 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1455236_SRS645850_SRX623276_male_testis.bw
+2016-02-18 12:26:08 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_29/coverage_bigwigs/SRR1409790_SRS638407_SRX603281_male_liver.bw
+2016-02-18 12:26:09 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_15/coverage_bigwigs/SRR1339130_SRS627798_SRX571736_male_testis.bw
+2016-02-18 12:26:10 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR1358582_SRS629860_SRX579839_male_heart.left.ventricle.bw
+2016-02-18 12:26:11 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_22/coverage_bigwigs/SRR1430639_SRS643886_SRX613602_male_heart.left.ventricle.bw
+2016-02-18 12:26:11 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_27/coverage_bigwigs/SRR1412969_SRS639143_SRX604560_male_liver.bw
+2016-02-18 12:26:12 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_17/coverage_bigwigs/SRR1419518_SRS639476_SRX607232_male_testis.bw
+2016-02-18 12:26:13 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_21/coverage_bigwigs/SRR1344445_SRS628435_SRX574094_male_liver.bw
+2016-02-18 12:26:13 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1380699_SRS634795_SRX591154_male_testis.bw
+2016-02-18 12:26:14 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_24/coverage_bigwigs/SRR1403434_SRS638026_SRX600980_male_liver.bw
+2016-02-18 12:26:14 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_20/coverage_bigwigs/SRR1409022_SRS638361_SRX602936_male_testis.bw
+2016-02-18 12:26:15 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1335536_SRS627448_SRX570250_male_testis.bw
+2016-02-18 12:26:16 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_8/coverage_bigwigs/SRR1349409_SRS629384_SRX576402_male_liver.bw
+2016-02-18 12:26:17 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1337388_SRS627714_SRX571034_male_heart.atrial.appendage.bw
+2016-02-18 12:26:17 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR1478789_SRS648802_SRX633743_male_liver.bw
+2016-02-18 12:26:18 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_12/coverage_bigwigs/SRR1380139_SRS634768_SRX590919_male_testis.bw
+2016-02-18 12:26:19 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1369536_SRS631499_SRX584511_male_heart.left.ventricle.bw
+2016-02-18 12:26:20 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1446203_SRS644684_SRX619369_male_liver.bw
+2016-02-18 12:26:20 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_2/coverage_bigwigs/SRR1347100_SRS629238_SRX575500_male_testis.bw
+2016-02-18 12:26:21 loadCoverage: applying the cutoff to the merged data
+2016-02-18 12:26:21 filterData: normalizing coverage
+2016-02-18 12:26:29 filterData: done normalizing coverage
+2016-02-18 12:26:29 filterData: originally there were 90338345 rows, now there are 90338345 rows. Meaning that 0 percent was filtered.
+2016-02-18 12:26:29 fullCoverage: processing chromosome chr17
+2016-02-18 12:26:29 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR614683_SRS374832_SRX203727_male_heart.left.ventricle.bw
+2016-02-18 12:26:29 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR807901_SRS408124_SRX259897_male_heart.left.ventricle.bw
+2016-02-18 12:26:30 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR810619_SRS408294_SRX260321_male_heart.atrial.appendage.bw
+2016-02-18 12:26:30 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR1389777_SRS636330_SRX595287_male_heart.left.ventricle.bw
+2016-02-18 12:26:31 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_6/coverage_bigwigs/SRR1310433_SRS623952_SRX558468_male_liver.bw
+2016-02-18 12:26:31 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1455236_SRS645850_SRX623276_male_testis.bw
+2016-02-18 12:26:32 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_29/coverage_bigwigs/SRR1409790_SRS638407_SRX603281_male_liver.bw
+2016-02-18 12:26:33 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_15/coverage_bigwigs/SRR1339130_SRS627798_SRX571736_male_testis.bw
+2016-02-18 12:26:34 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR1358582_SRS629860_SRX579839_male_heart.left.ventricle.bw
+2016-02-18 12:26:35 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_22/coverage_bigwigs/SRR1430639_SRS643886_SRX613602_male_heart.left.ventricle.bw
+2016-02-18 12:26:35 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_27/coverage_bigwigs/SRR1412969_SRS639143_SRX604560_male_liver.bw
+2016-02-18 12:26:36 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_17/coverage_bigwigs/SRR1419518_SRS639476_SRX607232_male_testis.bw
+2016-02-18 12:26:37 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_21/coverage_bigwigs/SRR1344445_SRS628435_SRX574094_male_liver.bw
+2016-02-18 12:26:38 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1380699_SRS634795_SRX591154_male_testis.bw
+2016-02-18 12:26:39 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_24/coverage_bigwigs/SRR1403434_SRS638026_SRX600980_male_liver.bw
+2016-02-18 12:26:39 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_20/coverage_bigwigs/SRR1409022_SRS638361_SRX602936_male_testis.bw
+2016-02-18 12:26:40 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1335536_SRS627448_SRX570250_male_testis.bw
+2016-02-18 12:26:41 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_8/coverage_bigwigs/SRR1349409_SRS629384_SRX576402_male_liver.bw
+2016-02-18 12:26:42 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1337388_SRS627714_SRX571034_male_heart.atrial.appendage.bw
+2016-02-18 12:26:42 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR1478789_SRS648802_SRX633743_male_liver.bw
+2016-02-18 12:26:43 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_12/coverage_bigwigs/SRR1380139_SRS634768_SRX590919_male_testis.bw
+2016-02-18 12:26:44 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1369536_SRS631499_SRX584511_male_heart.left.ventricle.bw
+2016-02-18 12:26:45 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1446203_SRS644684_SRX619369_male_liver.bw
+2016-02-18 12:26:45 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_2/coverage_bigwigs/SRR1347100_SRS629238_SRX575500_male_testis.bw
+2016-02-18 12:26:46 loadCoverage: applying the cutoff to the merged data
+2016-02-18 12:26:47 filterData: normalizing coverage
+2016-02-18 12:27:02 filterData: done normalizing coverage
+2016-02-18 12:27:02 filterData: originally there were 83257441 rows, now there are 83257441 rows. Meaning that 0 percent was filtered.
+2016-02-18 12:27:02 fullCoverage: processing chromosome chr18
+2016-02-18 12:27:02 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR614683_SRS374832_SRX203727_male_heart.left.ventricle.bw
+2016-02-18 12:27:03 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR807901_SRS408124_SRX259897_male_heart.left.ventricle.bw
+2016-02-18 12:27:04 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR810619_SRS408294_SRX260321_male_heart.atrial.appendage.bw
+2016-02-18 12:27:04 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR1389777_SRS636330_SRX595287_male_heart.left.ventricle.bw
+2016-02-18 12:27:04 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_6/coverage_bigwigs/SRR1310433_SRS623952_SRX558468_male_liver.bw
+2016-02-18 12:27:04 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1455236_SRS645850_SRX623276_male_testis.bw
+2016-02-18 12:27:04 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_29/coverage_bigwigs/SRR1409790_SRS638407_SRX603281_male_liver.bw
+2016-02-18 12:27:05 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_15/coverage_bigwigs/SRR1339130_SRS627798_SRX571736_male_testis.bw
+2016-02-18 12:27:05 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR1358582_SRS629860_SRX579839_male_heart.left.ventricle.bw
+2016-02-18 12:27:05 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_22/coverage_bigwigs/SRR1430639_SRS643886_SRX613602_male_heart.left.ventricle.bw
+2016-02-18 12:27:06 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_27/coverage_bigwigs/SRR1412969_SRS639143_SRX604560_male_liver.bw
+2016-02-18 12:27:06 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_17/coverage_bigwigs/SRR1419518_SRS639476_SRX607232_male_testis.bw
+2016-02-18 12:27:06 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_21/coverage_bigwigs/SRR1344445_SRS628435_SRX574094_male_liver.bw
+2016-02-18 12:27:06 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1380699_SRS634795_SRX591154_male_testis.bw
+2016-02-18 12:27:07 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_24/coverage_bigwigs/SRR1403434_SRS638026_SRX600980_male_liver.bw
+2016-02-18 12:27:07 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_20/coverage_bigwigs/SRR1409022_SRS638361_SRX602936_male_testis.bw
+2016-02-18 12:27:07 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1335536_SRS627448_SRX570250_male_testis.bw
+2016-02-18 12:27:08 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_8/coverage_bigwigs/SRR1349409_SRS629384_SRX576402_male_liver.bw
+2016-02-18 12:27:08 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1337388_SRS627714_SRX571034_male_heart.atrial.appendage.bw
+2016-02-18 12:27:08 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR1478789_SRS648802_SRX633743_male_liver.bw
+2016-02-18 12:27:08 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_12/coverage_bigwigs/SRR1380139_SRS634768_SRX590919_male_testis.bw
+2016-02-18 12:27:09 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1369536_SRS631499_SRX584511_male_heart.left.ventricle.bw
+2016-02-18 12:27:09 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1446203_SRS644684_SRX619369_male_liver.bw
+2016-02-18 12:27:09 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_2/coverage_bigwigs/SRR1347100_SRS629238_SRX575500_male_testis.bw
+2016-02-18 12:27:09 loadCoverage: applying the cutoff to the merged data
+2016-02-18 12:27:10 filterData: normalizing coverage
+2016-02-18 12:27:14 filterData: done normalizing coverage
+2016-02-18 12:27:14 filterData: originally there were 80373285 rows, now there are 80373285 rows. Meaning that 0 percent was filtered.
+2016-02-18 12:27:14 fullCoverage: processing chromosome chr19
+2016-02-18 12:27:14 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR614683_SRS374832_SRX203727_male_heart.left.ventricle.bw
+2016-02-18 12:27:14 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR807901_SRS408124_SRX259897_male_heart.left.ventricle.bw
+2016-02-18 12:27:15 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR810619_SRS408294_SRX260321_male_heart.atrial.appendage.bw
+2016-02-18 12:27:15 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR1389777_SRS636330_SRX595287_male_heart.left.ventricle.bw
+2016-02-18 12:27:16 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_6/coverage_bigwigs/SRR1310433_SRS623952_SRX558468_male_liver.bw
+2016-02-18 12:27:16 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1455236_SRS645850_SRX623276_male_testis.bw
+2016-02-18 12:27:17 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_29/coverage_bigwigs/SRR1409790_SRS638407_SRX603281_male_liver.bw
+2016-02-18 12:27:18 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_15/coverage_bigwigs/SRR1339130_SRS627798_SRX571736_male_testis.bw
+2016-02-18 12:27:19 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR1358582_SRS629860_SRX579839_male_heart.left.ventricle.bw
+2016-02-18 12:27:19 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_22/coverage_bigwigs/SRR1430639_SRS643886_SRX613602_male_heart.left.ventricle.bw
+2016-02-18 12:27:20 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_27/coverage_bigwigs/SRR1412969_SRS639143_SRX604560_male_liver.bw
+2016-02-18 12:27:20 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_17/coverage_bigwigs/SRR1419518_SRS639476_SRX607232_male_testis.bw
+2016-02-18 12:27:21 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_21/coverage_bigwigs/SRR1344445_SRS628435_SRX574094_male_liver.bw
+2016-02-18 12:27:22 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1380699_SRS634795_SRX591154_male_testis.bw
+2016-02-18 12:27:23 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_24/coverage_bigwigs/SRR1403434_SRS638026_SRX600980_male_liver.bw
+2016-02-18 12:27:23 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_20/coverage_bigwigs/SRR1409022_SRS638361_SRX602936_male_testis.bw
+2016-02-18 12:27:24 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1335536_SRS627448_SRX570250_male_testis.bw
+2016-02-18 12:27:25 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_8/coverage_bigwigs/SRR1349409_SRS629384_SRX576402_male_liver.bw
+2016-02-18 12:27:25 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1337388_SRS627714_SRX571034_male_heart.atrial.appendage.bw
+2016-02-18 12:27:26 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR1478789_SRS648802_SRX633743_male_liver.bw
+2016-02-18 12:27:27 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_12/coverage_bigwigs/SRR1380139_SRS634768_SRX590919_male_testis.bw
+2016-02-18 12:27:28 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1369536_SRS631499_SRX584511_male_heart.left.ventricle.bw
+2016-02-18 12:27:28 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1446203_SRS644684_SRX619369_male_liver.bw
+2016-02-18 12:27:29 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_2/coverage_bigwigs/SRR1347100_SRS629238_SRX575500_male_testis.bw
+2016-02-18 12:27:29 loadCoverage: applying the cutoff to the merged data
+2016-02-18 12:27:30 filterData: normalizing coverage
+2016-02-18 12:27:45 filterData: done normalizing coverage
+2016-02-18 12:27:45 filterData: originally there were 58617616 rows, now there are 58617616 rows. Meaning that 0 percent was filtered.
+2016-02-18 12:27:45 fullCoverage: processing chromosome chr20
+2016-02-18 12:27:45 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR614683_SRS374832_SRX203727_male_heart.left.ventricle.bw
+2016-02-18 12:27:45 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR807901_SRS408124_SRX259897_male_heart.left.ventricle.bw
+2016-02-18 12:27:46 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR810619_SRS408294_SRX260321_male_heart.atrial.appendage.bw
+2016-02-18 12:27:46 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR1389777_SRS636330_SRX595287_male_heart.left.ventricle.bw
+2016-02-18 12:27:46 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_6/coverage_bigwigs/SRR1310433_SRS623952_SRX558468_male_liver.bw
+2016-02-18 12:27:47 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1455236_SRS645850_SRX623276_male_testis.bw
+2016-02-18 12:27:47 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_29/coverage_bigwigs/SRR1409790_SRS638407_SRX603281_male_liver.bw
+2016-02-18 12:27:47 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_15/coverage_bigwigs/SRR1339130_SRS627798_SRX571736_male_testis.bw
+2016-02-18 12:27:48 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR1358582_SRS629860_SRX579839_male_heart.left.ventricle.bw
+2016-02-18 12:27:49 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_22/coverage_bigwigs/SRR1430639_SRS643886_SRX613602_male_heart.left.ventricle.bw
+2016-02-18 12:27:49 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_27/coverage_bigwigs/SRR1412969_SRS639143_SRX604560_male_liver.bw
+2016-02-18 12:27:49 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_17/coverage_bigwigs/SRR1419518_SRS639476_SRX607232_male_testis.bw
+2016-02-18 12:27:50 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_21/coverage_bigwigs/SRR1344445_SRS628435_SRX574094_male_liver.bw
+2016-02-18 12:27:50 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1380699_SRS634795_SRX591154_male_testis.bw
+2016-02-18 12:27:51 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_24/coverage_bigwigs/SRR1403434_SRS638026_SRX600980_male_liver.bw
+2016-02-18 12:27:51 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_20/coverage_bigwigs/SRR1409022_SRS638361_SRX602936_male_testis.bw
+2016-02-18 12:27:51 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1335536_SRS627448_SRX570250_male_testis.bw
+2016-02-18 12:27:52 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_8/coverage_bigwigs/SRR1349409_SRS629384_SRX576402_male_liver.bw
+2016-02-18 12:27:52 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1337388_SRS627714_SRX571034_male_heart.atrial.appendage.bw
+2016-02-18 12:27:53 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR1478789_SRS648802_SRX633743_male_liver.bw
+2016-02-18 12:27:53 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_12/coverage_bigwigs/SRR1380139_SRS634768_SRX590919_male_testis.bw
+2016-02-18 12:27:54 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1369536_SRS631499_SRX584511_male_heart.left.ventricle.bw
+2016-02-18 12:27:54 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1446203_SRS644684_SRX619369_male_liver.bw
+2016-02-18 12:27:54 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_2/coverage_bigwigs/SRR1347100_SRS629238_SRX575500_male_testis.bw
+2016-02-18 12:27:55 loadCoverage: applying the cutoff to the merged data
+2016-02-18 12:27:55 filterData: normalizing coverage
+2016-02-18 12:28:02 filterData: done normalizing coverage
+2016-02-18 12:28:02 filterData: originally there were 64444167 rows, now there are 64444167 rows. Meaning that 0 percent was filtered.
+2016-02-18 12:28:02 fullCoverage: processing chromosome chr21
+2016-02-18 12:28:02 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR614683_SRS374832_SRX203727_male_heart.left.ventricle.bw
+2016-02-18 12:28:02 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR807901_SRS408124_SRX259897_male_heart.left.ventricle.bw
+2016-02-18 12:28:03 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR810619_SRS408294_SRX260321_male_heart.atrial.appendage.bw
+2016-02-18 12:28:03 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR1389777_SRS636330_SRX595287_male_heart.left.ventricle.bw
+2016-02-18 12:28:03 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_6/coverage_bigwigs/SRR1310433_SRS623952_SRX558468_male_liver.bw
+2016-02-18 12:28:03 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1455236_SRS645850_SRX623276_male_testis.bw
+2016-02-18 12:28:03 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_29/coverage_bigwigs/SRR1409790_SRS638407_SRX603281_male_liver.bw
+2016-02-18 12:28:04 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_15/coverage_bigwigs/SRR1339130_SRS627798_SRX571736_male_testis.bw
+2016-02-18 12:28:04 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR1358582_SRS629860_SRX579839_male_heart.left.ventricle.bw
+2016-02-18 12:28:04 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_22/coverage_bigwigs/SRR1430639_SRS643886_SRX613602_male_heart.left.ventricle.bw
+2016-02-18 12:28:04 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_27/coverage_bigwigs/SRR1412969_SRS639143_SRX604560_male_liver.bw
+2016-02-18 12:28:05 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_17/coverage_bigwigs/SRR1419518_SRS639476_SRX607232_male_testis.bw
+2016-02-18 12:28:05 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_21/coverage_bigwigs/SRR1344445_SRS628435_SRX574094_male_liver.bw
+2016-02-18 12:28:05 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1380699_SRS634795_SRX591154_male_testis.bw
+2016-02-18 12:28:05 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_24/coverage_bigwigs/SRR1403434_SRS638026_SRX600980_male_liver.bw
+2016-02-18 12:28:06 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_20/coverage_bigwigs/SRR1409022_SRS638361_SRX602936_male_testis.bw
+2016-02-18 12:28:06 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1335536_SRS627448_SRX570250_male_testis.bw
+2016-02-18 12:28:06 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_8/coverage_bigwigs/SRR1349409_SRS629384_SRX576402_male_liver.bw
+2016-02-18 12:28:06 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1337388_SRS627714_SRX571034_male_heart.atrial.appendage.bw
+2016-02-18 12:28:07 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR1478789_SRS648802_SRX633743_male_liver.bw
+2016-02-18 12:28:07 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_12/coverage_bigwigs/SRR1380139_SRS634768_SRX590919_male_testis.bw
+2016-02-18 12:28:07 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1369536_SRS631499_SRX584511_male_heart.left.ventricle.bw
+2016-02-18 12:28:07 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1446203_SRS644684_SRX619369_male_liver.bw
+2016-02-18 12:28:08 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_2/coverage_bigwigs/SRR1347100_SRS629238_SRX575500_male_testis.bw
+2016-02-18 12:28:08 loadCoverage: applying the cutoff to the merged data
+2016-02-18 12:28:08 filterData: normalizing coverage
+2016-02-18 12:28:11 filterData: done normalizing coverage
+2016-02-18 12:28:11 filterData: originally there were 46709983 rows, now there are 46709983 rows. Meaning that 0 percent was filtered.
+2016-02-18 12:28:11 fullCoverage: processing chromosome chr22
+2016-02-18 12:28:11 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR614683_SRS374832_SRX203727_male_heart.left.ventricle.bw
+2016-02-18 12:28:12 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR807901_SRS408124_SRX259897_male_heart.left.ventricle.bw
+2016-02-18 12:28:12 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR810619_SRS408294_SRX260321_male_heart.atrial.appendage.bw
+2016-02-18 12:28:12 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR1389777_SRS636330_SRX595287_male_heart.left.ventricle.bw
+2016-02-18 12:28:12 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_6/coverage_bigwigs/SRR1310433_SRS623952_SRX558468_male_liver.bw
+2016-02-18 12:28:13 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1455236_SRS645850_SRX623276_male_testis.bw
+2016-02-18 12:28:13 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_29/coverage_bigwigs/SRR1409790_SRS638407_SRX603281_male_liver.bw
+2016-02-18 12:28:13 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_15/coverage_bigwigs/SRR1339130_SRS627798_SRX571736_male_testis.bw
+2016-02-18 12:28:14 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR1358582_SRS629860_SRX579839_male_heart.left.ventricle.bw
+2016-02-18 12:28:14 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_22/coverage_bigwigs/SRR1430639_SRS643886_SRX613602_male_heart.left.ventricle.bw
+2016-02-18 12:28:15 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_27/coverage_bigwigs/SRR1412969_SRS639143_SRX604560_male_liver.bw
+2016-02-18 12:28:15 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_17/coverage_bigwigs/SRR1419518_SRS639476_SRX607232_male_testis.bw
+2016-02-18 12:28:15 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_21/coverage_bigwigs/SRR1344445_SRS628435_SRX574094_male_liver.bw
+2016-02-18 12:28:16 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1380699_SRS634795_SRX591154_male_testis.bw
+2016-02-18 12:28:16 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_24/coverage_bigwigs/SRR1403434_SRS638026_SRX600980_male_liver.bw
+2016-02-18 12:28:17 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_20/coverage_bigwigs/SRR1409022_SRS638361_SRX602936_male_testis.bw
+2016-02-18 12:28:17 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1335536_SRS627448_SRX570250_male_testis.bw
+2016-02-18 12:28:17 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_8/coverage_bigwigs/SRR1349409_SRS629384_SRX576402_male_liver.bw
+2016-02-18 12:28:18 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1337388_SRS627714_SRX571034_male_heart.atrial.appendage.bw
+2016-02-18 12:28:18 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR1478789_SRS648802_SRX633743_male_liver.bw
+2016-02-18 12:28:18 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_12/coverage_bigwigs/SRR1380139_SRS634768_SRX590919_male_testis.bw
+2016-02-18 12:28:19 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1369536_SRS631499_SRX584511_male_heart.left.ventricle.bw
+2016-02-18 12:28:19 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1446203_SRS644684_SRX619369_male_liver.bw
+2016-02-18 12:28:20 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_2/coverage_bigwigs/SRR1347100_SRS629238_SRX575500_male_testis.bw
+2016-02-18 12:28:20 loadCoverage: applying the cutoff to the merged data
+2016-02-18 12:28:20 filterData: normalizing coverage
+2016-02-18 12:28:27 filterData: done normalizing coverage
+2016-02-18 12:28:27 filterData: originally there were 50818468 rows, now there are 50818468 rows. Meaning that 0 percent was filtered.
+2016-02-18 12:28:27 fullCoverage: processing chromosome chrX
+2016-02-18 12:28:27 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR614683_SRS374832_SRX203727_male_heart.left.ventricle.bw
+2016-02-18 12:28:28 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR807901_SRS408124_SRX259897_male_heart.left.ventricle.bw
+2016-02-18 12:28:28 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR810619_SRS408294_SRX260321_male_heart.atrial.appendage.bw
+2016-02-18 12:28:29 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR1389777_SRS636330_SRX595287_male_heart.left.ventricle.bw
+2016-02-18 12:28:29 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_6/coverage_bigwigs/SRR1310433_SRS623952_SRX558468_male_liver.bw
+2016-02-18 12:28:30 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1455236_SRS645850_SRX623276_male_testis.bw
+2016-02-18 12:28:31 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_29/coverage_bigwigs/SRR1409790_SRS638407_SRX603281_male_liver.bw
+2016-02-18 12:28:32 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_15/coverage_bigwigs/SRR1339130_SRS627798_SRX571736_male_testis.bw
+2016-02-18 12:28:33 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR1358582_SRS629860_SRX579839_male_heart.left.ventricle.bw
+2016-02-18 12:28:34 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_22/coverage_bigwigs/SRR1430639_SRS643886_SRX613602_male_heart.left.ventricle.bw
+2016-02-18 12:28:34 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_27/coverage_bigwigs/SRR1412969_SRS639143_SRX604560_male_liver.bw
+2016-02-18 12:28:34 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_17/coverage_bigwigs/SRR1419518_SRS639476_SRX607232_male_testis.bw
+2016-02-18 12:28:35 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_21/coverage_bigwigs/SRR1344445_SRS628435_SRX574094_male_liver.bw
+2016-02-18 12:28:36 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1380699_SRS634795_SRX591154_male_testis.bw
+2016-02-18 12:28:37 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_24/coverage_bigwigs/SRR1403434_SRS638026_SRX600980_male_liver.bw
+2016-02-18 12:28:37 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_20/coverage_bigwigs/SRR1409022_SRS638361_SRX602936_male_testis.bw
+2016-02-18 12:28:38 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1335536_SRS627448_SRX570250_male_testis.bw
+2016-02-18 12:28:39 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_8/coverage_bigwigs/SRR1349409_SRS629384_SRX576402_male_liver.bw
+2016-02-18 12:28:39 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1337388_SRS627714_SRX571034_male_heart.atrial.appendage.bw
+2016-02-18 12:28:40 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR1478789_SRS648802_SRX633743_male_liver.bw
+2016-02-18 12:28:40 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_12/coverage_bigwigs/SRR1380139_SRS634768_SRX590919_male_testis.bw
+2016-02-18 12:28:41 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1369536_SRS631499_SRX584511_male_heart.left.ventricle.bw
+2016-02-18 12:28:42 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1446203_SRS644684_SRX619369_male_liver.bw
+2016-02-18 12:28:42 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_2/coverage_bigwigs/SRR1347100_SRS629238_SRX575500_male_testis.bw
+2016-02-18 12:28:43 loadCoverage: applying the cutoff to the merged data
+2016-02-18 12:28:43 filterData: normalizing coverage
+2016-02-18 12:28:50 filterData: done normalizing coverage
+2016-02-18 12:28:50 filterData: originally there were 156040895 rows, now there are 156040895 rows. Meaning that 0 percent was filtered.
+2016-02-18 12:28:50 fullCoverage: processing chromosome chrY
+2016-02-18 12:28:50 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR614683_SRS374832_SRX203727_male_heart.left.ventricle.bw
+2016-02-18 12:28:50 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR807901_SRS408124_SRX259897_male_heart.left.ventricle.bw
+2016-02-18 12:28:50 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR810619_SRS408294_SRX260321_male_heart.atrial.appendage.bw
+2016-02-18 12:28:50 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_26/coverage_bigwigs/SRR1389777_SRS636330_SRX595287_male_heart.left.ventricle.bw
+2016-02-18 12:28:50 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_6/coverage_bigwigs/SRR1310433_SRS623952_SRX558468_male_liver.bw
+2016-02-18 12:28:50 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1455236_SRS645850_SRX623276_male_testis.bw
+2016-02-18 12:28:51 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_29/coverage_bigwigs/SRR1409790_SRS638407_SRX603281_male_liver.bw
+2016-02-18 12:28:51 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_15/coverage_bigwigs/SRR1339130_SRS627798_SRX571736_male_testis.bw
+2016-02-18 12:28:51 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_23/coverage_bigwigs/SRR1358582_SRS629860_SRX579839_male_heart.left.ventricle.bw
+2016-02-18 12:28:51 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_22/coverage_bigwigs/SRR1430639_SRS643886_SRX613602_male_heart.left.ventricle.bw
+2016-02-18 12:28:51 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_27/coverage_bigwigs/SRR1412969_SRS639143_SRX604560_male_liver.bw
+2016-02-18 12:28:51 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_17/coverage_bigwigs/SRR1419518_SRS639476_SRX607232_male_testis.bw
+2016-02-18 12:28:51 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_21/coverage_bigwigs/SRR1344445_SRS628435_SRX574094_male_liver.bw
+2016-02-18 12:28:51 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1380699_SRS634795_SRX591154_male_testis.bw
+2016-02-18 12:28:52 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_24/coverage_bigwigs/SRR1403434_SRS638026_SRX600980_male_liver.bw
+2016-02-18 12:28:52 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_20/coverage_bigwigs/SRR1409022_SRS638361_SRX602936_male_testis.bw
+2016-02-18 12:28:52 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1335536_SRS627448_SRX570250_male_testis.bw
+2016-02-18 12:28:52 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_8/coverage_bigwigs/SRR1349409_SRS629384_SRX576402_male_liver.bw
+2016-02-18 12:28:52 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_9/coverage_bigwigs/SRR1337388_SRS627714_SRX571034_male_heart.atrial.appendage.bw
+2016-02-18 12:28:52 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_1/coverage_bigwigs/SRR1478789_SRS648802_SRX633743_male_liver.bw
+2016-02-18 12:28:52 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_12/coverage_bigwigs/SRR1380139_SRS634768_SRX590919_male_testis.bw
+2016-02-18 12:28:52 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_4/coverage_bigwigs/SRR1369536_SRS631499_SRX584511_male_heart.left.ventricle.bw
+2016-02-18 12:28:53 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_10/coverage_bigwigs/SRR1446203_SRS644684_SRX619369_male_liver.bw
+2016-02-18 12:28:53 loadCoverage: loading BigWig file /dcl01/leek/data/gtex/batch_2/coverage_bigwigs/SRR1347100_SRS629238_SRX575500_male_testis.bw
+2016-02-18 12:28:53 loadCoverage: applying the cutoff to the merged data
+2016-02-18 12:28:53 filterData: normalizing coverage
+2016-02-18 12:28:53 filterData: done normalizing coverage
+2016-02-18 12:28:53 filterData: originally there were 57227415 rows, now there are 57227415 rows. Meaning that 0 percent was filtered.
+2016-02-18 12:44:07 coerceGR: coercing sample normalizedMean
+2016-02-18 12:45:06 createBwSample: exporting bw for sample normalizedMean
+[1] "2016-02-18 12:53:34 EST"
+    user   system  elapsed 
+1974.772   41.198 2066.863 
+Session info -----------------------------------------------------------------------------------------------------------
+ setting  value                                      
+ version  R version 3.2.2 Patched (2015-08-31 r69235)
+ system   x86_64, linux-gnu                          
+ ui       X11                                        
+ language (EN)                                       
+ collate  en_US.UTF-8                                
+ tz       <NA>                                       
+ date     2016-02-18                                 
+
+Packages ---------------------------------------------------------------------------------------------------------------
+ package              * version  date       source                                
+ acepack                1.3-3.3  2014-11-24 CRAN (R 3.2.0)                        
+ AnnotationDbi          1.32.3   2015-12-25 Bioconductor                          
+ Biobase                2.30.0   2015-10-15 Bioconductor                          
+ BiocGenerics         * 0.16.1   2015-11-07 Bioconductor                          
+ BiocParallel           1.4.3    2015-12-17 Bioconductor                          
+ biomaRt                2.26.1   2015-11-24 Bioconductor                          
+ Biostrings             2.38.2   2015-12-10 Bioconductor                          
+ bitops                 1.0-6    2013-08-17 CRAN (R 3.2.0)                        
+ bumphunter             1.10.0   2015-10-15 Bioconductor                          
+ cluster                2.0.3    2015-07-21 CRAN (R 3.2.2)                        
+ codetools              0.2-14   2015-07-15 CRAN (R 3.2.2)                        
+ colorout             * 1.0-2    2015-05-19 local                                 
+ colorspace             1.2-6    2015-03-11 CRAN (R 3.2.0)                        
+ DBI                    0.3.1    2014-09-24 CRAN (R 3.2.0)                        
+ derfinder            * 1.5.19   2015-12-15 Github (lcolladotor/derfinder@fff1b7a)
+ derfinderHelper        1.4.1    2015-11-19 Bioconductor                          
+ devtools             * 1.9.1    2015-09-11 CRAN (R 3.2.2)                        
+ digest                 0.6.9    2016-01-08 CRAN (R 3.2.2)                        
+ doRNG                  1.6      2014-03-07 CRAN (R 3.2.0)                        
+ foreach                1.4.3    2015-10-13 CRAN (R 3.2.2)                        
+ foreign                0.8-66   2015-08-19 CRAN (R 3.2.2)                        
+ Formula                1.2-1    2015-04-07 CRAN (R 3.2.0)                        
+ futile.logger          1.4.1    2015-04-20 CRAN (R 3.2.0)                        
+ futile.options         1.0.0    2010-04-06 CRAN (R 3.2.0)                        
+ GenomeInfoDb         * 1.6.3    2016-01-27 Bioconductor                          
+ GenomicAlignments      1.6.3    2016-01-07 Bioconductor                          
+ GenomicFeatures        1.22.13  2016-02-12 Bioconductor                          
+ GenomicFiles           1.6.2    2015-12-31 Bioconductor                          
+ GenomicRanges        * 1.22.2   2015-12-13 Bioconductor                          
+ ggplot2                2.0.0    2015-12-18 CRAN (R 3.2.2)                        
+ gridExtra              2.0.0    2015-07-14 CRAN (R 3.2.1)                        
+ gtable                 0.1.2    2012-12-05 CRAN (R 3.2.0)                        
+ Hmisc                  3.17-1   2015-12-18 CRAN (R 3.2.2)                        
+ IRanges              * 2.4.6    2015-12-13 Bioconductor                          
+ iterators              1.0.8    2015-10-13 CRAN (R 3.2.2)                        
+ lambda.r               1.1.7    2015-03-20 CRAN (R 3.2.0)                        
+ lattice                0.20-33  2015-07-14 CRAN (R 3.2.2)                        
+ latticeExtra           0.6-28   2016-02-09 CRAN (R 3.2.2)                        
+ locfit                 1.5-9.1  2013-04-20 CRAN (R 3.2.0)                        
+ magrittr               1.5      2014-11-22 CRAN (R 3.2.0)                        
+ Matrix                 1.2-2    2015-07-08 CRAN (R 3.2.2)                        
+ matrixStats            0.50.1   2015-12-15 CRAN (R 3.2.2)                        
+ memoise                1.0.0    2016-01-29 CRAN (R 3.2.2)                        
+ munsell                0.4.3    2016-02-13 CRAN (R 3.2.2)                        
+ nnet                   7.3-11   2015-08-30 CRAN (R 3.2.2)                        
+ pkgmaker               0.22     2014-05-14 CRAN (R 3.2.0)                        
+ plyr                   1.8.3    2015-06-12 CRAN (R 3.2.1)                        
+ qvalue                 2.2.2    2016-01-09 Bioconductor                          
+ RColorBrewer           1.1-2    2014-12-07 CRAN (R 3.2.0)                        
+ Rcpp                   0.12.3   2016-01-10 CRAN (R 3.2.2)                        
+ RCurl                  1.95-4.7 2015-06-30 CRAN (R 3.2.1)                        
+ registry               0.3      2015-07-08 CRAN (R 3.2.1)                        
+ reshape2               1.4.1    2014-12-06 CRAN (R 3.2.0)                        
+ rngtools               1.2.4    2014-03-06 CRAN (R 3.2.0)                        
+ rpart                  4.1-10   2015-06-29 CRAN (R 3.2.2)                        
+ Rsamtools              1.22.0   2015-10-15 Bioconductor                          
+ RSQLite                1.0.0    2014-10-25 CRAN (R 3.2.0)                        
+ rtracklayer          * 1.30.2   2016-02-07 Bioconductor                          
+ S4Vectors            * 0.8.11   2016-01-30 Bioconductor                          
+ scales                 0.3.0    2015-08-25 CRAN (R 3.2.2)                        
+ stringi                1.0-1    2015-10-22 CRAN (R 3.2.2)                        
+ stringr                1.0.0    2015-04-30 CRAN (R 3.2.0)                        
+ SummarizedExperiment   1.0.2    2016-01-02 Bioconductor                          
+ survival               2.38-3   2015-07-02 CRAN (R 3.2.2)                        
+ XML                    3.98-1.3 2015-06-30 CRAN (R 3.2.1)                        
+ xtable                 1.8-2    2016-02-05 CRAN (R 3.2.2)                        
+ XVector                0.10.0   2015-10-15 Bioconductor                          
+ zlibbioc               1.16.0   2015-10-15 Bioconductor                          
