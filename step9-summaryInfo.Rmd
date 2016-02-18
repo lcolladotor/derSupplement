@@ -1,0 +1,177 @@
+---
+output:
+  knitrBootstrap::bootstrap_document:
+    theme.chooser: TRUE
+    highlight.chooser: TRUE
+---
+
+Summary info
+===========
+
+```{r "options", bootstrap.show.code = FALSE}
+## Options
+opt$example <- eval(parse(text=opt$example))
+example <- opt$example
+names(example) <- NULL
+
+
+## Required libs
+suppressMessages(library("GenomicRanges"))
+suppressMessages(library("ggbio"))
+suppressMessages(library("TxDb.Hsapiens.UCSC.hg19.knownGene"))
+suppressMessages(library("derfinder"))
+suppressMessages(library("derfinderPlot"))
+```
+
+Summary information for `r opt$short` data set, analysis `r paste(opt$run, collapse = ', ')` showcasing best clusters `r example` which illustrate `r paste(names(opt$example), collapse = ', ')` respectively.
+
+
+## Number of filtered bases
+
+```{r "filtered", bootstrap.show.code = FALSE}
+## Extract data from log files
+reads <- system(paste0('grep filterData ', file.path(rootdir, opt$short, 'CoverageInfo', 'logs'), '/fullCov-*.e* | grep -v "that 0 percent"'), intern=TRUE)
+filt <- data.frame(original=as.integer(gsub("were | rows", "", regmatches(reads, regexpr("were [0-9]* rows", reads)))), filtered=as.integer(gsub("are | rows", "", regmatches(reads, regexpr("are [0-9]* rows", reads)))))
+
+## How many were filtered?
+## What is the percent filtered?
+## Percent remaining?
+filtered <- colSums(filt)
+summ <- c(
+    'Filtered' = filtered["original"] - filtered["filtered"],
+    'PercentFilt' = (filtered["original"] - filtered["filtered"]) / filtered["original"] * 100,
+    'PercentRemaining' = 100 - (filtered["original"] - filtered["filtered"]) / filtered["original"] * 100
+)
+summ
+```
+
+## Number of candidate regions
+
+```{r "nCandidate", bootstrap.show.code = FALSE}
+## Load regions data
+load(file.path(rootdir, opt$short, 'derAnalysis', opt$run, 'fullRegions.Rdata'))
+
+## How many candidate regions?
+nRegs  <- c('cDERsN' = length(fullRegions))
+nRegs
+```
+
+## Number of DE regions
+
+
+As determined by q-value < 0.10
+
+```{r "regionsDEqval", bootstrap.show.code = FALSE}
+## How many regions DE? Judged by q-value
+## What is the percent of regions DE among the candidate ones?
+qval <- c(
+    'nDE' = sum(fullRegions$significantQval == TRUE),
+    'percentDE' = sum(fullRegions$significantQval == TRUE) / length(fullRegions) * 100
+    )
+qval
+```
+
+As determined by FWER adjusted p-value < 0.05
+
+```{r "regionsDEfwer", bootstrap.show.code = FALSE}
+## How many regions DE? Judged by FWER adjusted p-value
+## What is the percent of regions DE among the candidate ones?
+fwer <- c(
+    'nDE' = sum(fullRegions$significantFWER == TRUE),
+    'percentDE' = sum(fullRegions$significantFWER == TRUE) / length(fullRegions) * 100
+    )
+fwer
+
+
+## Save results
+save(summ, nRegs, qval, fwer, file=file.path(resdir, "summaryResults.Rdata"))
+```
+
+
+## Example regions from each case
+
+```{r "exampleRegions", message=FALSE, fig.width=20, fig.height=10, dev="CairoPNG", bootstrap.show.code = FALSE}
+## Load full coverage data
+load(file.path(rootdir, opt$short, 'CoverageInfo', 'fullCov.Rdata'))
+
+## Load options
+load(file.path(rootdir, opt$short, 'derAnalysis', opt$run, 'chr22', 'optionsStats.Rdata'))
+
+## For ggplot
+tmp <- fullRegions
+names(tmp) <- seq_len(length(tmp))
+regions.df <- as.data.frame(tmp)
+regions.df$width <- width(tmp)
+rm(tmp)
+
+## Select clusters by cluster area
+df <- data.frame(area=fullRegions$area, clusterChr=paste0(as.integer(fullRegions$cluster), chr=as.character(seqnames(fullRegions))))
+regionClustAreas <- tapply(df$area, df$clusterChr, sum)
+bestArea <- sapply(names(head(sort(regionClustAreas, decreasing=TRUE), 70)), function(y) { which(df$clusterChr == y)[[1]]})
+
+## Graphical setup: ideograms 
+## Load ideogram info
+data(hg19IdeogramCyto, package = "biovizBase")
+ideos.set <- as.character(unique(seqnames(fullRegions[bestArea])))
+p.ideos <- lapply(ideos.set, function(xx) { 
+	plotIdeogram(hg19IdeogramCyto, xx)
+})
+names(p.ideos) <- ideos.set
+
+
+## Graphical setup: transcription database
+txdb <- TxDb.Hsapiens.UCSC.hg19.knownGene
+
+## Graphical setup: main plotting function
+regionClusterPlot <- function(idx, tUse="fwer") {
+	## Chr specific selections
+	chr <- as.character(seqnames(fullRegions[idx]))
+	p.ideo <- p.ideos[[chr]]
+	covInfo <- fullCov[[chr]]
+	
+	## Make the plot
+	p <- plotCluster(idx, regions=fullRegions, annotation=regions.df, coverageInfo=covInfo, groupInfo=optionsStats$groupInfo, titleUse=tUse, txdb=txdb, p.ideogram=p.ideo)
+	print(p)
+	
+	## Save .Rdata
+	save(p, file=file.path(resdir, paste0("exampleRegion", idx, ".Rdata")) )
+	
+	## Save as pdf
+	pdf(file=file.path(resdir, paste0("exampleRegion", idx, ".pdf")), width=20, height=10)
+	print(p)
+	dev.off()
+	rm(p.ideo, covInfo)
+	
+	return(invisible(TRUE))	
+}
+
+## Genome plots
+for(idx in opt$example) {
+	regionClusterPlot(bestArea[idx], "fwer")
+}
+```
+
+# Reproducibility
+
+Date the report was generated.
+
+```{r "reproducibility1", echo=FALSE, width = 90}
+## Date the report was generated
+Sys.time()
+```
+
+Wallclock time spent generating the report.
+
+```{r "reproducibility2", echo=FALSE}
+## Processing time in seconds
+totalTime <- diff(c(startTime, Sys.time()))
+round(totalTime, digits=3)
+```
+
+`R` session information.
+
+```{r "reproducibility3", bootstrap.show.code = FALSE}
+## Session info
+options(width=120)
+devtools::session_info()
+```

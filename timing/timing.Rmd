@@ -1,0 +1,386 @@
+---
+output:
+  knitrBootstrap::bootstrap_document:
+    theme.chooser: TRUE
+    highlight.chooser: TRUE
+---
+
+Timing information
+==================
+
+```{r citationsSetup, echo=FALSE, message=FALSE, warning=FALSE, bootstrap.show.code=FALSE}
+## Track time spent on making the report
+startTime <- Sys.time()
+
+## Bib setup
+library('knitcitations')
+
+## Load knitcitations with a clean bibliography
+cleanbib()
+cite_options(hyperlink = 'to.doc', citation_format = 'text', style = 'html')
+# Note links won't show for now due to the following issue
+# https://github.com/cboettig/knitcitations/issues/63
+
+bibs <- c("knitcitations" = citation("knitcitations"),
+    "derfinder" = citation("derfinder"),
+    "GenomicRanges" = citation("GenomicRanges"),
+    "DESeq" = citation("DESeq"),
+    "rCharts" = citation("rCharts"),
+    "ggplot2" = citation("ggplot2"),
+    "knitrBootstrap" = citation("knitrBootstrap"),
+    'rmarkdown' = citation('rmarkdown'),
+    'knitr' = citation('knitr')[3],
+    'eff' = RefManageR::BibEntry('manual', key = 'eff', title = 'Efficiency analysis of Sun Grid Engine batch jobs', author = 'Alyssa Frazee', year = 2014, url = 'http://dx.doi.org/10.6084/m9.figshare.878000'),
+    'rail' = RefManageR::BibEntry('article', key = 'rail', author = 'Abhinav Nellore and Leonardo Collado-Torres and Andrew E. Jaffe and José Alquicira-Hernández and Jacob Pritt and James Morton and Jeffrey T. Leek  and Ben Langmead', journal = 'bioRxiv', year = '2015', title = 'Rail-RNA: {Scalable} analysis of {RNA}-seq splicing and coverage'))
+    
+write.bibtex(bibs, file = 'timing.bib')
+bib <- read.bibtex('timing.bib')
+
+## Assign short names
+names(bib) <- names(bibs)
+```
+
+
+This report shows the time and memory used to run `derfinder` `r citep(bib[["derfinder"]])` for single base resolution differential expression analysis. It also shows the same information for going from BAM files to getting ready to run `DESeq` `r citep(bib[["DESeq"]])` by using `samtools` `r citep("http://samtools.sourceforge.net/")` to convert to SAM format and `HTSeq` `r citep("http://www-huber.embl.de/users/anders/HTSeq/doc/overview.html")` to make the count tables. Furthermore, this process was compared to using the `summarizeOverlaps()` function from the `GenomicRanges` `r citep(bib[["GenomicRanges"]])` package as well as using the `coverageToExon()` function included in the `derfinder` package [requires the output from the _fullCov_ step].
+
+# Results
+
+```{r 'effanalytics', eval = FALSE, bootstrap.show.code = FALSE, boostrap.show.output = FALSE}
+## Extract information from Gmail
+system('cp ../../efficiency_analytics/client_secrets .')
+system('python ../../efficiency_analytics/analyze_efficiency.py --email fellgernon@gmail.com --folder "Cluster/derSoftware" --outfile timing-derSoftware.txt')
+```
+
+
+```{r process, bootstrap.show.code=FALSE}
+## Setup
+library("ggplot2")
+library("knitr")
+
+## Define number of cores used
+exps <- c('brainspan', 'simulation', 'hippo', 'snyder', 'stem')
+
+## Read data and process it
+all <- read.table('timing-derSoftware.txt', header = TRUE, stringsAsFactors = FALSE)
+all <- all[!grepl('brainspan.*run3', all$jobid), ] # remove older info
+all$step <- gsub('.*th', 'TopHat', sapply(strsplit(all$jobid, "-"), function(x) x[1]))
+all$memG <- all$memory
+all$memG[all$memunit == "M"] <- all$memG[all$memunit == "M"] / 1024
+all$chr <- gsub('.*chr', 'chr', all$jobid)
+all$chr[ !grepl('chr', all$chr) ] <- NA
+
+## Experiment info
+all$experiment <- NA
+for(exp in exps) {
+    all$experiment[ grepl(exp, tolower(all$jobid)) ] <- exp
+}
+all$experiment[ all$step %in% c('TopHat', 'bigwig') ] <- 'simulation'
+all$experiment[ all$jobid == 'makeBai-Sim' ] <- 'simulation'
+
+## Cores info
+all$cores <- mapply(function(chr, exp, step) {
+    if(step == 'fullCov') {
+        return(10L)
+    } else if(step == 'derA') {
+        if(exp == 'brainspan') {
+            return(ifelse(chr == 'chrY', 2L, ifelse(chr == 'chr1', 40L, ifelse(chr == 'chr2', 32L, ifelse(chr == 'chr3', 27L, ifelse(chr == 'chr19', 29L, 20L))))))
+        } else if (exp == 'simulation'){
+            return(1L)
+        } else if (exp == 'hippo'){
+            return(2L)
+        } else if (exp == 'snyder'){
+            return(4L)
+        } else if (exp == 'stem'){
+            return(8L)
+        }
+    } else if(step == 'regMat') {
+        return(5L)
+    } else if(step == 'TopHat') {
+        return(4L)
+    } else if(step == 'summOv') {
+        return(ifelse(exp == 'hippo', 24L, 10L))
+    } else {
+        return(1L)
+    }
+}, all$chr, all$experiment, all$step)
+all$timeByCore <- all$walltime * all$cores
+all$memByCore <- all$memG / all$cores
+
+
+## Add software labels
+all$software <- factor(ifelse(all$step %in% c('toSam', 'htseq'), 'HTSeq', ifelse(all$step == 'summOv', 'GenomicRanges', ifelse(all$step == 'TopHat', 'TopHat', ifelse(all$step %in% c('makeBai', 'regVsDERs', 'PNAS', 'summInfo'), 'misc', ifelse(all$step == 'derR', 'regionReport', 'derfinder'))))))
+
+## Experiment and cores groups info
+all$experiment <- factor(all$experiment, levels = exps)
+all$coresGroups <- all$cores
+all$coresGroups[ all$cores >= 20] <- '20+'
+all$coresGroups <- factor(all$coresGroups, levels = c(1, 2, 4, 5, 8, 10, '20+'))
+
+## Types of analysis
+all$analysis <- factor(ifelse(all$step %in% c('derMod', 'derA', 'derM'), 'Single-base DER', ifelse(all$step %in% c('toSam', 'htseq', 'summOv', 'covToEx'), 'Exon count', ifelse(all$step == 'regMat', 'Expressed-region DER', ifelse(all$step == 'fullCov', 'Load data', ifelse(all$step == 'derR', 'HTML report', 'misc'))))))
+
+## Show only information for the data sets described in this website
+all <- subset(all, experiment %in% c('brainspan', 'hippo', 'snyder'))
+```
+
+
+## Adjusting by number of cores
+
+The following plots show the wall time and memory used by each job while taking into account the number of cores used by each job. Note that doing so is a crude approximation of how much time and memory each job would have needed had it ran on a single node.
+
+First points are colored by the actual step.
+
+```{r eda, fig.width=10, bootstrap.show.code=FALSE}
+## Walltime and memory adjusted by number of cores (it's an approximation)
+ggplot(all, aes(x=timeByCore, y=memByCore, colour=step, shape=software)) + geom_point() + facet_grid(~ experiment) + xlab("Wall time (hrs) multiplied by the number of cores") + ylab("Memory (GB) divided by the number of cores")
+ggplot(all, aes(x=log2(timeByCore), y=memByCore, colour=step, shape=software)) + geom_point() + facet_grid(~ experiment) + xlab("Wall time (hrs) multiplied by the number of cores (log2)") + ylab("Memory (GB) divided by the number of cores")
+```
+
+Secondly, points are colored by which analysis type they belong to. Note that the loading data step is required for the single-level and expressed-regions DER approaches as well as exon counting (with derfinder).
+
+```{r edaAnalysis, fig.width=10, bootstrap.show.code=FALSE}
+## Walltime and memory adjusted by number of cores (it's an approximation)
+ggplot(all, aes(x=timeByCore, y=memByCore, colour=analysis, shape=software)) + geom_point() + facet_grid(~ experiment) + xlab("Wall time (hrs) multiplied by the number of cores") + ylab("Memory (GB) divided by the number of cores") + scale_colour_brewer(palette="Dark2")
+ggplot(all, aes(x=log2(timeByCore), y=memByCore, colour=analysis, shape=software)) + geom_point() + facet_grid(~ experiment) + xlab("Wall time (hrs) multiplied by the number of cores (log2)") + ylab("Memory (GB) divided by the number of cores") + scale_colour_brewer(palette="Dark2")
+
+## For supp text
+time <- ggplot(subset(all, !software %in% c('TopHat', 'regionReport') & analysis != 'misc'), aes(x=log2(timeByCore), y=log2(memByCore), colour=analysis, shape=software)) + geom_point() + facet_grid(~ experiment) + xlab("Wall time (hrs) multiplied by the number of cores (log2)") + ylab("GB memory divided by number of cores (log2)") + scale_colour_brewer(palette="Set1") + theme_bw(base_size = 18) + theme(legend.position=c(.7, .85), legend.box = 'horizontal')
+time
+pdf(file = 'time.pdf', width = 10)
+time
+dev.off()
+#system('open time.pdf')
+```
+
+## Without cores information
+
+The following plots show the wall time and memory used, but do not take into account how many cores were used.
+
+```{r edaHideCores, fig.width=10, bootstrap.show.code=FALSE}
+## No approximation, not showing cores info
+ggplot(all, aes(x=walltime, y=memG, colour=analysis, shape=software)) + geom_point() + facet_grid(~ experiment) + xlab("Wall time (hrs)") + ylab("Memory (GB)") + scale_colour_brewer(palette="Dark2")
+ggplot(all, aes(x=log2(walltime), y=memG, colour=analysis, shape=software)) + geom_point() + facet_grid(~ experiment) + xlab("Wall time [log2(hrs)]") + ylab("Memory (GB)") + scale_colour_brewer(palette="Dark2")
+```
+
+## Size by number of cores
+
+The following plots are similar to those from the previous section. The difference is that the size of the points is determined by the number of cores the job used.
+
+```{r edaSizeCores, fig.width=10, bootstrap.show.code=FALSE}
+## Size by number of cores
+ggplot(all, aes(x=walltime, y=memG, colour=analysis, shape=software, size=cores)) + geom_point() + facet_grid(~ experiment) + xlab("Wall time (hrs)") + ylab("Memory (GB)") + scale_colour_brewer(palette="Dark2")
+ggplot(all, aes(x=log2(walltime), y=memG, colour=analysis, shape=software, size=cores)) + geom_point() + facet_grid(~ experiment) + xlab("Wall time [log2(hrs)]") + ylab("Memory (GB)") + scale_colour_brewer(palette="Dark2")
+```
+
+## Panel by cores
+
+The following plot splits the data by row panels which are determined by the number of cores used. 
+
+```{r edaTwoPanel, fig.width=10, bootstrap.show.code=FALSE}
+## Panel cores by experiment
+ggplot(all, aes(x=walltime, y=memG, colour=analysis, shape=software)) + geom_point() + facet_grid(coresGroups ~ experiment) + xlab("Wall time (hrs)") + ylab("Memory (GB)") + scale_colour_brewer(palette="Dark2")
+ggplot(all, aes(x=log2(walltime), y=memG, colour=analysis, shape=software)) + geom_point() + facet_grid(coresGroups ~ experiment) + xlab("Wall time [log2(hrs)]") + ylab("Memory (GB)") + scale_colour_brewer(palette="Dark2")
+```
+
+
+## Resources by step for each analysis
+
+```{r 'analysisSummary', bootstrap.show.code=FALSE}
+getInfo <- function(df, sumTime = FALSE, peakCores = FALSE) {
+    memByCore <- max(df$memByCore)
+    walltime <- ifelse(sumTime, sum(df$walltime), max(df$walltime))
+    memG <- max(df$memG)
+    peakCores <- ifelse(peakCores, max(df$peakCores), sum(df$cores))
+    res <- c(memByCore = memByCore, walltime = walltime, memG = memG, peakCores = peakCores)
+    return(res)
+}
+
+analysisInfo <- list('Single-base DER' = c('Load data', 'Single-base DER'),
+    'Expressed-region DER' = c('Load data', 'Expressed-region DER'),
+    'HTML report' = 'HTML report',
+    'Exon count - derfinder' = 'Load data'
+)
+analysisInfo <- lapply(analysisInfo, function(x) { which(all$analysis %in% x)})
+analysisInfo[[4]] <- c(analysisInfo[[4]], which(all$step == 'covToEx'))
+analysisInfo$"Exon count - HTSeq" <- which(all$step %in% c('toSam', 'htseq'))
+analysisInfo$"Exon count - GenomicRanges" <- which(all$step == 'summOv')
+
+## Summarize the information for each step of each analysis
+analysisSummary <- lapply(names(analysisInfo), function(analysis) {
+    current <- all[analysisInfo[[analysis]], ]
+    res_analysis <- lapply(exps, function(exp) {
+        use <- subset(current, experiment == exp)
+        if(nrow(use) == 0) return(NULL)
+        res_exp <- lapply(unique(use$step), function(step) {
+            res_step <- as.data.frame(t(getInfo(use[use$step == step, ])))
+            res_step$step <- step
+            res_step$experiment <- exp
+            res_step$analysis <- analysis
+            return(res_step)
+        })
+        res_exp <- do.call(rbind, res_exp)
+        return(res_exp)
+    })
+    res_analysis <- do.call(rbind, res_analysis)
+    return(res_analysis)
+})
+analysisSummary <- do.call(rbind, analysisSummary)
+```
+
+The following plots show per analysis the maximum memory used by a job and maximum wall time for that step. This is assuming that all jobs for a given step ran simultaneously. For example, that all jobs running `derfinder::analyzeChr()` were running at the same time. Note that for some analyses relied on the same steps, like loading the data (_fullCov_).
+
+```{r 'analysisSumFigs', fig.width=14, bootstrap.show.code=FALSE}
+ggplot(analysisSummary, aes(x=walltime, y=memG, colour=experiment, shape=analysis)) + geom_point() + xlab("Maximum wall time (hrs) per job") + ylab("Peak memory (GB) used by a single job") + facet_grid(. ~ step)
+ggplot(analysisSummary, aes(x=log2(walltime), y=memG, colour=experiment, shape=analysis)) + geom_point() + xlab("Maximum wall time (log2 hrs) per job") + ylab("Peak memory (GB) used by a single job") + facet_grid(. ~ step)
+```
+
+Below are similar plots showing the peak memory by core usage instead of the actual peak memory. This takes into account the number of cores used to run each job.
+
+
+```{r 'analysisSumFigs2', fig.width=14, bootstrap.show.code=FALSE}
+ggplot(analysisSummary, aes(x=walltime, y=memByCore, colour=experiment, shape=analysis)) + geom_point() + xlab("Maximum wall time (hrs) per job") + ylab("Peak memory by core (GB) used by a single job") + facet_grid(. ~ step)
+ggplot(analysisSummary, aes(x=log2(walltime), y=memByCore, colour=experiment, shape=analysis)) + geom_point() + xlab("Maximum wall time (log2 hrs) per job") + ylab("Peak memory by core (GB) used by a single job") + facet_grid(. ~ step)
+```
+
+The full table is shown below which can be useful to find the peak number of cores (the sum of cores for all jobs running simultaneously) for a given analysis step.
+
+```{r 'analysisSumTab', results = 'asis', bootstrap.show.code=FALSE}
+kable(analysisSummary, format = 'html', digits = c(2, 4, 2))
+```
+
+## Resources for each analysis
+
+```{r 'peakSummary', bootstrap.show.code=FALSE}
+## Summary the information for each analysis
+peaks <- lapply(names(analysisInfo), function(analysis) {
+    res_analysis <- lapply(exps, function(exp) {
+        current <- analysisSummary[analysisSummary$analysis == analysis & analysisSummary$experiment == exp, ]
+        if(nrow(current) == 0) return(NULL)
+        res_exp <- as.data.frame(t(getInfo(current, sumTime = TRUE, peakCores = TRUE)))
+        res_exp$experiment <- exp
+        res_exp$analysis <- analysis
+        return(res_exp)
+    })
+    res_analysis <- do.call(rbind, res_analysis)
+    return(res_analysis)
+})
+peaks <- do.call(rbind, peaks)
+
+save(peaks, file = 'peaks.Rdata')
+```
+
+We can further summarize the resources used by each analysis by identified the maximum memory used in the steps required for a particular analysis and the total wall time for running all the steps when all the jobs of a particular step are running simultaneously. Thus giving us the total actual wall time to run a specific analysis and the maximum memory required.
+
+```{r 'peakSumFigs', fig.width=14, bootstrap.show.code=FALSE}
+ggplot(peaks, aes(x=walltime, y=memG, colour=experiment)) + geom_point() + xlab("Wall time (hrs) per analysis") + ylab("Peak memory (GB) used by a single job") + facet_grid(. ~ analysis)
+ggplot(peaks, aes(x=log2(walltime), y=memG, colour=experiment)) + geom_point() + xlab("Wall time (log2 hrs) per analysis") + ylab("Peak memory (GB) used by a single job") + facet_grid(. ~ analysis)
+```
+
+Below are similar plots showing the peak memory by core instead of the actual peak memory for a given job.
+
+```{r 'peakSumFigs2', fig.width=14, bootstrap.show.code=FALSE}
+ggplot(peaks, aes(x=walltime, y=memByCore, colour=experiment)) + geom_point() + xlab("Wall time (hrs) per analysis") + ylab("Peak memory by core (GB) used by a single job") + facet_grid(. ~ analysis)
+ggplot(peaks, aes(x=log2(walltime), y=memByCore, colour=experiment)) + geom_point() + xlab("Wall time (log2 hrs) per analysis") + ylab("Peak memory by core (GB) used by a single job") + facet_grid(. ~ analysis)
+```
+
+The table below shows the final summary. Note that in some analyses, the peak memory is from the _fullCov_ step. We did not focus on reducing the memory load of this step as we sacrificed memory for speed. We know that much lower memory limits can be achieved using 1 core instead of the 10 cores used.
+
+```{r 'peakSumTab', bootstrap.show.code=FALSE, results = 'asis'}
+kable(peaks, format = 'html', digits = c(2, 3, 2))
+```
+
+Regarding the high memory load for the HTML report, this could be significantly lowered by only loading the required coverage data used for the plots instead of the full output from the _fullCov_ step. Other improvements could be made to the plotting functions, in particular `derfinderPlot::plotCluster()` that would help reduce the peak memory.
+
+__Note__: since these analyses were done, we have found other ways to run `derfinder::regionMatrix()` that require less memory. In particular, if you have BigWig files (as those generated by `Rail-RNA` `r citep(bib[['rail']])`), we recommend using `railMatrix()`.
+
+
+## Comparing methods for gene count table generation
+
+The previous table can also be used to compare the sum of the time and peak memory used by the different steps to obtain the exon count table with the following software options.
+
+*  `derfinder`: includes resources used for reading coverage data in `R` and then running creating a feature count matrix. We did so for
+	* UCSC hg19 knownGene annotation
+	* Ensembl GRCh37 p11 annotation.
+* `HTSeq`: includes resources used for generating sorted SAM files and then running HTSeq.
+* `summOv`: resources used for running `GenomicRanges::summarizeOverlaps()` directly on the BAM files.
+
+
+
+# Details
+
+The following table shows the details of the resources used by the different jobs. It shows the experiment (_experiment_), the analysis step (_step_), wall time used (shown in hours, _walltime_), number of cores used (_cores_), memory in GB used (_memG_), software used (_software_), analysis for which the step is used (_analysis_), and the job name (_jobib_). Furthermore, it shows two simple approximations:
+
+* _timeByCore_ is the wall time (in hours) multiplied by the number of cores used. It is a very simple approximation for the wall time used had the job been ran on a single node. This approximation is known to be false, but it gives a basic idea.
+* _memByCore_ is the memory (in GB) divided by the number of cores used. It is an approximation for the memory used had the job been ran on a single node. 
+
+These are the following analysis steps:
+
+1. __fullCov__ Extract coverage information from raw files (BAM or BigWig) by chromosome, then filter it, and save it in Rdata files.
+1. __derMod__ Calculate the sample depth adjustments and build models appropriate for the experiment.
+1. __derA__ Run single-base level analysis by chromosome.
+1. __derM__ Merge derfinder analysis results from the different chromosomes, calculate p-values and q-values.
+1. __derR__ Generate HTML report with `regionReport`.
+1. __regMat__ Run expressed-regions level analysis with `regionMatrix()`.
+1. __regsVsDers__ Compare expressed-regions vs single-base level approaches for the derfinder software paper.
+1. __toSam__ Transform BAM files to sorted (by name) SAM files for running HTSeq.
+1. __htseq__ Run HTSeq to generate exon count table.
+1. __summOv__  Run `GenomicRanges::summarizeOverlaps()` to generate exon count table.
+1. __covToExon__  Generate exon table using `derfinder::coverageToExon()` for UCSC hg19 knownGene or GRCh37 p11 Ensembl annotation table.
+1. __PNAS__ (Only for _Hippo_) Generate an HTML report comparing the derfinder results vs previously published results (PNAS paper).
+1. __TopHat__ Run TopHat v2.0.13 for simulated data.
+1. __makeBai__ Generate .bai files for simulated data.
+1. __bigwig__ Generate BigWig files from simulated data for a derfinder tutorial: [derTutor](http://lcolladotor.github.io/derTutor/)
+1. __summInfo__ Summarize results to then use then in the derfinder software paper.
+
+<link rel="stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css" />
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
+
+```{r tables, results="asis", bootstrap.show.code=FALSE}
+library("rCharts")
+library("data.table")
+
+## Print whole table
+d <- data.table(all[, c("experiment", "step", "walltime", "cores", "memG", "timeByCore", "memByCore", "software", "analysis", "jobid")])
+t1 <- dTable(d, sPaginationType='full_numbers', iDisplayLength=50, sScrollX='100%')
+t1$print("timing", cdn=TRUE)
+```
+<br/>
+
+Table made using `rCharts` `r citep(bib[["rCharts"]])`.
+
+# Reproducibility
+
+Date the report was generated.
+
+```{r reproducibility1, echo=FALSE, bootstrap.show.code=FALSE}
+## Date the report was generated
+Sys.time()
+```
+
+Wallclock time spent generating the report.
+
+```{r "reproducibility2", echo=FALSE, bootstrap.show.code=FALSE}
+## Processing time in seconds
+totalTime <- diff(c(startTime, Sys.time()))
+round(totalTime, digits=3)
+```
+
+`R` session information.
+
+```{r "reproducibility3", echo=FALSE, bootstrap.show.code=FALSE, bootstrap.show.message=FALSE}
+## Session info
+options(width=120)
+devtools::session_info()
+```
+
+# Bibliography
+
+This report was generated using `knitrBootstrap` `r citep(bib[['knitrBootstrap']])`
+with `knitr` `r citep(bib[['knitr']])` and `rmarkdown` `r citep(bib[['rmarkdown']])` running behind the scenes.  Timing information extracted from the SGE reports using `efficiency analytics` `r citep(bib[["eff"]])`. Figures and citations were made using `ggplot2` `r citep(bib[["ggplot2"]])` and  `knitcitations` `r citep(bib[['knitcitations']])` respectively.
+
+Citation file: [timing.bib](timing.bib)
+
+```{r vignetteBiblio, results = 'asis', echo = FALSE, warning = FALSE}
+## Print bibliography
+bibliography()
+```

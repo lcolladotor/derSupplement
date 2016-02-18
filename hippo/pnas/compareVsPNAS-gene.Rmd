@@ -1,0 +1,570 @@
+---
+output:
+  knitrBootstrap::bootstrap_document:
+    theme.chooser: TRUE
+    highlight.chooser: TRUE
+---
+
+Compare vs PNAS at gene level
+===============
+
+
+# Gene-level analysis
+
+This section has the code for running `edgeR-robust` and `DESeq2` on the simulation data set using the known genes as features. It is based on [compareVsPNAS.html](compareVsPNAS.html), [counts-based.html](../../simulation/counts-based/counts-based.html) and [counts-gene-eval.html](../../simulation/counts-gene-eval/counts-gene-eval.html).
+
+
+
+This first code chunk loads the necessary data.
+
+
+```{r 'setup', bootstrap.show.code = FALSE, bootstrap.show.message = FALSE}
+## Track time spent on making the report
+startTime <- Sys.time()
+
+library('edgeR')
+library('DESeq2')
+library('GenomicRanges')
+library('TxDb.Hsapiens.UCSC.hg19.knownGene')
+
+## Load data
+load("../counts-gene/summOv.Rdata")
+load("../derAnalysis/run3-v1.0.10/groupInfo.Rdata")
+load("../derAnalysis/run3-v1.0.10/colsubset.Rdata")
+
+## GenomicState object
+if(file.exists('/home/epi/ajaffe/Lieber/Projects/RNAseq/derannotator/rdas/GenomicState.Hsapiens.UCSC.hg19.knownGene.rda')) {
+    load('/home/epi/ajaffe/Lieber/Projects/RNAseq/derannotator/rdas/GenomicState.Hsapiens.UCSC.hg19.knownGene.rda')
+} else if(file.exists('../../GenomicState.Hsapiens.UCSC.hg19.knownGene.rda')) {
+    load('../../GenomicState.Hsapiens.UCSC.hg19.knownGene.rda')
+} else {
+    stop('Missing UCSC hg19 genomic state object')
+}
+
+## Find genes
+genes <- exonsBy(TxDb.Hsapiens.UCSC.hg19.knownGene, by = 'gene')
+
+## Round matrix and remove genes with 0s
+counts <- assay(summOv)[, colsubset]
+nonzero <- sapply(rowSums(counts), function(x) {x > 0})
+```
+
+
+## DESeq2
+
+The following code performs the DESeq2 analysis. Code is based on [edgeR_Robust supplementary code](http://imlspenticton.uzh.ch/robinson_lab/edgeR_robust/). The main change is that it has been modified for the multi-group scenario.
+
+```{r 'deseq2', bootstrap.show.code = FALSE}
+## Round matrix and specify design
+dse <- DESeqDataSetFromMatrix(counts[nonzero, ], data.frame(group = groupInfo), ~ group)
+
+## Perform DE analysis
+system.time( dse <- DESeq(dse, test = 'LRT', reduced = ~ 1) )
+
+## Extract results
+deseq <- genes[nonzero]
+mcols(deseq) <- cbind(mcols(deseq), results(dse))
+
+## Which are significant?
+mcols(deseq)$sig <- mcols(deseq)$padj < 0.05
+mcols(deseq)$sig[is.na(mcols(deseq)$sig)] <- FALSE
+
+## Save results
+save(deseq, file = 'deseq-gene.Rdata')
+
+## Adjust by Holm
+deseq_holm <- deseq
+mcols(deseq_holm)$sig <- p.adjust(mcols(deseq_holm)$pvalue, 'holm') < 0.05
+```
+
+
+## edgeR-robust
+
+The following code performs the DESeq2 analysis. Code is based on [edgeR_Robust supplementary code](http://imlspenticton.uzh.ch/robinson_lab/edgeR_robust/). The main change is that it has been modified for the multi-group scenario.
+
+
+```{r 'edgeR', bootstrap.show.code = FALSE}
+## Determine design matrix
+design <- model.matrix(~ groupInfo)
+
+## Perform DE analysis
+d <- DGEList(counts = counts[nonzero, ], group = groupInfo)
+d <- calcNormFactors(d)
+system.time(dw <- estimateGLMRobustDisp(d, design = design, prior.df = 10, maxit = 6))
+fw <- glmFit(dw, design = design, coef = 2:3)
+lrw <- glmLRT(fw, coef = 2:3)
+
+## Extract results
+edger <- genes[nonzero]
+mcols(edger) <- cbind(mcols(edger), DataFrame(lrw$table))
+mcols(edger)$pvalue <-  lrw$table$PValue
+mcols(edger)$padj <- p.adjust(lrw$table$PValue, 'BH')
+
+## Which are significant?
+mcols(edger)$sig <- mcols(edger)$padj < 0.05
+mcols(edger)$sig[is.na(mcols(edger)$sig)] <- FALSE
+
+## Save results
+save(edger, file = 'edger-gene.Rdata')
+
+## Adjust by Holm
+edger_holm <- edger
+mcols(edger_holm)$sig <- p.adjust(mcols(edger_holm)$pvalue, 'holm') < 0.05
+```
+
+
+
+
+
+
+
+
+## Overlap
+
+```{r 'ov-comp-setup', bootstrap.show.code = FALSE}
+## Load data
+load('../derAnalysis/run3-v1.0.10/fullRegions.Rdata')
+
+## Some formatting and subsets
+names(fullRegions) <- seq_len(length(fullRegions))
+fullRegions$sigFWER <- as.logical(fullRegions$significantFWER)
+fullRegs20 <- fullRegions[width(fullRegions) >= 20]
+
+## Overlap table for all 4 cases
+ov_table <- function(ders, counts, query = 'der', minov = 0) {
+    if(query == 'der') {
+        if(minov == 0) {
+            res <- addmargins(table('Significant DER (FWER)' = ders$sigFWER, 'Overlaps sig DE gene' = countOverlaps(ders, counts[mcols(counts)$sig]) > 0))
+        } else {
+            res <- addmargins(table(ders$sigFWER, countOverlaps(ders, counts[mcols(counts)$sig], minoverlap = minov) > 0, dnn = c('Significant DER (FWER)', paste0('Overlaps sig DE gene (min ', minov, 'bp)'))))
+        }
+    } else if (query == 'counts') {
+        if(minov == 0) {
+            res <- addmargins(table('Significant DE gene' = mcols(counts)$sig, 'Overlaps sig DER (FWER)' = countOverlaps(counts, ders[ders$sigFWER]) > 0))
+        } else {
+            res <- addmargins(table(mcols(counts)$sig[sapply(width(counts), sum) >= minov], countOverlaps(counts[sapply(width(counts), sum) >= minov], ders[ders$sigFWER], minoverlap = minov) > 0, dnn = c('Significant DE gene', paste0('Overlaps sig DER (FWER, min ', minov, 'bp)'))))
+        }
+    }
+    return(res)
+}
+
+## Explore mistmatched cases for DERs vs genes direction
+explore_ov <- function(ders, counts, case = "FALSE-TRUE", minov = 0L) {
+    if(case == 'FALSE-TRUE') {
+        i <- which(countOverlaps(ders, counts[mcols(counts)$sig], minoverlap = minov) > 0 & !ders$sigFWER)
+    } else if (case == 'TRUE-FALSE') {
+        i <- which(!countOverlaps(ders, counts[mcols(counts)$sig], minoverlap = minov) > 0 & ders$sigFWER)
+    } else{
+        stop('invalid case')
+    }
+    if(length(i) == 0) return("No such cases")
+    
+    if(case == 'FALSE-TRUE') {
+        res <- list(
+            n_overlaps = table(countOverlaps(ders[i], counts[mcols(counts)$sig], minoverlap = minov)),
+            width_der = summary(width(ders[i])),
+            ders_per_gene_table = table(table(subjectHits(findOverlaps(ders[i], counts[mcols(counts)$sig], minoverlap = minov)))),
+            ders_per_gene = sort(table(subjectHits(findOverlaps(ders[i], counts[mcols(counts)$sig], minoverlap = minov)))),
+            i = i
+        )
+    } else {
+        res <- list(
+            width_der = summary(width(ders[i])),
+            distance_nearest_sum = summary(mcols(distanceToNearest(ders[i], unlist(counts), ignore.strand = TRUE))$distance),
+            distance_nearest_sig_sum = summary(mcols(distanceToNearest(ders[i], unlist(counts[mcols(counts)$sig]), ignore.strand = TRUE))$distance),
+            distance_nearest = distanceToNearest(ders[i], unlist(counts), ignore.strand = TRUE),
+            distance_nearest_sig = distanceToNearest(ders[i], unlist(counts[mcols(counts)$sig]), ignore.strand = TRUE),
+            i = i
+        )
+    }
+    
+    return(res)
+}
+
+## Explore mistmatched cases for genes vs DERs direction
+explore_ov_counts <- function(ders, counts, case = "FALSE-TRUE", minov = 0L) {
+    counts <- counts[sapply(width(counts), sum) >= minov]
+    if(case == 'FALSE-TRUE') {
+        i <- which(countOverlaps(counts, ders[ders$sigFWER], minoverlap = minov) > 0 & !mcols(counts)$sig)
+    } else if (case == 'TRUE-FALSE') {
+        i <- which(!countOverlaps(counts, ders[ders$sigFWER], minoverlap = minov) > 0 & mcols(counts)$sig)
+    } else{
+        stop('invalid case')
+    }
+    if(length(i) == 0) return("No such cases")
+    
+    if(case == 'FALSE-TRUE') {
+        res <- list(
+            n_overlaps = table(countOverlaps(counts[i], ders[ders$sigFWER], minoverlap = minov)),
+            width_gene = summary(sapply(width(counts[i]), sum)),
+            genes_per_der_table = table(table(subjectHits(findOverlaps(counts[i], ders[ders$sigFWER], minoverlap = minov)))),
+            genes_per_der = sort(table(subjectHits(findOverlaps(counts[i], ders[ders$sigFWER], minoverlap = minov)))),
+            i = i
+        )
+    } else {
+        res <- list(
+            width_gene = summary(sapply(width(counts[i]), sum)),
+            distance_nearest_sum = summary(mcols(distanceToNearest(unlist(counts[i]), ders, ignore.strand = TRUE))$distance),
+             distance_nearest_sig_sum = summary(mcols(distanceToNearest(unlist(counts[i]), ders[ders$sigFWER], ignore.strand = TRUE))$distance),
+            distance_nearest = distanceToNearest(unlist(counts[i]), ders, ignore.strand = TRUE),
+            distance_nearest_sig = distanceToNearest(unlist(counts[i]), ders[ders$sigFWER], ignore.strand = TRUE),
+            i = i
+        )
+    }
+    
+    return(res)
+}
+
+noNA <- function(x) {
+    x[!is.na(x)]
+}
+```
+
+
+### DESeq2
+
+
+#### Query: DERs
+
+We can first compare the results by using the DERs as the query and the genes as the subject. The following output shows the comparison using all DERs and exploring the mismatched cases. Then its repeated using the DERs $\geq$ 20 bp and a minimum overlap of 20bp.
+
+For the mismatched cases of non-significant DERs overlapping a significant gene, we check:
+
+* how many genes each DER overlaps,
+* the width of the DERs
+* the frequency table of how many DERs overlap the same gene
+
+For the other mismatched case, we check:
+
+* the width of the DERs
+* distance to nearest gene (regardless of gene size)
+* distance to nearest significant DE gene (ibidem)
+
+```{r 'ov-comp-deseq', bootstrap.show.code = FALSE}
+## Overlap between DERs and significant DE genes
+ov_table(fullRegions, deseq)
+
+## Explore mismatched cases
+#noNA(explore_ov(fullRegions, deseq)[1:3])
+#noNA(explore_ov(fullRegions, deseq, 'TRUE-FALSE')[1:3])
+
+## Min 20 bp overlap, using only DERs 20 bp long
+ov_table(fullRegs20, deseq, minov = 20L)
+
+## Explore mismatched cases, min 20bp overlap
+noNA(explore_ov(fullRegs20, deseq, minov = 20L)[1:3])
+noNA(explore_ov(fullRegs20, deseq, 'TRUE-FALSE', minov = 20L)[1:3])
+
+## Holm vs BH
+addmargins(table('DESeq2 Holm' = mcols(deseq_holm)$sig, 'DESeq2 BH' = mcols(deseq)$sig))
+
+## Use Holm and min 20 bp ov
+ov_table(fullRegs20, deseq_holm, minov = 20L)
+```
+
+Most of the DERs are shorter than 20bp (`r round(sum(width(fullRegions) < 20) / length(fullRegions) * 100, 2)` percent), so we'll focus on the longer ones. The majority of the mismatches are from non significant DERs that overlap a significant gene. 
+
+As expected, when controlling the FWER instead of the FDR, most of the DE genes are no longer significant. Using FWER-controlled DE genes, most of the DERs 20bp or longer agree with the genes as not being significantly DE.
+
+
+#### Query: genes
+
+We can now repeat the comparison using the genes as the query and the DERs as the subject.
+
+For the mismatched cases of non-significant genes overlapping a significant DER, we check:
+
+* how many DERs each gene overlaps,
+* the width of the genes
+* the frequency table of how many genes overlap the same DER
+
+For the other mismatched case, we check:
+
+* the width of the genes
+* distance to nearest DER (regardless of DER size)
+* distance to nearest significant DER (ibidem)
+
+```{r 'ov-comp-deseq-counts', bootstrap.show.code = FALSE}
+## Overlap between genes and significant DERs
+#ov_table(fullRegions, deseq, 'counts')
+
+## Explore mismatched cases
+#noNA(explore_ov_counts(fullRegions, deseq)[1:3])
+#noNA(explore_ov_counts(fullRegions, deseq, 'TRUE-FALSE')[1:3])
+
+## Overlap between genes and significant DERs, min 20 bp
+ov_table(fullRegions, deseq, 'counts', 20L)
+
+## Explore mismatched cases
+noNA(explore_ov_counts(fullRegions, deseq, minov = 20L)[1:3])
+noNA(explore_ov_counts(fullRegions, deseq, 'TRUE-FALSE', minov = 20L)[1:3])
+
+## Now with Holm
+ov_table(fullRegions, deseq_holm, 'counts', 20L)
+```
+
+From these results, we can see that `derfinder` is more conservative.
+
+
+
+
+### edgeR-robust
+
+#### Query: DERs
+
+Similar comparison using DERs as query and genes as subject with `edgeR-robust` results.
+
+```{r 'ov-comp-edger', bootstrap.show.code = FALSE}
+## Overlap between DERs and significant DE genes
+#ov_table(fullRegions, edger)
+
+## Explore mismatched cases
+#noNA(explore_ov(fullRegions, edger)[1:3])
+#noNA(explore_ov(fullRegions, edger, 'TRUE-FALSE')[1:3])
+
+## Min 20 bp overlap, using only DERs 20 bp long
+ov_table(fullRegs20, edger, minov = 20L)
+
+## Explore mismatched cases, min 20bp overlap
+noNA(explore_ov(fullRegs20, edger, minov = 20L)[1:3])
+noNA(explore_ov(fullRegs20, edger, 'TRUE-FALSE', minov = 20L)[1:3])
+
+## Holm vs BH
+addmargins(table('edgeR Holm' = mcols(edger_holm)$sig, 'edger BH' = mcols(edger)$sig))
+
+## With Holm, 20bp
+ov_table(fullRegs20, edger_holm, minov = 20L)
+```
+
+The results are fairly similar to those from using `DESeq2`.
+
+#### Query: genes
+
+Similar comparison using genes as query and DERs as subject with `edgeR-robust` results.
+
+```{r 'ov-comp-edger-counts', bootstrap.show.code = FALSE}
+## Overlap between genes and significant DERs
+#ov_table(fullRegions, edger, 'counts')
+
+## Explore mismatched cases
+#noNA(explore_ov_counts(fullRegions, edger)[1:3])
+#noNA(explore_ov_counts(fullRegions, edger, 'TRUE-FALSE')[1:3])
+
+## Overlap between genes and significant DERs, min 20 bp
+ov_table(fullRegions, edger, 'counts', 20L)
+
+## Explore mismatched cases
+noNA(explore_ov_counts(fullRegions, edger, minov = 20L)[1:3])
+noNA(explore_ov_counts(fullRegions, edger, 'TRUE-FALSE', minov = 20L)[1:3])
+
+## With Holm, 20 bp
+ov_table(fullRegions, edger_holm, 'counts', 20L)
+```
+
+
+### overall
+
+While the DERs vs genes results are fairly similar between `edgeR-robust` and `DESeq2`, as shown below the number of mismatched cases is high compared to the number of cases both counts-based methods agree. This is also true when controlling the FWER to determine significance.
+
+```{r 'deseq-vs-edger'}
+## edgeR vs DESeq2
+addmargins(table('edgeR-robust (FDR)' = mcols(edger)$sig, 'DESeq2 (FDR)' = mcols(deseq)$sig))
+
+## Control FWER
+addmargins(table('edgeR-robust (FWER)' = mcols(edger_holm)$sig, 'DESeq2 (FWER)' = mcols(deseq_holm)$sig))
+
+## Only sig if both edgeR and DEseq2 say it is
+both <- deseq
+mcols(both)$sig <- mcols(both)$sig & mcols(edger)$sig
+
+## Same, for holm
+both_holm <- deseq_holm
+mcols(both_holm)$sig <- mcols(both_holm)$sig & mcols(edger_holm)$sig
+```
+
+We can consider an gene to be DE only if both `edgeR-robust` and `DESeq2` find that its significantly DE. The next sections use this information.
+
+#### Query: DERs
+
+```{r 'ov-comp-both', bootstrap.show.code = FALSE}
+## Overlap between DERs and significant DE genes
+#ov_table(fullRegions, both)
+
+## Explore mismatched cases
+#noNA(explore_ov(fullRegions, both)[1:3])
+#noNA(explore_ov(fullRegions, both, 'TRUE-FALSE')[1:3])
+
+## Min 20 bp overlap, using only DERs 20 bp long
+ov_table(fullRegs20, both, minov = 20L)
+
+## Explore mismatched cases, min 20bp overlap
+noNA(explore_ov(fullRegs20, both, minov = 20L)[1:3])
+noNA(explore_ov(fullRegs20, both, 'TRUE-FALSE', minov = 20L)[1:3])
+
+## Holm vs BH
+addmargins(table('Both Holm' = mcols(both_holm)$sig, 'Both BH' = mcols(both)$sig))
+
+## Use Holm and min 20 bp ov
+ov_table(fullRegs20, both_holm, minov = 20L)
+```
+
+The trends observed previously are maintained in this comparison with a reduction of cases where the gene is DE. This is expected due to the non-perfect agreement between `DESeq2` and `edgeR-robust`.
+
+
+```{r 'regionPlot-setup', bootstrap.show.code = FALSE, bootstrap.show.message = FALSE}
+library('TxDb.Hsapiens.UCSC.hg19.knownGene')
+library('derfinder')
+library('derfinderHelper')
+library('derfinderPlot')
+load('../derAnalysis/run3-v1.0.10/models.Rdata')
+load('../derAnalysis/run3-v1.0.10/chr22/optionsStats.Rdata')
+load("../CoverageInfo/fullCov.Rdata")
+
+def.par <- par()
+def.par <- def.par[-which(names(def.par) %in% c('cin', 'cra', 'csi', 'cxy', 'din', 'page'))]
+
+regPlot <- function(region, title) {
+    ## Calculate F-stats
+    range <- start(region):end(region)
+    dat <- fullCov[[as.character(seqnames(region))]][range, colsubset]
+
+    ## Log2 transform
+    for(i in seq_len(length(groupInfo))) dat[[i]] <- log2(dat[[i]] + 32) 
+
+    ## Calculate f-stats
+    fstats <- as.numeric(fstats.apply(data = dat, mod = models$mod, mod0 = models$mod0))
+
+    ## Find annotation
+    annoReg <- annotateRegions(region, GenomicState.Hsapiens.UCSC.hg19.knownGene$fullGenome, verbose = FALSE)
+    symbol <- mcols(annoReg$annotationList[[1]])$symbol
+    symbol <- as.character(noNA(symbol)[[1]])
+    if(length(symbol) > 1) symbol <- symbol[1]
+    symbol <- ifelse(is.null(symbol), NA, symbol)
+    ## Remove symbol name because it gets chomped on the plot
+    mcols(annoReg$annotationList[[1]])$symbol <- NA
+    
+    par(def.par)
+
+    ## Plot long gene
+    plotRegionCoverage(region, getRegionCoverage(fullCov, region, verbose = FALSE), groupInfo, data.frame(name = title, distance = NA, region = symbol), annoReg, verbose = FALSE, ask = FALSE, txdb = TxDb.Hsapiens.UCSC.hg19.knownGene)
+
+    ## Add F-stat track
+    par(fig = c(0, 1, 0.065, 0.125), new = TRUE, xaxt = 'n', oma = c(0, 0, 0, 0), mar = c(0, 4.5, 0, 1.1))
+    plot(y = fstats, x = range, ylab = 'F-stat', type = 'l', xlab = '', bty = 'n', ylim = c(0, max(fstats[is.finite(fstats)], optionsStats$cutoffFstatUsed) * 1.1), las = 2, yaxt = 'n')
+    y.max <- round(max(c(optionsStats$cutoffFstatUsed, fstats[is.finite(fstats)]), na.rm = TRUE), 0)
+    axis(2, at = c(0, round(y.max / 2, 0), y.max), c(0, round(y.max / 2, 0), y.max), las = 2, tick = TRUE)
+    abline(h = optionsStats$cutoffFstatUsed, col = 'red')
+    abline(h = 0, col = 'grey')
+}
+
+sortWidth <- function(regions) {
+    regions[order(width(regions), decreasing = TRUE)]
+}
+```
+
+We can now make plots to explore some DERs for each of the cases.
+
+```{r 'query-der-plots', fig.width = 10, fig.height = 7, bootstrap.show.code = FALSE}
+query_der_plots <- function() {
+    sapply(sortWidth(fullRegs20[countOverlaps(fullRegs20, both[mcols(both)$sig], minoverlap = 20L) > 0 & fullRegs20$sigFWER])[1:10], function(reg) {
+        regPlot(reg, 'DER query: DE agreement')
+    })
+
+    sapply(sortWidth(fullRegs20[countOverlaps(fullRegs20, both[mcols(both)$sig], minoverlap = 20L) == 0 & !fullRegs20$sigFWER])[1:10],  function(reg) {
+        regPlot(reg, 'DER query: not DE agreement')
+    })
+
+    sapply(sortWidth(fullRegs20[countOverlaps(fullRegs20, both[mcols(both)$sig], minoverlap = 20L) == 0 & fullRegs20$sigFWER])[1:10], function(reg) {
+        regPlot(reg, 'DER query: only gene not DE')
+    })
+
+    sapply(sortWidth(fullRegs20[countOverlaps(fullRegs20, both[mcols(both)$sig], minoverlap = 20L) > 0 & !fullRegs20$sigFWER])[1:10], function(reg) {
+        regPlot(reg, 'DER query: only gene DE')
+    })
+}
+pdf(file = 'query_der_plots_gene.pdf', width = 10, height = 7)
+query_der_plots()
+dev.off()
+
+query_der_plots()
+```
+
+
+#### Query: genes
+
+As was shown with either `DESeq2` or `edgeR-robust` results, `derfinder` is more conservative than the counts-based methods.
+
+```{r 'ov-comp-both-counts', bootstrap.show.code = FALSE}
+## Overlap between genes and significant DERs, min 20 bp
+ov_table(fullRegions, both, 'counts', 20L)
+
+## Explore mismatched cases
+noNA(explore_ov_counts(fullRegions, both, minov = 20L)[1:3])
+noNA(explore_ov_counts(fullRegions, both, 'TRUE-FALSE', minov = 20L)[1:3])
+
+## With Holm, 20 bp
+ov_table(fullRegions, both_holm, 'counts', 20L)
+```
+
+We can now visually explore some genes (maximum 10kb long) for each of the four cases.
+
+
+```{r 'query-gene-plots', fig.width = 10, fig.height = 7, bootstrap.show.code = FALSE}
+
+max_kb <- function(x, limit = 1e4) {
+    x[width(x) <= limit]
+}
+
+selectRegions <- function(x) {
+    max_kb(sortWidth(unlist(range(x))))
+}
+
+query_gene_plots <- function() {
+    sapply(selectRegions(both[sapply(width(both), sum) >= 20 & mcols(both)$sig & countOverlaps(both, fullRegions[fullRegions$sigFWER], minoverlap = 20L) > 0])[1:10], function(reg) {
+        regPlot(reg, 'Gene query: DE agreement')
+    })
+
+    sapply(selectRegions(both[sapply(width(both), sum) >= 20 & !mcols(both)$sig & countOverlaps(both, fullRegions[fullRegions$sigFWER], minoverlap = 20L) == 0])[1:10], function(reg) {
+        regPlot(reg, 'Gene query: not DE agreement')
+    })
+
+    sapply(selectRegions(both[sapply(width(both), sum) >= 20 & !mcols(both)$sig & countOverlaps(both, fullRegions[fullRegions$sigFWER], minoverlap = 20L) > 0])[1:10], function(reg) {
+        regPlot(reg, 'Gene query: only gene not DE')
+    })
+
+    sapply(selectRegions(both[sapply(width(both), sum) >= 20 & mcols(both)$sig & countOverlaps(both, fullRegions[fullRegions$sigFWER], minoverlap = 20L) == 0])[1:10], function(reg) {
+        regPlot(reg, 'Gene query: only gene DE')
+    })
+}
+pdf(file = 'query_gene_plots.pdf', width = 10, height = 7)
+query_gene_plots()
+dev.off()
+
+query_gene_plots()
+```
+
+
+
+# Reproducibility
+
+Date the report was generated.
+
+```{r reproducibility1, echo=FALSE, bootstrap.show.code=FALSE}
+## Date the report was generated
+Sys.time()
+```
+
+Wallclock time spent generating the report.
+
+```{r "reproducibility2", echo=FALSE, bootstrap.show.code=FALSE}
+## Processing time in seconds
+totalTime <- diff(c(startTime, Sys.time()))
+round(totalTime, digits=3)
+```
+
+`R` session information.
+
+```{r "reproducibility3", echo=FALSE, bootstrap.show.code=FALSE, bootstrap.show.message=FALSE}
+## Session info
+options(width=120)
+devtools::session_info()
+```

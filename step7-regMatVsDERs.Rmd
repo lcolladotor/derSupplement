@@ -1,0 +1,430 @@
+---
+output:
+  knitrBootstrap::bootstrap_document:
+    theme.chooser: TRUE
+    highlight.chooser: TRUE
+---
+
+Compare output from regionMatrix() with DERs
+============================================
+
+# Setup
+
+## Libraries
+
+```{r 'libraries', bootstrap.show.message = FALSE, bootstrap.show.code = FALSE}
+library('GenomicRanges')
+library('data.table')
+library('rCharts')
+library('knitr')
+library('ggplot2')
+library('devtools')
+opts_chunk$set(bootstrap.show.code = FALSE, dev = 'CairoPNG')
+```
+
+
+## Load data
+
+```{r 'data', bootstrap.show.output = FALSE}
+## Check that data was loaded
+stopifnot(all(c('fullRegions', 'regionMat', 'analysisPath') %in% ls()))
+
+## Fix DERs
+ders <- fullRegions
+names(ders) <- NULL
+
+## Fix region matrices
+regs <- unlist(GRangesList(lapply(regionMat, '[[', 'regions')))
+names(regs) <- NULL
+
+## Assign seqlengths
+data(hg19Ideogram, package = 'biovizBase', envir = environment())
+seqlengths(ders) <- seqlengths(hg19Ideogram)[names(seqlengths(ders))]
+seqlengths(regs) <- seqlengths(hg19Ideogram)[names(seqlengths(regs))]
+
+## Sort
+ders <- sort(ders)
+regs <- sort(regs)
+
+## Check names match
+identical(seqlengths(regs), seqlengths(ders))
+
+## Save the raw data
+save(ders, file = file.path(analysisPath, 'dersOriginal.Rdata'))
+save(regs, file = file.path(analysisPath, 'regsOriginal.Rdata'))
+
+## Filter out those with less than 3bp
+c('# ders under 3bp' = sum(width(ders) < 3), '# regs under 3bp' = sum(width(regs) < 3))
+ders <- ders[width(ders) >= 3]
+regs <- regs[width(regs) >= 3]
+
+## Save data used
+save(ders, file = file.path(analysisPath, 'ders.Rdata'))
+save(regs, file = file.path(analysisPath, 'regs.Rdata'))
+```
+
+Construct logical indexes for DERs and regionMatrix regions.
+
+```{r 'buildIndex'}
+## Construct logical Rle indexes for bases with some region
+build_index <- function(gr) {
+    res <- lapply(names(seqlengths(gr)), function(chr) {
+        chr.len <- seqlengths(gr)[chr]
+        ir <- sort(ranges(gr[seqnames(gr) == chr]))
+        log <- c(rep(c(FALSE, TRUE), length(ir)), FALSE)
+    
+        starts <- ends <- rep(NA, length(ir) * 2)
+        i <- rep(c(TRUE, FALSE), length(ir))
+        starts[i] <- start(ir)
+        ends[i] <- end(ir)
+    
+        starts[!i] <- ends[i] + 1
+    
+        if(max(ends, na.rm = TRUE) < chr.len) {
+            ends[!i] <- c(starts[i] - 1, chr.len)[-1]
+        } else {
+            ends[!i] <- c(starts[i] - 1, NULL)[-1]
+            starts <- starts[- length(starts)]
+            log <- log[- length(log)]
+        }
+   
+        if(starts[1] != 1) {
+            ends <- c(starts[1] - 1, ends)
+            starts <- c(1, starts)
+        } else {
+            log <- log[-1]
+        }
+   
+        widths <- mapply(function(s, e) { e - s + 1}, starts, ends)
+    
+        Rle(log, widths)
+    })
+    names(res) <- names(seqlengths(gr))
+    return(res)
+}
+index.ders <- build_index(ders)
+index.regs <- build_index(regs)
+
+## Add info for chrs where there are no regs
+miss <- !paste0('chr', c(1:22, 'X', 'Y')) %in% names(index.regs)
+names(miss) <- paste0('chr', c(1:22, 'X', 'Y'))
+if(any(miss)) {
+    miss.add <- lapply(names(miss)[miss], function(x) { 
+        Rle(FALSE, seqlengths(hg19Ideogram)[x]) 
+    })
+    names(miss.add) <- names(miss)[miss]
+    index.regs <- c(index.regs, miss.add)
+    index.regs <- index.regs[match(names(miss), names(index.regs))]
+}
+
+## Add info for chrs where there are no DERs
+miss <- !names(index.regs) %in% names(index.ders)
+if(any(miss)) {
+    miss.add <- lapply(names(index.regs)[miss], function(x) { 
+        Rle(FALSE, length(index.regs[[x]])) 
+    })
+    names(miss.add) <- names(index.regs)[miss]
+    index.ders <- c(index.ders, miss.add)
+    index.ders <- index.ders[match(names(index.regs), names(index.ders))]
+}
+```
+
+# Compare
+
+## Visually explore
+
+```{r 'epivizr', eval = FALSE}
+library('epivizr')
+mgr <- startEpiviz()
+ders_dev <- mgr$addDevice(ders[!as.logical(ders$significantFWER)], "DERs no sig FWER")
+ders_sig_dev <- mgr$addDevice(ders[as.logical(ders$significantFWER)], "DERs sig FWER")
+regs_dev <- mgr$addDevice(regs, "Region Matrix")
+
+## SOX11
+mgr$navigate("chr2", 5810000, 5850000)
+
+## MEX3A
+mgr$navigate("chr1", 156040000, 156090000)
+
+## VASH2
+mgr$navigate("chr1", 213120000, 213170000)
+
+## TG:
+mgr$navigate("chr8", 134040000, 134120000)
+
+## IGF2BP2
+mgr$navigate("chr3", 185350000, 185410000)
+
+## FBN3
+mgr$navigate("chr19", 8130000, 8180000)
+
+## End
+mgr$stopServer()
+```
+
+
+## Basic comparison
+
+Number of regions
+
+```{r 'basic1'}
+## Number of regions
+c('ders' = length(ders), 'regs' = length(regs))
+```
+
+Summary on width of regions
+
+```{r 'basic2'}
+## Size of regions
+c('ders' = summary(width(ders)), 'regs' = summary(width(regs)))
+```
+
+
+## Compare indexes
+
+### Base-pairs
+
+Number of base-pairs in each index. Summary first, then overall info for the genome (in number of bases, then in percent of the genome), and finally results in interactive table.
+
+```{r 'index-num'}
+## Merge all the indexes
+index.all <- mapply(function(der, reg) {
+    both <- der & reg
+    only.der <- der & !reg
+    only.reg <- !der & reg
+    none <- !der & !reg
+    
+    res <- list('both' = both, 'only.der' = only.der, 'only.reg' = only.reg,
+        'none' = none, 'all.der' = der, 'all.reg' = reg)
+    return(list(res))
+}, index.ders, index.regs)
+
+## Find number of base-pairs in each index
+index.num <- data.frame(do.call(rbind, lapply(index.all, function(x) { sapply(x, sum)})))
+index.num$chrLen <- seqlengths(ders)
+index.num$chr <- rownames(index.num)
+rownames(index.num) <- NULL
+
+## Print info
+summary(index.num)
+
+## Overall info
+overallInfo <- colSums(index.num[, -ncol(index.num)])
+overallInfo
+
+## Overall info in percent
+overallInfo / sum(as.numeric(index.num$chrLen)) * 100
+```
+
+<link rel="stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css" />
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
+
+```{r 'print-index-num', results = 'asis'}
+d1 <- data.table(data.frame(row = seq_len(nrow(index.num)), index.num, check.names=FALSE))
+t1 <- dTable(d1, sPaginationType=  'full_numbers', iDisplayLength=25,
+    sScrollX='100%')
+t1$print("bases", cdn=TRUE)
+```
+
+### Segments per index
+
+Number of segments per index. First summary, then results for genome, and finally an interactive table.
+
+
+```{r 'index-seg'}
+## Find number of segments in each index
+index.seg <- data.frame(do.call(rbind, lapply(index.all, function(x) { 
+    sapply(x, function(y) {
+        sum(runValue(y))
+    })
+})))
+index.seg$chr <- rownames(index.seg)
+rownames(index.seg) <- NULL
+
+## Print info
+summary(index.seg)
+
+## Overall info
+colSums(index.seg[, -ncol(index.seg)])
+```
+
+
+```{r 'print-index-seg', results = 'asis'}
+d2 <- data.table(data.frame(row = seq_len(nrow(index.seg)), index.seg, check.names=FALSE))
+t2 <- dTable(d2, sPaginationType=  'full_numbers', iDisplayLength=25,
+    sScrollX='100%')
+t2$print("segments")
+```
+
+
+### Segments width
+
+Summary of the segment widths for each index. First the overall summary, then the results for each index.
+
+```{r 'index-width'}
+## Get an idea of the width of the segments in each index
+index.width <- data.frame(do.call(rbind, lapply(index.all, function(x) {
+    tmp <- data.frame(do.call(rbind, lapply(x, function(y) {
+        summary(runLength(y)[runValue(y)])
+    })), check.names = FALSE)
+    tmp$index <- names(x)
+    rownames(tmp) <- NULL
+    return(tmp)
+})), check.names = FALSE)
+index.width$chr <- rep(names(seqlengths(ders)), each = 6)
+rownames(index.width) <- NULL
+
+## Print info
+summary(index.width)
+```
+
+```{r 'print-index-width', results = 'asis'}
+d3 <- data.table(data.frame(row = seq_len(nrow(index.width)), index.width, check.names=FALSE))
+t3 <- dTable(d3, sPaginationType=  'full_numbers', iDisplayLength=25,
+    sScrollX='100%')
+t3$print("widths")
+```
+
+
+## Overlaps
+
+### Minimum 20 bp
+
+```{r 'overlaps20', bootstrap.show.message = FALSE}
+ov20 <- findOverlaps(ders, regs, minoverlap = 20L)
+
+counts <- list()
+for(type in c("any", "within", "equal")) {
+    ct.ders <- countOverlaps(ders, regs, minoverlap = 20L, type = type)
+    plot(log10(table(ct.ders)), main = paste("DERs in regs for type", type))
+    ct.regs <- countOverlaps(regs, ders, minoverlap = 20L, type = type)
+    plot(log10(table(ct.regs)), main = paste("Regs in DERs for type", type))
+    counts <- c(counts, list(table(ct.ders), table(ct.regs)))
+}
+cts <- as.integer(unique(unlist(lapply(counts, names))))
+
+nOverlap20 <- do.call(rbind, lapply(counts, function(x) { 
+    df <- data.frame(nOverlap = cts, freq = x[match(cts, names(x))],
+        row.names = seq_len(length(cts)))
+    df$observed <- !is.na(df$freq)
+    df$freq[is.na(df$freq)] <- 0
+    df$cumFreq <- cumsum(df$freq)
+    df$cumPerc <- df$cumFreq / max(df$cumFreq) * 100
+    return(df)
+}))
+nOverlap20$type <- factor(rep(c('any', 'within', 'equal'), each = length(cts) * 2), levels = c('any', 'within', 'equal'))
+nOverlap20$match <- rep(rep(c('DERs-in-regs', 'regs-in-DERs'), each = length(cts)), 3)
+#nOverlap <- nOverlap[complete.cases(nOverlap), ]
+rownames(nOverlap20) <- NULL
+
+nOverlap20$alpha <- ifelse(nOverlap20$observed, 1, 1/3)
+```
+
+Summary plots showing cumulative frequency and cumulative percent.
+
+```{r 'gplot20'}
+## Make a nice plot
+ggplot(data = nOverlap20, aes(x = nOverlap, y = cumFreq, colour = match, alpha = alpha)) + geom_point() + facet_grid( . ~ type )# + geom_smooth(se=FALSE)
+
+## Show cumulative percents
+ggplot(data = nOverlap20, aes(x = nOverlap, y = cumPerc, colour = match, linetype = match)) + geom_line(lwd=1) + facet_grid( . ~ type )
+```
+
+
+Some important numbers: percent of regions with width < 20 bp, base level agreement, region level agreement (min overlap 20 bp).
+
+```{r}
+## Percent with widths < 20L
+small <- c('ders' = sum(width(ders) < 20) / length(ders), 'regs' = sum(width(regs) < 20) / length(regs)) * 100
+data.frame('under-20' = small, '20-and-above' = 100 - small, check.names = FALSE)
+
+## Base level agreement
+c('regs' = overallInfo['both'] / (overallInfo['both'] + overallInfo['only.reg']) * 100, 'ders' = overallInfo['both'] / (overallInfo['both'] + overallInfo['only.der']) * 100)
+
+## Overlap (min 20) agreement
+c('regs' = 100 - subset(nOverlap20, match == 'regs-in-DERs' & nOverlap == 0 & type == 'any')$cumPerc, 'ders' = 100 - subset(nOverlap20, match == 'DERs-in-regs' & nOverlap == 0 & type == 'any')$cumPerc)
+```
+
+### Minimum 1 bp
+
+```{r 'overlaps1', bootstrap.show.message = FALSE}
+ov1 <- findOverlaps(ders, regs, minoverlap = 1L)
+
+counts <- list()
+for(type in c("any", "within", "equal")) {
+    ct.ders <- countOverlaps(ders, regs, minoverlap = 1L, type = type)
+    plot(log10(table(ct.ders)), main = paste("DERs in regs for type", type))
+    ct.regs <- countOverlaps(regs, ders, minoverlap = 1L, type = type)
+    plot(log10(table(ct.regs)), main = paste("Regs in DERs for type", type))
+    counts <- c(counts, list(table(ct.ders), table(ct.regs)))
+}
+cts <- as.integer(unique(unlist(lapply(counts, names))))
+
+nOverlap1 <- do.call(rbind, lapply(counts, function(x) { 
+    df <- data.frame(nOverlap = cts, freq = x[match(cts, names(x))], 
+        row.names = seq_len(length(cts)))
+    df$observed <- !is.na(df$freq)
+    df$freq[is.na(df$freq)] <- 0
+    df$cumFreq <- cumsum(df$freq)
+    df$cumPerc <- df$cumFreq / max(df$cumFreq) * 100
+    return(df)
+}))
+nOverlap1$type <- factor(rep(c('any', 'within', 'equal'), each = length(cts) * 2), levels = c('any', 'within', 'equal'))
+nOverlap1$match <- rep(rep(c('DERs-in-regs', 'regs-in-DERs'), each = length(cts)), 3)
+#nOverlap <- nOverlap[complete.cases(nOverlap), ]
+rownames(nOverlap1) <- NULL
+
+nOverlap1$alpha <- ifelse(nOverlap1$observed, 1, 1/3)
+
+## Overlap (min 1bp) agreement
+c('regs' = 100 - subset(nOverlap1, match == 'regs-in-DERs' & nOverlap == 0 & type == 'any')$cumPerc, 'ders' = 100 - subset(nOverlap1, match == 'DERs-in-regs' & nOverlap == 0 & type == 'any')$cumPerc)
+```
+
+Summary plots showing cumulative frequency and cumulative percent.
+
+```{r 'gplot1'}
+## Make a nice plot
+ggplot(data = nOverlap1, aes(x = nOverlap, y = cumFreq, colour = match, alpha = alpha)) + geom_point() + facet_grid( . ~ type )# + geom_smooth(se=FALSE)
+
+## Show cumulative percents
+ggplot(data = nOverlap1, aes(x = nOverlap, y = cumPerc, colour = match, linetype = match)) + geom_line(lwd=1) + facet_grid( . ~ type )
+```
+
+# Save results
+
+```{r 'save'}
+save(index.all, index.num, index.seg, index.width, nOverlap20, ov20, nOverlap1, ov1, overallInfo, file = file.path(analysisPath, "comparison-results.Rdata"))
+```
+
+
+
+
+
+# Reproducibility
+
+Analysis path: `r  analysisPath`
+
+Re-make the report
+
+```{r 'remake', eval = FALSE}
+# Load fullRegions.Rdata and regionMat.Rdata before this step
+library('rmarkdown')
+library('knitrBootstrap')
+render('step7-regMatVsDERs.Rmd')
+```
+
+
+Date the report was generated.
+
+```{r reproducibility1, echo=FALSE}
+## Date the report was generated
+Sys.time()
+```
+
+`R` session information.
+
+```{r reproducibility3, echo=FALSE}
+## Session info
+options(width = 90)
+session_info()
+```

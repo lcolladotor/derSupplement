@@ -1,0 +1,49 @@
+$ Rscript mergeInfo.R
+Loading required package: colorout
+[1] "dbGaP_Subject_ID" "SUBJID"
+[1] 11011     6
+[1] 552 174
+[1] 11011   178
+[1] 11011    76
+[1] "dbGaP_Sample_ID" "SAMPID"
+[1] 11011   252
+character(0)
+
+TRUE
+9777
+
+TRUE
+9777
+
+TRUE
+9777
+[1] "dbGaP_Sample_ID"     "SAMPID"              "BioSample.Accession"
+[1] 9777    7
+[1] 11011   256
+
+FALSE  TRUE
+ 9777  1234
+   user  system elapsed
+  4.086   0.130   4.276
+[1] "2015-06-16 01:12:29 EDT"
+Session info -----------------------------------------------------------------------------------------------------------
+ setting  value
+ version  R version 3.2.0 Patched (2015-04-29 r68274)
+ system   x86_64, linux-gnu
+ ui       X11
+ language (EN)
+ collate  en_US.UTF-8
+ tz       <NA>
+
+Packages ---------------------------------------------------------------------------------------------------------------
+ package   * version date       source
+ colorout  * 1.0-2   2015-05-19 local
+ curl        0.8     2015-06-06 CRAN (R 3.2.0)
+ devtools  * 1.8.0   2015-05-09 CRAN (R 3.2.0)
+ digest      0.6.8   2014-12-31 CRAN (R 3.2.0)
+ git2r       0.10.1  2015-05-07 CRAN (R 3.2.0)
+ memoise     0.2.1   2014-04-22 CRAN (R 3.2.0)
+ Rcpp        0.11.6  2015-05-01 CRAN (R 3.2.0)
+ rversions   1.0.1   2015-06-06 CRAN (R 3.2.0)
+ xml2        0.1.1   2015-06-02 CRAN (R 3.2.0)
+ 

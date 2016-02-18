@@ -1,0 +1,228 @@
+---
+title: "Table of results and venn diagrams"
+author: "L Collado-Torres"
+date: "`r doc_date()`"
+output: 
+  BiocStyle::html_document
+---
+
+
+```{r citationsSetup, echo=FALSE, message=FALSE, warning=FALSE}
+## Track time spent on making the report
+startTime <- Sys.time()
+
+## Bib setup
+library('knitcitations')
+
+## Load knitcitations with a clean bibliography
+cleanbib()
+cite_options(hyperlink = 'to.doc', citation_format = 'text', style = 'html')
+# Note links won't show for now due to the following issue
+# https://github.com/cboettig/knitcitations/issues/63
+
+bibs <- c("knitcitations" = citation("knitcitations"), 
+    "derfinder" = citation("derfinder")[1],
+    "derfinderPlot" = citation("derfinderPlot")[1],
+    "GenomicRanges" = citation("GenomicRanges"),
+    "bumphunter" = citation("bumphunter"),
+    "BiocStyle" = citation("BiocStyle"),
+    "qvalue" = citation("qvalue"),
+    'knitr' = citation('knitr')[3],
+    'rmarkdown' = citation('rmarkdown'))
+
+write.bibtex(bibs, file = 'venn.bib')
+bib <- read.bibtex('venn.bib')
+
+## Assign short names
+names(bib) <- names(bibs)
+```
+
+
+This report creates the CSV files with the candidate differentially expressed regions (DERs) found using `derfinder` `r citep(bib[["derfinder"]])` via the single-base level approach on the _BrainSpan_ and _hippo_ data sets. It also has Venn diagrams illustrating the overlap with known annotation. 
+
+# Results
+
+
+## Generate CSV files
+
+The following code shows how to generate the CSV files from the `R` objects.
+
+```{r process, warning=FALSE}
+## Setup
+suppressMessages(library("GenomicRanges"))
+suppressMessages(library("derfinder"))
+suppressMessages(library("derfinderPlot"))
+
+## Experiments
+exps <- c('brainspan', 'hippo')
+
+## Find the latest run from each experiment
+run <- sapply(exps, function(exp) {
+    runs <- dir(file.path('..', exp, 'derAnalysis'), pattern = 'run')
+    runs[length(runs)]
+})
+
+## Load regions and annotation data
+regions <- lapply(exps, function(exp) {
+    load(file.path('..', exp, 'derAnalysis', run[exp], 'fullRegions.Rdata'))
+    res <- fullRegions
+    names(res) <- seq_len(length(res))
+    return(res)
+})
+
+anno <- lapply(exps, function(exp) {
+    load(file.path('..', exp, 'derAnalysis', run[exp],
+        'fullAnnotatedRegions.Rdata'))
+    
+    ## Fix region labels: its intergenic, not intragenic
+    if('intragenic' %in% names(fullAnnotatedRegions$countTable)) {
+        ## Fix countTable
+        names(fullAnnotatedRegions$countTable)[names(fullAnnotatedRegions$countTable) == 'intragenic'] <- 'intergenic'
+        
+        ## Fix annotation list
+#        fullAnnotatedRegions$annotationList <- GRangesList(lapply(fullAnnotatedRegions$annotationList, function(x) {
+#            idx <- x$theRegion == 'intragenic'
+#            if(sum(idx) > 0) {
+#                x$theRegion[idx] <- 'intergenic'
+#            }
+#            return(x)
+#        }))
+#        
+#        save(fullAnnotatedRegions, file = file.path('..', exp, 'derAnalysis',
+#            run[exp], 'fullAnnotatedRegions.Rdata'))
+    }
+    res <- fullAnnotatedRegions
+    return(res)
+})
+
+## Fix names
+names(regions) <- names(anno) <- exps
+
+## Perform check and create csv files
+check <- vector("list", length(exps))
+names(check) <- exps
+for(exp in exps) {
+	
+	## Peform check
+	check[[exp]] <- identical(nrow(anno[[exp]]$countTable),
+        length(regions[[exp]]))
+	
+	## Export regions information into plain text
+	write.csv(as.data.frame(regions[[exp]]), file = paste0("supplementaryFile", 
+        which(exp == exps), ".csv"), quote = FALSE, row.names = FALSE)
+	
+	## You can later read them in R using:
+	# read.csv("supplementaryFile1.csv")
+	# read.csv("supplementaryFile2.csv")
+    
+    ## Compress
+    system(paste0('gzip supplementaryFile', which(exp == exps), '.csv'))
+}
+
+## Check that the rows match
+unlist(check)
+```
+
+CSV files correspond to experiments `r paste(exps, collapse = ', ')` from runs `r paste(run, collapse = ', ')` respectively.
+
+## Venn diagrams
+
+The following Venn diagrams show how many candidate differentially expressed regions (DERs) overlap with an exon, intron, or intergenic regions of the UCSC hg19 knownGene annotation. By default, a minimum overlap of 20 base pairs is required to say that a candidate DER overlaps any of feature. The annotation overlap was done using the `mergeResults()` function from `derfinder` `r citep(bib[["derfinder"]])` while the Venn diagrams were made using `derfinderPlot` `r citep(bib[["derfinderPlot"]])`.
+
+A maximum of three Venn diagrams are shown per data set. The first one uses all the candidate DERs, the second one uses only the candidate DERs that had a significant q-value (by default less than 0.10), and the third uses only the candidate DERs that had a FWER adjusted p-value less than 0.05. 
+
+```{r venn, dev='CairoPNG'}
+for(exp in exps) {
+	## Using all candidate DERs
+    vennRegions(anno[[exp]], main=paste("\n", exp, "using UCSC.hg19.knownGene"),
+        counts.col="blue")
+	
+	## Using candidate DERs with a significant q-value
+    if(sum(regions[[exp]]$significantQval == "TRUE") > 0)
+    vennRegions(anno[[exp]], regions[[exp]]$significantQval == "TRUE", 
+        main=paste("\n\n", exp, "using UCSC.hg19.knownGene\nRestricted to significant q-value candidate DERs"),
+        counts.col = "blue")
+        
+    
+	## Using candidate DERs with a significant FWER adjusted p-value
+    if(sum(regions[[exp]]$significantFWER == "TRUE") > 0)
+    vennRegions(anno[[exp]], regions[[exp]]$significantFWER == "TRUE",
+        main=paste("\n\n", exp, "using UCSC.hg19.knownGene\nRestricted to significant FWER adjusted p-value candidate DERs"),
+        counts.col="blue")
+}
+```
+
+# Details
+
+The supplementary files 1 through 3 files contain the information for the candidate DERs found in [CSV](http://en.wikipedia.org/wiki/Comma-separated_values) format. The CSV files contain the following columns:
+
+1. __seqnames__ The chromosome name.
+1. __start__ The position of the chromosome where the candidate DER begins.
+1. __end__ The position of the chromosome where the candidate DER ends.
+1. __width__ The width of the candidate DER.
+1. __strand__ The strand of the candidate DER.
+1. __value__ The mean of the F-statistics for the candidate DER.
+1. __area__ The sum of the F-statistics for the candidate DER.
+1. __indexStart__ Among the bases from the chromosome that passed the filtering step, the position where the candidate DER begins.
+1. __indexEnd__ Among the bases from the chromosome that passed the filtering step, the position where the candidate DER ends.
+1. __cluster__ The cluster number to which the candidate DER belongs to. Clusters were defined by chromosome and two candidate DERs belong to the same cluster if they are less than 3000 bp apart.
+1. __clusterL__ The length of the cluster to which the candidate DER belongs to.
+1. __meanCoverage__ The mean coverage among all samples for the candidate DER.
+1. *mean__G__* The mean coverage among the samples of group __G__ for the candidate DER.
+1. *log2FoldChange__G1__.vs__G2__* The log2 fold change between the samples in __G1__ and the samples in __G2__ for the candidate DER.
+1. __pvalues__ The p-value for the candidate DER. It is calculated empirically using the null candidate DERs (obtained via permutations) from all chromosomes.
+1. __significant__ Whether the p-value is less than 0.05.
+1. __qvalues__ The p-value adjusted to control the FDR by using the `qvalue` `r citep(bib[["qvalue"]])` function from the package with the same name.
+1. __significantQval__ Whether the q-value is less than 0.10.
+1. __name__ This and the following fields are computed using `annotateNearest()` from the `bumphunter` `r citep(bib[["bumphunter"]])` package. They were calculated using the UCSC hg19 annotation. __name__ refers to the nearest gene.
+1. __annotation__ RefSeq ID. Taken from the help page of `bumphunter::annotateNearest()`.
+1. __description__ A factor with levels _upstream_, _promoter_, _overlaps 5'_, _inside intron_, _inside exon_, _covers exon(s)_, _overlaps exon upstream_, _overlaps exon downstream_, _overlaps two exons_, _overlaps 3'_, _close to 3'_, _downstream_, _covers_. Taken from the help page of `bumphunter::annotateNearest()`.
+1. __region__ A factor with levels _upstream_, _promoter_, _overlaps 5'_, _inside_, _overlaps 3'_, _close to 3'_, _downstream_, _covers_. Taken from the help page of `bumphunter::annotateNearest()`.
+1. __subregion__ A factor with levels _inside intron_, _inside exon_, _covers exon(s)_, _overlaps exon upstream_, _overlaps exon downstream_, _overlaps two exons_. Taken from the help page of `bumphunter::annotateNearest()`.
+1. __insidedistance__ Distance past 5 prime end of gene. Taken from the help page of `bumphunter::annotateNearest()`.
+1. __exonnumber__ Which exon. Taken from the help page of `bumphunter::annotateNearest()`.
+1. __nexons__ Number of exons. Taken from the help page of `bumphunter::annotateNearest()`.
+1. __UTR__ A factor with levels _inside transcription region_, _5' UTR_, _overlaps 5' UTR_, _3' UTR_, _overlaps 3' UTR_, _covers transcription region_. Taken from the help page of `bumphunter::annotateNearest()`.
+1. __annoStrand__ + or -. Taken from the help page of `bumphunter::annotateNearest()`.
+1. __geneL__ The gene length. Taken from the help page of `bumphunter::annotateNearest()`.
+1. __codingL__ The coding length. Taken from the help page of `bumphunter::annotateNearest()`.
+1. __fwer__ The FWER adjusted p-value for the region.
+1. __significantFWER__ Whether the FWER adjusted p-value is less than 0.05.
+
+
+# Reproducibility
+
+Date the report was generated.
+
+```{r reproducibility1, echo=FALSE, bootstrap.show.code=FALSE}
+## Date the report was generated
+Sys.time()
+```
+
+Wallclock time spent generating the report.
+
+```{r "reproducibility2", echo=FALSE, bootstrap.show.code=FALSE}
+## Processing time in seconds
+totalTime <- diff(c(startTime, Sys.time()))
+round(totalTime, digits=3)
+```
+
+`R` session information.
+
+```{r "reproducibility3", echo=FALSE, bootstrap.show.code=FALSE, bootstrap.show.message=FALSE}
+## Session info
+options(width=120)
+devtools::session_info()
+```
+
+# Bibliography
+
+This report was generated using `BiocStyle` `r citep(bib[['BiocStyle']])`
+with `knitr` `r citep(bib[['knitr']])` and `rmarkdown` `r citep(bib[['rmarkdown']])` running behind the scenes.
+
+Citations made with `knitcitations` `r citep(bib[['knitcitations']])`. Citation file: [venn.bib](venn.bib).
+
+```{r vignetteBiblio, results = 'asis', echo = FALSE, warning = FALSE}
+## Print bibliography
+bibliography()
+```
