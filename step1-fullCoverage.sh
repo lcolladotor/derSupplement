@@ -29,12 +29,8 @@ elif [[ "${EXPERIMENT}" == "hippo" ]]
 then
     DATADIR=/dcs01/ajaffe/Hippo/TopHat
     CUTOFF=3
-elif [[ "${EXPERIMENT}" == "gtex" ]]
-then
-    DATADIR=/dcl01/lieber/ajaffe/PublicData/SRA_GTEX/tophat
-    CUTOFF=0
 else
-    echo "Specify a valid experiment: brainspan, snyder, hippo or gtex"
+    echo "Specify a valid experiment: brainspan, snyder or hippo"
 fi
 
 

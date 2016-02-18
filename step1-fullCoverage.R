@@ -45,39 +45,6 @@ if(opt$datadir == '/dcs01/ajaffe/Snyder/RNAseq/TopHat') {
     ## These names specify the column names used in the DataFrame objects.
     ## For example, they could end with _out
     names(files) <- gsub('_out', '', names(files))
-} else if (opt$datadir == '/dcl01/lieber/ajaffe/PublicData/SRA_GTEX/tophat') {
-    files <- rawFiles(datadir = opt$datadir, samplepatt = 'SRR')
-    load('/dcl01/lieber/ajaffe/PublicData/SRA_GTEX/gtexPd.Rdata')
-    
-    if(file.exists('/dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/mappedInfo.Rdata')) {
-        load('/dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/mappedInfo.Rdata')
-    } else {
-        ## Taken from /home/epi/ajaffe/Lieber/lieber_functions_aj.R
-        getTotalMapped = function(bamFile, mc.cores=1, returnM = TRUE) {
-        	thecall = paste("samtools idxstats", bamFile)
-        	tmp = parallel::mclapply(thecall, function(x) {
-        		cat(".")
-        		xx = system(x,intern=TRUE)
-        		xx = do.call("rbind", strsplit(xx, "\t"))
-        		d = data.frame(chr=xx[,1], L=xx[,2], mapped = xx[,3],
-        			stringsAsFactors=FALSE)
-        		d
-        	},mc.cores=mc.cores)
-
-        	out = list(totalMapped = sapply(tmp, function(x) sum(as.numeric(x$mapped[x$chr %in% paste0("chr", c(1:22,"X","Y"))]))),
-        		mitoMapped = sapply(tmp, function(x) as.numeric(x$mapped[x$chr=="chrM"])))
-        	return(out)
-        }
-
-        libSize <- getTotalMapped(files, mc.cores = opt$mcores)
-        mappedInfo <- data.frame(sample = names(files), file = files,
-            totalMapped = libSize$totalMapped, mitoMapped = libSize$mitoMapped)
-        rownames(mappedInfo) <- NULL
-        ## Display the info
-        print(mappedInfo)
-        save(mappedInfo, file = '/dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/mappedInfo.Rdata')
-    }
-    totalMapped <- mappedInfo$totalMapped
 } else {
     load("/home/epi/ajaffe/Lieber/Projects/Grants/Coverage_R01/brainspan/brainspan_phenotype.rda")
     files <- pdSpan$wig

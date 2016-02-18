@@ -3,7 +3,7 @@
 #$ -m e
 #$ -l mem_free=4G,h_vmem=5G,h_fsize=5G
 #$ -N rmat-gtex36
-#$ -pe local 10
+#$ -pe local 8
 
 echo '**** Job starts ****'
 date

@@ -29,12 +29,8 @@ elif [[ "${EXPERIMENT}" == "hippo" ]]
 then
     CUTOFF=3
     RLENGTH=36
-elif [[ "${EXPERIMENT}" == "gtex" ]]
-then
-    CUTOFF=5
-    RLENGTH=76
 else
-    echo "Specify a valid experiment: brainspan, snyder, hippo or gtex"
+    echo "Specify a valid experiment: brainspan, snyder or hippo"
 fi
 
 

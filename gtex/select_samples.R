@@ -58,7 +58,6 @@ pd1 <- gtex[gtex$sra_accession %in% selected_srr, ]
 dim(pd1)
 
 ## Save results
-save(selected_srr, file = 'selected_srr.Rdata')
 save(pd1, file="gtex_pheno.rda")
 
 ## Reproducibility info
