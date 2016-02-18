@@ -259,14 +259,25 @@ intronToPlot = intronMat[match(rownames(outStatsExonSig), rownames(intronMat)),]
 exonToPlot = exonMat[match(outStatsExonSig$nearExon, rownames(exonMat)),]
 
 
-conditionalIntron <- function(i) {
-	boxplot(intronToPlot[i,] ~ mappedInfo$Tissue, ylim = c(0,12),
+conditionalIntron <- function(i, subset = FALSE) {
+    if(subset) {
+        if(i == 5) {
+            ylim <- c(0, 7)
+        } else if (i == 23) {
+            ylim <- c(0, 8)
+        } else if (i == 30) {
+            ylim <- c(0, 10)
+        }
+    } else {
+        ylim <- c(0, 12)
+    }
+	boxplot(intronToPlot[i,] ~ mappedInfo$Tissue, ylim = ylim,
 		ylab="Log2(Adjusted Coverage)",cex.axis=2, cex.lab=2, 
 		main="Intronic ER", cex.main=2)
     points(x = jitter(tissueToNum[mappedInfo$Tissue]), y = intronToPlot[i,], col = colors[mappedInfo$Tissue], pch = 20, cex = 1.5)
 	legend("top", paste0("p=",signif(outStatsExonSig$pval[i], 3)),cex=1.4)
 	par(mar = c(5,3,3,2))
-	boxplot(exonToPlot[i,] ~ mappedInfo$Tissue, ylim = c(0,12),
+	boxplot(exonToPlot[i,] ~ mappedInfo$Tissue, ylim = ylim,
 		ylab="",cex.axis=2, cex.lab=2, 
 		main="Nearest Exonic ER", cex.main=2)
     points(x = jitter(tissueToNum[mappedInfo$Tissue]), y = exonToPlot[i,], col = colors[mappedInfo$Tissue], pch = 20, cex = 1.5)
@@ -283,7 +294,7 @@ par(mfrow = c(1,2))
 for(i in c(5, 23, 30)) {
 	if(i %% 100 == 0) cat(".")
 	par(mar = c(5,6,3,0))
-	conditionalIntron(i)
+	conditionalIntron(i, subset = TRUE)
 }
 dev.off()
 
