@@ -23,7 +23,7 @@ chrlens <- chrInfo$length[chrInfo$chr %in% chrs]
 load('/dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/gtex_pheno_with_mapped.Rdata')
 
 ## Define summary and sample files
-summaryFiles <- '/dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/normalizedMean.bw'
+summaryFiles <- rep('/dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/normalizedMean.bw', length(chrs))
 sampleFiles <- pd2$sampleFile
 names(sampleFiles) <- pd2$sra_accession
 

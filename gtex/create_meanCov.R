@@ -1,5 +1,6 @@
 ## Usage:
 # mkdir -p logs
+# Needs about 12-20G of RAM
 # Rscript create_meanCov.R > logs/create_meanCov.txt 2>&1
 library('derfinder')
 library('rtracklayer')
