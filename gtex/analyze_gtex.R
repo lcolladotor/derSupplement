@@ -7,6 +7,7 @@ library('derfinder')
 library('derfinderPlot')
 library('GenomicRanges')
 library('rafalib')
+library('GenomeInfoDb')
 library('devtools')
 getPcaVars = function(pca)  signif(((pca$sdev)^2)/(sum((pca$sdev)^2)),3)*100
 ss = function(x, pattern, slot=1,...) sapply(strsplit(x,pattern,...), "[", slot)
@@ -63,13 +64,19 @@ y = log2(regionMat+1)
 quantile(width(regions))
 
 ### annotate
-load("/home/epi/ajaffe/GenomicStates/GenomicState.Hsapiens.ensembl.GRCh37.p12.rda")
-gs = GenomicState.Hsapiens.ensembl.GRCh37.p12$fullGenome
+## Genomic state created by https://github.com/nellore/runs/blob/master/gtex/DER_analysis/coverageMatrix/genomicState/hg38-genomicState.R
+load('/dcl01/leek/data/gtex_work/runs/gtex/DER_analysis/coverageMatrix/genomicState/genomicState.Hsapiens.BioMart.ENSEMBLMARTENSEMBL.GRCh38.p5.Rdata')
+gs_raw <- genomicState.Hsapiens.BioMart.ENSEMBLMARTENSEMBL.GRCh38.p5$fullGenome
+gs <- renameSeqlevels(gs_raw, paste0('chr', seqlevels(gs_raw)))
+
+## Do the seqlengths match?
+stopifnot(max(abs(seqlengths(regions) - seqlengths(gs)[names(seqlengths(regions))])) == 0)
+
 ensemblAnno = annotateRegions(regions,gs)
 countTable = ensemblAnno$countTable
 
-pdf(file = 'plots/venn-GRCh37.p12.pdf')
-vennRegions(ensemblAnno, main = 'GTEx expressed regions by GRCh37.p12', counts.col = 'blue')
+pdf(file = 'plots/venn-GRCh38.p5.pdf')
+vennRegions(ensemblAnno, main = 'GTEx expressed regions by GRCh38.p5', counts.col = 'blue')
 dev.off()
 
 ## annotation ####
@@ -84,14 +91,18 @@ annoClassList = list(strictExonic =
     countTable[,"intron"] == 0),
 	exonIntron = which(countTable[,"exon"] > 0 & countTable[,"intron"] > 0 &
 		countTable[,"intergenic"] == 0))
+
+annoClassList$All = 1:nrow(regionMat) # add all
+
+## Explore numbers
 sapply(annoClassList, length)
-100*sapply(annoClassList, length)/nrow(countTable)
+100 * sapply(annoClassList, length) / nrow(countTable)
+cumsum(100 * sapply(annoClassList, length)[-5] / nrow(countTable))
 
 # width by annotation
 t(sapply(annoClassList, function(ii) quantile(width(regions[ii]))))
 
 ### PCA ###
-annoClassList$All = 1:nrow(regionMat) # add all
 pcList = lapply(annoClassList, function(ii) {
 	cat(".")
 	pc = prcomp(t(y[ii,]))
@@ -118,7 +129,7 @@ dev.off()
     
     
 ## Simple plots for PC1 and PC2 with some added color and text
-pdf(file = 'plots/pca-plots-gtex36.pdf', width = 14, height = 7)
+pdf(file = 'plots/pca-plots-gtex.pdf', width = 14, height = 7)
 cnames <- c('Strictly exonic ERs', 'Strictly intronic ERs')
 rafalib::mypar(1,2,cex.axis=1)
 for(i in ind[1:2]) {
@@ -200,13 +211,17 @@ ooExon = distanceToNearest(intronRegions, exonRegions)
 exonMatMatch = exonMat[subjectHits(ooExon),]
 exonRegionsMatch = exonRegions[subjectHits(ooExon)]
 
+## Some might not be matching: potential flag for not using the correct annotation!
+length(ooExon) == length(intronRegions)
+max(queryHits(ooExon)) == length(ooExon)
+
 # PC1 versus distance
 pdf(file = "plots/PC1vsDistance.pdf")
-plot(x = mcols(ooExon)$distance, y = pcList$strictIntronic$rot[, 1], ylab = 'PC1', xlab = 'Distance to nearest exon', cex = 0.5)
-reg1 <- lm(pcList$strictIntronic$rot[, 1] ~ mcols(ooExon)$distance)
+plot(x = mcols(ooExon)$distance, y = pcList$strictIntronic$rot[, 1][queryHits(ooExon)], ylab = 'PC1', xlab = 'Distance to nearest exon', cex = 0.5)
+reg1 <- lm(pcList$strictIntronic$rot[, 1][queryHits(ooExon)] ~ mcols(ooExon)$distance)
 abline(reg1, col = 'orange')
-plot(x = log(mcols(ooExon)$distance + 1), y = pcList$strictIntronic$rot[, 1], ylab = 'PC1', xlab = 'Distance to nearest exon: log(x + 1)', cex = 0.5)
-reg2 <- lm(pcList$strictIntronic$rot[, 1] ~ log(mcols(ooExon)$distance + 1))
+plot(x = log(mcols(ooExon)$distance + 1), y = pcList$strictIntronic$rot[, 1][queryHits(ooExon)], ylab = 'PC1', xlab = 'Distance to nearest exon: log(x + 1)', cex = 0.5)
+reg2 <- lm(pcList$strictIntronic$rot[, 1][queryHits(ooExon)] ~ log(mcols(ooExon)$distance + 1))
 abline(reg2, col = 'orange')
 dev.off()
 
@@ -223,20 +238,29 @@ colnames(outStatsExon) = c("Fstat", "pval")
 rownames(outStatsExon) = rownames(intronMat)
 outStatsExon=as.data.frame(outStatsExon)
 
-outStatsExon$nearExon = rownames(exonMatMatch)
-outStatsExon$nearDist = mcols(ooExon)$distance
+outStatsExon$nearExon <- outStatsExon$nearDist <- NA
+outStatsExon$nearExon[queryHits(ooExon)] = rownames(exonMatMatch)
+outStatsExon$nearDist[queryHits(ooExon)] = mcols(ooExon)$distance
 
 ## get gene symbol
 library('GenomicFeatures')
-TranscriptDb=loadDb("/home/epi/ajaffe/Lieber/Projects/RNAseq/Ribozero_Compare/TxDb.Hsapiens.BioMart.ensembl.GRCh37.p12/inst/extdata/TxDb.Hsapiens.BioMart.ensembl.GRCh37.p12.sqlite")
+
+## Get data from Biomart
+#system.time(xx <- makeTxDbPackageFromBiomart(version = '0.99', maintainer = 'Leonardo Collado-Torres <lcollado@jhu.edu>', author = 'Leonardo Collado-Torres <lcollado@jhu.edu>', destDir = '~/'))
+
+## Load info
+sql_file <- "/home/bst/student/lcollado/TxDb.Hsapiens.BioMart.ENSEMBLMARTENSEMBL.GRCh38.p5/inst/extdata/TxDb.Hsapiens.BioMart.ENSEMBLMARTENSEMBL.GRCh38.p5.sqlite"
+TranscriptDb <- loadDb(sql_file)
+
+## Fix seqlevels
 seqlevels(TranscriptDb,force=TRUE) = c(1:22,"X","Y","MT")
 seqlevels(TranscriptDb) = paste0("chr", c(1:22,"X","Y","M"))
 ensGene = genes(TranscriptDb)
 
 library('biomaRt')
-ensembl = useMart("ENSEMBL_MART_ENSEMBL", # VERSION 75, hg19
+ensembl = useMart("ENSEMBL_MART_ENSEMBL", # VERSION 83, hg38
 	dataset="hsapiens_gene_ensembl",
-	host="feb2014.archive.ensembl.org")
+	host="dec2015.archive.ensembl.org")
 sym = getBM(attributes = c("ensembl_gene_id","hgnc_symbol"), 
 	values=names(ensGene), mart=ensembl)
 ensGene$Symbol = sym$hgnc_symbol[match(names(ensGene), sym$ensembl_gene_id)]
@@ -264,11 +288,11 @@ exonToPlot = exonMat[match(outStatsExonSig$nearExon, rownames(exonMat)),]
 
 conditionalIntron <- function(i, subset = FALSE) {
     if(subset) {
-        if(i == 5) {
-            ylim <- c(0, 7)
-        } else if (i == 23) {
-            ylim <- c(0, 8)
-        } else if (i == 30) {
+        if(i == 2) {
+            ylim <- c(0, 9)
+        } else if (i == 22) {
+            ylim <- c(0, 6)
+        } else if (i == 25) {
             ylim <- c(0, 10)
         }
     } else {
@@ -294,7 +318,7 @@ tissueToNum <- c('Heart' = 1, 'Liver' = 2, 'Testis' = 3)
 
 pdf("plots/conditional_intronic_ERs_subset.pdf", h=6, w=12)
 par(mfrow = c(1,2))
-for(i in c(5, 23, 30)) {
+for(i in c(2, 22, 25)) {
 	if(i %% 100 == 0) cat(".")
 	par(mar = c(5,6,3,0))
 	conditionalIntron(i, subset = TRUE)
@@ -303,7 +327,7 @@ dev.off()
 
 pdf("plots/conditional_intronic_ERs.pdf", h=6, w=12)
 par(mfrow = c(1,2))
-for(i in seq_len(1000)) {
+for(i in seq_len(700)) {
 	if(i %% 100 == 0) cat(".")
 	par(mar = c(5,6,3,0))
 	conditionalIntron(i)
