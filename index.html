@@ -10,7 +10,7 @@
 
 <meta name="author" content="L Collado-Torres" />
 
-<meta name="date" content="2016-02-18" />
+<meta name="date" content="2016-02-19" />
 
 <title>Supplementary Website</title>
 
@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <div id="header">
 <h1 class="title">Supplementary Website</h1>
 <h4 class="author"><em>L Collado-Torres</em></h4>
-<h4 class="date"><em>18 February 2016</em></h4>
+<h4 class="date"><em>19 February 2016</em></h4>
 </div>
 
 <h1>Contents</h1>
@@ -65,19 +65,20 @@ document.addEventListener("DOMContentLoaded", function() {
 </ul></li>
 <li><a href="#timing-and-memory-information"><span class="toc-section-number">1.3</span> Timing and memory information</a></li>
 </ul></li>
-<li><a href="#simulation"><span class="toc-section-number">2</span> Simulation</a><ul>
-<li><a href="#generating-reads"><span class="toc-section-number">2.1</span> Generating reads</a></li>
-<li><a href="#processing-reads"><span class="toc-section-number">2.2</span> Processing reads</a></li>
-<li><a href="#evaluating-results"><span class="toc-section-number">2.3</span> Evaluating results</a></li>
+<li><a href="#gtex-analysis"><span class="toc-section-number">2</span> GTEx analysis</a></li>
+<li><a href="#simulation"><span class="toc-section-number">3</span> Simulation</a><ul>
+<li><a href="#generating-reads"><span class="toc-section-number">3.1</span> Generating reads</a></li>
+<li><a href="#processing-reads"><span class="toc-section-number">3.2</span> Processing reads</a></li>
+<li><a href="#evaluating-results"><span class="toc-section-number">3.3</span> Evaluating results</a></li>
 </ul></li>
-<li><a href="#miscellaneous"><span class="toc-section-number">3</span> Miscellaneous</a><ul>
-<li><a href="#expressed-regions-overview-figure"><span class="toc-section-number">3.1</span> Expressed-regions overview figure</a></li>
-<li><a href="#single-base-overview-figure"><span class="toc-section-number">3.2</span> Single-base overview figure</a></li>
-<li><a href="#additional-analyses"><span class="toc-section-number">3.3</span> Additional analyses</a></li>
-<li><a href="#hippo-vs-previous-results"><span class="toc-section-number">3.4</span> Hippo vs previous results</a></li>
+<li><a href="#miscellaneous"><span class="toc-section-number">4</span> Miscellaneous</a><ul>
+<li><a href="#expressed-regions-overview-figure"><span class="toc-section-number">4.1</span> Expressed-regions overview figure</a></li>
+<li><a href="#single-base-overview-figure"><span class="toc-section-number">4.2</span> Single-base overview figure</a></li>
+<li><a href="#additional-analyses"><span class="toc-section-number">4.3</span> Additional analyses</a></li>
+<li><a href="#hippo-vs-previous-results"><span class="toc-section-number">4.4</span> Hippo vs previous results</a></li>
 </ul></li>
-<li><a href="#reproducibility"><span class="toc-section-number">4</span> Reproducibility</a></li>
-<li><a href="#bibliography"><span class="toc-section-number">5</span> Bibliography</a></li>
+<li><a href="#reproducibility"><span class="toc-section-number">5</span> Reproducibility</a></li>
+<li><a href="#bibliography"><span class="toc-section-number">6</span> Bibliography</a></li>
 </ul>
 </div>
 
@@ -140,20 +141,24 @@ document.addEventListener("DOMContentLoaded", function() {
 <p>View the <a href="timing/timing.html">timing</a> report or check the <code>R Markdown</code> file <a href="timing/timing.Rmd">timing.Rmd</a>.</p>
 </div>
 </div>
+<div id="gtex-analysis" class="section level1">
+<h1><span class="header-section-number">2</span> GTEx analysis</h1>
+<p>The script <a href="gtex/mergeInfo.R">mergeInfo.R</a> takes several phenotype tables and merges them into a single one. This information is then used by the <a href="gtex/select_samples.R">select_samples.R</a> script for choosing the 24 samples to analyze. These samples have a RIN greater than 7 and are from subjects that have samples from the heart (left ventricle), testis and liver. The script <a href="gtex/create_meanCov.R">create_meanCov.R</a> creates a mean coverage BigWig file just as you would get from using <code>Rail-RNA</code> <a id="cite-rail"></a>(<a href="#bib-rail">Nellore, Collado-Torres, Jaffe, Alquicira-Hernández, et al., 2015</a>) on only these 24 samples. The actual script for running <code>Rail-RNA</code> on the GTEx data are described at the <a href="https://github.com/nellore/runs">nellore/runs</a> GitHub repository. The scripts <a href="gtex/run-railMatrix.sh">run-railMatrix.sh</a> and <a href="gtex/railMatrix.R">railMatrix.R</a> then run <code>railMatrix()</code> using derfinder version 1.5.19 to identify the expressed regions. The resulting set of regions is then analyzed with the <a href="gtex/analyze_gtex.R">analyze_gtex.R</a> script.</p>
+</div>
 <div id="simulation" class="section level1">
-<h1><span class="header-section-number">2</span> Simulation</h1>
+<h1><span class="header-section-number">3</span> Simulation</h1>
 <div id="generating-reads" class="section level2">
-<h2><span class="header-section-number">2.1</span> Generating reads</h2>
+<h2><span class="header-section-number">3.1</span> Generating reads</h2>
 <p>The code for generating the simulated RNA-seq reads and the chosen setup is described in the <a href="simulation/generateReads/generateReads.html">generateReads</a> report. This report is generated by the <code>R Markdown</code> <a href="simulation/generateReads/generateReads.Rmd">generateReads.Rmd</a> file.</p>
 </div>
 <div id="processing-reads" class="section level2">
-<h2><span class="header-section-number">2.2</span> Processing reads</h2>
+<h2><span class="header-section-number">3.2</span> Processing reads</h2>
 <p>We analyzed the simulation reads with the following pipelines:</p>
 <ul>
 <li>Align with <code>HISAT</code> <a id="cite-hisat"></a>(<a href="#bib-hisat">Kim, Langmead, and Salzberg, 2015</a>), summarize with <code>Rsubread::featureCounts()</code> at the exon level with and without the complete annotation, identify differentially expressed exons with <code>DESeq2</code> <a id="cite-DESeq2"></a>(<a href="http://dx.doi.org/10.1186/s13059-014-0550-8">Love, Huber, and Anders, 2014</a>) or <code>edgeR</code>-robust <a id="cite-edgeR"></a>(<a href="#bib-edgeR">Zhou, Lindsay, and Robinson, 2014</a>).</li>
 <li>Align with <code>HISAT</code>, summarize transcripts with <code>StringTie</code> <a id="cite-stringtie"></a>(<a href="#bib-stringtie">Pertea, Pertea, Antonescu, Chang, et al., 2015</a>), and test at the transcript and exon levels with <code>ballgown</code>.</li>
 <li>Align with <code>HISAT</code>, summarize with <code>derfinder::regionMatrix()</code>, and test with <code>DESeq2</code> or <code>edgeR</code>-robust.</li>
-<li>Align with <code>Rail-RNA</code> <a id="cite-rail"></a>(<a href="#bib-rail">Nellore, Collado-Torres, Jaffe, Alquicira-Hernández, et al., 2015</a>), summarize with <code>derfinder::railMatrix()</code>, and test with <code>DESeq2</code> or <code>edgeR</code>-robust.</li>
+<li>Align with <code>Rail-RNA</code> (<a href="#bib-rail">Nellore, Collado-Torres, Jaffe, Alquicira-Hernández, et al., 2015</a>), summarize with <code>derfinder::railMatrix()</code>, and test with <code>DESeq2</code> or <code>edgeR</code>-robust.</li>
 </ul>
 <p>Here we list the role of different scripts.</p>
 <ul>
@@ -168,22 +173,22 @@ document.addEventListener("DOMContentLoaded", function() {
 </ul>
 </div>
 <div id="evaluating-results" class="section level2">
-<h2><span class="header-section-number">2.3</span> Evaluating results</h2>
+<h2><span class="header-section-number">3.3</span> Evaluating results</h2>
 <p>The report <a href="simulation/evaluate/evaluate.html">evaluate</a> (source <a href="simulation/evaluate/evaluate.Rmd">evaluate.Rmd</a>) defines different reference sets one could consider. It then takes the results from all the different pipelines and compares them against these reference sets. The report includes summary tables from these results showing the minimum and maximum empirical power, false positive rate and false discovery rate. The main results are highlighted in the paper.</p>
 </div>
 </div>
 <div id="miscellaneous" class="section level1">
-<h1><span class="header-section-number">3</span> Miscellaneous</h1>
+<h1><span class="header-section-number">4</span> Miscellaneous</h1>
 <div id="expressed-regions-overview-figure" class="section level2">
-<h2><span class="header-section-number">3.1</span> Expressed-regions overview figure</h2>
+<h2><span class="header-section-number">4.1</span> Expressed-regions overview figure</h2>
 <p>The code used for generating the panels using in figure showing the expressed-regions levle approach is available in the <a href="figure-expressed-regions/figure-expressed-regions.R">figure-expressed-regions.R</a> file.</p>
 </div>
 <div id="single-base-overview-figure" class="section level2">
-<h2><span class="header-section-number">3.2</span> Single-base overview figure</h2>
+<h2><span class="header-section-number">4.2</span> Single-base overview figure</h2>
 <p>The code used for generating the panels using in the figure showing the single-base levle approach is available in the <a href="figure-single-base/figure-single-base.R">figure-single-base.R</a> file.</p>
 </div>
 <div id="additional-analyses" class="section level2">
-<h2><span class="header-section-number">3.3</span> Additional analyses</h2>
+<h2><span class="header-section-number">4.3</span> Additional analyses</h2>
 <p>The following <code>R</code> source files have the code for reproducing additional analyses described in the paper</p>
 <ul>
 <li><a href="additional-analyses/brainspan_regionLevel.R">brainspan_regionLevel.R</a> Analysis of BrainSpan expressed-regions level DERs.</li>
@@ -193,17 +198,17 @@ document.addEventListener("DOMContentLoaded", function() {
 <p>These scripts also include other exploratory code.</p>
 </div>
 <div id="hippo-vs-previous-results" class="section level2">
-<h2><span class="header-section-number">3.4</span> Hippo vs previous results</h2>
+<h2><span class="header-section-number">4.4</span> Hippo vs previous results</h2>
 <p><a href="hippo/pnas/compareVsPNAS.html">compareVsPNAS</a> is an HTML report comparing 29 regions that were previously found to be differentially expressed <a id="cite-zhou2011"></a>(<a href="#bib-zhou2011">Zhou, Zhifeng, Yuan, Qiaoping, et al., 2011</a>) versus the <code>derfinder</code> single-base level results. It also has code for identified differentially expressed disjoint exons. The additional script <a href="hippo/counts-gene/counts-gene.R">counts-gene.R</a> has the code for gene counting with <code>summarizeOverlaps()</code>. <a href="hippo/pnas/compareVsPNAS-gene.html">compareVsPNAS-gene</a> compares the results between <code>DESeq2</code> and <code>edgeR</code>-robust against <code>derfinder</code> at the gene level with 40 total plots: 10 for each case of agreement/disagreement.</p>
 <p>View the <a href="hippo/pnas/compareVsPNAS.html">compareVsPNAS</a> report or check the <code>R Markdown</code> file <a href="hippo/pnas/compareVsPNAS.Rmd">compareVsPNAS.Rmd</a> run by the <a href="hippo/pnas/runComparison.sh">runComparison.sh</a> script. Also view the <a href="hippo/pnas/compareVsPNAS-gene.html">compareVsPNAS-gene</a> report and its linked <code>R Markdown</code> file <a href="hippo/pnas/compareVsPNAS-gene.Rmd">compareVsPNAS-gene.Rmd</a>.</p>
 </div>
 </div>
 <div id="reproducibility" class="section level1">
-<h1><span class="header-section-number">4</span> Reproducibility</h1>
+<h1><span class="header-section-number">5</span> Reproducibility</h1>
 <p>Date this page was generated.</p>
-<pre><code>## [1] &quot;2016-02-18 00:17:30 EST&quot;</code></pre>
+<pre><code>## [1] &quot;2016-02-19 08:28:21 EST&quot;</code></pre>
 <p>Wallclock time spent generating the report.</p>
-<pre><code>## Time difference of 1.269 secs</code></pre>
+<pre><code>## Time difference of 1.322 secs</code></pre>
 <p><code>R</code> session information.</p>
 <pre><code>## Session info -----------------------------------------------------------------------------------------------------------</code></pre>
 <pre><code>##  setting  value                       
@@ -213,7 +218,7 @@ document.addEventListener("DOMContentLoaded", function() {
 ##  language (EN)                        
 ##  collate  en_US.UTF-8                 
 ##  tz       America/New_York            
-##  date     2016-02-18</code></pre>
+##  date     2016-02-19</code></pre>
 <pre><code>## Packages ---------------------------------------------------------------------------------------------------------------</code></pre>
 <pre><code>##  package       * version  date       source        
 ##  bibtex          0.4.0    2014-12-31 CRAN (R 3.2.0)
@@ -244,9 +249,9 @@ document.addEventListener("DOMContentLoaded", function() {
 <p>You can view the source <code>R Markdown</code> file for this page at <a href="index.Rmd" class="uri">index.Rmd</a>.</p>
 </div>
 <div id="bibliography" class="section level1">
-<h1><span class="header-section-number">5</span> Bibliography</h1>
+<h1><span class="header-section-number">6</span> Bibliography</h1>
 <p>This report was generated using <code>BiocStyle</code> <a id="cite-BiocStyle"></a>(<a href="https://github.com/Bioconductor/BiocStyle">Morgan, Oleś, and Huber, 2016</a>) with <code>knitr</code> <a id="cite-knitr"></a>(<a href="http://www.crcpress.com/product/isbn/9781466561595">Xie, 2014</a>) and <code>rmarkdown</code> <a id="cite-rmarkdown"></a>(<a href="http://CRAN.R-project.org/package=rmarkdown">Allaire, Cheng, Xie, McPherson, et al., 2016</a>) running behind the scenes.</p>
-<p>Citations were made with <code>knitcitations</code> <a id="cite-knitcitations"></a>(<a href="http://CRAN.R-project.org/package=knitcitations">Boettiger, 2015</a>). Citation file: <a href="index.bib" class="uri">index.bib</a></p>
+<p>Citations were made with <code>knitcitations</code> <a id="cite-knitcitations"></a>(<a href="http://CRAN.R-project.org/package=knitcitations">Boettiger, 2015</a>). Citation file: <a href="index.bib" class="uri">index.bib</a>.</p>
 <p>
 <a id="bib-rmarkdown"></a><a href="#cite-rmarkdown">[1]</a><cite> J. Allaire, J. Cheng, Y. Xie, J. McPherson, et al. <em>rmarkdown: Dynamic Documents for R</em>. R package version 0.9.2. 2016. URL: <a href="http://CRAN.R-project.org/package=rmarkdown">http://CRAN.R-project.org/package=rmarkdown</a>.</cite>
 </p>

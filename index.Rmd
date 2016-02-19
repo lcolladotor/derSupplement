@@ -116,8 +116,9 @@ This HTML report has code for reading and processing the time and memory informa
 
 View the [timing](timing/timing.html) report or check the `R Markdown` file [timing.Rmd](timing/timing.Rmd).
 
-# GTEx analysis (n = 36)
+# GTEx analysis
 
+The script [mergeInfo.R](gtex/mergeInfo.R) takes several phenotype tables and merges them into a single one. This information is then used by the [select_samples.R](gtex/select_samples.R) script for choosing the 24 samples to analyze. These samples have a RIN greater than 7 and are from subjects that have samples from the heart (left ventricle), testis and liver. The script [create_meanCov.R](gtex/create_meanCov.R) creates a mean coverage BigWig file just as you would get from using `Rail-RNA` `r citep(bib[['rail']])` on only these 24 samples. The actual script for running `Rail-RNA` on the GTEx data are described at the [nellore/runs](https://github.com/nellore/runs) GitHub repository. The scripts [run-railMatrix.sh](gtex/run-railMatrix.sh) and [railMatrix.R](gtex/railMatrix.R) then run `railMatrix()` using derfinder version 1.5.19 to identify the expressed regions. The resulting set of regions is then analyzed with the [analyze_gtex.R](gtex/analyze_gtex.R) script.
 
 
 # Simulation
