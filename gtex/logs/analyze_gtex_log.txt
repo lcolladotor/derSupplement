@@ -38,32 +38,39 @@ Loading required package: stats4
 Loading required package: IRanges
 Loading required package: GenomeInfoDb
    0%   25%   50%   75%  100% 
-    9    42   101   169 18171 
-2016-02-18 02:49:50 annotateRegions: counting
-2016-02-18 02:49:52 annotateRegions: annotating
+    9    45   101   170 16849 
+2016-02-18 20:02:10 annotateRegions: counting
+2016-02-18 20:02:12 annotateRegions: annotating
   exon intergenic intron Counts
 1    0          0      0      0
-2    0          0      1  22375
-3    0          1      0  10053
+2    0          0      1  16985
+3    0          1      0   5103
 4    0          1      1      0
-5    1          0      0 160817
-6    1          0      1  26740
-7    1          1      0   1004
-8    1          1      1    257
+5    1          0      0 118796
+6    1          0      1  21783
+7    1          1      0    817
+8    1          1      1    190
 attr(,"class")
 [1] "VennCounts"
 null device 
           1 
-[1] 221246      3
+[1] 163674      3
     strictExonic   strictIntronic strictIntergenic       exonIntron 
-          160817            22375            10053            26740 
+          118796            16985             5103            21783 
+             All 
+          163674 
     strictExonic   strictIntronic strictIntergenic       exonIntron 
-       72.686964        10.113177         4.543811        12.086094 
+       72.580862        10.377335         3.117783        13.308772 
+             All 
+      100.000000 
+    strictExonic   strictIntronic strictIntergenic       exonIntron 
+        72.58086         82.95820         86.07598         99.38475 
                  0% 25% 50% 75%  100%
-strictExonic      9  58 107 167 10489
-strictIntronic    9  18  28  77  5334
-strictIntergenic  9  22  30  85  9982
-exonIntron        9  78 139 307 18171
+strictExonic      9  55 105 165 16849
+strictIntronic    9  16  34  88  4777
+strictIntergenic  9  20  48 122  9569
+exonIntron        9  77 140 324 11133
+All               9  45 101 170 16849
 .....null device 
           1 
 null device 
@@ -80,16 +87,18 @@ The following object is masked from ‘package:BiocGenerics’:
     plotMA
 
     strictExonic   strictIntronic strictIntergenic       exonIntron 
-           92381             8992             4564            16865 
+           42880             4401             2451             9513 
              All 
-          123623 
+           59776 
     strictExonic   strictIntronic strictIntergenic       exonIntron 
-       0.5744480        0.4018771        0.4539938        0.6307031 
+       0.3609549        0.2591110        0.4803057        0.4367167 
              All 
-       0.5587581 
+       0.3652138 
+[1] TRUE
+[1] TRUE
 null device 
           1 
-......................Loading required package: AnnotationDbi
+................Loading required package: AnnotationDbi
 Loading required package: Biobase
 Welcome to Bioconductor
 
@@ -99,11 +108,11 @@ Welcome to Bioconductor
 
 null device 
           1 
-..........null device 
+.......null device 
           1 
-[1] "2016-02-18 02:54:10 EST"
+[1] "2016-02-18 20:06:41 EST"
    user  system elapsed 
-298.265   3.050 308.539 
+278.601   5.807 335.711 
 Session info -----------------------------------------------------------------------------------------------------------
  setting  value                                      
  version  R version 3.2.2 Patched (2015-08-31 r69235)
