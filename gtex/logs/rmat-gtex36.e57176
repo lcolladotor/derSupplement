@@ -1,0 +1,553 @@
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Warning message:
+In .doLoadActions(where, attach) :
+  trying to execute load actions without 'methods' package
+Loading required package: GenomicRanges
+Loading required package: BiocGenerics
+Loading required package: parallel
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:parallel’:
+
+    clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
+    clusterExport, clusterMap, parApply, parCapply, parLapply,
+    parLapplyLB, parRapply, parSapply, parSapplyLB
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    anyDuplicated, append, as.data.frame, as.vector, cbind, colnames,
+    do.call, duplicated, eval, evalq, Filter, Find, get, grep, grepl,
+    intersect, is.unsorted, lapply, lengths, Map, mapply, match, mget,
+    order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
+    rbind, Reduce, rownames, sapply, setdiff, sort, table, tapply,
+    union, unique, unlist, unsplit
+
+Loading required package: S4Vectors
+Loading required package: stats4
+Loading required package: IRanges
+Loading required package: GenomeInfoDb
+2016-02-18 15:24:35
+2016-02-18 15:24:42 loadCoverage: loading BigWig file /dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/normalizedMean.bw
+2016-02-18 15:24:55 loadCoverage: applying the cutoff to the merged data
+2016-02-18 15:24:55 filterData: originally there were 248956422 rows, now there are 248956422 rows. Meaning that 0 percent was filtered.
+2016-02-18 15:24:55 findRegions: identifying potential segments
+2016-02-18 15:24:55 findRegions: segmenting information
+2016-02-18 15:24:55 .getSegmentsRle: segmenting with cutoff(s) 5
+2016-02-18 15:25:03 findRegions: identifying candidate regions
+2016-02-18 15:25:04 findRegions: identifying region clusters
+2016-02-18 15:25:10 railMatrix: processing regions 1 to 9429
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 15:27:11 railMatrix: processing regions 9430 to 18857
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 15:29:16 loadCoverage: loading BigWig file /dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/normalizedMean.bw
+2016-02-18 15:29:24 loadCoverage: applying the cutoff to the merged data
+2016-02-18 15:29:24 filterData: originally there were 242193529 rows, now there are 242193529 rows. Meaning that 0 percent was filtered.
+2016-02-18 15:29:24 findRegions: identifying potential segments
+2016-02-18 15:29:24 findRegions: segmenting information
+2016-02-18 15:29:24 .getSegmentsRle: segmenting with cutoff(s) 5
+2016-02-18 15:29:30 findRegions: identifying candidate regions
+2016-02-18 15:29:32 findRegions: identifying region clusters
+2016-02-18 15:29:37 railMatrix: processing regions 1 to 7386
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 15:31:38 railMatrix: processing regions 7387 to 14772
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 15:33:36 loadCoverage: loading BigWig file /dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/normalizedMean.bw
+2016-02-18 15:33:44 loadCoverage: applying the cutoff to the merged data
+2016-02-18 15:33:44 filterData: originally there were 198295559 rows, now there are 198295559 rows. Meaning that 0 percent was filtered.
+2016-02-18 15:33:44 findRegions: identifying potential segments
+2016-02-18 15:33:44 findRegions: segmenting information
+2016-02-18 15:33:44 .getSegmentsRle: segmenting with cutoff(s) 5
+2016-02-18 15:33:50 findRegions: identifying candidate regions
+2016-02-18 15:33:52 findRegions: identifying region clusters
+2016-02-18 15:33:56 railMatrix: processing regions 1 to 7424
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 15:35:55 railMatrix: processing regions 7425 to 14848
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 15:37:54 loadCoverage: loading BigWig file /dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/normalizedMean.bw
+2016-02-18 15:37:59 loadCoverage: applying the cutoff to the merged data
+2016-02-18 15:37:59 filterData: originally there were 190214555 rows, now there are 190214555 rows. Meaning that 0 percent was filtered.
+2016-02-18 15:37:59 findRegions: identifying potential segments
+2016-02-18 15:37:59 findRegions: segmenting information
+2016-02-18 15:37:59 .getSegmentsRle: segmenting with cutoff(s) 5
+2016-02-18 15:38:05 findRegions: identifying candidate regions
+2016-02-18 15:38:06 findRegions: identifying region clusters
+2016-02-18 15:38:09 railMatrix: processing regions 1 to 5002
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 15:40:04 railMatrix: processing regions 5003 to 10003
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 15:41:46 loadCoverage: loading BigWig file /dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/normalizedMean.bw
+2016-02-18 15:41:50 loadCoverage: applying the cutoff to the merged data
+2016-02-18 15:41:50 filterData: originally there were 181538259 rows, now there are 181538259 rows. Meaning that 0 percent was filtered.
+2016-02-18 15:41:50 findRegions: identifying potential segments
+2016-02-18 15:41:50 findRegions: segmenting information
+2016-02-18 15:41:50 .getSegmentsRle: segmenting with cutoff(s) 5
+2016-02-18 15:41:53 findRegions: identifying candidate regions
+2016-02-18 15:41:54 findRegions: identifying region clusters
+2016-02-18 15:41:57 railMatrix: processing regions 1 to 6561
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 15:43:46 loadCoverage: loading BigWig file /dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/normalizedMean.bw
+2016-02-18 15:43:52 loadCoverage: applying the cutoff to the merged data
+2016-02-18 15:43:52 filterData: originally there were 170805979 rows, now there are 170805979 rows. Meaning that 0 percent was filtered.
+2016-02-18 15:43:52 findRegions: identifying potential segments
+2016-02-18 15:43:52 findRegions: segmenting information
+2016-02-18 15:43:52 .getSegmentsRle: segmenting with cutoff(s) 5
+2016-02-18 15:43:57 findRegions: identifying candidate regions
+2016-02-18 15:43:58 findRegions: identifying region clusters
+2016-02-18 15:44:01 railMatrix: processing regions 1 to 5441
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 15:46:16 railMatrix: processing regions 5442 to 10881
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 15:47:55 loadCoverage: loading BigWig file /dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/normalizedMean.bw
+2016-02-18 15:48:01 loadCoverage: applying the cutoff to the merged data
+2016-02-18 15:48:01 filterData: originally there were 159345973 rows, now there are 159345973 rows. Meaning that 0 percent was filtered.
+2016-02-18 15:48:01 findRegions: identifying potential segments
+2016-02-18 15:48:01 findRegions: segmenting information
+2016-02-18 15:48:01 .getSegmentsRle: segmenting with cutoff(s) 5
+2016-02-18 15:48:07 findRegions: identifying candidate regions
+2016-02-18 15:48:08 findRegions: identifying region clusters
+2016-02-18 15:48:12 railMatrix: processing regions 1 to 5845
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 15:50:01 railMatrix: processing regions 5846 to 11689
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 15:51:54 loadCoverage: loading BigWig file /dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/normalizedMean.bw
+2016-02-18 15:51:57 loadCoverage: applying the cutoff to the merged data
+2016-02-18 15:51:57 filterData: originally there were 145138636 rows, now there are 145138636 rows. Meaning that 0 percent was filtered.
+2016-02-18 15:51:57 findRegions: identifying potential segments
+2016-02-18 15:51:57 findRegions: segmenting information
+2016-02-18 15:51:57 .getSegmentsRle: segmenting with cutoff(s) 5
+2016-02-18 15:52:00 findRegions: identifying candidate regions
+2016-02-18 15:52:01 findRegions: identifying region clusters
+2016-02-18 15:52:03 railMatrix: processing regions 1 to 5323
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 15:53:42 loadCoverage: loading BigWig file /dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/normalizedMean.bw
+2016-02-18 15:53:45 loadCoverage: applying the cutoff to the merged data
+2016-02-18 15:53:45 filterData: originally there were 138394717 rows, now there are 138394717 rows. Meaning that 0 percent was filtered.
+2016-02-18 15:53:45 findRegions: identifying potential segments
+2016-02-18 15:53:45 findRegions: segmenting information
+2016-02-18 15:53:45 .getSegmentsRle: segmenting with cutoff(s) 5
+2016-02-18 15:53:48 findRegions: identifying candidate regions
+2016-02-18 15:53:49 findRegions: identifying region clusters
+2016-02-18 15:53:51 railMatrix: processing regions 1 to 5492
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 15:55:29 loadCoverage: loading BigWig file /dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/normalizedMean.bw
+2016-02-18 15:55:36 loadCoverage: applying the cutoff to the merged data
+2016-02-18 15:55:36 filterData: originally there were 133797422 rows, now there are 133797422 rows. Meaning that 0 percent was filtered.
+2016-02-18 15:55:36 findRegions: identifying potential segments
+2016-02-18 15:55:36 findRegions: segmenting information
+2016-02-18 15:55:36 .getSegmentsRle: segmenting with cutoff(s) 5
+2016-02-18 15:55:42 findRegions: identifying candidate regions
+2016-02-18 15:55:43 findRegions: identifying region clusters
+2016-02-18 15:55:47 railMatrix: processing regions 1 to 5741
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 15:57:36 railMatrix: processing regions 5742 to 11481
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 15:59:43 loadCoverage: loading BigWig file /dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/normalizedMean.bw
+2016-02-18 15:59:51 loadCoverage: applying the cutoff to the merged data
+2016-02-18 15:59:52 filterData: originally there were 135086622 rows, now there are 135086622 rows. Meaning that 0 percent was filtered.
+2016-02-18 15:59:52 findRegions: identifying potential segments
+2016-02-18 15:59:52 findRegions: segmenting information
+2016-02-18 15:59:52 .getSegmentsRle: segmenting with cutoff(s) 5
+2016-02-18 16:00:00 findRegions: identifying candidate regions
+2016-02-18 16:00:00 findRegions: identifying region clusters
+2016-02-18 16:00:06 railMatrix: processing regions 1 to 9024
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 16:02:14 railMatrix: processing regions 9025 to 18047
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 16:04:40 loadCoverage: loading BigWig file /dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/normalizedMean.bw
+2016-02-18 16:04:45 loadCoverage: applying the cutoff to the merged data
+2016-02-18 16:04:45 filterData: originally there were 133275309 rows, now there are 133275309 rows. Meaning that 0 percent was filtered.
+2016-02-18 16:04:45 findRegions: identifying potential segments
+2016-02-18 16:04:45 findRegions: segmenting information
+2016-02-18 16:04:45 .getSegmentsRle: segmenting with cutoff(s) 5
+2016-02-18 16:04:50 findRegions: identifying candidate regions
+2016-02-18 16:04:52 findRegions: identifying region clusters
+2016-02-18 16:04:55 railMatrix: processing regions 1 to 8896
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 16:07:25 loadCoverage: loading BigWig file /dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/normalizedMean.bw
+2016-02-18 16:07:30 loadCoverage: applying the cutoff to the merged data
+2016-02-18 16:07:30 filterData: originally there were 114364328 rows, now there are 114364328 rows. Meaning that 0 percent was filtered.
+2016-02-18 16:07:30 findRegions: identifying potential segments
+2016-02-18 16:07:30 findRegions: segmenting information
+2016-02-18 16:07:30 .getSegmentsRle: segmenting with cutoff(s) 5
+2016-02-18 16:07:35 findRegions: identifying candidate regions
+2016-02-18 16:07:35 findRegions: identifying region clusters
+2016-02-18 16:07:38 railMatrix: processing regions 1 to 6622
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 16:09:13 loadCoverage: loading BigWig file /dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/normalizedMean.bw
+2016-02-18 16:09:15 loadCoverage: applying the cutoff to the merged data
+2016-02-18 16:09:15 filterData: originally there were 107043718 rows, now there are 107043718 rows. Meaning that 0 percent was filtered.
+2016-02-18 16:09:15 findRegions: identifying potential segments
+2016-02-18 16:09:15 findRegions: segmenting information
+2016-02-18 16:09:15 .getSegmentsRle: segmenting with cutoff(s) 5
+2016-02-18 16:09:17 findRegions: identifying candidate regions
+2016-02-18 16:09:18 findRegions: identifying region clusters
+2016-02-18 16:09:20 railMatrix: processing regions 1 to 3256
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 16:10:24 loadCoverage: loading BigWig file /dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/normalizedMean.bw
+2016-02-18 16:10:29 loadCoverage: applying the cutoff to the merged data
+2016-02-18 16:10:29 filterData: originally there were 101991189 rows, now there are 101991189 rows. Meaning that 0 percent was filtered.
+2016-02-18 16:10:29 findRegions: identifying potential segments
+2016-02-18 16:10:29 findRegions: segmenting information
+2016-02-18 16:10:29 .getSegmentsRle: segmenting with cutoff(s) 5
+2016-02-18 16:10:32 findRegions: identifying candidate regions
+2016-02-18 16:10:33 findRegions: identifying region clusters
+2016-02-18 16:10:36 railMatrix: processing regions 1 to 7258
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 16:12:35 loadCoverage: loading BigWig file /dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/normalizedMean.bw
+2016-02-18 16:12:41 loadCoverage: applying the cutoff to the merged data
+2016-02-18 16:12:41 filterData: originally there were 90338345 rows, now there are 90338345 rows. Meaning that 0 percent was filtered.
+2016-02-18 16:12:41 findRegions: identifying potential segments
+2016-02-18 16:12:41 findRegions: segmenting information
+2016-02-18 16:12:41 .getSegmentsRle: segmenting with cutoff(s) 5
+2016-02-18 16:12:45 findRegions: identifying candidate regions
+2016-02-18 16:12:46 findRegions: identifying region clusters
+2016-02-18 16:12:49 railMatrix: processing regions 1 to 9503
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 16:15:17 loadCoverage: loading BigWig file /dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/normalizedMean.bw
+2016-02-18 16:15:29 loadCoverage: applying the cutoff to the merged data
+2016-02-18 16:15:29 filterData: originally there were 83257441 rows, now there are 83257441 rows. Meaning that 0 percent was filtered.
+2016-02-18 16:15:29 findRegions: identifying potential segments
+2016-02-18 16:15:29 findRegions: segmenting information
+2016-02-18 16:15:29 .getSegmentsRle: segmenting with cutoff(s) 5
+2016-02-18 16:15:40 findRegions: identifying candidate regions
+2016-02-18 16:15:40 findRegions: identifying region clusters
+2016-02-18 16:15:48 railMatrix: processing regions 1 to 7021
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 16:17:52 railMatrix: processing regions 7022 to 14042
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 16:19:49 railMatrix: processing regions 14043 to 21063
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 16:22:12 loadCoverage: loading BigWig file /dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/normalizedMean.bw
+2016-02-18 16:22:16 loadCoverage: applying the cutoff to the merged data
+2016-02-18 16:22:16 filterData: originally there were 80373285 rows, now there are 80373285 rows. Meaning that 0 percent was filtered.
+2016-02-18 16:22:16 findRegions: identifying potential segments
+2016-02-18 16:22:16 findRegions: segmenting information
+2016-02-18 16:22:16 .getSegmentsRle: segmenting with cutoff(s) 5
+2016-02-18 16:22:20 findRegions: identifying candidate regions
+2016-02-18 16:22:20 findRegions: identifying region clusters
+2016-02-18 16:22:24 railMatrix: processing regions 1 to 5115
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 16:23:22 loadCoverage: loading BigWig file /dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/normalizedMean.bw
+2016-02-18 16:23:33 loadCoverage: applying the cutoff to the merged data
+2016-02-18 16:23:33 filterData: originally there were 58617616 rows, now there are 58617616 rows. Meaning that 0 percent was filtered.
+2016-02-18 16:23:33 findRegions: identifying potential segments
+2016-02-18 16:23:33 findRegions: segmenting information
+2016-02-18 16:23:33 .getSegmentsRle: segmenting with cutoff(s) 5
+2016-02-18 16:23:44 findRegions: identifying candidate regions
+2016-02-18 16:23:44 findRegions: identifying region clusters
+2016-02-18 16:23:50 railMatrix: processing regions 1 to 7137
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 16:25:51 railMatrix: processing regions 7138 to 14273
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 16:27:56 railMatrix: processing regions 14274 to 21409
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 16:30:05 loadCoverage: loading BigWig file /dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/normalizedMean.bw
+2016-02-18 16:30:10 loadCoverage: applying the cutoff to the merged data
+2016-02-18 16:30:10 filterData: originally there were 64444167 rows, now there are 64444167 rows. Meaning that 0 percent was filtered.
+2016-02-18 16:30:10 findRegions: identifying potential segments
+2016-02-18 16:30:10 findRegions: segmenting information
+2016-02-18 16:30:10 .getSegmentsRle: segmenting with cutoff(s) 5
+2016-02-18 16:30:15 findRegions: identifying candidate regions
+2016-02-18 16:30:15 findRegions: identifying region clusters
+2016-02-18 16:30:18 railMatrix: processing regions 1 to 8604
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 16:32:33 loadCoverage: loading BigWig file /dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/normalizedMean.bw
+2016-02-18 16:32:36 loadCoverage: applying the cutoff to the merged data
+2016-02-18 16:32:36 filterData: originally there were 46709983 rows, now there are 46709983 rows. Meaning that 0 percent was filtered.
+2016-02-18 16:32:36 findRegions: identifying potential segments
+2016-02-18 16:32:36 findRegions: segmenting information
+2016-02-18 16:32:36 .getSegmentsRle: segmenting with cutoff(s) 5
+2016-02-18 16:32:39 findRegions: identifying candidate regions
+2016-02-18 16:32:40 findRegions: identifying region clusters
+2016-02-18 16:32:41 railMatrix: processing regions 1 to 4236
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 16:34:23 loadCoverage: loading BigWig file /dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/normalizedMean.bw
+2016-02-18 16:34:28 loadCoverage: applying the cutoff to the merged data
+2016-02-18 16:34:28 filterData: originally there were 50818468 rows, now there are 50818468 rows. Meaning that 0 percent was filtered.
+2016-02-18 16:34:28 findRegions: identifying potential segments
+2016-02-18 16:34:28 findRegions: segmenting information
+2016-02-18 16:34:28 .getSegmentsRle: segmenting with cutoff(s) 5
+2016-02-18 16:34:33 findRegions: identifying candidate regions
+2016-02-18 16:34:33 findRegions: identifying region clusters
+2016-02-18 16:34:37 railMatrix: processing regions 1 to 9127
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 16:37:00 loadCoverage: loading BigWig file /dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/normalizedMean.bw
+2016-02-18 16:37:04 loadCoverage: applying the cutoff to the merged data
+2016-02-18 16:37:04 filterData: originally there were 156040895 rows, now there are 156040895 rows. Meaning that 0 percent was filtered.
+2016-02-18 16:37:04 findRegions: identifying potential segments
+2016-02-18 16:37:04 findRegions: segmenting information
+2016-02-18 16:37:04 .getSegmentsRle: segmenting with cutoff(s) 5
+2016-02-18 16:37:09 findRegions: identifying candidate regions
+2016-02-18 16:37:09 findRegions: identifying region clusters
+2016-02-18 16:37:13 railMatrix: processing regions 1 to 9551
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 16:39:38 loadCoverage: loading BigWig file /dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/normalizedMean.bw
+2016-02-18 16:39:38 loadCoverage: applying the cutoff to the merged data
+2016-02-18 16:39:38 filterData: originally there were 57227415 rows, now there are 57227415 rows. Meaning that 0 percent was filtered.
+2016-02-18 16:39:38 findRegions: identifying potential segments
+2016-02-18 16:39:38 findRegions: segmenting information
+2016-02-18 16:39:38 .getSegmentsRle: segmenting with cutoff(s) 5
+2016-02-18 16:39:39 findRegions: identifying candidate regions
+2016-02-18 16:39:39 findRegions: identifying region clusters
+2016-02-18 16:39:39 railMatrix: processing regions 1 to 592
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+Using the following user library: ~/R/x86_64-unknown-linux-gnu-library/3.2.x
+2016-02-18 16:40:18
+Session info -----------------------------------------------------------------------------------------------------------
+Packages ---------------------------------------------------------------------------------------------------------------
