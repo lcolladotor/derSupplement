@@ -12,7 +12,7 @@
 
 <meta name="date" content="2016-02-20" />
 
-<title>Supplementary Website</title>
+<title>derfinder software paper Supplementary Website</title>
 
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 <div id="header">
-<h1 class="title">Supplementary Website</h1>
+<h1 class="title">derfinder software paper Supplementary Website</h1>
 <h4 class="author"><em>L Collado-Torres</em></h4>
 <h4 class="date"><em>20 February 2016</em></h4>
 </div>
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <h1>Contents</h1>
 <div id="TOC">
 <ul>
-<li><a href="#brainspan-data-sets"><span class="toc-section-number">1</span> BrainSpan data sets</a><ul>
+<li><a href="#brainspan-data-set"><span class="toc-section-number">1</span> BrainSpan data set</a><ul>
 <li><a href="#code-to-reproduce-analyses"><span class="toc-section-number">1.1</span> Code to reproduce analyses</a></li>
 <li><a href="#single-base-level"><span class="toc-section-number">1.2</span> Single-base level</a><ul>
 <li><a href="#quick-overview-html-reports"><span class="toc-section-number">1.2.1</span> Quick overview HTML reports</a></li>
@@ -82,8 +82,8 @@ document.addEventListener("DOMContentLoaded", function() {
 </div>
 
 <p>This page describes the supplementary material for the <code>derfinder</code> software paper. All the <code>bash</code>, <code>R</code> and <code>R Markdown</code> source files used to analyze the data for this project as well as generate the HTML reports are available in this website. However, it is easier to view them at <a href="https://github.com/leekgroup/derSupplement">github.com/leekgroup/derSupplement</a>.</p>
-<div id="brainspan-data-sets" class="section level1">
-<h1><span class="header-section-number">1</span> BrainSpan data sets</h1>
+<div id="brainspan-data-set" class="section level1">
+<h1><span class="header-section-number">1</span> BrainSpan data set</h1>
 <p>This section of the website describes the code and reports associated with the BrainSpan data set that are referred to in the paper and Supplementary Methods and Results.</p>
 <div id="code-to-reproduce-analyses" class="section level2">
 <h2><span class="header-section-number">1.1</span> Code to reproduce analyses</h2>
@@ -122,13 +122,13 @@ document.addEventListener("DOMContentLoaded", function() {
 </div>
 <div id="csv-files-and-annotation-comparison" class="section level3">
 <h3><span class="header-section-number">1.2.2</span> CSV files and annotation comparison</h3>
-<p>This HTML report has the code for loading the R data files and generating the CSV files. The report also has Venn diagrams showing the number of candidate DERs from the single-base level analysis that overlap known exons, introns and intergenic regions using the UCSC hg19 annotation. It also includes a detailed description of the columns in the CSV files.</p>
+<p>This HTML report has the code for loading the R data files and generating the CSV files. The report also has Venn diagrams showing the number of candidate DERs from the single-base level analysis that overlap known exons, introns and intergenic regions using the UCSC hg19 annotation. It also includes a detailed description of the columns in the CSV file.</p>
 <p>View the <a href="venn/venn.html">venn</a> report or its <code>R Markdown</code> source file <a href="venn/venn.Rmd">venn.Rmd</a>.</p>
 </div>
 </div>
 <div id="timing-and-memory-information" class="section level2">
 <h2><span class="header-section-number">1.3</span> Timing and memory information</h2>
-<p>This HTML report has code for reading and processing the time and memory information for each job extracted with <a href="https://github.com/alyssafrazee/efficiency_analytics">efficiency_analytics</a> <a id="cite-eff"></a>(<a href="http://dx.doi.org/10.6084/m9.figshare.878000">Frazee, 2014</a>). Several plots exploring the relationship between wall time and memory used by the cluster jobs are included. Some of the plots make explicit the number of cores used by each job. The report contains a detailed description of the analysis steps shown on the plots. It also contains tables summarizing the maximum memory and time for each analysis step if all the jobs for that particular step were running simultaneously. Finally, there is an interactive table with the timing results.</p>
+<p>This HTML report has code for reading and processing the time and memory information for each job extracted with <a href="https://github.com/alyssafrazee/efficiency_analytics">efficiency_analytics</a> <a id="cite-eff"></a>(<a href="http://dx.doi.org/10.6084/m9.figshare.878000">Frazee, 2014</a>). The report contains a detailed description of the analysis steps and tables summarizing the maximum memory and time for each analysis step if all the jobs for that particular step were running simultaneously. Finally, there is an interactive table with the timing results.</p>
 <p>View the <a href="timing/timing.html">timing</a> report or check the <code>R Markdown</code> file <a href="timing/timing.Rmd">timing.Rmd</a>.</p>
 </div>
 </div>
@@ -191,9 +191,9 @@ document.addEventListener("DOMContentLoaded", function() {
 <div id="reproducibility" class="section level1">
 <h1><span class="header-section-number">5</span> Reproducibility</h1>
 <p>Date this page was generated.</p>
-<pre><code>## [1] &quot;2016-02-20 09:04:04 EST&quot;</code></pre>
+<pre><code>## [1] &quot;2016-02-20 09:39:26 EST&quot;</code></pre>
 <p>Wallclock time spent generating the report.</p>
-<pre><code>## Time difference of 1.486 secs</code></pre>
+<pre><code>## Time difference of 1.298 secs</code></pre>
 <p><code>R</code> session information.</p>
 <pre><code>## Session info -----------------------------------------------------------------------------------------------------------</code></pre>
 <pre><code>##  setting  value                       

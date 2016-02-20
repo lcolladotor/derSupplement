@@ -1,5 +1,5 @@
 ---
-title: "Supplementary Website"
+title: "derfinder software paper Supplementary Website"
 author: "L Collado-Torres"
 date: "`r doc_date()`"
 output: 
@@ -44,7 +44,7 @@ names(bib) <- names(bibs)
 
 This page describes the supplementary material for the `derfinder` software paper. All the `bash`, `R` and `R Markdown` source files used to analyze the data for this project as well as generate the HTML reports are available in this website. However, it is easier to view them at [github.com/leekgroup/derSupplement](https://github.com/leekgroup/derSupplement).
 
-# BrainSpan data sets
+# BrainSpan data set
 
 This section of the website describes the code and reports associated with the BrainSpan data set that are referred to in the paper and Supplementary Methods and Results.
 
@@ -97,7 +97,7 @@ They also illustrate three clusters of candidate differentially expressed region
 
 ### CSV files and annotation comparison
 
-This HTML report has the code for loading the R data files and generating the CSV files. The report also has Venn diagrams showing the number of candidate DERs from the single-base level analysis that overlap known exons, introns and intergenic regions using the UCSC hg19 annotation. It also includes a detailed description of the columns in the CSV files.
+This HTML report has the code for loading the R data files and generating the CSV files. The report also has Venn diagrams showing the number of candidate DERs from the single-base level analysis that overlap known exons, introns and intergenic regions using the UCSC hg19 annotation. It also includes a detailed description of the columns in the CSV file.
 
 View the [venn](venn/venn.html) report or its `R Markdown` source file [venn.Rmd](venn/venn.Rmd). 
 
@@ -105,7 +105,7 @@ View the [venn](venn/venn.html) report or its `R Markdown` source file [venn.Rmd
 ## Timing and memory information
 
 
-This HTML report has code for reading and processing the time and memory information for each job extracted with [efficiency_analytics](https://github.com/alyssafrazee/efficiency_analytics) `r citep(bib[["eff"]])`. Several plots exploring the relationship between wall time and memory used by the cluster jobs are included. Some of the plots make explicit the number of cores used by each job. The report contains a detailed description of the analysis steps shown on the plots. It also contains tables summarizing the maximum memory and time for each analysis step if all the jobs for that particular step were running simultaneously. Finally, there is an interactive table with the timing results.
+This HTML report has code for reading and processing the time and memory information for each job extracted with [efficiency_analytics](https://github.com/alyssafrazee/efficiency_analytics) `r citep(bib[["eff"]])`. The report contains a detailed description of the analysis steps and tables summarizing the maximum memory and time for each analysis step if all the jobs for that particular step were running simultaneously. Finally, there is an interactive table with the timing results.
 
 View the [timing](timing/timing.html) report or check the `R Markdown` file [timing.Rmd](timing/timing.Rmd).
 
