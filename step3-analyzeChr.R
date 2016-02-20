@@ -79,5 +79,5 @@ if (opt$experiment == 'brainspan') {
 
 ## Done
 proc.time()
-options(width = 90)
+options(width = 120)
 session_info()

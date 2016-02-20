@@ -25,15 +25,6 @@ if (!is.null(opt$help)) {
 ## Check experiment input
 stopifnot(opt$experiment %in% c('brainspan'))
 
-if(opt$experiment != 'brainspan') {
-    ## Load the coverage information
-    load(file.path('..', '..', 'CoverageInfo', 'fullCov.Rdata'))
-    load(file.path('..', '..', 'CoverageInfo', 'chr22CovInfo.Rdata'))
-
-    ## Identify the samplefiles
-    files <- colnames(chr22CovInfo$coverage)
-}
-
  ## Calculate the library adjustments and build the models
 buildModels <- function(fullCov, testvars, colsubset = NULL) {
     ## Determine sample size adjustments
@@ -88,5 +79,5 @@ save(groupInfo, file="groupInfo.Rdata")
 
 ## Done :-)
 proc.time()
-options(width = 90)
+options(width = 120)
 session_info()
