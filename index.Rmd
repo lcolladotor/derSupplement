@@ -83,7 +83,7 @@ Note that all `bash` scripts are tailored for the cluster we have access to whic
 
 ## Single-base level
 
-### Quick overview HTML reports
+### Quick overview HTML report
 
 This HTML report contains basic information on the `derfinder` `r citep(bib[["derfinder"]])` results from the _BrainSpan_ data set. The report answers basic questions such as:
 
