@@ -85,13 +85,13 @@ Note that all `bash` scripts are tailored for the cluster we have access to whic
 
 ### Quick overview HTML reports
 
-These HTML reports contain  basic information on the `derfinder` `r citep(bib[["derfinder"]])` results from the public data sets used (_BrainSpan_ and _Hippo_). These reports answer basic questions such as:
+This HTML report contains basic information on the `derfinder` `r citep(bib[["derfinder"]])` results from the _BrainSpan_ data set. The report answers basic questions such as:
 
 * What is the number of filtered bases?
 * What is the number of candidate regions?
 * How many candidate regions are significant?
 
-They also illustrate three clusters of candidate differentially expressed regions (DERs) from the single-base level analysis. You can view the reports by following these links:
+It also illustrates three clusters of candidate differentially expressed regions (DERs) from the single-base level analysis. You can view the report by following this link:
 
 * [BrainSpan](brainspan/summaryInfo/run4-v1.0.10/summaryInfo.html)
 
