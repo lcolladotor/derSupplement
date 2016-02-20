@@ -2,8 +2,6 @@
 
 ## Usage
 # sh step8-coverageToExon.sh brainspan
-# sh step8-coverageToExon.sh snyder
-# sh step8-coverageToExon.sh hippo
 
 # Define variables
 EXPERIMENT=$1
@@ -18,14 +16,8 @@ WDIR=${MAINDIR}/coverageToExon
 if [[ "${EXPERIMENT}" == "brainspan" ]]
 then
     RLENGTH=100
-elif [[ "${EXPERIMENT}" == "snyder" ]]
-then
-    RLENGTH=101
-elif [[ "${EXPERIMENT}" == "hippo" ]]
-then
-    RLENGTH=36
 else
-    echo "Specify a valid experiment: brainspan, snyder or hippo"
+    echo "Specify a valid experiment: brainspan"
 fi
 
 

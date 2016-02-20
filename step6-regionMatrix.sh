@@ -2,9 +2,6 @@
 
 ## Usage
 # sh step6-regionMatrix.sh brainspan
-# sh step6-regionMatrix.sh snyder
-# sh step6-regionMatrix.sh hippo
-# sh step6-regionMatrix.sh gtex
 
 # Define variables
 EXPERIMENT=$1
@@ -21,16 +18,8 @@ if [[ "${EXPERIMENT}" == "brainspan" ]]
 then
     CUTOFF=0.1
     RLENGTH=100
-elif [[ "${EXPERIMENT}" == "snyder" ]]
-then
-    CUTOFF=5
-    RLENGTH=101
-elif [[ "${EXPERIMENT}" == "hippo" ]]
-then
-    CUTOFF=3
-    RLENGTH=36
 else
-    echo "Specify a valid experiment: brainspan, snyder or hippo"
+    echo "Specify a valid experiment: brainspan"
 fi
 
 

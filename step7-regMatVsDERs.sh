@@ -1,7 +1,5 @@
 ## Usage
 # sh step7-regMatVsDERs.sh brainspan run4-v1.0.10
-# sh step7-regMatVsDERs.sh snyder run3-v1.0.10
-# sh step7-regMatVsDERs.sh hippo run3-v1.0.10
 
 # Define variables
 EXPERIMENT=$1
@@ -21,14 +19,8 @@ echo "Creating script ${sname}"
 if [[ "${EXPERIMENT}" == "brainspan" ]]
 then
     CUTOFF=0.1
-elif [[ "${EXPERIMENT}" == "snyder" ]]
-then
-    CUTOFF=5
-elif [[ "${EXPERIMENT}" == "hippo" ]]
-then
-    CUTOFF=3
 else
-    echo "Specify a valid experiment: brainspan, snyder or hippo"
+    echo "Specify a valid experiment: brainspan"
 fi
 
 WDIR=${MAINDIR}/regionMatrix-vs-DERs/cut${CUTOFF}-vs-${PREFIX}

@@ -10,7 +10,7 @@ library('GenomeInfoDb')
 
 ## Specify parameters
 spec <- matrix(c(
-    'experiment', 'e', 1, 'character', 'Experiment. Either brainspan, snyder or hippo',
+    'experiment', 'e', 1, 'character', 'Experiment. Only brainspan',
 	'CovFile', 'd', 1, 'character', 'path to the .Rdata file with the results from loadCoverage() with cutoff >= 0',
 	'chr', 'c', 1, 'character', 'Chromosome under analysis',
 	'mcores', 'm', 1, 'integer', 'Number of cores',
@@ -27,7 +27,7 @@ if (!is.null(opt$help)) {
 }
 
 ## Check experiment input
-stopifnot(opt$experiment %in% c('brainspan', 'snyder', 'hippo'))
+stopifnot(opt$experiment %in% c('brainspan'))
 
 ## Format chromosome name appropriately
 opt$chr <- mapSeqlevels(opt$chr, 'UCSC')

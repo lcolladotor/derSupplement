@@ -44,15 +44,15 @@ names(bib) <- names(bibs)
 
 This page describes the supplementary material for the `derfinder` software paper. All the `bash`, `R` and `R Markdown` source files used to analyze the data for this project as well as generate the HTML reports are available in this website. However, it is easier to view them at [github.com/leekgroup/derSupplement](https://github.com/leekgroup/derSupplement).
 
-# BrainSpan, hippocampus and time-course data sets
+# BrainSpan data sets
 
-This section of the website describes the code and reports associated with the BrainSpan, hippocampus and time-course data sets that are referred to in the Supplementary Results and Methods document accompanying the paper.
+This section of the website describes the code and reports associated with the BrainSpan data set that are referred to in the paper and Supplementary Methods and Results.
 
 
 ## Code to reproduce analyses
 
 
-There are 9 main `bash` scripts named _step1-*_ through _step9-*_. 
+There are 9 main `bash` scripts named _step1-*_ through _step9-*_ for running the expressed-regions and single-base level approaches. 
 
 1. _fullCoverage_ loads the data from the raw files. See [step1-fullCoverage.sh](step1-fullCoverage.sh) and [step1-fullCoverage.R](step1-fullCoverage.R).
 1. _makeModels_ creates the models used for the single-level base analysis.  See [step2-makeModels.sh](step2-makeModels.sh) and [step2-makeModels.R](step2-makeModels.R).
@@ -64,16 +64,10 @@ There are 9 main `bash` scripts named _step1-*_ through _step9-*_.
 1. _coverageToExon_ creates an exon count table using known annotation information. See [step8-coverageToExon.sh](step8-coverageToExon.sh) and [step8-coverageToExon.R](step8-coverageToExon.R).
 1. _summaryInfo_ creates a HTML report with brief summary information for the given experiment. See [step9-summaryInfo.sh](step9-summaryInfo.sh), [step9-summaryInfo.R](step9-summaryInfo.R), and [step9-summaryInfo.Rmd](step9-summaryInfo.Rmd).
 
-There are also 3 optional `bash` scripts used when BAM files are available.
-
-1. _sortSam_ creates sorted by sequence name SAM files. See [optional1-sortSam.sh](optional1-sortSam.sh).
-1. _HTSeq_ creates the exon count tables using `HTSeq`. See [optional2-HTSeq.sh](optional2-HTSeq.sh).
-1. _summOv_ uses `GenomicRanges` to create the exon count tables. See [optional3-summOv.sh](optional3-summOv.sh) and [optional3-summOv.R](optional3-summOv.R).
-1. _featureCounts_
 
 A final `bash` script, [run-all.sh](run-all.sh), can be used to run the main 9 steps (or a subset of them).
 
-All 13 `bash` scripts show at the top the way they were used. Some of them generate intermediate small `bash` scripts, for example one script per chromosome for the _analyzeChr_ step. For some steps, there is a companion `R` or `R Markdown` code file when the code is more involved or an HTML file is generated in the particular step.
+All scripts show at the beginning the way they were used. Some of them generate intermediate small `bash` scripts, for example one script per chromosome for the _analyzeChr_ step. For some steps, there is a companion `R` or `R Markdown` code file when the code is more involved or an HTML file is generated in the particular step.
 
 
 
@@ -100,7 +94,6 @@ These HTML reports contain  basic information on the `derfinder` `r citep(bib[["
 They also illustrate three clusters of candidate differentially expressed regions (DERs) from the single-base level analysis. You can view the reports by following these links:
 
 * [BrainSpan](brainspan/summaryInfo/run4-v1.0.10/summaryInfo.html)
-* [Hippo](hippo/summaryInfo/run3-v1.0.10/summaryInfo.html)
 
 ### CSV files and annotation comparison
 
@@ -173,15 +166,8 @@ The following `R` source files have the code for reproducing additional analyses
 
 * [brainspan_regionLevel.R](additional-analyses/brainspan_regionLevel.R) Analysis of BrainSpan expressed-regions level DERs.
 * [characterize_brainspan_DERs.R](additional-analyses/characterize_brainspan_DERs.R) Analysis of BrainSpan single-base level DERs.
-* [feature_counts.R](additional-analyses/feature_counts.R) Feature counts analysis of Hippo and Snyder data sets.
 
 These scripts also include other exploratory code.
-
-## Hippo vs previous results
-
-[compareVsPNAS](hippo/pnas/compareVsPNAS.html) is an HTML report comparing 29 regions that were previously found to be differentially expressed `r citep(bib[["zhou2011"]])` versus the `derfinder` single-base level results. It also has code for identified differentially expressed disjoint exons. The additional script [counts-gene.R](hippo/counts-gene/counts-gene.R) has the code for gene counting with `summarizeOverlaps()`. [compareVsPNAS-gene](hippo/pnas/compareVsPNAS-gene.html) compares the results between `DESeq2` and `edgeR`-robust against `derfinder` at the gene level with 40 total plots: 10 for each case of agreement/disagreement. 
-
-View the [compareVsPNAS](hippo/pnas/compareVsPNAS.html) report or check the `R Markdown` file [compareVsPNAS.Rmd](hippo/pnas/compareVsPNAS.Rmd) run by the [runComparison.sh](hippo/pnas/runComparison.sh) script. Also view the [compareVsPNAS-gene](hippo/pnas/compareVsPNAS-gene.html) report and its linked `R Markdown` file [compareVsPNAS-gene.Rmd](hippo/pnas/compareVsPNAS-gene.Rmd).
 
 
 # Reproducibility

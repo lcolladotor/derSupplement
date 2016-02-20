@@ -38,7 +38,7 @@ names(bib) <- names(bibs)
 ```
 
 
-This report creates the CSV files with the candidate differentially expressed regions (DERs) found using `derfinder` `r citep(bib[["derfinder"]])` via the single-base level approach on the _BrainSpan_ and _hippo_ data sets. It also has Venn diagrams illustrating the overlap with known annotation. 
+This report creates the CSV files with the candidate differentially expressed regions (DERs) found using `derfinder` `r citep(bib[["derfinder"]])` via the single-base level approach on the _BrainSpan_ data set. It also has Venn diagrams illustrating the overlap with known annotation. 
 
 # Results
 
@@ -54,7 +54,7 @@ suppressMessages(library("derfinder"))
 suppressMessages(library("derfinderPlot"))
 
 ## Experiments
-exps <- c('brainspan', 'hippo')
+exps <- c('brainspan')
 
 ## Find the latest run from each experiment
 run <- sapply(exps, function(exp) {
@@ -78,18 +78,6 @@ anno <- lapply(exps, function(exp) {
     if('intragenic' %in% names(fullAnnotatedRegions$countTable)) {
         ## Fix countTable
         names(fullAnnotatedRegions$countTable)[names(fullAnnotatedRegions$countTable) == 'intragenic'] <- 'intergenic'
-        
-        ## Fix annotation list
-#        fullAnnotatedRegions$annotationList <- GRangesList(lapply(fullAnnotatedRegions$annotationList, function(x) {
-#            idx <- x$theRegion == 'intragenic'
-#            if(sum(idx) > 0) {
-#                x$theRegion[idx] <- 'intergenic'
-#            }
-#            return(x)
-#        }))
-#        
-#        save(fullAnnotatedRegions, file = file.path('..', exp, 'derAnalysis',
-#            run[exp], 'fullAnnotatedRegions.Rdata'))
     }
     res <- fullAnnotatedRegions
     return(res)
@@ -111,9 +99,8 @@ for(exp in exps) {
 	write.csv(as.data.frame(regions[[exp]]), file = paste0("supplementaryFile", 
         which(exp == exps), ".csv"), quote = FALSE, row.names = FALSE)
 	
-	## You can later read them in R using:
+	## You can later read it in R using:
 	# read.csv("supplementaryFile1.csv")
-	# read.csv("supplementaryFile2.csv")
     
     ## Compress
     system(paste0('gzip supplementaryFile', which(exp == exps), '.csv'))
@@ -123,13 +110,13 @@ for(exp in exps) {
 unlist(check)
 ```
 
-CSV files correspond to experiments `r paste(exps, collapse = ', ')` from runs `r paste(run, collapse = ', ')` respectively.
+CSV file corresponds to experiment `r paste(exps, collapse = ', ')` from run `r paste(run, collapse = ', ')`.
 
 ## Venn diagrams
 
 The following Venn diagrams show how many candidate differentially expressed regions (DERs) overlap with an exon, intron, or intergenic regions of the UCSC hg19 knownGene annotation. By default, a minimum overlap of 20 base pairs is required to say that a candidate DER overlaps any of feature. The annotation overlap was done using the `mergeResults()` function from `derfinder` `r citep(bib[["derfinder"]])` while the Venn diagrams were made using `derfinderPlot` `r citep(bib[["derfinderPlot"]])`.
 
-A maximum of three Venn diagrams are shown per data set. The first one uses all the candidate DERs, the second one uses only the candidate DERs that had a significant q-value (by default less than 0.10), and the third uses only the candidate DERs that had a FWER adjusted p-value less than 0.05. 
+The first venn diagram one uses all the candidate DERs, the second one uses only the candidate DERs that had a significant q-value (by default less than 0.10), and the third uses only the candidate DERs that had a FWER adjusted p-value less than 0.05. 
 
 ```{r venn, dev='CairoPNG'}
 for(exp in exps) {
@@ -154,7 +141,7 @@ for(exp in exps) {
 
 # Details
 
-The supplementary files 1 through 3 files contain the information for the candidate DERs found in [CSV](http://en.wikipedia.org/wiki/Comma-separated_values) format. The CSV files contain the following columns:
+The supplementary files 1 contains the information for the candidate DERs found in [CSV](http://en.wikipedia.org/wiki/Comma-separated_values) format. The CSV file contains the following columns:
 
 1. __seqnames__ The chromosome name.
 1. __start__ The position of the chromosome where the candidate DER begins.

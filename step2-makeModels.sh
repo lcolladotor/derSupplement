@@ -2,8 +2,6 @@
 
 ## Usage
 # sh step2-makeModels.sh brainspan run4-v1.0.10
-# sh step2-makeModels.sh snyder run3-v1.0.10
-# sh step2-makeModels.sh hippo run3-v1.0.10
 
 # Define variables
 EXPERIMENT=$1

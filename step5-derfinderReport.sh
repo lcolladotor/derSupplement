@@ -2,8 +2,6 @@
 
 ## Usage
 # sh step5-derfinderReport.sh brainspan run4-v1.0.10
-# sh step5-derfinderReport.sh snyder run3-v1.0.10
-# sh step5-derfinderReport.sh hippo run3-v1.0.10
 
 # Define variables
 EXPERIMENT=$1
@@ -36,7 +34,7 @@ mkdir -p ${WDIR}/${outdir}/logs
 # merge results
 cd ${WDIR}
 module load R/3.2.x
-Rscript -e "library(regionReport); load('${MAINDIR}/CoverageInfo/fullCov.Rdata'); derfinderReport(prefix='${PREFIX}', browse=FALSE, nBestRegions = 100,  nBestClusters=ifelse('${EXPERIMENT}' == 'simulation', 66, 20), fullCov=fullCov, device='CairoPNG', clean = FALSE); Sys.time(); proc.time(); options(width = 120); devtools::session_info()"
+Rscript -e "library(regionReport); load('${MAINDIR}/CoverageInfo/fullCov.Rdata'); derfinderReport(prefix='${PREFIX}', browse=FALSE, nBestRegions = 100,  nBestClusters=20, fullCov=fullCov, device='CairoPNG', clean = FALSE); Sys.time(); proc.time(); options(width = 120); devtools::session_info()"
 
 # Move log files into the logs directory
 mv ${ROOTDIR}/${sname}.* ${WDIR}/${outdir}/logs/

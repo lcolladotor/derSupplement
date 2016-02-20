@@ -56,15 +56,6 @@ if(test) {
 	test <- TRUE
 }
 
-## Test values
-if(test){
-	opt <- NULL
-	opt$short <- "hippo"
-	opt$run <- "run3-v1.0.40"
-	opt$example <- "c('cool region' = 3)"
-	opt$verbose <- NULL
-}
-
 ## if help was asked for print a friendly message
 ## and exit with a non-zero error code
 if (!is.null(opt$help)) {

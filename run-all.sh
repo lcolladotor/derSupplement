@@ -2,8 +2,6 @@
 
 ## Usage
 # sh run-all.sh brainspan run4-v1.0.10
-# sh run-all.sh snyder run3-v1.0.10 TRUE TRUE TRUE
-# sh run-all.sh hippo run3-v1.0.10 TRUE TRUE TRUE
 
 ## Skip fullCov but run regionMatrix:
 # sh run-all.sh brainspan run4-v1.0.10 TRUE FALSE TRUE

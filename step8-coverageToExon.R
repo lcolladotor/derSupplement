@@ -8,7 +8,7 @@ library('derfinder')
 
 ## Specify parameters
 spec <- matrix(c(
-    'experiment', 'e', 1, 'character', 'Experiment. Either brainspan, snyder or hippo',
+    'experiment', 'e', 1, 'character', 'Experiment. Only brainspan',
     'annotation', 'a', 1, 'character', 'Annotation to use. Either ensembl or ucsc',
     'readlen', 'r', 1, 'integer', 'Read length',
     'mc.cores', 'c', 1, 'integer', 'Number of cores to use',
@@ -25,7 +25,7 @@ if (!is.null(opt$help)) {
 }
 
 ## Check experiment input
-stopifnot(opt$experiment %in% c('brainspan', 'snyder', 'hippo'))
+stopifnot(opt$experiment %in% c('brainspan'))
 
 
 

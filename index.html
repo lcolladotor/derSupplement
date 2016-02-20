@@ -10,7 +10,7 @@
 
 <meta name="author" content="L Collado-Torres" />
 
-<meta name="date" content="2016-02-19" />
+<meta name="date" content="2016-02-20" />
 
 <title>Supplementary Website</title>
 
@@ -51,13 +51,13 @@ document.addEventListener("DOMContentLoaded", function() {
 <div id="header">
 <h1 class="title">Supplementary Website</h1>
 <h4 class="author"><em>L Collado-Torres</em></h4>
-<h4 class="date"><em>19 February 2016</em></h4>
+<h4 class="date"><em>20 February 2016</em></h4>
 </div>
 
 <h1>Contents</h1>
 <div id="TOC">
 <ul>
-<li><a href="#brainspan-hippocampus-and-time-course-data-sets"><span class="toc-section-number">1</span> BrainSpan, hippocampus and time-course data sets</a><ul>
+<li><a href="#brainspan-data-sets"><span class="toc-section-number">1</span> BrainSpan data sets</a><ul>
 <li><a href="#code-to-reproduce-analyses"><span class="toc-section-number">1.1</span> Code to reproduce analyses</a></li>
 <li><a href="#single-base-level"><span class="toc-section-number">1.2</span> Single-base level</a><ul>
 <li><a href="#quick-overview-html-reports"><span class="toc-section-number">1.2.1</span> Quick overview HTML reports</a></li>
@@ -75,7 +75,6 @@ document.addEventListener("DOMContentLoaded", function() {
 <li><a href="#expressed-regions-overview-figure"><span class="toc-section-number">4.1</span> Expressed-regions overview figure</a></li>
 <li><a href="#single-base-overview-figure"><span class="toc-section-number">4.2</span> Single-base overview figure</a></li>
 <li><a href="#additional-analyses"><span class="toc-section-number">4.3</span> Additional analyses</a></li>
-<li><a href="#hippo-vs-previous-results"><span class="toc-section-number">4.4</span> Hippo vs previous results</a></li>
 </ul></li>
 <li><a href="#reproducibility"><span class="toc-section-number">5</span> Reproducibility</a></li>
 <li><a href="#bibliography"><span class="toc-section-number">6</span> Bibliography</a></li>
@@ -83,12 +82,12 @@ document.addEventListener("DOMContentLoaded", function() {
 </div>
 
 <p>This page describes the supplementary material for the <code>derfinder</code> software paper. All the <code>bash</code>, <code>R</code> and <code>R Markdown</code> source files used to analyze the data for this project as well as generate the HTML reports are available in this website. However, it is easier to view them at <a href="https://github.com/leekgroup/derSupplement">github.com/leekgroup/derSupplement</a>.</p>
-<div id="brainspan-hippocampus-and-time-course-data-sets" class="section level1">
-<h1><span class="header-section-number">1</span> BrainSpan, hippocampus and time-course data sets</h1>
-<p>This section of the website describes the code and reports associated with the BrainSpan, hippocampus and time-course data sets that are referred to in the Supplementary Results and Methods document accompanying the paper.</p>
+<div id="brainspan-data-sets" class="section level1">
+<h1><span class="header-section-number">1</span> BrainSpan data sets</h1>
+<p>This section of the website describes the code and reports associated with the BrainSpan data set that are referred to in the paper and Supplementary Methods and Results.</p>
 <div id="code-to-reproduce-analyses" class="section level2">
 <h2><span class="header-section-number">1.1</span> Code to reproduce analyses</h2>
-<p>There are 9 main <code>bash</code> scripts named _step1-*_ through _step9-*_.</p>
+<p>There are 9 main <code>bash</code> scripts named _step1-*_ through _step9-*_ for running the expressed-regions and single-base level approaches.</p>
 <ol style="list-style-type: decimal">
 <li><em>fullCoverage</em> loads the data from the raw files. See <a href="step1-fullCoverage.sh" class="uri">step1-fullCoverage.sh</a> and <a href="step1-fullCoverage.R" class="uri">step1-fullCoverage.R</a>.</li>
 <li><em>makeModels</em> creates the models used for the single-level base analysis. See <a href="step2-makeModels.sh" class="uri">step2-makeModels.sh</a> and <a href="step2-makeModels.R" class="uri">step2-makeModels.R</a>.</li>
@@ -100,15 +99,8 @@ document.addEventListener("DOMContentLoaded", function() {
 <li><em>coverageToExon</em> creates an exon count table using known annotation information. See <a href="step8-coverageToExon.sh" class="uri">step8-coverageToExon.sh</a> and <a href="step8-coverageToExon.R" class="uri">step8-coverageToExon.R</a>.</li>
 <li><em>summaryInfo</em> creates a HTML report with brief summary information for the given experiment. See <a href="step9-summaryInfo.sh" class="uri">step9-summaryInfo.sh</a>, <a href="step9-summaryInfo.R" class="uri">step9-summaryInfo.R</a>, and <a href="step9-summaryInfo.Rmd" class="uri">step9-summaryInfo.Rmd</a>.</li>
 </ol>
-<p>There are also 3 optional <code>bash</code> scripts used when BAM files are available.</p>
-<ol style="list-style-type: decimal">
-<li><em>sortSam</em> creates sorted by sequence name SAM files. See <a href="optional1-sortSam.sh" class="uri">optional1-sortSam.sh</a>.</li>
-<li><em>HTSeq</em> creates the exon count tables using <code>HTSeq</code>. See <a href="optional2-HTSeq.sh" class="uri">optional2-HTSeq.sh</a>.</li>
-<li><em>summOv</em> uses <code>GenomicRanges</code> to create the exon count tables. See <a href="optional3-summOv.sh" class="uri">optional3-summOv.sh</a> and <a href="optional3-summOv.R" class="uri">optional3-summOv.R</a>.</li>
-<li><em>featureCounts</em></li>
-</ol>
 <p>A final <code>bash</code> script, <a href="run-all.sh" class="uri">run-all.sh</a>, can be used to run the main 9 steps (or a subset of them).</p>
-<p>All 13 <code>bash</code> scripts show at the top the way they were used. Some of them generate intermediate small <code>bash</code> scripts, for example one script per chromosome for the <em>analyzeChr</em> step. For some steps, there is a companion <code>R</code> or <code>R Markdown</code> code file when the code is more involved or an HTML file is generated in the particular step.</p>
+<p>All scripts show at the beginning the way they were used. Some of them generate intermediate small <code>bash</code> scripts, for example one script per chromosome for the <em>analyzeChr</em> step. For some steps, there is a companion <code>R</code> or <code>R Markdown</code> code file when the code is more involved or an HTML file is generated in the particular step.</p>
 <p>The <a href="check-analysis-time.R" class="uri">check-analysis-time.R</a> script was useful for checking the progress of the <em>step3-analyzeChr</em> jobs and detect whenever a node in the cluster was presenting problems.</p>
 <p>We expect that these scripts will be useful to <code>derfinder</code> users who want to automate the single-base level and/or expressed-regions level analyses for several data sets and/or have the jobs run automatically without having to check if each step has finished running.</p>
 <p>Note that all <code>bash</code> scripts are tailored for the cluster we have access to which administer job queues with Sun Grid Engine (SGE).</p>
@@ -126,7 +118,6 @@ document.addEventListener("DOMContentLoaded", function() {
 <p>They also illustrate three clusters of candidate differentially expressed regions (DERs) from the single-base level analysis. You can view the reports by following these links:</p>
 <ul>
 <li><a href="brainspan/summaryInfo/run4-v1.0.10/summaryInfo.html">BrainSpan</a></li>
-<li><a href="hippo/summaryInfo/run3-v1.0.10/summaryInfo.html">Hippo</a></li>
 </ul>
 </div>
 <div id="csv-files-and-annotation-comparison" class="section level3">
@@ -193,22 +184,16 @@ document.addEventListener("DOMContentLoaded", function() {
 <ul>
 <li><a href="additional-analyses/brainspan_regionLevel.R">brainspan_regionLevel.R</a> Analysis of BrainSpan expressed-regions level DERs.</li>
 <li><a href="additional-analyses/characterize_brainspan_DERs.R">characterize_brainspan_DERs.R</a> Analysis of BrainSpan single-base level DERs.</li>
-<li><a href="additional-analyses/feature_counts.R">feature_counts.R</a> Feature counts analysis of Hippo and Snyder data sets.</li>
 </ul>
 <p>These scripts also include other exploratory code.</p>
-</div>
-<div id="hippo-vs-previous-results" class="section level2">
-<h2><span class="header-section-number">4.4</span> Hippo vs previous results</h2>
-<p><a href="hippo/pnas/compareVsPNAS.html">compareVsPNAS</a> is an HTML report comparing 29 regions that were previously found to be differentially expressed <a id="cite-zhou2011"></a>(<a href="#bib-zhou2011">Zhou, Zhifeng, Yuan, Qiaoping, et al., 2011</a>) versus the <code>derfinder</code> single-base level results. It also has code for identified differentially expressed disjoint exons. The additional script <a href="hippo/counts-gene/counts-gene.R">counts-gene.R</a> has the code for gene counting with <code>summarizeOverlaps()</code>. <a href="hippo/pnas/compareVsPNAS-gene.html">compareVsPNAS-gene</a> compares the results between <code>DESeq2</code> and <code>edgeR</code>-robust against <code>derfinder</code> at the gene level with 40 total plots: 10 for each case of agreement/disagreement.</p>
-<p>View the <a href="hippo/pnas/compareVsPNAS.html">compareVsPNAS</a> report or check the <code>R Markdown</code> file <a href="hippo/pnas/compareVsPNAS.Rmd">compareVsPNAS.Rmd</a> run by the <a href="hippo/pnas/runComparison.sh">runComparison.sh</a> script. Also view the <a href="hippo/pnas/compareVsPNAS-gene.html">compareVsPNAS-gene</a> report and its linked <code>R Markdown</code> file <a href="hippo/pnas/compareVsPNAS-gene.Rmd">compareVsPNAS-gene.Rmd</a>.</p>
 </div>
 </div>
 <div id="reproducibility" class="section level1">
 <h1><span class="header-section-number">5</span> Reproducibility</h1>
 <p>Date this page was generated.</p>
-<pre><code>## [1] &quot;2016-02-19 08:28:21 EST&quot;</code></pre>
+<pre><code>## [1] &quot;2016-02-20 09:04:04 EST&quot;</code></pre>
 <p>Wallclock time spent generating the report.</p>
-<pre><code>## Time difference of 1.322 secs</code></pre>
+<pre><code>## Time difference of 1.486 secs</code></pre>
 <p><code>R</code> session information.</p>
 <pre><code>## Session info -----------------------------------------------------------------------------------------------------------</code></pre>
 <pre><code>##  setting  value                       
@@ -218,7 +203,7 @@ document.addEventListener("DOMContentLoaded", function() {
 ##  language (EN)                        
 ##  collate  en_US.UTF-8                 
 ##  tz       America/New_York            
-##  date     2016-02-19</code></pre>
+##  date     2016-02-20</code></pre>
 <pre><code>## Packages ---------------------------------------------------------------------------------------------------------------</code></pre>
 <pre><code>##  package       * version  date       source        
 ##  bibtex          0.4.0    2014-12-31 CRAN (R 3.2.0)
@@ -287,9 +272,6 @@ document.addEventListener("DOMContentLoaded", function() {
 </p>
 <p>
 <a id="bib-edgeR"></a><a href="#cite-edgeR">[12]</a><cite> X. Zhou, H. Lindsay and M. D. Robinson. “Robustly detecting differential expression in RNA sequencing data using observation weights”. In: <em>Nucleic Acids Research</em> 42 (2014), p. e91.</cite>
-</p>
-<p>
-<a id="bib-zhou2011"></a><a href="#cite-zhou2011">[13]</a><cite> Zhou, Zhifeng, Yuan, Qiaoping, et al. “Substance-specific and shared transcription and epigenetic changes in the human hippocampus chronically exposed to cocaine and alcohol”. In: <em>Proceedings of the National Academy of Sciences of the United States of America</em> 108.16 (2011), pp. 6626-6631.</cite>
 </p>
 </div>
 

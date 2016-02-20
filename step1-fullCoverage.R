@@ -34,22 +34,11 @@ totalMapped <- NULL
 targetSize <- 80e6
 
 
-## Identify the data directories
-if(opt$datadir == '/dcs01/ajaffe/Snyder/RNAseq/TopHat') {
-    files <- rawFiles(datadir=opt$datadir, samplepatt=opt$pattern, fileterm="accepted_hits.bam")
-    names(files) <- gsub('_out', '', names(files))
-} else if(opt$datadir == '/dcs01/ajaffe/Hippo/TopHat') {
-    files <- rawFiles(datadir=opt$datadir, samplepatt=opt$pattern)
-    
-    ## In some cases, you might want to modify the names of the files object
-    ## These names specify the column names used in the DataFrame objects.
-    ## For example, they could end with _out
-    names(files) <- gsub('_out', '', names(files))
-} else {
-    load("/home/epi/ajaffe/Lieber/Projects/Grants/Coverage_R01/brainspan/brainspan_phenotype.rda")
-    files <- pdSpan$wig
-    names(files) <- pdSpan$lab
-}
+## Identify the data directories 
+load("/home/epi/ajaffe/Lieber/Projects/Grants/Coverage_R01/brainspan/brainspan_phenotype.rda")
+files <- pdSpan$wig
+names(files) <- pdSpan$lab
+
 
 
 ## Load the coverage information without filtering

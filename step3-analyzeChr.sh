@@ -2,8 +2,6 @@
 
 ## Usage
 # sh step3-analyzeChr.sh brainspan run4-v1.0.10
-# sh step3-analyzeChr.sh snyder run3-v1.0.10
-# sh step3-analyzeChr.sh hippo run3-v1.0.10
 
 # Define variables
 EXPERIMENT=$1
@@ -43,14 +41,8 @@ do
         else
         	CORES=20
         fi
-    elif [[ "${EXPERIMENT}" == "snyder" ]]
-    then
-        CORES=4
-    elif [[ "${EXPERIMENT}" == "hippo" ]]
-    then
-        CORES=2
     else
-        echo "Specify a valid experiment: brainspan, snyder or hippo"
+        echo "Specify a valid experiment: brainspan"
     fi
     
 	chr="chr${chrnum}"

@@ -1,7 +1,5 @@
 ## Usage
 # sh step9-summaryInfo.sh brainspan run4-v1.0.10
-# sh step9-summaryInfo.sh snyder run3-v1.0.10
-# sh step9-summaryInfo.sh hippo run3-v1.0.10
 
 # Define variables
 EXPERIMENT=$1
@@ -19,14 +17,8 @@ echo "Creating script ${sname}"
 if [[ "${EXPERIMENT}" == "brainspan" ]]
 then
     EXAMPLES='c("the complexity induced by alternative transcription" = 5, "coverage dips" = 16, "and coverage variability even on long single exon regions" = 18)'
-elif [[ "${EXPERIMENT}" == "snyder" ]]
-then
-    EXAMPLES='c("coverage dips" = 1, "alternative splicing" = 7, "and less pronounced coverage dips" = 13)'
-elif [[ "${EXPERIMENT}" == "hippo" ]]
-then
-    EXAMPLES='c("a coverage dip" = 3, "the complex relationship with annotation" = 4, "and a potentially extended UTR" = 8)'
 else
-    echo "Specify a valid experiment: brainspan, snyder or hippo"
+    echo "Specify a valid experiment: brainspan"
 fi
 
 WDIR=${MAINDIR}/summaryInfo/${PREFIX}
