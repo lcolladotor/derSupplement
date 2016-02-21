@@ -6,9 +6,8 @@ output:
   BiocStyle::html_document
 ---
 
-This document is a work in progress.
 
-Here we evaluate the performance of the different pipelines we used to analyze the simulated data. Evaluating the performance is tricky and depends on how you define the reference set. At this moment we are considering six options detailed later.
+Here we evaluate the performance of the different pipelines we used to analyze the simulated data. Evaluating the performance is tricky and depends on how you define the reference set. Here we show the results by using all exons and exons that overlap only 1 transcript. The second set removes ambiguity in determining the truth and is thus the most useful. Other possible reference sets can be considered and you can find the results in previous versions of this document. We removed them from the final version to avoid confusion.
 
 # Setup
 
@@ -134,14 +133,14 @@ count_comp <- function(info, rep = 1, type = 'padj', reference, cut = 0.05) {
 
 ## Functions for evaluating empirical power, FPR and FDR, plus summarizing 
 ## the info
-emp_power <- function(m) {
-    round(m[2, 2] / m[2, 3] * 100, 2)
+emp_power <- function(m, digits = 1) {
+    round(m[2, 2] / m[2, 3] * 100, digits)
 }
-emp_fpr <- function(m) {
-    round(m[1, 2] / m[1, 3] * 100, 2)
+emp_fpr <- function(m, digits = 1) {
+    round(m[1, 2] / m[1, 3] * 100, digits)
 }
-emp_fdr <- function(m) {
-    round(m[1, 2] / m[3, 2] * 100, 2)
+emp_fdr <- function(m, digits = 1) {
+    round(m[1, 2] / m[3, 2] * 100, digits)
 }
 
 ## Detailed table with the results for each replicate of the simulation
@@ -170,13 +169,17 @@ emp <- function(tables) {
 
 ## This function takes the result from emp() and summarizes it by showing
 ## the minimum and maximum value per replicate
+emp_sum_paste <- function(x) { paste0('(', x[1], '-', x[2], ')') }
 emp_sum <- function(empinfo) {
     empinfo$situation <- paste(empinfo$AnnotationComplete, empinfo$Aligner, 
         empinfo$SummaryMethod, empinfo$StatMethod, sep=';')
     empsum <- data.frame(
-        'Power' = sapply(tapply(empinfo$power, empinfo$situation, range), paste, collapse = ','),
-        'FPR' = sapply(tapply(empinfo$FPR, empinfo$situation, range), paste, collapse = ','),
-        'FDR' = sapply(tapply(empinfo$FDR, empinfo$situation, range), paste, collapse = ',')
+        'Power' = sapply(tapply(empinfo$power, empinfo$situation, range),
+            emp_sum_paste),
+        'FPR' = sapply(tapply(empinfo$FPR, empinfo$situation, range),
+            emp_sum_paste),
+        'FDR' = sapply(tapply(empinfo$FDR, empinfo$situation, range),
+            emp_sum_paste)
     )
     empsum$AnnotationComplete <- as.logical(sapply(strsplit(rownames(empsum), ';'), '[[', 1))
     empsum$Aligner <- sapply(strsplit(rownames(empsum), ';'), '[[', 2)
@@ -264,39 +267,37 @@ processExons <- function(exons_set) {
 
 We can now proceed to defining our reference sets. They are:
 
-1. Transcript level with exons grouped by the transcript they belong to. A transcript is marked as differentially expressed (DE) if it's expression was set to be low or high. This ignores whether the transcript in question overlaps other transcripts from the same gene and the status assigned to them.
-1. Transcripts (exons grouped by transcript) with the DE status dependent on other transcripts from the same gene. If any transcript for a given gene is set to low or high expression, all the transcripts of that gene are marked as differentially expressed.
-1. Exon level with DE status given by whether the exon overlaps any transcript with low or high expression. Note that two transcripts share the same exon, that exon will appear twice in this reference set.
-1. Disjoint exon level with DE status given by whether the disjoint exon segment overlaps any transcript with low or high expression. This reference set is smaller than the previous one because if two transcripts share the same exon, that exon will only appear once in this reference set.
+1. Exon level with DE status given by whether the exon overlaps any transcript with low or high expression. Note that if two transcripts share the same exon, that exon will appear twice in this reference set.
+1. Exons that overlap only 1 transcript with DE status given by the transcript they overlap. These exons are not ambiguous in the truth assignment and is thus the most reliable reference set.
 
 ```{r 'defineRefs'}
 ## Transcript level info
-trans <- tx
-mcols(trans)$DEr1 <- chosen$rep1 != 'normal'
-mcols(trans)$DEr2 <- chosen$rep2 != 'normal'
-mcols(trans)$DEr3 <- chosen$rep3 != 'normal'
-mcols(trans)$case1 <- chosen$case1
-mcols(trans)$case2 <- chosen$case2
-mcols(trans)$case3 <- chosen$case3
+#trans <- tx
+#mcols(trans)$DEr1 <- chosen$rep1 != 'normal'
+#mcols(trans)$DEr2 <- chosen$rep2 != 'normal'
+#mcols(trans)$DEr3 <- chosen$rep3 != 'normal'
+#mcols(trans)$case1 <- chosen$case1
+#mcols(trans)$case2 <- chosen$case2
+#mcols(trans)$case3 <- chosen$case3
 
 ## Transcript level information with DE status given by the gene level
-trans_case <- trans
-mcols(trans_case)$DEr1 <- chosen$case1 %in% c('allDE', 'singleDE', 'someDE')
-mcols(trans_case)$DEr2 <- chosen$case2 %in% c('allDE', 'singleDE', 'someDE')
-mcols(trans_case)$DEr3 <- chosen$case3 %in% c('allDE', 'singleDE', 'someDE')
+#trans_case <- trans
+#mcols(trans_case)$DEr1 <- chosen$case1 %in% c('allDE', 'singleDE', 'someDE')
+#mcols(trans_case)$DEr2 <- chosen$case2 %in% c('allDE', 'singleDE', 'someDE')
+#mcols(trans_case)$DEr3 <- chosen$case3 %in% c('allDE', 'singleDE', 'someDE')
 
 
 ## Create exon level reference
 exons <- processExons(unlist(tx))
 
 ## Create disjoint exon level reference
-exons_disjoin <- processExons(disjoin(unlist(tx)))
+#exons_disjoin <- processExons(disjoin(unlist(tx)))
 
 ## Exons overlapping only 1 transcript
-exons_one <- exons[countOverlaps(exons, trans) == 1]
+exons_one <- exons[countOverlaps(exons, tx) == 1]
 
 ## Disjoint exons overlapping only 1 transcript
-exons_disjoin_one <- exons_disjoin[countOverlaps(exons_disjoin, trans) == 1]
+#exons_disjoin_one <- exons_disjoin[countOverlaps(exons_disjoin, trans) == 1]
 
 
 ## Explore the number and percent of DE cases
@@ -310,48 +311,35 @@ percDE <- function(reference) {
 
 ## First at the transcript level, which matches exactly the 2/6 of transcripts 
 ## set to be DE (1/6 low, 1/6 high)
-percDE(trans)
+#percDE(trans)
 
 ## Next at the transcript level with DE status given by the gene level
 ## The percent DE is highly increased given that genes with more than 1
 ## transcript are likely to have at least 1 DE.
-percDE(trans_case)
+#percDE(trans_case)
 
-## At the exon level, the percent is similar than at the transcript (DE by 
-## gene) level
+## At the exon level, the percent with the truth set as DE is similar than a
+## the transcript (DE by gene) level and is highly increased.
 percDE(exons)
 
-## At the disjoint exon segment level, the percent DE is lower but
-## not as low as at the transcript level (1st reference set)
-percDE(exons_disjoin)
-
-## Exons overlapping only 1 transcript
+## Exons overlapping only 1 transcript. The percent is close to the one used in
+## the simulation setup. That is: 2/6 of transcripts set to be DE (1/6 low, 1/6 
+## high)
 percDE(exons_one)
-
-## Disjoint exons overlapping only 1 transcript
-percDE(exons_disjoin_one)
 
 
 ## For each reference set, see how many other units of that set each piece overlaps
-table(countOverlaps(trans) - 1)
-table(countOverlaps(trans_case) - 1)
 table(countOverlaps(exons) - 1)
-table(countOverlaps(exons_disjoin) - 1)
 table(countOverlaps(exons_one) - 1)
-table(countOverlaps(exons_disjoin_one) - 1)
 ```
 
-Note how the overlap between the different units of the same reference set is considerable for the first three sets.
+Note how the overlap between the different units of the same reference set is considerable for the complete exon reference set.
 
 
 Number of units per reference level:
 
-* Transcript level: `r length(trans)`
-* Transcript level (DE status by gene): `r length(trans_case)`
 * Exon level: `r length(exons)`
-* Disjoint exon segment level: `r length(exons_disjoin)`
 * Exon level subsetted to those that overlap only 1 transcript: `r length(exons_one)`
-* Disjoint exon segment level (overlapping only 1 transcript): `r length(exons_disjoin_one)`
 
 
 # Evaluation
@@ -366,28 +354,6 @@ The following code actually runs the evaluation functions for the different refe
 types <- ifelse(grepl('ballgown', names(stats_GR)), 'qval', 'padj')
 replicates <- as.integer(sapply(strsplit(names(stats_GR), '\\.'), '[[', 2))
 
-## Evaluate at the transcript level:
-## DE if transcript is DE ignoring overlapping transcripts
-tables_trans <- mapply(count_comp, stats_GR, replicates, types,
-    SIMPLIFY = FALSE, MoreArgs = list(reference = trans, cut = 0.05))
-empirical_trans <- emp(tables_trans)
-index_trans <- mapply(index_comp, stats_GR, replicates, types,
-    SIMPLIFY = FALSE, MoreArgs = list(reference = trans, cut = 0.05))
-case_result_trans <- mapply(case_result, index_trans, replicates,
-    SIMPLIFY = FALSE, MoreArgs = list(reference = trans))
-
-
-
-## Evaluate at the transcript level:
-## DE if at least one of the transcripts from the same gene is DE
-tables_trans_c <- mapply(count_comp, stats_GR, replicates, types,
-    SIMPLIFY = FALSE, MoreArgs = list(reference = trans_case, cut = 0.05))
-empirical_trans_c <- emp(tables_trans_c)
-index_trans_c <- mapply(index_comp, stats_GR, replicates, types,
-    SIMPLIFY = FALSE, MoreArgs = list(reference = trans_case, cut = 0.05))
-case_result_trans_c <- mapply(case_result, index_trans_c, replicates,
-    SIMPLIFY = FALSE, MoreArgs = list(reference = trans_case))
-
 
 ## Evaluate at the exons level
 ## DE if any of the transcripts it overlaps is DE
@@ -399,17 +365,6 @@ index_exons <- mapply(index_comp, stats_GR, replicates, types,
 case_result_exons <- mapply(case_result, index_exons, replicates,
     SIMPLIFY = FALSE, MoreArgs = list(reference = exons))
     
-    
-## Evaluate at the disjoint exon segments level
-## DE if any of the transcripts it overlaps is DE
-tables_exons_d <- mapply(count_comp, stats_GR, replicates, types,
-    SIMPLIFY = FALSE, MoreArgs = list(reference = exons_disjoin, cut = 0.05))
-empirical_exons_d <- emp(tables_exons_d)
-index_exons_d <- mapply(index_comp, stats_GR, replicates, types,
-    SIMPLIFY = FALSE, MoreArgs = list(reference = exons_disjoin, cut = 0.05))
-case_result_exons_d <- mapply(case_result, index_exons_d, replicates,
-    SIMPLIFY = FALSE, MoreArgs = list(reference = exons_disjoin))
-    
 ## Evaluate at the exons level (overlapping only 1 transcript)
 ## DE if any of the transcripts it overlaps is DE
 tables_exons_one <- mapply(count_comp, stats_GR, replicates, types,
@@ -419,16 +374,6 @@ index_exons_one <- mapply(index_comp, stats_GR, replicates, types,
     SIMPLIFY = FALSE, MoreArgs = list(reference = exons_one, cut = 0.05))
 case_result_exons_one <- mapply(case_result, index_exons_one, replicates,
     SIMPLIFY = FALSE, MoreArgs = list(reference = exons_one))
-
-## Evaluate at the disjoint exon segments level (overlapping only 1 transcript)
-## DE if any of the transcripts it overlaps is DE
-tables_exons_d_one <- mapply(count_comp, stats_GR, replicates, types,
-    SIMPLIFY = FALSE, MoreArgs = list(reference = exons_disjoin_one, cut = 0.05))
-empirical_exons_d_one <- emp(tables_exons_d_one)
-index_exons_d_one <- mapply(index_comp, stats_GR, replicates, types,
-    SIMPLIFY = FALSE, MoreArgs = list(reference = exons_disjoin_one, cut = 0.05))
-case_result_exons_d_one <- mapply(case_result, index_exons_d_one, replicates,
-    SIMPLIFY = FALSE, MoreArgs = list(reference = exons_disjoin_one))
 ```
 
 ## Summaries
@@ -436,23 +381,15 @@ case_result_exons_d_one <- mapply(case_result, index_exons_d_one, replicates,
 Below are summaries of showing the minimum and maximum empirical power, false positive rate (FPR) and false discovery rate (FDR) per replicate for each of the analysis pipelines by the different reference sets.
 
 ```{r 'displayEmpiricalSummaries', results = 'asis'}
-## Transcript level
-kable(emp_sum(empirical_trans), format = 'html')
-## Transcript level with DE status given by the gene level
-kable(emp_sum(empirical_trans_c), format = 'html')
 ## Exon level
 kable(emp_sum(empirical_exons), format = 'html')
-## Disjoint exon segments level
-kable(emp_sum(empirical_exons_d), format = 'html')
 ## Exon level (overlapping only 1 transcript)
 kable(emp_sum(empirical_exons_one), format = 'html')
-## Disjoint exon segments level (overlapping only 1 transcript)
-kable(emp_sum(empirical_exons_d_one), format = 'html')
 ```
 
 From these summaries we can see that in most cases the minimum and maximum values are nearly the same, with more variability for the `HISAT` -> `StringTie` -> `ballgown` pipeline results. Note that for this pipeline we conducted tests at the transcript level (StatMethod = `ballgown-trans`) and at the exon level (`ballgown-exon`). `edgeR` achieves slightly greater empirical power than `DESeq2` at the cost of a higher empirical FPR and FDR.
 
-The sets where we consider exons or exon segments overlapping only 1 transcript show a clear difference in power for the methods that rely on annotation between the analyses that used the complete annotation and those that used the incomplete one. The `derfinder` analyses do have higher FPR and FDR than other pipelines, but achieve nearly the same power as the other methods when the annotation is complete.
+The sets where we consider exons overlapping only 1 transcript shows a clear difference in power for the methods that rely on annotation between the analyses that used the complete annotation and those that used the incomplete one. The `derfinder` analyses do have higher FPR and FDR than other pipelines, but achieve nearly the same power as the other methods when the annotation is complete.
 
 
 ## Details
@@ -460,77 +397,46 @@ The sets where we consider exons or exon segments overlapping only 1 transcript 
 The following tables show the results for all the replicates.
 
 ```{r 'displayEmpirical', results = 'asis'}
-## Transcript level
-kable(empirical_trans, format = 'html', row.names = TRUE)
-## Transcript level with DE status given by transcripts from the same gene
-kable(empirical_trans_c, format = 'html', row.names = TRUE)
 ## Exon level
 kable(empirical_exons, format = 'html', row.names = TRUE)
-## Disjoint exons level
-kable(empirical_exons_d, format = 'html', row.names = TRUE)
 ## Exon level (overlapping only 1 transcript)
 kable(empirical_exons_one, format = 'html', row.names = TRUE)
-## Disjoint exons level (overlapping only 1 transcript)
-kable(empirical_exons_d_one, format = 'html', row.names = TRUE)
 ```
 
 
 ## Specific case
 
-In this section we focus on the specific case of using `HISAT` -> `derfinder` -> `edgeR` from the first replicate because it has the highest empirical FPR from all the `derfinder` analyses when using either of the exon reference sets (row 20 in the last two tables).
+In this section we focus on the specific case of using `HISAT` -> `derfinder` -> `edgeR` from the first replicate because it has the highest empirical FPR from all the `derfinder` analyses when using the exon reference set (row 20 in the first table).
 
-Note how when using the transcript level information as reference, most of the false positives (`r case_result_trans[['regionMatrix.1.edgeR']][5, 2]` out of `r case_result_trans[['regionMatrix.1.edgeR']][6, 2]`) are from the case `someDE`. That is, from genes that have multiple transcripts and at least one of them is DE. These false positives go away when using as the reference the transcripts with DE status by gene (second table). In that scenario, most of the remaining false positives are from the `noneDE` case, where about half of them are correctly detected as negatives (`r case_result_trans_c[['regionMatrix.1.edgeR']][2, 2]` / `r case_result_trans_c[['regionMatrix.1.edgeR']][2, 5]`). 
 
-When using the exon level reference set (third table), only about a tenth [(`r case_result_exons[['regionMatrix.1.edgeR']][2, 1]` + `r case_result_exons[['regionMatrix.1.edgeR']][2, 2]`) / `r case_result_exons[['regionMatrix.1.edgeR']][2, 5]` = `r round(100 * (case_result_exons[['regionMatrix.1.edgeR']][2, 1] + case_result_exons[['regionMatrix.1.edgeR']][2, 2]) / case_result_exons[['regionMatrix.1.edgeR']][2, 5], 2)`%] of the `noneDE` cases are incorrectly labeled. The numbers are similar in the disjoint exon segments reference set (fourth table): [(`r case_result_exons_d[['regionMatrix.1.edgeR']][2, 1]` + `r case_result_exons_d[['regionMatrix.1.edgeR']][2, 2]`) / `r case_result_exons_d[['regionMatrix.1.edgeR']][2, 5]` = `r round(100 * (case_result_exons_d[['regionMatrix.1.edgeR']][2, 1] + case_result_exons_d[['regionMatrix.1.edgeR']][2, 2]) / case_result_exons_d[['regionMatrix.1.edgeR']][2, 5], 2)`%]
+When using the exon level reference set, only about a tenth [(`r case_result_exons[['regionMatrix.1.edgeR']][2, 1]` + `r case_result_exons[['regionMatrix.1.edgeR']][2, 2]`) / `r case_result_exons[['regionMatrix.1.edgeR']][2, 5]` = `r round(100 * (case_result_exons[['regionMatrix.1.edgeR']][2, 1] + case_result_exons[['regionMatrix.1.edgeR']][2, 2]) / case_result_exons[['regionMatrix.1.edgeR']][2, 5], 2)`%] of the `noneDE` cases are incorrectly labeled. The numbers decrease in the subset of exons that overlap only 1 transcript: [(`r case_result_exons_one[['regionMatrix.1.edgeR']][2, 1]` + `r case_result_exons_one[['regionMatrix.1.edgeR']][2, 2]`) / `r case_result_exons_one[['regionMatrix.1.edgeR']][2, 5]` = `r round(100 * (case_result_exons_one[['regionMatrix.1.edgeR']][2, 1] + case_result_exons_one[['regionMatrix.1.edgeR']][2, 2]) / case_result_exons_one[['regionMatrix.1.edgeR']][2, 5], 2)`%]. 
 
 ```{r 'regionMatrix.1.edgeR'}
-## Compare all three references for one simulation scenario
-case_result_trans[['regionMatrix.1.edgeR']]
-case_result_trans_c[['regionMatrix.1.edgeR']]
+## Compare all references for one simulation scenario
 case_result_exons[['regionMatrix.1.edgeR']]
-case_result_exons_d[['regionMatrix.1.edgeR']]
 case_result_exons_one[['regionMatrix.1.edgeR']]
-case_result_exons_d_one[['regionMatrix.1.edgeR']]
 ```
 
 Next we show the same tables but in percent of the total reference set units.
 
 ```{r 'regionMatrix.1.edgeR.percent'}
 ## Now in percent
-round(case_result_trans[['regionMatrix.1.edgeR']] /
-    case_result_trans[['regionMatrix.1.edgeR']][6, 5] * 100, 2)
-round(case_result_trans_c[['regionMatrix.1.edgeR']] /
-    case_result_trans_c[['regionMatrix.1.edgeR']][6, 5] * 100, 2)
 round(case_result_exons[['regionMatrix.1.edgeR']] /
     case_result_exons[['regionMatrix.1.edgeR']][6, 5] * 100, 2)
-round(case_result_exons_d[['regionMatrix.1.edgeR']] /
-    case_result_exons_d[['regionMatrix.1.edgeR']][6, 5] * 100, 2)
 round(case_result_exons_one[['regionMatrix.1.edgeR']] /
     case_result_exons_one[['regionMatrix.1.edgeR']][6, 5] * 100, 2)
-round(case_result_exons_d_one[['regionMatrix.1.edgeR']] /
-    case_result_exons_d_one[['regionMatrix.1.edgeR']][6, 5] * 100, 2)
 ```
 
-The transcript level sets have much higher false positives than the exon level sets, however, the exon level sets have increase false negatives. In both the exons and disjoint exon segments reference sets, most of the false negatives are from the `someDE` scenario. Those are ambiguous cases and it's the main reason why the power is decreased when using these reference sets. Note how the percent of total reference units from the `someDE` case that result in false negatives decreases from `r round(case_result_exons[['regionMatrix.1.edgeR']] / case_result_exons[['regionMatrix.1.edgeR']][6, 5] * 100, 2)[5, 1]` to `r round(case_result_exons_d[['regionMatrix.1.edgeR']] / case_result_exons_d[['regionMatrix.1.edgeR']][6, 5] * 100, 2)[5, 1]` between the exons set that does not take into account multiplicity and the disjoint exons set.
-
-The percent of false negatives is further decreased on the exon and disjoint exon segment sets subsetted to those that overlap only 1 transcript. That is, the reference units where there is no ambiguity in terms of the the assignment of the DE status.
+In both the exons reference set, most of the false negatives are from the `someDE` scenario. Those are ambiguous cases and it's the main reason why the power is decreased when using this reference set. Note how the percent of total reference units from the `someDE` case that result in false negatives decreases from `r round(case_result_exons[['regionMatrix.1.edgeR']] / case_result_exons[['regionMatrix.1.edgeR']][6, 5] * 100, 2)[5, 1]` to `r round(case_result_exons_one[['regionMatrix.1.edgeR']] / case_result_exons_one[['regionMatrix.1.edgeR']][6, 5] * 100, 2)[5, 1]` between the exons set that does not take into account multiplicity and the subset of exons overlapping only 1 transcript.
 
 ```{r 'saveResults', echo = FALSE}
 ## Calculate summaries
-empirical_trans_sum <- emp_sum(empirical_trans)
-empirical_trans_c_sum <- emp_sum(empirical_trans_c)
 empirical_exons_sum <- emp_sum(empirical_exons)
-empirical_exons_d_sum <- emp_sum(empirical_exons_d)
 empirical_exons_one_sum <- emp_sum(empirical_exons_one)
-empirical_exons_d_one_sum <- emp_sum(empirical_exons_d_one)
 
 ## Save results
-save(tables_trans, empirical_trans, empirical_trans_sum, case_result_trans, file = 'results-trans.Rdata')
-save(tables_trans_c, empirical_trans_c, empirical_trans_c_sum, case_result_trans_c, file = 'results-trans_c.Rdata')
 save(tables_exons, empirical_exons, empirical_exons_sum, case_result_exons, file = 'results-exons.Rdata')
-save(tables_exons_d, empirical_exons_d, empirical_exons_d_sum, case_result_exons_d, file = 'results-exons_d.Rdata')
 save(tables_exons_one, empirical_exons_one, empirical_exons_one_sum, case_result_exons_one, file = 'results-exons_one.Rdata')
-save(tables_exons_d_one, empirical_exons_d_one, empirical_exons_d_one_sum, case_result_exons_d_one, file = 'results-exons_d_one.Rdata')
 ```
 
 
