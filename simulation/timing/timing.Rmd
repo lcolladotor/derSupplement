@@ -1,0 +1,287 @@
+---
+output:
+  knitrBootstrap::bootstrap_document:
+    theme.chooser: TRUE
+    highlight.chooser: TRUE
+---
+
+Timing information
+==================
+
+```{r citationsSetup, echo=FALSE, message=FALSE, warning=FALSE, bootstrap.show.code=FALSE}
+## Track time spent on making the report
+startTime <- Sys.time()
+
+## Bib setup
+library('knitcitations')
+
+## Load knitcitations with a clean bibliography
+cleanbib()
+cite_options(hyperlink = 'to.doc', citation_format = 'text', style = 'html')
+# Note links won't show for now due to the following issue
+# https://github.com/cboettig/knitcitations/issues/63
+
+bibs <- c("knitcitations" = citation("knitcitations"),
+    "derfinder" = citation("derfinder"),
+    "GenomicRanges" = citation("GenomicRanges"),
+    "DESeq2" = citation("DESeq2"),
+    'edgeR' = citation('edgeR')[5],
+    "rCharts" = citation("rCharts"),
+    "ggplot2" = citation("ggplot2"),
+    "knitrBootstrap" = citation("knitrBootstrap"),
+    'rmarkdown' = citation('rmarkdown'),
+    'knitr' = citation('knitr')[3],
+    'eff' = RefManageR::BibEntry('manual', key = 'eff', title = 'Efficiency analysis of Sun Grid Engine batch jobs', author = 'Alyssa Frazee', year = 2014, url = 'http://dx.doi.org/10.6084/m9.figshare.878000'),
+    'rail' = RefManageR::BibEntry('article', key = 'rail', author = 'Abhinav Nellore and Leonardo Collado-Torres and Andrew E. Jaffe and José Alquicira-Hernández and Jacob Pritt and James Morton and Jeffrey T. Leek  and Ben Langmead', journal = 'bioRxiv', year = '2015', title = 'Rail-RNA: {Scalable} analysis of {RNA}-seq splicing and coverage'),
+    'stringtie' = RefManageR::BibEntry('article', key = 'stringtie', author = ' Mihaela Pertea and Geo M. Pertea and Corina M. Antonescu and Tsung-Cheng Chang and Joshua T. Mendell and Steven L. Salzberg', journal = 'Nature Biotechnology', year = '2015', title = 'StringTie enables improved reconstruction of a transcriptome from RNA-seq reads'),
+    'hisat' = RefManageR::BibEntry('article', key = 'hisat', author = 'Daehwan Kim and Ben Langmead and Steven L Salzberg', journal = 'Nature Methods', year = '2015', title = 'HISAT: a fast spliced aligner with low memory requirements'),
+    'ballgown' = RefManageR::BibEntry('article', key = 'ballgown', author = 'Alyssa C. Frazee and Geo Pertea and Andrew E. Jaffe and Ben Langmead and Steven L. Salzberg  and Jeffrey T. Leek', journal = 'Nature Biotechnology', year = '2015', title = 'Ballgown bridges the gap between transcriptome assembly and expression analysis'))
+    
+write.bibtex(bibs, file = 'timing.bib')
+bib <- read.bibtex('timing.bib')
+
+## Assign short names
+names(bib) <- names(bibs)
+```
+
+
+This report shows the time and memory used to all the simulation pipelines. These include running `derfinder` via `regionMatrix()` and `railMatrix()` from `HISAT` `r citep(bib[['hisat']])` and `Rail-RNA` `r citep(bib[['rail']])` output respectively and performing the statistical tests with `DESeq2` `r citep(bib[['DESeq2']])` and `edgeR`-robust `r citep(bib[['edger']])`. We also used `ballgown` `r citep(bib[['ballgown']])` for exon and transcript level tests using data summarized by `StringTie` `r citep(bib[['stringtie']])` from the `HISAT` alignments.
+
+# Results
+
+```{r 'effanalytics', eval = FALSE, bootstrap.show.code = FALSE, boostrap.show.output = FALSE}
+## Extract information from Gmail
+system('cp ../../efficiency_analytics/client_secrets .')
+system('python ../../efficiency_analytics/analyze_efficiency.py --email fellgernon@gmail.com --folder "Cluster/derSupp" --outfile timing-derSupp.txt')
+```
+
+```{r loadLibs, bootstrap.show.code=FALSE, warning = FALSE}
+## Load libraries
+library("ggplot2")
+library("knitr")
+```
+
+
+```{r process, bootstrap.show.code=FALSE}
+## Setup
+
+## Read data and process it
+all <- read.table('timing-derSupp.txt', header = TRUE, stringsAsFactors = FALSE)
+all$software <- NA
+all$software[grepl('^bg-', all$jobid)] <- 'Ballgown'
+all$software[grepl('stats-', all$jobid)] <- 'DESeq2 & edgeR'
+all$software[grepl('hisat', all$jobid)] <- 'HISAT'
+all$software[grepl('make-railMat', all$jobid)] <- 'derfinder'
+all$software[grepl('make-regMat', all$jobid)] <- 'derfinder'
+all$software[grepl('rail-prep', all$jobid)] <- 'Rail-RNA'
+all$software[grepl('rail-align', all$jobid)] <- 'Rail-RNA'
+all$software[grepl('bg-no-assembly', all$jobid)] <- 'StringTie'
+all$software[grepl('featCounts', all$jobid)] <- 'featureCounts'
+all$software[grepl('genReads', all$jobid)] <- 'polyester'
+
+## Remove unused data
+all <- all[!is.na(all$software), ]
+
+## Add replicate info
+all$Replicate <- NA
+all$Replicate[grepl('R1', all$jobid)] <- '1'
+all$Replicate[grepl('R2', all$jobid)] <- '2'
+all$Replicate[grepl('R3', all$jobid)] <- '3'
+
+## Add memory info
+all$memG <- all$memory
+all$memG[all$memunit == "M"] <- all$memG[all$memunit == "M"] / 1024
+
+## Cores info
+all$cores <- 1L
+all$cores[all$software %in% c('featureCounts', 'StringTie', 'HISAT')] <- 4L
+all$cores[grepl('make-regMat', all$jobid)] <- 4L
+all$cores[all$software == 'Rail-RNA'] <- 10L
+
+
+all$timeByCore <- all$walltime * all$cores
+all$memByCore <- all$memG / all$cores
+
+
+## Types of analysis
+all$analysis <- factor(ifelse(all$software %in% c('HISAT'), 'Align', ifelse(all$software %in% c('StringTie', 'featureCounts', 'derfinder'), 'Summarize', ifelse(all$software %in% c('Ballgown', 'DESeq2 & edgeR'), 'Statistical tests', ifelse(all$software == 'polyester', 'Simulate reads', ifelse(grepl('rail-prep', all$jobid) & all$software == 'Rail-RNA', 'Align prep', 'Align'))))))
+
+all$experiment <- 'Simulation'
+```
+
+
+## Adjusting by number of cores
+
+The following plots show the wall time and memory used by each job while taking into account the number of cores used by each job. Note that doing so is a crude approximation of how much time and memory each job would have needed had it ran on a single node.
+
+Points are colored by the software used with shapes given by the analysis step.
+
+```{r edaAnalysis, fig.width=10, bootstrap.show.code=FALSE}
+## Walltime and memory adjusted by number of cores (it's an approximation)
+ggplot(all, aes(x=timeByCore, y=memByCore, colour=software, shape=analysis)) + geom_point(size = 3) + xlab("Wall time (hrs) multiplied by the number of cores") + ylab("Memory (GB) divided by the number of cores") + scale_colour_brewer(palette="Dark2") + theme_bw(base_size = 18) + theme(legend.position=c(.65, .35))
+time <- ggplot(all, aes(x=log2(timeByCore), y=memByCore, colour=software, shape=analysis)) + geom_point(size = 3) + xlab("Wall time (hrs) multiplied by the number of cores (log2)") + ylab("Memory (GB) divided by the number of cores") + scale_colour_brewer(palette="Dark2") + theme_bw(base_size = 18) + theme(legend.position=c(.25, .65))
+
+## For supp text
+time
+pdf(file = 'time.pdf', width = 10)
+time
+dev.off()
+#system('open time.pdf')
+```
+
+
+## Resources by step for each analysis
+
+```{r 'analysisSummary', bootstrap.show.code=FALSE}
+getInfo <- function(df, sumTime = FALSE, peakCores = FALSE) {
+    memByCore <- max(df$memByCore)
+    walltime <- ifelse(sumTime, sum(df$walltime), max(df$walltime)) * 60
+    memG <- max(df$memG)
+    peakCores <- ifelse(peakCores, max(df$peakCores), sum(df$cores))
+    res <- c(memByCore = memByCore, walltime = walltime, memG = memG, peakCores = peakCores)
+    return(res)
+}
+
+analysisInfo <- list(
+    'Expressed-regions (Rail-RNA)' = grepl('make-railMat|stats-railMatrix', all$jobid) | all$software == 'Rail-RNA',
+    'Expressed-regions (HISAT)' = grepl('make-regMat|stats-regionMatrix', all$jobid) | all$software == 'HISAT',
+    'Feature counts' = grepl('stats-featCount', all$jobid) | all$software %in% c('HISAT', 'featureCounts'),
+    'Ballgown' = all$software %in% c('HISAT', 'Ballgown', 'StringTie')
+)
+
+## Summarize the information for each step of each analysis
+analysisSummary <- lapply(names(analysisInfo), function(pipeline) {
+    current <- all[analysisInfo[[pipeline]], ]
+    res_pipeline <- lapply(c('1', '2', '3'), function(rep) {
+        use <- subset(current, Replicate == rep)
+        if(nrow(use) == 0) return(NULL)
+        res_rep <- lapply(unique(use$analysis), function(analysis) {
+            res_step <- as.data.frame(t(getInfo(use[use$analysis == analysis, ], sumTime = TRUE)))
+            res_step$analysis <- analysis
+            res_step$Replicate <- rep
+            res_step$Pipeline <- pipeline
+            return(res_step)
+        })
+        res_rep <- do.call(rbind, res_rep)
+        return(res_rep)
+    })
+    res_pipeline <- do.call(rbind, res_pipeline)
+    return(res_pipeline)
+})
+analysisSummary <- do.call(rbind, analysisSummary)
+```
+
+The table shown below shows per analysis the maximum memory used by a job and  the total wall time (in minutes) for that step assuming jobs ran sequentially. This table can be useful to find the peak number of cores (the sum of cores for all jobs running simultaneously) for a given analysis step.
+
+```{r 'analysisSumTab', results = 'asis', bootstrap.show.code=FALSE}
+kable(analysisSummary, format = 'html', digits = c(2, 2, 2))
+```
+
+## Resources for each analysis
+
+```{r 'peakSummary', bootstrap.show.code=FALSE}
+getRange_helper <- function(x) { 
+    x <- round(range(x), digits = 1)
+    paste0('(', x[1], '-', x[2], ')')
+}
+getRange <- function(df) {
+    data.frame(
+        memByCore = getRange_helper(df$memByCore),
+        walltime = getRange_helper(df$walltime),
+        memG = getRange_helper(df$memG),
+        peakCores = max(df$peakCores)
+    )
+}
+
+## Summary the information for each analysis
+peaks <- lapply(names(analysisInfo), function(pipeline) {
+    res_pipeline <- lapply(unique(analysisSummary$analysis), function(analysis) {
+        current <- analysisSummary[analysisSummary$analysis == analysis & analysisSummary$Pipeline == pipeline, ]
+        if(nrow(current) == 0) return(NULL)
+        res_analysis <- getRange(current)
+        res_analysis$Pipeline <- pipeline
+        res_analysis$Analysis <- analysis
+        return(res_analysis)
+    })
+    res_pipeline <- do.call(rbind, res_pipeline)
+    return(res_pipeline)
+})
+peaks <- do.call(rbind, peaks)
+
+peaks$Pipeline[peaks$Pipeline == 'Ballgown' & peaks$Analysis == 'Align'] <- 'HISAT: ERs, FeatureCounts, Ballgown'
+peaks <- peaks[-which(peaks$Pipeline %in% c('Expressed-regions (HISAT)', 'Feature counts') & peaks$Analysis == 'Align'), ]
+
+
+save(peaks, file = 'peaks.Rdata')
+```
+
+We can further summarize the resources used by each analysis by identified the maximum memory used in the steps required for a particular analysis and the total wall time (in minutes) for running all the steps when all the jobs of a particular step are running simultaneously. Thus giving us the total actual wall time to run a specific analysis and the maximum memory required.
+
+The table below shows the final summary with the range (minimum, maximum) for the three simulation replicates.
+
+```{r 'peakSumTab', bootstrap.show.code=FALSE, results = 'asis'}
+kable(peaks, format = 'html', row.names = FALSE)
+```
+
+
+# Details
+
+The following table shows the details of the resources used by the different jobs. It shows the analysis step (_analysis_), the simulation replicate (_Replicate_), wall time used (shown in minutes, _walltime_), number of cores used (_cores_), memory in GB used (_memG_), software used (_software_) and the job name (_jobib_). Furthermore, it shows two simple approximations:
+
+* _timeByCore_ is the wall time (in hours) multiplied by the number of cores used. It is a very simple approximation for the wall time used had the job been ran on a single node. This approximation is known to be false, but it gives a basic idea.
+* _memByCore_ is the memory (in GB) divided by the number of cores used. It is an approximation for the memory used had the job been ran on a single node. 
+
+
+<link rel="stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css" />
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
+
+```{r tables, results="asis", bootstrap.show.code=FALSE}
+library("rCharts")
+library("data.table")
+
+## Print whole table
+all$walltime <- all$walltime * 60
+d <- data.table(all[, c("analysis", "Replicate", "walltime", "cores", "memG", "timeByCore", "memByCore", "software", "analysis", "jobid")])
+t1 <- dTable(d, sPaginationType='full_numbers', iDisplayLength=50, sScrollX='100%')
+t1$print("timing", cdn=TRUE)
+```
+<br/>
+
+Table made using `rCharts` `r citep(bib[["rCharts"]])`.
+
+# Reproducibility
+
+Date the report was generated.
+
+```{r reproducibility1, echo=FALSE, bootstrap.show.code=FALSE}
+## Date the report was generated
+Sys.time()
+```
+
+Wallclock time spent generating the report.
+
+```{r "reproducibility2", echo=FALSE, bootstrap.show.code=FALSE}
+## Processing time in seconds
+totalTime <- diff(c(startTime, Sys.time()))
+round(totalTime, digits=3)
+```
+
+`R` session information.
+
+```{r "reproducibility3", echo=FALSE, bootstrap.show.code=FALSE, bootstrap.show.message=FALSE}
+## Session info
+options(width=120)
+devtools::session_info()
+```
+
+# Bibliography
+
+This report was generated using `knitrBootstrap` `r citep(bib[['knitrBootstrap']])`
+with `knitr` `r citep(bib[['knitr']])` and `rmarkdown` `r citep(bib[['rmarkdown']])` running behind the scenes.  Timing information extracted from the SGE reports using `efficiency analytics` `r citep(bib[["eff"]])`. Figures and citations were made using `ggplot2` `r citep(bib[["ggplot2"]])` and  `knitcitations` `r citep(bib[['knitcitations']])` respectively.
+
+Citation file: [timing.bib](timing.bib)
+
+```{r vignetteBiblio, results = 'asis', echo = FALSE, warning = FALSE}
+## Print bibliography
+bibliography()
+```
