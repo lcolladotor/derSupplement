@@ -143,7 +143,7 @@ Here we list the role of different scripts.
 
 ## Evaluating results
 
-The report [evaluate](simulation/evaluate/evaluate.html) (source [evaluate.Rmd](simulation/evaluate/evaluate.Rmd)) defines different reference sets one could consider. It then takes the results from all the different pipelines and compares them against these reference sets. The report includes summary tables from these results showing the minimum and maximum empirical power, false positive rate and false discovery rate. The main results are highlighted in the paper.
+The report [evaluate](simulation/evaluate/evaluate.html) (source [evaluate.Rmd](simulation/evaluate/evaluate.Rmd)) defines different reference sets one could consider. It then takes the results from all the different pipelines and compares them against these reference sets. The report includes summary tables from these results showing the minimum and maximum empirical power, false positive rate and false discovery rate. The main results are highlighted in the paper. Finally [timing](simulation/timing/timing.html) (source [timing.Rmd](simulation/timing/timing.Rmd)) shows information about the timing and computer resources used by the different pipelines for the simulation analysis.
 
 
 
