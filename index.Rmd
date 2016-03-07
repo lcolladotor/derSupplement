@@ -164,7 +164,7 @@ The code used for generating the panels using in the figure showing the single-b
 
 The following `R` source files have the code for reproducing additional analyses described in the paper
 
-* [brainspan_regionLevel.R](additional-analyses/brainspan_regionLevel.R) Analysis of BrainSpan expressed-regions level DERs.
+* [analyze_brainspan.R](additional-analyses/analyze_brainspan.R) and [brainspan_regionLevel.R](additional-analyses/brainspan_regionLevel.R) are the scripts containing the analysis of BrainSpan expressed-regions level DERs.
 * [characterize_brainspan_DERs.R](additional-analyses/characterize_brainspan_DERs.R) Analysis of BrainSpan single-base level DERs.
 
 These scripts also include other exploratory code.
