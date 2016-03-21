@@ -52,15 +52,15 @@ This section of the website describes the code and reports associated with the B
 ## Code to reproduce analyses
 
 
-There are 9 main `bash` scripts named _step1-*_ through _step9-*_ for running the expressed-regions and single-base level approaches. 
+There are 9 main `bash` scripts named _step1-*_ through _step9-*_ for running the expressed regions-level and single base-level approaches. 
 
 1. _fullCoverage_ loads the data from the raw files. See [step1-fullCoverage.sh](step1-fullCoverage.sh) and [step1-fullCoverage.R](step1-fullCoverage.R).
 1. _makeModels_ creates the models used for the single-level base analysis.  See [step2-makeModels.sh](step2-makeModels.sh) and [step2-makeModels.R](step2-makeModels.R).
-1. _analyzeChr_ runs the single-base level analysis by chromosome.  See [step3-analyzeChr.sh](step3-analyzeChr.sh) and [step3-analyzeChr.R](step3-analyzeChr.R).
-1. _mergeResults_ merges the single-base level analysis results for all the chromosomes. See [step4-mergeResults.sh](step4-mergeResults.sh).
-1. _derfinderReport_ generates a HTML report for the single-base level DERs. See [step5-derfinderReport.sh](step5-derfinderReport.sh).
+1. _analyzeChr_ runs the single base-level analysis by chromosome.  See [step3-analyzeChr.sh](step3-analyzeChr.sh) and [step3-analyzeChr.R](step3-analyzeChr.R).
+1. _mergeResults_ merges the single base-level analysis results for all the chromosomes. See [step4-mergeResults.sh](step4-mergeResults.sh).
+1. _derfinderReport_ generates a HTML report for the single base-level DERs. See [step5-derfinderReport.sh](step5-derfinderReport.sh).
 1. _regionMatrix_ identifies the expressed regions for the expressed-regions level approach. See [step6-regionMatrix.sh](step6-regionMatrix.sh).
-1. _regMatVsDERs_ creates a simple HTML report comparing the single-base and expressed-regions approaches. See [step7-regMatVsDERs.sh](step7-regMatVsDERs.sh) and [step7-regMatVsDERs.Rmd](step7-regMatVsDERs.Rmd).
+1. _regMatVsDERs_ creates a simple HTML report comparing the single base-level and expressed regions-level approaches. See [step7-regMatVsDERs.sh](step7-regMatVsDERs.sh) and [step7-regMatVsDERs.Rmd](step7-regMatVsDERs.Rmd).
 1. _coverageToExon_ creates an exon count table using known annotation information. See [step8-coverageToExon.sh](step8-coverageToExon.sh) and [step8-coverageToExon.R](step8-coverageToExon.R).
 1. _summaryInfo_ creates a HTML report with brief summary information for the given experiment. See [step9-summaryInfo.sh](step9-summaryInfo.sh), [step9-summaryInfo.R](step9-summaryInfo.R), and [step9-summaryInfo.Rmd](step9-summaryInfo.Rmd).
 
@@ -75,13 +75,13 @@ The [check-analysis-time.R](check-analysis-time.R) script was useful for checkin
 
 
 
-We expect that these scripts will be useful to `derfinder` users who want to automate the single-base level and/or expressed-regions level analyses for several data sets and/or have the jobs run automatically without having to check if each step has finished running.
+We expect that these scripts will be useful to `derfinder` users who want to automate the single base-level and/or expressed regions-level analyses for several data sets and/or have the jobs run automatically without having to check if each step has finished running.
 
 
 Note that all `bash` scripts are tailored for the cluster we have access to which administer job queues with Sun Grid Engine (SGE).
 
 
-## Single-base level
+## Single base-level
 
 ### Quick overview HTML report
 
@@ -91,13 +91,13 @@ This HTML report contains basic information on the `derfinder` `r citep(bib[["de
 * What is the number of candidate regions?
 * How many candidate regions are significant?
 
-It also illustrates three clusters of candidate differentially expressed regions (DERs) from the single-base level analysis. You can view the report by following this link:
+It also illustrates three clusters of candidate differentially expressed regions (DERs) from the single base-level analysis. You can view the report by following this link:
 
 * [BrainSpan](brainspan/summaryInfo/run4-v1.0.10/summaryInfo.html)
 
 ### CSV files and annotation comparison
 
-This HTML report has the code for loading the R data files and generating the CSV files. The report also has Venn diagrams showing the number of candidate DERs from the single-base level analysis that overlap known exons, introns and intergenic regions using the UCSC hg19 annotation. It also includes a detailed description of the columns in the CSV file.
+This HTML report has the code for loading the R data files and generating the CSV files. The report also has Venn diagrams showing the number of candidate DERs from the single base-level analysis that overlap known exons, introns and intergenic regions using the UCSC hg19 annotation. It also includes a detailed description of the columns in the CSV file.
 
 View the [venn](venn/venn.html) report or its `R Markdown` source file [venn.Rmd](venn/venn.Rmd). 
 
@@ -124,7 +124,7 @@ The code for generating the simulated RNA-seq reads and the chosen setup is desc
 
 We analyzed the simulation reads with the following pipelines:
 
-* Align with `HISAT` `r citep(bib[['hisat']])`, summarize with `Rsubread::featureCounts()` at the exon level with and without the complete annotation, identify differentially expressed exons with `DESeq2` `r citep(bib[['DESeq2']])` or `edgeR`-robust `r citep(bib[['edgeR']])`.
+* Align with `HISAT` `r citep(bib[['hisat']])`, summarize with `Rsubread::featureCounts()` at the exon-level with and without the complete annotation, identify differentially expressed exons with `DESeq2` `r citep(bib[['DESeq2']])` or `edgeR`-robust `r citep(bib[['edgeR']])`.
 * Align with `HISAT`, summarize transcripts with `StringTie` `r citep(bib[['stringtie']])`, and test at the transcript and exon levels with `ballgown`.
 * Align with `HISAT`, summarize with `derfinder::regionMatrix()`, and test with `DESeq2` or `edgeR`-robust.
 * Align with `Rail-RNA` `r citep(bib[['rail']])`, summarize with `derfinder::railMatrix()`, and test with `DESeq2` or `edgeR`-robust.
@@ -151,21 +151,21 @@ The report [evaluate](simulation/evaluate/evaluate.html) (source [evaluate.Rmd](
 
 # Miscellaneous
 
-## Expressed-regions overview figure
+## Expressed regions-level overview figure
 
-The code used for generating the panels using in figure showing the expressed-regions levle approach is available in the [figure-expressed-regions.R](figure-expressed-regions/figure-expressed-regions.R) file.
+The code used for generating the panels using in figure showing the expressed regions-level approach is available in the [figure-expressed-regions.R](figure-expressed-regions/figure-expressed-regions.R) file.
 
 
-## Single-base overview figure
+## Single base-level overview figure
 
-The code used for generating the panels using in the figure showing the single-base levle approach is available in the [figure-single-base.R](figure-single-base/figure-single-base.R) file.
+The code used for generating the panels using in the figure showing the single base-level approach is available in the [figure-single-base.R](figure-single-base/figure-single-base.R) file.
 
 ## Additional analyses
 
 The following `R` source files have the code for reproducing additional analyses described in the paper
 
-* [analyze_brainspan.R](additional-analyses/analyze_brainspan.R) and [brainspan_regionLevel.R](additional-analyses/brainspan_regionLevel.R) are the scripts containing the analysis of BrainSpan expressed-regions level DERs.
-* [characterize_brainspan_DERs.R](additional-analyses/characterize_brainspan_DERs.R) Analysis of BrainSpan single-base level DERs.
+* [analyze_brainspan.R](additional-analyses/analyze_brainspan.R) and [brainspan_regionLevel.R](additional-analyses/brainspan_regionLevel.R) are the scripts containing the analysis of BrainSpan expressed regions-level DERs.
+* [characterize_brainspan_DERs.R](additional-analyses/characterize_brainspan_DERs.R) Analysis of BrainSpan single base-level DERs.
 
 These scripts also include other exploratory code.
 

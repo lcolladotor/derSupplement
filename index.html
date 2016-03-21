@@ -10,6 +10,7 @@
 
 <meta name="author" content="L Collado-Torres" />
 
+<meta name="date" content="2016-03-21" />
 
 <title>derfinder software paper Supplementary Website</title>
 
@@ -50,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <div id="header">
 <h1 class="title">derfinder software paper Supplementary Website</h1>
 <h4 class="author"><em>L Collado-Torres</em></h4>
-<h4 class="date"><em>7 March 2016</em></h4>
+<h4 class="date"><em>21 March 2016</em></h4>
 </div>
 
 <h1>Contents</h1>
@@ -58,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <ul>
 <li><a href="#brainspan-data-set"><span class="toc-section-number">1</span> BrainSpan data set</a><ul>
 <li><a href="#code-to-reproduce-analyses"><span class="toc-section-number">1.1</span> Code to reproduce analyses</a></li>
-<li><a href="#single-base-level"><span class="toc-section-number">1.2</span> Single-base level</a><ul>
+<li><a href="#single-base-level"><span class="toc-section-number">1.2</span> Single base-level</a><ul>
 <li><a href="#quick-overview-html-report"><span class="toc-section-number">1.2.1</span> Quick overview HTML report</a></li>
 <li><a href="#csv-files-and-annotation-comparison"><span class="toc-section-number">1.2.2</span> CSV files and annotation comparison</a></li>
 </ul></li>
@@ -71,8 +72,8 @@ document.addEventListener("DOMContentLoaded", function() {
 <li><a href="#evaluating-results"><span class="toc-section-number">3.3</span> Evaluating results</a></li>
 </ul></li>
 <li><a href="#miscellaneous"><span class="toc-section-number">4</span> Miscellaneous</a><ul>
-<li><a href="#expressed-regions-overview-figure"><span class="toc-section-number">4.1</span> Expressed-regions overview figure</a></li>
-<li><a href="#single-base-overview-figure"><span class="toc-section-number">4.2</span> Single-base overview figure</a></li>
+<li><a href="#expressed-regions-level-overview-figure"><span class="toc-section-number">4.1</span> Expressed regions-level overview figure</a></li>
+<li><a href="#single-base-level-overview-figure"><span class="toc-section-number">4.2</span> Single base-level overview figure</a></li>
 <li><a href="#additional-analyses"><span class="toc-section-number">4.3</span> Additional analyses</a></li>
 </ul></li>
 <li><a href="#reproducibility"><span class="toc-section-number">5</span> Reproducibility</a></li>
@@ -86,26 +87,26 @@ document.addEventListener("DOMContentLoaded", function() {
 <p>This section of the website describes the code and reports associated with the BrainSpan data set that are referred to in the paper and Supplementary Methods and Results.</p>
 <div id="code-to-reproduce-analyses" class="section level2">
 <h2><span class="header-section-number">1.1</span> Code to reproduce analyses</h2>
-<p>There are 9 main <code>bash</code> scripts named _step1-*_ through _step9-*_ for running the expressed-regions and single-base level approaches.</p>
+<p>There are 9 main <code>bash</code> scripts named _step1-*_ through _step9-*_ for running the expressed regions-level and single base-level approaches.</p>
 <ol style="list-style-type: decimal">
 <li><em>fullCoverage</em> loads the data from the raw files. See <a href="step1-fullCoverage.sh" class="uri">step1-fullCoverage.sh</a> and <a href="step1-fullCoverage.R" class="uri">step1-fullCoverage.R</a>.</li>
 <li><em>makeModels</em> creates the models used for the single-level base analysis. See <a href="step2-makeModels.sh" class="uri">step2-makeModels.sh</a> and <a href="step2-makeModels.R" class="uri">step2-makeModels.R</a>.</li>
-<li><em>analyzeChr</em> runs the single-base level analysis by chromosome. See <a href="step3-analyzeChr.sh" class="uri">step3-analyzeChr.sh</a> and <a href="step3-analyzeChr.R" class="uri">step3-analyzeChr.R</a>.</li>
-<li><em>mergeResults</em> merges the single-base level analysis results for all the chromosomes. See <a href="step4-mergeResults.sh" class="uri">step4-mergeResults.sh</a>.</li>
-<li><em>derfinderReport</em> generates a HTML report for the single-base level DERs. See <a href="step5-derfinderReport.sh" class="uri">step5-derfinderReport.sh</a>.</li>
+<li><em>analyzeChr</em> runs the single base-level analysis by chromosome. See <a href="step3-analyzeChr.sh" class="uri">step3-analyzeChr.sh</a> and <a href="step3-analyzeChr.R" class="uri">step3-analyzeChr.R</a>.</li>
+<li><em>mergeResults</em> merges the single base-level analysis results for all the chromosomes. See <a href="step4-mergeResults.sh" class="uri">step4-mergeResults.sh</a>.</li>
+<li><em>derfinderReport</em> generates a HTML report for the single base-level DERs. See <a href="step5-derfinderReport.sh" class="uri">step5-derfinderReport.sh</a>.</li>
 <li><em>regionMatrix</em> identifies the expressed regions for the expressed-regions level approach. See <a href="step6-regionMatrix.sh" class="uri">step6-regionMatrix.sh</a>.</li>
-<li><em>regMatVsDERs</em> creates a simple HTML report comparing the single-base and expressed-regions approaches. See <a href="step7-regMatVsDERs.sh" class="uri">step7-regMatVsDERs.sh</a> and <a href="step7-regMatVsDERs.Rmd" class="uri">step7-regMatVsDERs.Rmd</a>.</li>
+<li><em>regMatVsDERs</em> creates a simple HTML report comparing the single base-level and expressed regions-level approaches. See <a href="step7-regMatVsDERs.sh" class="uri">step7-regMatVsDERs.sh</a> and <a href="step7-regMatVsDERs.Rmd" class="uri">step7-regMatVsDERs.Rmd</a>.</li>
 <li><em>coverageToExon</em> creates an exon count table using known annotation information. See <a href="step8-coverageToExon.sh" class="uri">step8-coverageToExon.sh</a> and <a href="step8-coverageToExon.R" class="uri">step8-coverageToExon.R</a>.</li>
 <li><em>summaryInfo</em> creates a HTML report with brief summary information for the given experiment. See <a href="step9-summaryInfo.sh" class="uri">step9-summaryInfo.sh</a>, <a href="step9-summaryInfo.R" class="uri">step9-summaryInfo.R</a>, and <a href="step9-summaryInfo.Rmd" class="uri">step9-summaryInfo.Rmd</a>.</li>
 </ol>
 <p>A final <code>bash</code> script, <a href="run-all.sh" class="uri">run-all.sh</a>, can be used to run the main 9 steps (or a subset of them).</p>
 <p>All scripts show at the beginning the way they were used. Some of them generate intermediate small <code>bash</code> scripts, for example one script per chromosome for the <em>analyzeChr</em> step. For some steps, there is a companion <code>R</code> or <code>R Markdown</code> code file when the code is more involved or an HTML file is generated in the particular step.</p>
 <p>The <a href="check-analysis-time.R" class="uri">check-analysis-time.R</a> script was useful for checking the progress of the <em>step3-analyzeChr</em> jobs and detect whenever a node in the cluster was presenting problems.</p>
-<p>We expect that these scripts will be useful to <code>derfinder</code> users who want to automate the single-base level and/or expressed-regions level analyses for several data sets and/or have the jobs run automatically without having to check if each step has finished running.</p>
+<p>We expect that these scripts will be useful to <code>derfinder</code> users who want to automate the single base-level and/or expressed regions-level analyses for several data sets and/or have the jobs run automatically without having to check if each step has finished running.</p>
 <p>Note that all <code>bash</code> scripts are tailored for the cluster we have access to which administer job queues with Sun Grid Engine (SGE).</p>
 </div>
 <div id="single-base-level" class="section level2">
-<h2><span class="header-section-number">1.2</span> Single-base level</h2>
+<h2><span class="header-section-number">1.2</span> Single base-level</h2>
 <div id="quick-overview-html-report" class="section level3">
 <h3><span class="header-section-number">1.2.1</span> Quick overview HTML report</h3>
 <p>This HTML report contains basic information on the <code>derfinder</code> <a id="cite-derfinder"></a>(<a href="http://www.biorxiv.org/content/early/2015/02/19/015370.abstract">Collado-Torres, Frazee, Love, Irizarry, et al., 2015</a>) results from the <em>BrainSpan</em> data set. The report answers basic questions such as:</p>
@@ -114,14 +115,14 @@ document.addEventListener("DOMContentLoaded", function() {
 <li>What is the number of candidate regions?</li>
 <li>How many candidate regions are significant?</li>
 </ul>
-<p>It also illustrates three clusters of candidate differentially expressed regions (DERs) from the single-base level analysis. You can view the report by following this link:</p>
+<p>It also illustrates three clusters of candidate differentially expressed regions (DERs) from the single base-level analysis. You can view the report by following this link:</p>
 <ul>
 <li><a href="brainspan/summaryInfo/run4-v1.0.10/summaryInfo.html">BrainSpan</a></li>
 </ul>
 </div>
 <div id="csv-files-and-annotation-comparison" class="section level3">
 <h3><span class="header-section-number">1.2.2</span> CSV files and annotation comparison</h3>
-<p>This HTML report has the code for loading the R data files and generating the CSV files. The report also has Venn diagrams showing the number of candidate DERs from the single-base level analysis that overlap known exons, introns and intergenic regions using the UCSC hg19 annotation. It also includes a detailed description of the columns in the CSV file.</p>
+<p>This HTML report has the code for loading the R data files and generating the CSV files. The report also has Venn diagrams showing the number of candidate DERs from the single base-level analysis that overlap known exons, introns and intergenic regions using the UCSC hg19 annotation. It also includes a detailed description of the columns in the CSV file.</p>
 <p>View the <a href="venn/venn.html">venn</a> report or its <code>R Markdown</code> source file <a href="venn/venn.Rmd">venn.Rmd</a>.</p>
 </div>
 </div>
@@ -145,7 +146,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <h2><span class="header-section-number">3.2</span> Processing reads</h2>
 <p>We analyzed the simulation reads with the following pipelines:</p>
 <ul>
-<li>Align with <code>HISAT</code> <a id="cite-hisat"></a>(<a href="#bib-hisat">Kim, Langmead, and Salzberg, 2015</a>), summarize with <code>Rsubread::featureCounts()</code> at the exon level with and without the complete annotation, identify differentially expressed exons with <code>DESeq2</code> <a id="cite-DESeq2"></a>(<a href="http://dx.doi.org/10.1186/s13059-014-0550-8">Love, Huber, and Anders, 2014</a>) or <code>edgeR</code>-robust <a id="cite-edgeR"></a>(<a href="#bib-edgeR">Zhou, Lindsay, and Robinson, 2014</a>).</li>
+<li>Align with <code>HISAT</code> <a id="cite-hisat"></a>(<a href="#bib-hisat">Kim, Langmead, and Salzberg, 2015</a>), summarize with <code>Rsubread::featureCounts()</code> at the exon-level with and without the complete annotation, identify differentially expressed exons with <code>DESeq2</code> <a id="cite-DESeq2"></a>(<a href="http://dx.doi.org/10.1186/s13059-014-0550-8">Love, Huber, and Anders, 2014</a>) or <code>edgeR</code>-robust <a id="cite-edgeR"></a>(<a href="#bib-edgeR">Zhou, Lindsay, and Robinson, 2014</a>).</li>
 <li>Align with <code>HISAT</code>, summarize transcripts with <code>StringTie</code> <a id="cite-stringtie"></a>(<a href="#bib-stringtie">Pertea, Pertea, Antonescu, Chang, et al., 2015</a>), and test at the transcript and exon levels with <code>ballgown</code>.</li>
 <li>Align with <code>HISAT</code>, summarize with <code>derfinder::regionMatrix()</code>, and test with <code>DESeq2</code> or <code>edgeR</code>-robust.</li>
 <li>Align with <code>Rail-RNA</code> (<a href="#bib-rail">Nellore, Collado-Torres, Jaffe, Alquicira-Hernández, et al., 2015</a>), summarize with <code>derfinder::railMatrix()</code>, and test with <code>DESeq2</code> or <code>edgeR</code>-robust.</li>
@@ -169,20 +170,20 @@ document.addEventListener("DOMContentLoaded", function() {
 </div>
 <div id="miscellaneous" class="section level1">
 <h1><span class="header-section-number">4</span> Miscellaneous</h1>
-<div id="expressed-regions-overview-figure" class="section level2">
-<h2><span class="header-section-number">4.1</span> Expressed-regions overview figure</h2>
-<p>The code used for generating the panels using in figure showing the expressed-regions levle approach is available in the <a href="figure-expressed-regions/figure-expressed-regions.R">figure-expressed-regions.R</a> file.</p>
+<div id="expressed-regions-level-overview-figure" class="section level2">
+<h2><span class="header-section-number">4.1</span> Expressed regions-level overview figure</h2>
+<p>The code used for generating the panels using in figure showing the expressed regions-level approach is available in the <a href="figure-expressed-regions/figure-expressed-regions.R">figure-expressed-regions.R</a> file.</p>
 </div>
-<div id="single-base-overview-figure" class="section level2">
-<h2><span class="header-section-number">4.2</span> Single-base overview figure</h2>
-<p>The code used for generating the panels using in the figure showing the single-base levle approach is available in the <a href="figure-single-base/figure-single-base.R">figure-single-base.R</a> file.</p>
+<div id="single-base-level-overview-figure" class="section level2">
+<h2><span class="header-section-number">4.2</span> Single base-level overview figure</h2>
+<p>The code used for generating the panels using in the figure showing the single base-level approach is available in the <a href="figure-single-base/figure-single-base.R">figure-single-base.R</a> file.</p>
 </div>
 <div id="additional-analyses" class="section level2">
 <h2><span class="header-section-number">4.3</span> Additional analyses</h2>
 <p>The following <code>R</code> source files have the code for reproducing additional analyses described in the paper</p>
 <ul>
-<li><a href="additional-analyses/analyze_brainspan.R">analyze_brainspan.R</a> and <a href="additional-analyses/brainspan_regionLevel.R">brainspan_regionLevel.R</a> are the scripts containing the analysis of BrainSpan expressed-regions level DERs.</li>
-<li><a href="additional-analyses/characterize_brainspan_DERs.R">characterize_brainspan_DERs.R</a> Analysis of BrainSpan single-base level DERs.</li>
+<li><a href="additional-analyses/analyze_brainspan.R">analyze_brainspan.R</a> and <a href="additional-analyses/brainspan_regionLevel.R">brainspan_regionLevel.R</a> are the scripts containing the analysis of BrainSpan expressed regions-level DERs.</li>
+<li><a href="additional-analyses/characterize_brainspan_DERs.R">characterize_brainspan_DERs.R</a> Analysis of BrainSpan single base-level DERs.</li>
 </ul>
 <p>These scripts also include other exploratory code.</p>
 </div>
@@ -190,9 +191,9 @@ document.addEventListener("DOMContentLoaded", function() {
 <div id="reproducibility" class="section level1">
 <h1><span class="header-section-number">5</span> Reproducibility</h1>
 <p>Date this page was generated.</p>
-<pre><code>## [1] &quot;2016-03-07 10:48:52 CST&quot;</code></pre>
+<pre><code>## [1] &quot;2016-03-21 10:08:47 EDT&quot;</code></pre>
 <p>Wallclock time spent generating the report.</p>
-<pre><code>## Time difference of 1.412 secs</code></pre>
+<pre><code>## Time difference of 1.351 secs</code></pre>
 <p><code>R</code> session information.</p>
 <pre><code>## Session info -----------------------------------------------------------------------------------------------------------</code></pre>
 <pre><code>##  setting  value                       
@@ -201,8 +202,8 @@ document.addEventListener("DOMContentLoaded", function() {
 ##  ui       X11                         
 ##  language (EN)                        
 ##  collate  en_US.UTF-8                 
-##  tz       America/Chicago             
-##  date     2016-03-07</code></pre>
+##  tz       America/New_York            
+##  date     2016-03-21</code></pre>
 <pre><code>## Packages ---------------------------------------------------------------------------------------------------------------</code></pre>
 <pre><code>##  package       * version  date       source        
 ##  bibtex          0.4.0    2014-12-31 CRAN (R 3.2.0)

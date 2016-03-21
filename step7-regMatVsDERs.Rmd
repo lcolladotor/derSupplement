@@ -338,7 +338,7 @@ Some important numbers: percent of regions with width < 20 bp, base level agreem
 small <- c('ders' = sum(width(ders) < 20) / length(ders), 'regs' = sum(width(regs) < 20) / length(regs)) * 100
 data.frame('under-20' = small, '20-and-above' = 100 - small, check.names = FALSE)
 
-## Base level agreement
+## Base-level agreement
 c('regs' = overallInfo['both'] / (overallInfo['both'] + overallInfo['only.reg']) * 100, 'ders' = overallInfo['both'] / (overallInfo['both'] + overallInfo['only.der']) * 100)
 
 ## Overlap (min 20) agreement

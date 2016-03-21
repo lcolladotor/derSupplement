@@ -8,9 +8,9 @@ bg <- ballgown(samples = sampleDirs, pData = pData)
 stat_results <- stattest(gown = bg, feature = 'gene', getFC = TRUE, meas = 'FPKM', covariate = 'group')
 stat_results2 <- stattest(gown = bg, feature = 'trans', getFC = TRUE, meas = 'FPKM', covariate = 'group')
 
-## Gene level FC
+## Gene-level FC
 summary(stat_results$fc)
-## Transcript level FC
+## Transcript-level FC
 summary(stat_results2$fc)
 
 table(stat_results$fc < 2)
@@ -48,7 +48,7 @@ length(i)
 sum(is.na(i))
 nrow(t_data) - nrow(ccomp)
 
-## Fold change within 0.5 and 2 (test at the transcript level)
+## Fold change within 0.5 and 2 (test at the transcript-level)
 normal_t <- stat_results2$fc < 2 & stat_results2$fc > 0.5
 sum(normal_t)
 round(sum(normal_t) / length(normal_t) * 100, 2)

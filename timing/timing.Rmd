@@ -132,7 +132,7 @@ all <- subset(all, experiment %in% c('brainspan'))
 
 The following plots show the wall time and memory used by each job while taking into account the number of cores used by each job. Note that doing so is a crude approximation of how much time and memory each job would have needed had it ran on a single node.
 
-Points are colored by which analysis type they belong to. Note that the loading data step is required for the single-level and expressed-regions DER approaches as well as exon counting (with derfinder).
+Points are colored by which analysis type they belong to. Note that the loading data step is required for the single base-level and expressed regions-level DER approaches as well as exon counting (with `derfinder`).
 
 ```{r edaAnalysis, fig.width=10, bootstrap.show.code=FALSE}
 ## Walltime and memory adjusted by number of cores (it's an approximation)
@@ -244,11 +244,11 @@ These are the following analysis steps:
 
 1. __fullCov__ Extract coverage information from raw files (BAM or BigWig) by chromosome, then filter it, and save it in Rdata files.
 1. __derMod__ Calculate the sample depth adjustments and build models appropriate for the experiment.
-1. __derA__ Run single-base level analysis by chromosome.
+1. __derA__ Run single base-level analysis by chromosome.
 1. __derM__ Merge derfinder analysis results from the different chromosomes, calculate p-values and q-values.
 1. __derR__ Generate HTML report with `regionReport`.
-1. __regMat__ Run expressed-regions level analysis with `regionMatrix()`.
-1. __regsVsDers__ Compare expressed-regions vs single-base level approaches for the derfinder software paper.
+1. __regMat__ Run expressed regions-level analysis with `regionMatrix()`.
+1. __regsVsDers__ Compare expressed regions-level vs single base-level approaches for the derfinder software paper.
 1. __covToExon__  Generate exon table using `derfinder::coverageToExon()` for UCSC hg19 knownGene or GRCh37 p11 Ensembl annotation table.
 1. __summInfo__ Summarize results to then use then in the derfinder software paper.
 
