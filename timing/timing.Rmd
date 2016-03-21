@@ -1,14 +1,13 @@
 ---
+title: "Timing information"
 output:
-  knitrBootstrap::bootstrap_document:
-    theme.chooser: TRUE
-    highlight.chooser: TRUE
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: hide
 ---
 
-Timing information
-==================
-
-```{r citationsSetup, echo=FALSE, message=FALSE, warning=FALSE, bootstrap.show.code=FALSE}
+```{r citationsSetup, echo=FALSE, message=FALSE, warning=FALSE}
 ## Track time spent on making the report
 startTime <- Sys.time()
 
@@ -25,9 +24,8 @@ bibs <- c("knitcitations" = citation("knitcitations"),
     "derfinder" = citation("derfinder"),
     "GenomicRanges" = citation("GenomicRanges"),
     "DESeq" = citation("DESeq"),
-    "rCharts" = citation("rCharts"),
+    "DT" = citation("DT"),
     "ggplot2" = citation("ggplot2"),
-    "knitrBootstrap" = citation("knitrBootstrap"),
     'rmarkdown' = citation('rmarkdown'),
     'knitr' = citation('knitr')[3],
     'eff' = RefManageR::BibEntry('manual', key = 'eff', title = 'Efficiency analysis of Sun Grid Engine batch jobs', author = 'Alyssa Frazee', year = 2014, url = 'http://dx.doi.org/10.6084/m9.figshare.878000'),
@@ -51,14 +49,14 @@ system('cp ../../efficiency_analytics/client_secrets .')
 system('python ../../efficiency_analytics/analyze_efficiency.py --email fellgernon@gmail.com --folder "Cluster/derSoftware" --outfile timing-derSoftware.txt')
 ```
 
-```{r loadLibs, bootstrap.show.code=FALSE, warning = FALSE}
+```{r loadLibs, warning = FALSE}
 ## Load libraries
 library("ggplot2")
 library("knitr")
 ```
 
 
-```{r process, bootstrap.show.code=FALSE}
+```{r process}
 ## Setup
 
 ## Define number of cores used
@@ -134,7 +132,7 @@ The following plots show the wall time and memory used by each job while taking 
 
 Points are colored by which analysis type they belong to. Note that the loading data step is required for the single base-level and expressed regions-level DER approaches as well as exon counting (with `derfinder`).
 
-```{r edaAnalysis, fig.width=10, bootstrap.show.code=FALSE}
+```{r edaAnalysis, fig.width=10, fig.height=7}
 ## Walltime and memory adjusted by number of cores (it's an approximation)
 ggplot(all, aes(x=timeByCore, y=memByCore, colour=analysis, shape=software)) + geom_point(size = 3) + facet_grid(~ experiment) + xlab("Wall time (hrs) multiplied by the number of cores") + ylab("Memory (GB) divided by the number of cores") + scale_colour_brewer(palette="Dark2") + theme_bw(base_size = 18) + theme(legend.position=c(.65, .65))
 ggplot(all, aes(x=log2(timeByCore), y=memByCore, colour=analysis, shape=software)) + geom_point(size = 3) + facet_grid(~ experiment) + xlab("Wall time (hrs) multiplied by the number of cores (log2)") + ylab("Memory (GB) divided by the number of cores") + scale_colour_brewer(palette="Dark2") + theme_bw(base_size = 18) + theme(legend.position=c(.75, .65))
@@ -151,7 +149,7 @@ dev.off()
 
 ## Resources by step for each analysis
 
-```{r 'analysisSummary', bootstrap.show.code=FALSE}
+```{r 'analysisSummary'}
 getInfo <- function(df, sumTime = FALSE, peakCores = FALSE) {
     memByCore <- max(df$memByCore)
     walltime <- ifelse(sumTime, sum(df$walltime), max(df$walltime))
@@ -195,13 +193,13 @@ analysisSummary <- do.call(rbind, analysisSummary)
 
 The table shown below shows per analysis the maximum memory used by a job and maximum wall time for that step. This is assuming that all jobs for a given step ran simultaneously. For example, that all jobs running `derfinder::analyzeChr()` were running at the same time. Note that for some analyses relied on the same steps, like loading the data (_fullCov_). This table can be useful to find the peak number of cores (the sum of cores for all jobs running simultaneously) for a given analysis step.
 
-```{r 'analysisSumTab', results = 'asis', bootstrap.show.code=FALSE}
-kable(analysisSummary, format = 'html', digits = c(2, 4, 2))
+```{r 'analysisSumTab', results = 'asis'}
+kable(analysisSummary, format = 'markdown', digits = c(2, 4, 2))
 ```
 
 ## Resources for each analysis
 
-```{r 'peakSummary', bootstrap.show.code=FALSE}
+```{r 'peakSummary'}
 ## Summary the information for each analysis
 peaks <- lapply(names(analysisInfo), function(analysis) {
     res_analysis <- lapply(exps, function(exp) {
@@ -224,8 +222,8 @@ We can further summarize the resources used by each analysis by identified the m
 
 The table below shows the final summary. Note that in some analyses, the peak memory is from the _fullCov_ step. We did not focus on reducing the memory load of this step as we sacrificed memory for speed. We know that much lower memory limits can be achieved using 1 core instead of the 10 cores used.
 
-```{r 'peakSumTab', bootstrap.show.code=FALSE, results = 'asis'}
-kable(peaks, format = 'html', digits = c(2, 3, 2))
+```{r 'peakSumTab', results = 'asis'}
+kable(peaks, format = 'markdown', digits = c(2, 3, 2))
 ```
 
 Regarding the high memory load for the HTML report, this could be significantly lowered by only loading the required coverage data used for the plots instead of the full output from the _fullCov_ step. That is, using the _which_ argument from `fullCoverage()` to create a much smaller _fullCov_ object, which would also reduce the memory used when plotting.
@@ -252,34 +250,28 @@ These are the following analysis steps:
 1. __covToExon__  Generate exon table using `derfinder::coverageToExon()` for UCSC hg19 knownGene or GRCh37 p11 Ensembl annotation table.
 1. __summInfo__ Summarize results to then use then in the derfinder software paper.
 
-<link rel="stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css" />
-<script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
-
-```{r tables, results="asis", bootstrap.show.code=FALSE}
-library("rCharts")
-library("data.table")
+```{r tables}
+library("DT")
 
 ## Print whole table
-d <- data.table(all[, c("experiment", "step", "walltime", "cores", "memG", "timeByCore", "memByCore", "software", "analysis", "jobid")])
-t1 <- dTable(d, sPaginationType='full_numbers', iDisplayLength=50, sScrollX='100%')
-t1$print("timing", cdn=TRUE)
+d <- all[, c("experiment", "step", "walltime", "cores", "memG", "timeByCore", "memByCore", "software", "analysis", "jobid")]
+datatable(d, options = list(pagingType='full_numbers', pageLength=50, scrollX='100%')) %>% formatRound(columns = c(3, 5:7), digits = 3)
 ```
-<br/>
 
-Table made using `rCharts` `r citep(bib[["rCharts"]])`.
+Table made using `DT` `r citep(bib[["DT"]])`.
 
 # Reproducibility
 
 Date the report was generated.
 
-```{r reproducibility1, echo=FALSE, bootstrap.show.code=FALSE}
+```{r reproducibility1, echo=FALSE}
 ## Date the report was generated
 Sys.time()
 ```
 
 Wallclock time spent generating the report.
 
-```{r "reproducibility2", echo=FALSE, bootstrap.show.code=FALSE}
+```{r "reproducibility2", echo=FALSE}
 ## Processing time in seconds
 totalTime <- diff(c(startTime, Sys.time()))
 round(totalTime, digits=3)
@@ -287,7 +279,7 @@ round(totalTime, digits=3)
 
 `R` session information.
 
-```{r "reproducibility3", echo=FALSE, bootstrap.show.code=FALSE, bootstrap.show.message=FALSE}
+```{r "reproducibility3", echo=FALSE}
 ## Session info
 options(width=120)
 devtools::session_info()
@@ -295,8 +287,7 @@ devtools::session_info()
 
 # Bibliography
 
-This report was generated using `knitrBootstrap` `r citep(bib[['knitrBootstrap']])`
-with `knitr` `r citep(bib[['knitr']])` and `rmarkdown` `r citep(bib[['rmarkdown']])` running behind the scenes.  Timing information extracted from the SGE reports using `efficiency analytics` `r citep(bib[["eff"]])`. Figures and citations were made using `ggplot2` `r citep(bib[["ggplot2"]])` and  `knitcitations` `r citep(bib[['knitcitations']])` respectively.
+This report was generated using `rmarkdown` `r citep(bib[['rmarkdown']])` with `knitr` `r citep(bib[['knitr']])` running behind the scenes.  Timing information extracted from the SGE reports using `efficiency analytics` `r citep(bib[["eff"]])`. Figures and citations were made using `ggplot2` `r citep(bib[["ggplot2"]])` and  `knitcitations` `r citep(bib[['knitcitations']])` respectively.
 
 Citation file: [timing.bib](timing.bib)
 
