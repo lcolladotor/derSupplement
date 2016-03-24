@@ -11,20 +11,27 @@ library('GenomeInfoDb')
 library("GenomicFeatures")
 
 ## Define paths
-mainPath <- '/dcs01/ajaffe/Brain/derRuns/derSupplement/'
+#mainPath <- '/dcs01/ajaffe/Brain/derRuns/derSupplement/'
+mainPath <- '/dcs01/ajaffe/Brain/derRuns/derSoftware/'
 covPath <- file.path(mainPath, 'brainspan/CoverageInfo/')
 resPath <- file.path(mainPath, 'brainspan/derAnalysis/run4-v1.0.10')
 dataPath <- '/nexsan2/disk3/ajaffe/BrainSpan/RNAseq/bigwig/'
 
 ## Load data
 load("/home/epi/ajaffe/Lieber/Projects/Grants/Coverage_R01/brainspan/brainspan_phenotype.rda")
-files <- pdSpan$wig
-names(files) <- pdSpan$lab
+## Remove bad samples
+bad_samples <- which(rownames(pdSpan) %in% c('216', '218', '219'))
+pdSpan[bad_samples, ]
+files <- pdSpan$wig[-bad_samples]
+names(files) <- pdSpan$lab[-bad_samples]
 
 load(file.path(resPath, 'fullRegions.Rdata'))
 ders <- fullRegions
 load(file.path(resPath, 'groupInfo.Rdata'))
+groupInfo <- groupInfo[-bad_samples]
 load(file.path(resPath, 'models.Rdata'))
+models$mod <- models$mod[-bad_samples, ]
+models$mod0 <- matrix(models$mod0[-bad_samples, ], ncol = 1)
 
 ## Use same names as Jaffe
 rename <- data.frame(ori = c('Neo.F', 'Neo.A', 'notNeo.F', 'notNeo.A', 'CBC.F', 'CBC.A'), new = c('NCX.F', 'NCX.P', 'NonNCX.F', 'NonNCX.P', 'CBC.F', 'CBC.P'))
