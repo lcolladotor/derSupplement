@@ -35,7 +35,7 @@ cat > ${ROOTDIR}/.${sname}.sh <<EOF
 #!/bin/bash	
 #$ -cwd
 #$ -m e
-#$ -l mem_free=50G,h_vmem=100G,h_fsize=30G
+#$ -l mem_free=60G,h_vmem=80G,h_fsize=30G
 #$ -N ${sname}
 #$ -pe local ${ncore}
 #$ -hold_jid fullCov-${EXPERIMENT}

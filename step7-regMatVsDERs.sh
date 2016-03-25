@@ -32,7 +32,7 @@ cat > ${ROOTDIR}/.${sname}.sh <<EOF
 #!/bin/bash
 #$ -cwd
 #$ -m e
-#$ -l mem_free=200G,h_vmem=400G,h_fsize=30G
+#$ -l mem_free=200G,h_vmem=300G,h_fsize=30G
 #$ -N ${sname}
 #$ -hold_jid regMat-${EXPERIMENT},derM-${EXPERIMENT}.${PREFIX}
 echo "**** Job starts ****"
