@@ -60,7 +60,7 @@ if(opt$experiment == 'brainspan') {
     ## Drop bad samples
     bad_samples <- which(rownames(pdSpan) %in% c('216', '218', '219'))
     pdSpan[bad_samples, ]
-    pdSpan <- pdSpan[-bad_samples, ]
+    if(nrow(pdSpan) == 487) pdSpan <- pdSpan[-bad_samples, ]
     stopifnot(nrow(pdSpan) == 484)
     
 

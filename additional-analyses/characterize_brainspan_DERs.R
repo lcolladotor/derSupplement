@@ -25,9 +25,9 @@ load(paste0(path,"fullAnnotatedRegions.Rdata"))
 ## Remove bad samples
 bad_samples <- which(rownames(pdSpan) %in% c('216', '218', '219'))
 pdSpan[bad_samples, ]
-pdSpan <- pdSpan[-bad_samples, ]
+if(nrow(pdSpan) == 487) pdSpan <- pdSpan[-bad_samples, ]
 stopifnot(nrow(pdSpan) == 484)
-groupInfo <- groupInfo[-bad_samples]
+if(length(groupInfo) == 487) groupInfo <- groupInfo[-bad_samples]
 stopifnot(length(groupInfo) == 484)
 
 dir.create('rdas', showWarnings = FALSE)
@@ -52,7 +52,7 @@ if(!file.exists('rdas/summarized_BrainSpan_DERs_meanCov.rda')) {
      
      coverList = getRegionCoverage(fullCov, sigSpan, mc.cores=1)
      meanCoverage = t(sapply(coverList, colMeans))
-     meanCoverage <- meanCoverage[, -bad_samples]
+     if(ncol(meanCoverage) == 487) meanCoverage <- meanCoverage[, -bad_samples]
      stopifnot(ncol(meanCoverage) == 484)
      colnames(meanCoverage) = pdSpan$lab
      

@@ -39,9 +39,11 @@ if(!file.exists('rdas/summarized_BrainSpan_DERs.rda')) {
 }
 
 ## Fix models
-models$mod <- models$mod[-bad_samples, ]
-models$mod0 <- matrix(models$mod0[-bad_samples, ], ncol = 1)
 stopifnot(nrow(models$mod) == nrow(models$mod0))
+if(unique(sapply(models, nrow)) == 487) {
+    models$mod <- models$mod[-bad_samples, ]
+    models$mod0 <- matrix(models$mod0[-bad_samples, ], ncol = 1)
+}
 stopifnot(nrow(models$mod) == 484)
 stopifnot(nrow(pdSpan) == 484)
 
@@ -71,7 +73,8 @@ fullRegionGR = unlist(GRangesList(regList))
 fullRegionMat = do.call("rbind",
 	lapply(regionMat, function(x) x$coverageMatrix))
 ## Drop bad samples
-fullRegionMat <- fullRegionMat[, -bad_samples]
+if(ncol(fullRegionMat) == 487) fullRegionMat <- fullRegionMat[, -bad_samples]
+
 stopifnot(ncol(fullRegionMat) == 484)
 
 ## drop regions shorter than 6 bp
@@ -93,7 +96,8 @@ fullRegionMat1 = do.call("rbind",
 keepIndex1=which(width(fullRegionGR1) >= 6)
 fullRegionGR1 = fullRegionGR1[keepIndex1]
 fullRegionMat1 = fullRegionMat1[keepIndex1,]
-fullRegionMat1 <- fullRegionMat1[, -bad_samples]
+if(ncol(fullRegionMat1) == 487) fullRegionMat1 <- fullRegionMat1[, -bad_samples]
+}
 stopifnot(ncol(fullRegionMat1) == 484)
 
 ## log transform

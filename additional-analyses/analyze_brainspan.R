@@ -36,11 +36,13 @@ load("/dcs01/ajaffe/Brain/derRuns/derSoftware/brainspan/derAnalysis/run4-v1.0.10
 ## Remove bad samples
 bad_samples <- which(rownames(pdSpan) %in% c('216', '218', '219'))
 pdSpan[bad_samples, ]
-pdSpan <- pdSpan[-bad_samples, ]
+if(nrow(pdSpan) == 487) pdSpan <- pdSpan[-bad_samples, ]
 stopifnot(nrow(pdSpan) == 484)
-models$mod <- models$mod[-bad_samples, ]
-models$mod0 <- matrix(models$mod0[-bad_samples, ], ncol = 1)
 stopifnot(nrow(models$mod) == nrow(models$mod0))
+if(unique(sapply(models, nrow)) == 487) {
+    models$mod <- models$mod[-bad_samples, ]
+    models$mod0 <- matrix(models$mod0[-bad_samples, ], ncol = 1)
+}
 stopifnot(nrow(models$mod) == 484)
 
 ## add pheno info
@@ -64,12 +66,20 @@ regions = unlist(GRangesList(lapply(regionMat, '[[', 'regions')))
 names(regions) = NULL
 regionMat = do.call("rbind", lapply(regionMat, '[[', 'coverageMatrix'))
 ## Samples are in order
-stopifnot(identical(colnames(regionMat)[-bad_samples], pdSpan$lab))
+if(ncols(regionMat) == 487) {
+    stopifnot(identical(colnames(regionMat)[-bad_samples], pdSpan$lab))
+} else {
+    stopifnot(identical(colnames(regionMat), pdSpan$lab))
+}
 rownames(regionMat) = names(regions) = paste0("er", seq_len(nrow(regionMat)))
+
+if(ncol(regionMat) == 487) regionMat <- regionMat[, -bad_samples]
+
+stopifnot(ncol(regionMat) == 484)
 
 ### filter out short DERs
 keepIndex = width(regions) > 8
-regionMat = regionMat[keepIndex, -bad_samples]
+regionMat = regionMat[keepIndex, ]
 regions = regions[keepIndex]
 
 # total coverage
@@ -247,7 +257,7 @@ regList1 = lapply(regionMat, function(x) x$regions)
 regions1 = unlist(GRangesList(regList1))
 fullRegionMat1 = do.call("rbind",
 	lapply(regionMat, function(x) x$coverageMatrix))
-fullRegionMat1 <- fullRegionMat1[, -bad_samples]
+if(ncol(fullRegionMat1) == 487) fullRegionMat1 <- fullRegionMat1[, -bad_samples]
 stopifnot(ncol(fullRegionMat1) == 484)
 keepIndex1=which(width(regions1) >= 6)
 regions1 = regions1[keepIndex1]
