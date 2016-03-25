@@ -4,7 +4,7 @@
 ## needs: R
 
 ## Usage:
-# qrsh -l mem_free=200G,h_vmem=250G
+# qrsh -l mem_free=200G,h_vmem=300G
 # module load R/devel
 # mkdir -p logs
 # Rscript characterize_brainspan.R > logs/characterize_brainspan_log.txt 2>&1
