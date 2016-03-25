@@ -101,7 +101,7 @@ ucscAnno = annotateRegions(regions,GenomicState_knownGene)
 countTable = ucscAnno$countTable
 
 dir.create('plots', showWarnings = FALSE)
-pdf("plots/venn_counts_analyze_brainspand.pdf",h=5,w=6)
+pdf("plots/venn_counts_analyze_brainspan.pdf",h=5,w=6)
 vennDiagram(vennCounts(countTable > 0))
 mtext("UCSC", line=1,cex=2)
 dev.off()
