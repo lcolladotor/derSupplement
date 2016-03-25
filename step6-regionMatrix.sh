@@ -36,7 +36,7 @@ do
 #!/bin/bash	
 #$ -cwd
 #$ -m e
-#$ -l mem_free=40G,h_vmem=50G,h_fsize=30G
+#$ -l mem_free=70G,h_vmem=90G,h_fsize=30G
 #$ -N ${sname}
 #$ -hold_jid fullCov-${EXPERIMENT}
 
