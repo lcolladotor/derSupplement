@@ -1,0 +1,196 @@
+Loading required package: colorout
+Loading required package: methods
+Loading required package: BiocGenerics
+Loading required package: parallel
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:parallel’:
+
+    clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
+    clusterExport, clusterMap, parApply, parCapply, parLapply,
+    parLapplyLB, parRapply, parSapply, parSapplyLB
+
+The following object is masked from ‘package:limma’:
+
+    plotMA
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    anyDuplicated, append, as.data.frame, cbind, colnames, do.call,
+    duplicated, eval, evalq, Filter, Find, get, grep, grepl, intersect,
+    is.unsorted, lapply, lengths, Map, mapply, match, mget, order,
+    paste, pmax, pmax.int, pmin, pmin.int, Position, rank, rbind,
+    Reduce, rownames, sapply, setdiff, sort, table, tapply, union,
+    unique, unsplit
+
+Loading required package: S4Vectors
+Loading required package: stats4
+
+Attaching package: ‘S4Vectors’
+
+The following objects are masked from ‘package:base’:
+
+    colMeans, colSums, expand.grid, rowMeans, rowSums
+
+Loading required package: IRanges
+Loading required package: GenomeInfoDb
+Loading required package: foreach
+Loading required package: iterators
+Loading required package: locfit
+locfit 1.5-9.1 	 2013-03-22
+[1] 34.51989
+2016-03-24 21:06:35 annotateRegions: counting
+2016-03-24 21:06:37 annotateRegions: annotating
+[1] 0.8028275
+[1] 0.05367072
+2016-03-24 21:06:40 annotateRegions: counting
+2016-03-24 21:06:43 annotateRegions: annotating
+null device 
+          1 
+[1] 0.6723425
+[1] 0.121527
+[1] 129315
+[1] 0.7404703
+[1] 17514
+[1] 94318
+[1] 93679
+[1] 0.993225
+
+FALSE  TRUE 
+44149 71509 
+Warning message:
+Zero sample variances detected, have been offset 
+[1] 1176
+Loading required package: GenomicFeatures
+Loading required package: AnnotationDbi
+Loading required package: Biobase
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+No annotationPackage supplied. Trying org.Hs.eg.db.
+Loading required package: org.Hs.eg.db
+Loading required package: DBI
+
+Getting TSS and TSE.
+Getting CSS and CSE.
+Getting exons.
+Annotating genes.
+Warning message:
+  Calling species() on a TxDb object is *deprecated*.
+  Please use organism() instead. 
+...........$`-1`
+ [1] "FZD7"      "TSPAN18"   "ZBTB18"    "NEUROD1"   "BOC"       "FEZF2"    
+ [7] "EZR"       "WWC1"      "LTBP1"     "NFIX"      "LOC401463" "CSRP2"    
+[13] "EMX1"      "NFIA"      "THBS1"     "EPB41L3"   "GTDC1"     "NFIB"     
+[19] "ZFPM2"     "TCF4"      "SLC17A7"   "KCTD15"    "TBC1D1"    "EMX2OS"   
+[25] "SNCAIP"    "CBS"       "EMX2"      "COL4A5"    "ARHGEF25"  "LINC00461"
+[31] "RTN4RL2"   "CD80"      "MID1"      "LHX2"      "ANTXR2"    "NNMT"     
+[37] "MAPK7"     "HEG1"      "LRRC3B"    "ZBTB16"    "DAP"       "SETD7"    
+[43] "PTPRK"     "TNFRSF19"  "PRDM8"     "FZD1"      "TSPAN5"    "CRYAB"    
+[49] "NEUROD6"   "OXR1"     
+
+$`1`
+ [1] "RXRG"        "ARPP21"      "STRIP2"      "RGS2"        "SIX3"       
+ [6] "RINL"        "FOXP1"       "NTN1"        "LOC389332"   "PDYN"       
+[11] "PDE4B"       "DRD2"        "TPD52L1"     "ZFHX3"       "PBX3"       
+[16] "RARB"        "GPR88"       "MSANTD1"     "DTNBP1"      "MDK"        
+[21] "DRD1"        "FOXO1"       "RASL10B"     "HAR1A"       "SOX4"       
+[26] "EBF1"        "NPY"         "FAM222A-AS1" "TSPAN9"      "LINC00643"  
+[31] "FRAS1"       "NIPAL3"      "FAT3"        "DLX6-AS1"    "FHDC1"      
+[36] "NGEF"        "DLL3"        "SERTAD4"     "ATXN1"       "SKAP2"      
+[41] "GUCY1A3"     "KLHL13"      "CDH8"        "RGS8"        "FOXP2"      
+[46] "LMF1"        "TAC1"        "PDE10A"      "KCNIP1"      "ZNF467"     
+
+Session info -----------------------------------------------------------------------------------------------------------
+ setting  value                                             
+ version  R Under development (unstable) (2016-03-24 r70370)
+ system   x86_64, linux-gnu                                 
+ ui       X11                                               
+ language (EN)                                              
+ collate  en_US.UTF-8                                       
+ tz       <NA>                                              
+ date     2016-03-24                                        
+
+Packages ---------------------------------------------------------------------------------------------------------------
+ package                           * version  date       source                            
+ acepack                             1.3-3.3  2013-05-03 CRAN (R 3.2.0)                    
+ AnnotationDbi                     * 1.33.7   2016-02-09 Bioconductor                      
+ Biobase                           * 2.31.3   2015-12-20 Bioconductor                      
+ BiocGenerics                      * 0.17.3   2016-02-09 Bioconductor                      
+ BiocParallel                        1.5.21   2016-03-24 Bioconductor                      
+ biomaRt                             2.27.2   2015-11-25 Bioconductor                      
+ Biostrings                          2.39.12  2016-02-23 Bioconductor                      
+ bitops                              1.0-6    2013-08-17 CRAN (R 3.2.0)                    
+ BSgenome                            1.39.4   2016-02-24 Bioconductor                      
+ bumphunter                        * 1.11.3   2016-03-03 Bioconductor                      
+ cluster                             2.0.3    2015-07-21 CRAN (R 3.4.0)                    
+ codetools                           0.2-14   2015-07-15 CRAN (R 3.4.0)                    
+ colorout                          * 1.1-2    2016-03-24 Github (jalvesaq/colorout@f96c00c)
+ colorspace                          1.2-6    2015-03-11 CRAN (R 3.2.0)                    
+ DBI                               * 0.3.1    2014-09-24 CRAN (R 3.2.0)                    
+ derfinder                         * 1.5.26   2016-03-24 Bioconductor                      
+ derfinderHelper                     1.5.3    2016-03-24 Bioconductor                      
+ devtools                          * 1.10.0   2016-01-23 CRAN (R 3.3.0)                    
+ digest                              0.6.9    2016-01-08 CRAN (R 3.3.0)                    
+ doRNG                               1.6      2014-03-07 CRAN (R 3.2.0)                    
+ foreach                           * 1.4.3    2015-10-13 CRAN (R 3.3.0)                    
+ foreign                             0.8-66   2015-08-19 CRAN (R 3.4.0)                    
+ Formula                             1.2-1    2015-04-07 CRAN (R 3.3.0)                    
+ GenomeInfoDb                      * 1.7.6    2016-03-24 Bioconductor                      
+ GenomicAlignments                   1.7.20   2016-03-03 Bioconductor                      
+ GenomicFeatures                   * 1.23.27  2016-03-24 Bioconductor                      
+ GenomicFiles                        1.7.9    2016-02-24 Bioconductor                      
+ GenomicRanges                     * 1.23.24  2016-03-24 Bioconductor                      
+ ggplot2                             2.1.0    2016-03-01 CRAN (R 3.3.0)                    
+ gridExtra                           2.2.1    2016-02-29 CRAN (R 3.3.0)                    
+ gtable                              0.2.0    2016-02-26 CRAN (R 3.3.0)                    
+ Hmisc                               3.17-2   2016-02-21 CRAN (R 3.3.0)                    
+ IRanges                           * 2.5.40   2016-03-14 Bioconductor                      
+ iterators                         * 1.0.8    2015-10-13 CRAN (R 3.3.0)                    
+ lattice                             0.20-33  2015-07-14 CRAN (R 3.4.0)                    
+ latticeExtra                        0.6-28   2016-02-09 CRAN (R 3.3.0)                    
+ limma                             * 3.27.14  2016-03-24 Bioconductor                      
+ locfit                            * 1.5-9.1  2013-04-20 CRAN (R 3.2.0)                    
+ magrittr                            1.5      2014-11-22 CRAN (R 3.3.0)                    
+ Matrix                              1.2-4    2016-03-02 CRAN (R 3.4.0)                    
+ matrixStats                         0.50.1   2015-12-15 CRAN (R 3.3.0)                    
+ memoise                             1.0.0    2016-01-29 CRAN (R 3.3.0)                    
+ munsell                             0.4.3    2016-02-13 CRAN (R 3.3.0)                    
+ nnet                                7.3-12   2016-02-02 CRAN (R 3.4.0)                    
+ org.Hs.eg.db                      * 3.2.3    2015-10-19 Bioconductor                      
+ pkgmaker                            0.22     2014-05-14 CRAN (R 3.2.0)                    
+ plyr                                1.8.3    2015-06-12 CRAN (R 3.3.0)                    
+ qvalue                              2.3.2    2016-01-08 Bioconductor                      
+ RColorBrewer                        1.1-2    2014-12-07 CRAN (R 3.4.0)                    
+ Rcpp                                0.12.3   2016-01-10 CRAN (R 3.3.0)                    
+ RCurl                               1.95-4.8 2016-03-01 CRAN (R 3.3.0)                    
+ registry                            0.3      2015-07-08 CRAN (R 3.3.0)                    
+ reshape2                            1.4.1    2014-12-06 CRAN (R 3.2.0)                    
+ rngtools                            1.2.4    2014-03-06 CRAN (R 3.2.0)                    
+ rpart                               4.1-10   2015-06-29 CRAN (R 3.4.0)                    
+ Rsamtools                           1.23.6   2016-03-24 Bioconductor                      
+ RSQLite                           * 1.0.0    2014-10-25 CRAN (R 3.2.0)                    
+ rtracklayer                         1.31.7   2016-02-24 Bioconductor                      
+ S4Vectors                         * 0.9.43   2016-03-24 Bioconductor                      
+ scales                              0.4.0    2016-02-26 CRAN (R 3.4.0)                    
+ stringi                             1.0-1    2015-10-22 CRAN (R 3.3.0)                    
+ stringr                             1.0.0    2015-04-30 CRAN (R 3.3.0)                    
+ SummarizedExperiment                1.1.22   2016-03-14 Bioconductor                      
+ survival                            2.38-3   2015-07-02 CRAN (R 3.4.0)                    
+ TxDb.Hsapiens.UCSC.hg19.knownGene * 3.2.2    2016-03-24 Bioconductor                      
+ VariantAnnotation                   1.17.21  2016-03-24 Bioconductor                      
+ XML                                 3.98-1.4 2016-03-01 CRAN (R 3.3.0)                    
+ xtable                              1.8-2    2016-02-05 CRAN (R 3.3.0)                    
+ XVector                             0.11.7   2016-02-23 Bioconductor                      
+ zlibbioc                            1.17.1   2016-03-24 Bioconductor                      
+[1] "2016-03-24 21:10:42 EDT"
+   user  system elapsed 
+331.472   9.320 362.105 
