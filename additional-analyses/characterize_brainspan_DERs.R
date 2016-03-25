@@ -4,6 +4,8 @@
 ## needs: R
 
 ## Usage:
+## note that the initial run uses quite a bit of memory, but the second time
+## not as much is needed
 # qrsh -l mem_free=200G,h_vmem=300G
 # module load R/devel
 # mkdir -p logs
