@@ -49,7 +49,7 @@ mkdir -p ${WDIR}/logs
 # Load coverage & get region matrix
 cd ${WDIR}
 module load R/devel
-Rscript ${ROOTDIR}/step6-regionMatrix.R -m "${MAINDIR}" -c "${chrnum}" -r ${RLENGTH} -t ${CUTOFF}
+Rscript ${ROOTDIR}/step6-regionMatrix.R -m "${MAINDIR}" -c "${chr}" -r ${RLENGTH} -t ${CUTOFF}
 
 ## Move log files into the logs directory
 mv ${ROOTDIR}/${sname}.* ${WDIR}/logs/
