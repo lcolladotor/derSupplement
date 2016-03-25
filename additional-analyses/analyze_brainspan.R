@@ -99,7 +99,12 @@ if(!file.exists('rdas/GenomicState_knownGene_derfinderPaper.rda')) {
 #### annotate
 ucscAnno = annotateRegions(regions,GenomicState_knownGene)
 countTable = ucscAnno$countTable
-if(interactive()) vennDiagram(vennCounts(countTable > 0)); mtext("UCSC", line=1,cex=2)
+
+dir.create('plots', showWarnings = FALSE)
+pdf("plots/venn_counts_analyze_brainspand.pdf",h=5,w=6)
+vennDiagram(vennCounts(countTable > 0))
+mtext("UCSC", line=1,cex=2)
+dev.off()
 
 ## annotation breakdown ####
 dim(countTable)
@@ -136,7 +141,6 @@ pc1Mat = sapply(pcList, function(x) x$x[,1])
 pc2Mat = sapply(pcList, function(x) x$x[,2])
 
 ### plots
-dir.create('plots', showWarnings = FALSE)
 pdf("plots/brainspan_regionMatrix_PCA_byAnno.pdf")
 palette(brewer.pal(3,"Set1"))
 name = c("Exonic", "Intronic", "Intergenic","Exon+Intron", "All")
