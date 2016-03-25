@@ -1,0 +1,552 @@
+Loading required package: colorout
+Loading required package: BiocGenerics
+Loading required package: parallel
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:parallel’:
+
+    clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
+    clusterExport, clusterMap, parApply, parCapply, parLapply,
+    parLapplyLB, parRapply, parSapply, parSapplyLB
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    anyDuplicated, append, as.data.frame, cbind, colnames, do.call,
+    duplicated, eval, evalq, Filter, Find, get, grep, grepl, intersect,
+    is.unsorted, lapply, lengths, Map, mapply, match, mget, order,
+    paste, pmax, pmax.int, pmin, pmin.int, Position, rank, rbind,
+    Reduce, rownames, sapply, setdiff, sort, table, tapply, union,
+    unique, unsplit
+
+Loading required package: S4Vectors
+Loading required package: stats4
+
+Attaching package: ‘S4Vectors’
+
+The following objects are masked from ‘package:base’:
+
+    colMeans, colSums, expand.grid, rowMeans, rowSums
+
+Loading required package: IRanges
+
+Attaching package: ‘IRanges’
+
+The following object is masked _by_ ‘.GlobalEnv’:
+
+    trim
+
+Loading required package: GenomeInfoDb
+    column_num donor_id donor_name    age gender structure_id structure_acronym
+216        216    12948  H376.V.51 25 pcw      F        10236               A1C
+218        218    12949  H376.V.52 26 pcw      F        10269               V1C
+219        219    12949  H376.V.52 26 pcw      F        10173               DFC
+                                        structure_name ExternalID        lab
+216                     primary auditory cortex (core)     HSB169 HSB169.A1C
+218 primary visual cortex (striate cortex, area V1/17)     HSB168 HSB168.V1C
+219                     dorsolateral prefrontal cortex     HSB168 HSB168.DFC
+    RIN        Age                                                         wig
+216 9.3 -0.2884615 /nexsan2/disk3/ajaffe/BrainSpan/RNAseq/bigwig/HSB169.A1C.bw
+218 9.6 -0.2692308 /nexsan2/disk3/ajaffe/BrainSpan/RNAseq/bigwig/HSB168.V1C.bw
+219 9.2 -0.2692308 /nexsan2/disk3/ajaffe/BrainSpan/RNAseq/bigwig/HSB168.DFC.bw
+[1] 115658
+[1] 42.99782
+highGroup
+    AMY:Fetal AMY:Postnatal     CBC:Fetal CBC:Postnatal     HIP:Fetal 
+        16757          1628         13212         18783         14129 
+HIP:Postnatal      MD:Fetal  MD:Postnatal     NCX:Fetal NCX:Postnatal 
+         1442          6094          3841         18692          4196 
+    STR:Fetal STR:Postnatal 
+        10025          6859 
+..........Loading required package: AnnotationDbi
+.Loading required package: Biobase
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+Loading required package: AnnotationDbi
+.Loading required package: Biobase
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+Loading required package: DBI
+Loading required package: AnnotationDbi
+Loading required package: Biobase
+Loading required package: DBI
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+Loading required package: AnnotationDbi
+Loading required package: AnnotationDbi
+Loading required package: Biobase
+Loading required package: DBI
+Loading required package: AnnotationDbi
+Loading required package: Biobase
+Loading required package: AnnotationDbi
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+Loading required package: AnnotationDbi
+Loading required package: Biobase
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+Loading required package: AnnotationDbi
+Loading required package: Biobase
+Loading required package: Biobase
+Loading required package: Biobase
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+Loading required package: AnnotationDbi
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+Loading required package: DBI
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+Loading required package: Biobase
+Loading required package: DBI
+
+Loading required package: GOstats
+Loading required package: AnnotationDbi
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+Loading required package: Category
+Loading required package: Biobase
+Loading required package: DBI
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+Loading required package: Matrix
+Loading required package: DBI
+Loading required package: DBI
+
+Attaching package: ‘Matrix’
+
+The following object is masked from ‘package:S4Vectors’:
+
+    expand
+
+Loading required package: DBI
+Loading required package: DBI
+
+Loading required package: DBI
+
+Loading required package: AnnotationDbi
+Loading required package: GOstats
+Loading required package: GOstats
+Loading required package: Category
+Loading required package: Category
+Loading required package: Biobase
+Loading required package: Matrix
+Loading required package: Matrix
+
+Attaching package: ‘Matrix’
+
+The following object is masked from ‘package:S4Vectors’:
+
+    expand
+
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+
+Attaching package: ‘Matrix’
+
+The following object is masked from ‘package:S4Vectors’:
+
+    expand
+
+
+Loading required package: GOstats
+Loading required package: DBI
+Loading required package: Category
+Loading required package: Matrix
+
+Loading required package: GOstats
+
+Attaching package: ‘Matrix’
+
+The following object is masked from ‘package:S4Vectors’:
+
+    expand
+
+
+Loading required package: Category
+Loading required package: GOstats
+
+Loading required package: Category
+Loading required package: Matrix
+Loading required package: Matrix
+Loading required package: GOstats
+
+
+Loading required package: Category
+
+Attaching package: ‘Matrix’
+
+The following object is masked from ‘package:S4Vectors’:
+
+    expand
+
+
+Attaching package: ‘Matrix’
+
+The following object is masked from ‘package:S4Vectors’:
+
+    expand
+
+Loading required package: GOstats
+Loading required package: Category
+
+Loading required package: GOstats
+Loading required package: Matrix
+Loading required package: Matrix
+Loading required package: Category
+Loading required package: GOstats
+
+Attaching package: ‘Matrix’
+
+The following object is masked from ‘package:S4Vectors’:
+
+    expand
+
+
+Attaching package: ‘Matrix’
+
+The following object is masked from ‘package:S4Vectors’:
+
+    expand
+
+Loading required package: Category
+
+Loading required package: GOstats
+Loading required package: Matrix
+Loading required package: Matrix
+Loading required package: Category
+
+Attaching package: ‘Matrix’
+
+The following object is masked from ‘package:S4Vectors’:
+
+    expand
+
+
+Attaching package: ‘Matrix’
+
+The following object is masked from ‘package:S4Vectors’:
+
+    expand
+
+Loading required package: Matrix
+
+
+Attaching package: ‘Matrix’
+
+The following object is masked from ‘package:S4Vectors’:
+
+    expand
+
+Loading required package: GOstats
+Loading required package: Category
+Loading required package: Matrix
+
+Attaching package: ‘Matrix’
+
+The following object is masked from ‘package:S4Vectors’:
+
+    expand
+
+Loading required package: graph
+Loading required package: graph
+Loading required package: graph
+Loading required package: graph
+
+Loading required package: graph
+
+Attaching package: ‘GOstats’
+
+The following object is masked from ‘package:AnnotationDbi’:
+
+    makeGOGraph
+
+Loading required package: graph
+Loading required package: graph
+
+Loading required package: graph
+
+
+Attaching package: ‘GOstats’
+
+
+The following object is masked from ‘package:AnnotationDbi’:
+
+    makeGOGraph
+
+
+Attaching package: ‘GOstats’
+
+The following object is masked from ‘package:AnnotationDbi’:
+
+    makeGOGraph
+
+
+Attaching package: ‘GOstats’
+
+The following object is masked from ‘package:AnnotationDbi’:
+
+    makeGOGraph
+
+
+Loading required package: graph
+
+Attaching package: ‘GOstats’
+
+The following object is masked from ‘package:AnnotationDbi’:
+
+    makeGOGraph
+
+Loading required package: graph
+
+Loading required package: graph
+Loading required package: graph
+
+
+Attaching package: ‘GOstats’
+
+The following object is masked from ‘package:AnnotationDbi’:
+
+    makeGOGraph
+
+
+
+Attaching package: ‘GOstats’
+
+The following object is masked from ‘package:AnnotationDbi’:
+
+    makeGOGraph
+
+
+Attaching package: ‘GOstats’
+
+The following object is masked from ‘package:AnnotationDbi’:
+
+    makeGOGraph
+
+
+
+Attaching package: ‘GOstats’
+
+The following object is masked from ‘package:AnnotationDbi’:
+
+    makeGOGraph
+
+
+
+
+
+Attaching package: ‘GOstats’
+
+The following object is masked from ‘package:AnnotationDbi’:
+
+    makeGOGraph
+
+
+Attaching package: ‘GOstats’
+
+The following object is masked from ‘package:AnnotationDbi’:
+
+    makeGOGraph
+
+
+Attaching package: ‘GOstats’
+
+The following object is masked from ‘package:AnnotationDbi’:
+
+    makeGOGraph
+
+null device 
+          1 
+null device 
+          1 
+[1] 20192
+[1] 0.1745837
+[1] 14637
+[1] 0.1265542
+[1] 89625
+[1] 0.774914
+2016-03-25 00:50:05 getRegionCoverage: processing chr1
+2016-03-25 00:52:15 getRegionCoverage: done processing chr1
+2016-03-25 00:52:15 getRegionCoverage: processing chr2
+2016-03-25 00:53:20 getRegionCoverage: done processing chr2
+2016-03-25 00:53:20 getRegionCoverage: processing chr3
+2016-03-25 00:54:03 getRegionCoverage: done processing chr3
+2016-03-25 00:54:03 getRegionCoverage: processing chr4
+2016-03-25 00:54:33 getRegionCoverage: done processing chr4
+2016-03-25 00:54:33 getRegionCoverage: processing chr5
+2016-03-25 00:55:18 getRegionCoverage: done processing chr5
+2016-03-25 00:55:19 getRegionCoverage: processing chr6
+2016-03-25 00:55:55 getRegionCoverage: done processing chr6
+2016-03-25 00:55:55 getRegionCoverage: processing chr7
+2016-03-25 00:56:29 getRegionCoverage: done processing chr7
+2016-03-25 00:56:29 getRegionCoverage: processing chr8
+2016-03-25 00:56:58 getRegionCoverage: done processing chr8
+2016-03-25 00:56:59 getRegionCoverage: processing chr9
+2016-03-25 00:57:30 getRegionCoverage: done processing chr9
+2016-03-25 00:57:30 getRegionCoverage: processing chr10
+2016-03-25 00:58:04 getRegionCoverage: done processing chr10
+2016-03-25 00:58:04 getRegionCoverage: processing chr11
+2016-03-25 00:58:46 getRegionCoverage: done processing chr11
+2016-03-25 00:58:47 getRegionCoverage: processing chr12
+2016-03-25 00:59:31 getRegionCoverage: done processing chr12
+2016-03-25 00:59:32 getRegionCoverage: processing chr13
+2016-03-25 00:59:40 getRegionCoverage: done processing chr13
+2016-03-25 00:59:40 getRegionCoverage: processing chr14
+2016-03-25 00:59:58 getRegionCoverage: done processing chr14
+2016-03-25 00:59:58 getRegionCoverage: processing chr15
+2016-03-25 01:00:21 getRegionCoverage: done processing chr15
+2016-03-25 01:00:21 getRegionCoverage: processing chr16
+2016-03-25 01:00:49 getRegionCoverage: done processing chr16
+2016-03-25 01:00:50 getRegionCoverage: processing chr17
+2016-03-25 01:01:30 getRegionCoverage: done processing chr17
+2016-03-25 01:01:30 getRegionCoverage: processing chr18
+2016-03-25 01:01:38 getRegionCoverage: done processing chr18
+2016-03-25 01:01:38 getRegionCoverage: processing chr19
+2016-03-25 01:02:23 getRegionCoverage: done processing chr19
+2016-03-25 01:02:23 getRegionCoverage: processing chr20
+2016-03-25 01:02:37 getRegionCoverage: done processing chr20
+2016-03-25 01:02:37 getRegionCoverage: processing chr21
+2016-03-25 01:02:40 getRegionCoverage: done processing chr21
+2016-03-25 01:02:40 getRegionCoverage: processing chr22
+2016-03-25 01:02:50 getRegionCoverage: done processing chr22
+2016-03-25 01:02:50 getRegionCoverage: processing chrX
+2016-03-25 01:03:09 getRegionCoverage: done processing chrX
+2016-03-25 01:03:09 getRegionCoverage: processing chrY
+2016-03-25 01:03:09 getRegionCoverage: done processing chrY
+Session info -----------------------------------------------------------------------------------------------------------
+ setting  value                                             
+ version  R Under development (unstable) (2016-03-24 r70370)
+ system   x86_64, linux-gnu                                 
+ ui       X11                                               
+ language (EN)                                              
+ collate  en_US.UTF-8                                       
+ tz       <NA>                                              
+ date     2016-03-25                                        
+
+Packages ---------------------------------------------------------------------------------------------------------------
+ package              * version  date       source                                
+ acepack                1.3-3.3  2013-05-03 CRAN (R 3.2.0)                        
+ AnnotationDbi          1.33.7   2016-02-09 Bioconductor                          
+ Biobase                2.31.3   2015-12-20 Bioconductor                          
+ BiocGenerics         * 0.17.3   2016-02-09 Bioconductor                          
+ BiocParallel           1.5.21   2016-03-25 Bioconductor                          
+ biomaRt                2.27.2   2015-11-25 Bioconductor                          
+ Biostrings             2.39.12  2016-02-23 Bioconductor                          
+ bitops                 1.0-6    2013-08-17 CRAN (R 3.2.0)                        
+ BSgenome               1.39.4   2016-02-24 Bioconductor                          
+ bumphunter             1.11.3   2016-03-03 Bioconductor                          
+ cluster                2.0.3    2015-07-21 CRAN (R 3.4.0)                        
+ codetools              0.2-14   2015-07-15 CRAN (R 3.4.0)                        
+ colorout             * 1.1-2    2016-03-24 Github (jalvesaq/colorout@f96c00c)    
+ colorspace             1.2-6    2015-03-11 CRAN (R 3.2.0)                        
+ DBI                    0.3.1    2014-09-24 CRAN (R 3.2.0)                        
+ derfinder            * 1.5.30   2016-03-25 Github (lcolladotor/derfinder@79ab2e8)
+ derfinderHelper        1.5.3    2016-03-24 Bioconductor                          
+ devtools             * 1.10.0   2016-01-23 CRAN (R 3.3.0)                        
+ digest                 0.6.9    2016-01-08 CRAN (R 3.3.0)                        
+ doRNG                  1.6      2014-03-07 CRAN (R 3.2.0)                        
+ foreach                1.4.3    2015-10-13 CRAN (R 3.3.0)                        
+ foreign                0.8-66   2015-08-19 CRAN (R 3.4.0)                        
+ Formula                1.2-1    2015-04-07 CRAN (R 3.3.0)                        
+ GenomeInfoDb         * 1.7.6    2016-03-24 Bioconductor                          
+ GenomicAlignments      1.7.20   2016-03-03 Bioconductor                          
+ GenomicFeatures        1.23.27  2016-03-25 Bioconductor                          
+ GenomicFiles           1.7.9    2016-02-24 Bioconductor                          
+ GenomicRanges        * 1.23.24  2016-03-24 Bioconductor                          
+ ggplot2                2.1.0    2016-03-01 CRAN (R 3.4.0)                        
+ gridExtra              2.2.1    2016-02-29 CRAN (R 3.3.0)                        
+ gtable                 0.2.0    2016-02-26 CRAN (R 3.3.0)                        
+ Hmisc                  3.17-2   2016-02-21 CRAN (R 3.3.0)                        
+ IRanges              * 2.5.40   2016-03-14 Bioconductor                          
+ iterators              1.0.8    2015-10-13 CRAN (R 3.3.0)                        
+ lattice                0.20-33  2015-07-14 CRAN (R 3.4.0)                        
+ latticeExtra           0.6-28   2016-02-09 CRAN (R 3.3.0)                        
+ locfit                 1.5-9.1  2013-04-20 CRAN (R 3.2.0)                        
+ magrittr               1.5      2014-11-22 CRAN (R 3.3.0)                        
+ Matrix                 1.2-4    2016-03-02 CRAN (R 3.4.0)                        
+ matrixStats            0.50.1   2015-12-15 CRAN (R 3.3.0)                        
+ memoise                1.0.0    2016-01-29 CRAN (R 3.3.0)                        
+ munsell                0.4.3    2016-02-13 CRAN (R 3.3.0)                        
+ nnet                   7.3-12   2016-02-02 CRAN (R 3.4.0)                        
+ pkgmaker               0.22     2014-05-14 CRAN (R 3.2.0)                        
+ plyr                   1.8.3    2015-06-12 CRAN (R 3.3.0)                        
+ qvalue                 2.3.2    2016-01-08 Bioconductor                          
+ RColorBrewer         * 1.1-2    2014-12-07 CRAN (R 3.4.0)                        
+ Rcpp                   0.12.3   2016-01-10 CRAN (R 3.3.0)                        
+ RCurl                  1.95-4.8 2016-03-01 CRAN (R 3.3.0)                        
+ registry               0.3      2015-07-08 CRAN (R 3.3.0)                        
+ reshape2               1.4.1    2014-12-06 CRAN (R 3.2.0)                        
+ rngtools               1.2.4    2014-03-06 CRAN (R 3.2.0)                        
+ rpart                  4.1-10   2015-06-29 CRAN (R 3.4.0)                        
+ Rsamtools              1.23.6   2016-03-25 Bioconductor                          
+ RSQLite                1.0.0    2014-10-25 CRAN (R 3.2.0)                        
+ rtracklayer            1.31.7   2016-02-24 Bioconductor                          
+ S4Vectors            * 0.9.43   2016-03-25 Bioconductor                          
+ scales                 0.4.0    2016-02-26 CRAN (R 3.4.0)                        
+ stringi                1.0-1    2015-10-22 CRAN (R 3.3.0)                        
+ stringr                1.0.0    2015-04-30 CRAN (R 3.3.0)                        
+ SummarizedExperiment   1.1.22   2016-03-14 Bioconductor                          
+ survival               2.38-3   2015-07-02 CRAN (R 3.4.0)                        
+ VariantAnnotation      1.17.21  2016-03-25 Bioconductor                          
+ XML                    3.98-1.4 2016-03-01 CRAN (R 3.3.0)                        
+ xtable                 1.8-2    2016-02-05 CRAN (R 3.3.0)                        
+ XVector                0.11.7   2016-02-23 Bioconductor                          
+ zlibbioc               1.17.1   2016-03-25 Bioconductor                          
+[1] "2016-03-25 01:06:11 EDT"
+    user   system  elapsed 
+2442.902  173.606 1364.319 
