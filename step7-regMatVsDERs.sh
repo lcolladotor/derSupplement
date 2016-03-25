@@ -34,7 +34,7 @@ cat > ${ROOTDIR}/.${sname}.sh <<EOF
 #$ -m e
 #$ -l mem_free=200G,h_vmem=300G,h_fsize=30G
 #$ -N ${sname}
-#$ -hold_jid regMat-${EXPERIMENT},derM-${EXPERIMENT}.${PREFIX}
+#$ -hold_jid regMat-${EXPERIMENT}-cut-${CUTOFF}-merge,derM-${EXPERIMENT}.${PREFIX}
 echo "**** Job starts ****"
 date
 

@@ -49,7 +49,7 @@ names(files) <- pdSpan$lab
 ## Load the coverage information without filtering
 chrnums <- c(1:22, 'X', 'Y')
 
-fullCov <- fullCoverage(files = files, chrs = chrnums, mc.cores = opt$mcores, fileStyle = opt$fileStyle)
+fullCov <- fullCoverage(files = files, chrs = chrnums, mc.cores = opt$mcores, fileStyle = opt$fileStyle, outputs = 'auto')
 
 message(paste(Sys.time(), 'Saving the full (unfiltered) coverage data'))
 save(fullCov, file='fullCov.Rdata')
@@ -75,8 +75,8 @@ myFilt <- function(chr, rawData, cutoff, totalMapped = NULL, targetSize = 80e6) 
 	return(invisible(NULL))
 }
 
-message(paste(Sys.time(), 'Filtering and saving the data with cutoff', opt$cutoff))
-filteredCov <- bpmapply(myFilt, names(fullCov), fullCov, BPPARAM = SnowParam(opt$mcores, outfile = Sys.getenv('SGE_STDERR_PATH')), MoreArgs = list(cutoff = opt$cutoff, totalMapped = totalMapped, targetSize = targetSize))
+#message(paste(Sys.time(), 'Filtering and saving the data with cutoff', opt$cutoff))
+#filteredCov <- bpmapply(myFilt, names(fullCov), fullCov, BPPARAM = SnowParam(opt$mcores, outfile = Sys.getenv('SGE_STDERR_PATH')), MoreArgs = list(cutoff = opt$cutoff, totalMapped = totalMapped, targetSize = targetSize))
 
 ## Done!
 proc.time()
