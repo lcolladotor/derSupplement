@@ -66,7 +66,7 @@ myFilt <- function(chr, rawData, cutoff, totalMapped = NULL, targetSize = 80e6) 
 	## Save it in a unified name format
 	varname <- paste0(chr, 'CovInfo')
 	assign(varname, res)
-	output <- paste0(varname, '.Rdata')
+	output <- paste0(varname, '-filtered.Rdata')
 	
 	## Save the filtered data
 	save(list = varname, file = output, compress='gzip')
@@ -75,8 +75,8 @@ myFilt <- function(chr, rawData, cutoff, totalMapped = NULL, targetSize = 80e6) 
 	return(invisible(NULL))
 }
 
-#message(paste(Sys.time(), 'Filtering and saving the data with cutoff', opt$cutoff))
-#filteredCov <- bpmapply(myFilt, names(fullCov), fullCov, BPPARAM = SnowParam(opt$mcores, outfile = Sys.getenv('SGE_STDERR_PATH')), MoreArgs = list(cutoff = opt$cutoff, totalMapped = totalMapped, targetSize = targetSize))
+message(paste(Sys.time(), 'Filtering and saving the data with cutoff', opt$cutoff))
+filteredCov <- bpmapply(myFilt, names(fullCov), fullCov, BPPARAM = SnowParam(opt$mcores, outfile = Sys.getenv('SGE_STDERR_PATH')), MoreArgs = list(cutoff = opt$cutoff, totalMapped = totalMapped, targetSize = targetSize))
 
 ## Done!
 proc.time()
