@@ -204,6 +204,7 @@ length(unique(theGenes))
 if(!file.exists('rdas/summarized_BrainSpan_DERs.rda')) {
     stop("Run characterize_brainspan_DERs.R first")
 } else {
+    pdSpan_more <- pdSpan
     load("rdas/summarized_BrainSpan_DERs.rda")
 }
 
@@ -219,9 +220,9 @@ table(an2$dist==0)
 
 ### subset analysis ###
 
-Index1 = which(pdSpan$fetal == "Fetal" & 
-	pdSpan$NCX %in% c("HIP", "STR"))
-mod1 = model.matrix(~as.character(pdSpan$NCX[Index1]))
+Index1 = which(pdSpan_more$fetal == "Fetal" & 
+	pdSpan_more$NCX %in% c("HIP", "STR"))
+mod1 = model.matrix(~as.character(pdSpan_more$NCX[Index1]))
 colnames(mod1)[2] = "STR"
 fit1 = lmFit(y[,Index1], mod1)
 eb1 = ebayes(fit1)
