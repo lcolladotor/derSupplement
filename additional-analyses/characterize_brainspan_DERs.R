@@ -209,7 +209,7 @@ if(all(c('ensemblCount', 'ucscCount', 'gencodeCount') %in% ls())) {
 xx=load("/dcs01/ajaffe/Brain/derRuns/libd_n36/derCoverageInfo/fullCov.Rdata")
 names(fullCov) = paste0("chr", names(fullCov))
 
-coverListLibd = getRegionCoverage(fullCov,sigSpan,mc.cores=4)
+coverListLibd = getRegionCoverage(fullCov,sigSpan,mc.cores=1)
 meanCoverageLibd = t(sapply(coverListLibd, colMeans))
 save(meanCoverageLibd, file = "rdas/mean_LIBD_cover_BrainSpan_DERs.rda")
 
