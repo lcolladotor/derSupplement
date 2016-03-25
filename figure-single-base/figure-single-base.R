@@ -1,5 +1,12 @@
 ## Adapted from /home/epi/ajaffe/Lieber/Projects/derfinderPaper/figure1_stem.R
 
+## Usage:
+# qrsh -l mem_free=80G,h_vmem=90G
+# module load R/devel
+# mkdir -p logs
+# Rscript figure-single-base.R > logs/figure-single-base_log.txt 2>&1
+
+
 library('derfinder')
 library('derfinderHelper')
 library('derfinderPlot')
@@ -19,19 +26,28 @@ dataPath <- '/nexsan2/disk3/ajaffe/BrainSpan/RNAseq/bigwig/'
 
 ## Load data
 load("/home/epi/ajaffe/Lieber/Projects/Grants/Coverage_R01/brainspan/brainspan_phenotype.rda")
+
 ## Remove bad samples
 bad_samples <- which(rownames(pdSpan) %in% c('216', '218', '219'))
 pdSpan[bad_samples, ]
-files <- pdSpan$wig[-bad_samples]
-names(files) <- pdSpan$lab[-bad_samples]
+pdSpan <- pdSpan[-bad_samples, ]
+stopifnot(nrow(pdSpan) == 484)
+
+files <- pdSpan$wig
+names(files) <- pdSpan$lab
 
 load(file.path(resPath, 'fullRegions.Rdata'))
 ders <- fullRegions
+
 load(file.path(resPath, 'groupInfo.Rdata'))
 groupInfo <- groupInfo[-bad_samples]
+stopifnot(length(groupInfo) == 484)
+
 load(file.path(resPath, 'models.Rdata'))
 models$mod <- models$mod[-bad_samples, ]
 models$mod0 <- matrix(models$mod0[-bad_samples, ], ncol = 1)
+stopifnot(nrow(models$mod) == nrow(models$mod0))
+stopifnot(nrow(models$mod) == 484)
 
 ## Use same names as Jaffe
 rename <- data.frame(ori = c('Neo.F', 'Neo.A', 'notNeo.F', 'notNeo.A', 'CBC.F', 'CBC.A'), new = c('NCX.F', 'NCX.P', 'NonNCX.F', 'NonNCX.P', 'CBC.F', 'CBC.P'))
@@ -243,4 +259,9 @@ for(i in seq(along=eList)) {
 }
 dev.off()
 
-
+## Reproducibility info
+library('devtools')
+options(width = 120)
+session_info()
+Sys.time()
+proc.time()

@@ -1,3 +1,9 @@
+## Usage:
+# qrsh -l mem_free=80G,h_vmem=150G
+# module load R/devel
+# mkdir -p logs
+# Rscript analyze_brainspan.R > logs/analyze_brainspan_log.txt 2>&1
+
 ###
 library(limma)
 library(GenomicRanges)
@@ -27,6 +33,16 @@ load("/home/epi/ajaffe/Lieber/Projects/Grants/Coverage_R01/brainspan/brainspan_p
 load("/dcs01/ajaffe/Brain/derRuns/derSoftware/brainspan/regionMatrix/regionMat-cut0.25.Rdata")
 load("/dcs01/ajaffe/Brain/derRuns/derSoftware/brainspan/derAnalysis/run4-v1.0.10/models.Rdata")
 
+## Remove bad samples
+bad_samples <- which(rownames(pdSpan) %in% c('216', '218', '219'))
+pdSpan[bad_samples, ]
+pdSpan <- pdSpan[-bad_samples, ]
+stopifnot(nrow(pdSpan) == 484)
+models$mod <- models$mod[-bad_samples, ]
+models$mod0 <- matrix(models$mod0[-bad_samples, ], ncol = 1)
+stopifnot(nrow(models$mod) == nrow(models$mod0))
+stopifnot(nrow(models$mod) == 484)
+
 ## add pheno info
 pdSpan$fetal = ifelse(pdSpan$Age < 0, "Fetal", "Postnatal")
 pdSpan$fetal = factor(pdSpan$fetal,levels=c("Postnatal","Fetal"))
@@ -47,12 +63,13 @@ pdSpan$Group = factor(pdSpan$Group, levels =
 regions = unlist(GRangesList(lapply(regionMat, '[[', 'regions')))
 names(regions) = NULL
 regionMat = do.call("rbind", lapply(regionMat, '[[', 'coverageMatrix'))
-regionMat = regionMat[,pdSpan$lab] # put in order
-rownames(regionMat) = names(regions) = paste0("er", 1:nrow(regionMat))
+## Samples are in order
+identical(colnames(regionMat)[-bad_samples], pdSpan$lab)
+rownames(regionMat) = names(regions) = paste0("er", seq_len(nrow(regionMat)))
 
 ### filter out short DERs
 keepIndex = width(regions) > 8
-regionMat = regionMat[keepIndex,]
+regionMat = regionMat[keepIndex, -bad_samples]
 regions = regions[keepIndex]
 
 # total coverage
@@ -66,17 +83,23 @@ y = log2(regionMat + 1)
 ####################
 
 ## make genomic state
-library("TxDb.Hsapiens.UCSC.hg19.knownGene")
-GenomicState_knownGene = makeGenomicState(
-	TxDb.Hsapiens.UCSC.hg19.knownGene,
-	chrs = paste0("chr", c(1:22, "X", "Y","M")))$fullGenome
-save(GenomicState_knownGene, compress=TRUE,
-	file="rdas/GenomicState_knownGene_derfinderPaper.rda")
+if(!file.exists('rdas/GenomicState_knownGene_derfinderPaper.rda')) {
+    library("TxDb.Hsapiens.UCSC.hg19.knownGene")
+    GenomicState_knownGene = makeGenomicState(
+    	TxDb.Hsapiens.UCSC.hg19.knownGene,
+    	chrs = paste0("chr", c(1:22, "X", "Y","M")))$fullGenome
+    dir.create('rdas', showWarnings = FALSE)
+    save(GenomicState_knownGene, compress=TRUE,
+    	file="rdas/GenomicState_knownGene_derfinderPaper.rda")
+} else {
+    load('rdas/GenomicState_knownGene_derfinderPaper.rda')
+}
+
 
 #### annotate
 ucscAnno = annotateRegions(regions,GenomicState_knownGene)
 countTable = ucscAnno$countTable
-vennDiagram(vennCounts(countTable > 0)); mtext("UCSC", line=1,cex=2)
+if(interactive()) vennDiagram(vennCounts(countTable > 0)); mtext("UCSC", line=1,cex=2)
 
 ## annotation breakdown ####
 dim(countTable)
@@ -113,12 +136,13 @@ pc1Mat = sapply(pcList, function(x) x$x[,1])
 pc2Mat = sapply(pcList, function(x) x$x[,2])
 
 ### plots
+dir.create('plots', showWarnings = FALSE)
 pdf("plots/brainspan_regionMatrix_PCA_byAnno.pdf")
 palette(brewer.pal(3,"Set1"))
 name = c("Exonic", "Intronic", "Intergenic","Exon+Intron", "All")
 par(mar=c(5,6,2,2))
 for(i in 1:ncol(pc1Mat)) {
-	plot(pc1Mat[,i], pc2Mat[,i], 
+	plot(x=pc1Mat[,i], y=pc2Mat[,i], 
 		bg = as.numeric(pdSpan$fetal),
 		pch = rep(c(21,22,24),times=c(11,4,1))[as.numeric(pdSpan$struct )],
 		xlab = paste0("PC1: ",pcVarMat[1,i],"% of Var Expl"),
@@ -172,6 +196,14 @@ theGenes = sapply(theGenes, function(x) x[!is.na(x)])
 theGenes = theGenes[!is.na(theGenes)]
 length(unique(theGenes))
 
+
+if(!file.exists('rdas/summarized_BrainSpan_DERs.rda')) {
+    stop("Run characterize_brainspan_DERs.R first")
+} else {
+    load("rdas/summarized_BrainSpan_DERs.rda")
+}
+
+
 an = annotateNearest(regions, sigSpan)
 sum(an$dist==0)
 
@@ -192,10 +224,13 @@ eb1 = ebayes(fit1)
 sigIndex1 = order(eb1$p[,2])[1:sum(p.adjust(eb1$p[,2], "bonf") < 0.05)]
 length(sigIndex1)
 
-theGenes1 = matchGenes(regions[sigIndex1])
+library("TxDb.Hsapiens.UCSC.hg19.knownGene")
+genes <- annotateTranscripts(TxDb.Hsapiens.UCSC.hg19.knownGene)
+         
+theGenes1 = matchGenes(regions[sigIndex1], genes)
 theGenes1$annotation = ss(theGenes1$annotation, " ")
 
-geneList1 = split(theGenes1$name, sign(eb1$t[sigIndex1,2]))
+geneList1 = split(theGenes1$name, sign(eb1$t[sigIndex1, 2]))
 geneList1 = lapply(geneList1, unique)
 lapply(geneList1, head, 50)
 
@@ -207,6 +242,15 @@ regList1 = lapply(regionMat, function(x) x$regions)
 regions1 = unlist(GRangesList(regList1))
 fullRegionMat1 = do.call("rbind",
 	lapply(regionMat, function(x) x$coverageMatrix))
+fullRegionMat1 <- fullRegionMat1[, -bad_samples]
+stopifnot(ncol(fullRegionMat1) == 484)
 keepIndex1=which(width(regions1) >= 6)
 regions1 = regions1[keepIndex1]
 fullRegionMat1 = fullRegionMat1[keepIndex1,]
+
+## Reproducibility info
+library('devtools')
+options(width = 120)
+session_info()
+Sys.time()
+proc.time()

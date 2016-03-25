@@ -3,33 +3,65 @@
 ## By Andrew Jaffe
 ## needs: R
 
+## Usage:
+# qrsh -l mem_free=200G,h_vmem=250G
+# module load R/devel
+# mkdir -p logs
+# Rscript characterize_brainspan.R > logs/characterize_brainspan_log.txt 2>&1
+
 source("/home/epi/ajaffe/Lieber/lieber_functions_aj.R") 
 
 library(derfinder)
 library(GenomicRanges)
+ load("/home/epi/ajaffe/Lieber/Projects/Grants/Coverage_R01/brainspan/brainspan_phenotype.rda")
 
-# load("/home/epi/ajaffe/Lieber/Projects/Grants/Coverage_R01/brainspan/brainspan_phenotype.rda")
-
-path = "/dcs01/ajaffe/Brain/derRuns/derSupplement/brainspan/derAnalysis/run4-v1.0.10/"
+#path = "/dcs01/ajaffe/Brain/derRuns/derSsupplement/brainspan/derAnalysis/run4-v1.0.10/"
+path = "/dcs01/ajaffe/Brain/derRuns/derSoftware/brainspan/derAnalysis/run4-v1.0.10/"
 
 # load in DERs from the prep file
-# load(paste0(path,"fullRegions.Rdata"))
 load(paste0(path,"groupInfo.Rdata"))
 load(paste0(path,"fullAnnotatedRegions.Rdata"))
 
-# # load coverage
-# load("/dcs01/ajaffe/Brain/derRuns/derSupplement/brainspan/CoverageInfo/fullCov.Rdata")
+## Remove bad samples
+bad_samples <- which(rownames(pdSpan) %in% c('216', '218', '219'))
+pdSpan[bad_samples, ]
+pdSpan <- pdSpan[-bad_samples, ]
+stopifnot(nrow(pdSpan) == 484)
+groupInfo <- groupInfo[-bad_samples]
+stopifnot(length(groupInfo) == 484)
 
-#####################
-### significant
-# sigSpan = fullRegions[fullRegions$significantFWER == "TRUE"]
+dir.create('rdas', showWarnings = FALSE)
+if(!file.exists('rdas/summarized_BrainSpan_DERs.rda')) {
+    load(paste0(path, "fullRegions.Rdata"))
+    # # load coverage
+    
 
-# coverList = getRegionCoverage(fullCov,sigSpan,mc.cores=1)
-# meanCoverage = t(sapply(coverList, colMeans))
-# colnames(meanCoverage) = pdSpan$lab
-# save(meanCoverage, pdSpan, sigSpan, file = "rdas/summarized_BrainSpan_DERs.rda")
+    #####################
+    ### significant
+    sigSpan = fullRegions[fullRegions$significantFWER == "TRUE"]
 
-load("rdas/summarized_BrainSpan_DERs.rda")
+    
+    save(pdSpan, sigSpan, bad_samples, file = "rdas/summarized_BrainSpan_DERs.rda")
+} else {
+    load("rdas/summarized_BrainSpan_DERs.rda")
+}
+
+if(!file.exists('rdas/summarized_BrainSpan_DERs_meanCov.rda')) {
+    #load("/dcs01/ajaffe/Brain/derRuns/derSupplement/brainspan/CoverageInfo/fullCov.Rdata")
+    load("/dcs01/ajaffe/Brain/derRuns/derSoftware/brainspan/CoverageInfo/bioarxiv_version/fullCov.Rdata")
+     
+     coverList = getRegionCoverage(fullCov, sigSpan, mc.cores=1)
+     meanCoverage = t(sapply(coverList, colMeans))
+     meanCoverage <- meanCoverage[, -bad_samples]
+     stopifnot(ncol(meanCoverage) == 484)
+     colnames(meanCoverage) = pdSpan$lab
+     
+     save(meanCoverage, file = "rdas/summarized_BrainSpan_DERs_meanCov.rda")
+} else {
+    load('rdas/summarized_BrainSpan_DERs_meanCov.rda')
+}
+
+
 
 pdSpan$groupInfo= groupInfo
 sigSpan$annotation = ss(sigSpan$annotation, " ")
@@ -84,16 +116,21 @@ save(goByGroup,file="rdas/go_output.rda")
 
 
 ######## PCA
-# pca = prcomp(t(log2(meanCoverage+1)))
-# pca$rot = pca$rot[,1:10]
-# save(pca, file="rdas/brainspan_der_pca.rda")
+if(!file.exists('rdas/brainspan_der_pca.rda')) {
+    pca = prcomp(t(log2(meanCoverage+1)))
+    pca$rot = pca$rot[,1:10]
+    save(pca, file="rdas/brainspan_der_pca.rda")
+} else {
+    load("rdas/brainspan_der_pca.rda")  
+}
 
-load("rdas/brainspan_der_pca.rda")
+
 pcaVars = getPcaVars(pca)
 
 levels(groupInfo) = c("NCX.F", "NCX.P",
 	"NonNCX.F", "NonNCX.P","CBC.F","CBC.P")
 
+dir.create('plots', showWarnings = FALSE)
 pdf("plots/brainspan_pcs_ders.pdf")
 palette(brewer.pal(6,"Dark2"))
 par(mar=c(5,6,2,2))
@@ -125,7 +162,7 @@ for(i in 1:10) {
 }
 dev.off()
 
-plot(pca$x[,2] ~ as.numeric(pdSpan$RIN))
+if(interactive()) plot(pca$x[,2] ~ as.numeric(pdSpan$RIN))
 
 ## annotate regions based on transcriptome databases
 countTable = fullAnnotatedRegions$countTable[seq(along=sigSpan),]
@@ -171,3 +208,10 @@ names(fullCov) = paste0("chr", names(fullCov))
 coverListLibd = getRegionCoverage(fullCov,sigSpan,mc.cores=4)
 meanCoverageLibd = t(sapply(coverListLibd, colMeans))
 save(meanCoverageLibd, file = "rdas/mean_LIBD_cover_BrainSpan_DERs.rda")
+
+## Reproducibility info
+library('devtools')
+options(width = 120)
+session_info()
+Sys.time()
+proc.time()

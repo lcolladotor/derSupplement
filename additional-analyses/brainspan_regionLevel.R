@@ -1,3 +1,9 @@
+## Usage:
+# qrsh -l mem_free=80G,h_vmem=150G
+# module load R/devel
+# mkdir -p logs
+# Rscript brainspan_regionLevel.R > logs/brainspan_regionLevel_log.txt 2>&1
+
 ###
 library(limma)
 library(GenomicRanges)
@@ -20,10 +26,25 @@ getF = function(fit, fit0, theData) {
 }
 
 # load data
-load("/home/epi/ajaffe/Lieber/Projects/Grants/Coverage_R01/brainspan/brainspan_phenotype.rda")
-load("/dcs01/ajaffe/Brain/derRuns/derSupplement/brainspan/regionMatrix/regionMat-cut0.25.Rdata")
-load("/dcs01/ajaffe/Brain/derRuns/derSupplement/brainspan/derAnalysis/run4-v1.0.10/models.Rdata")
-load("rdas/summarized_BrainSpan_DERs.rda") # single base
+#load("/dcs01/ajaffe/Brain/derRuns/derSupplement/brainspan/regionMatrix/regionMat-cut0.25.Rdata")
+load("/dcs01/ajaffe/Brain/derRuns/derSoftware/brainspan/regionMatrix/regionMat-cut0.25.Rdata")
+#load("/dcs01/ajaffe/Brain/derRuns/derSupplement/brainspan/derAnalysis/run4-v1.0.10/models.Rdata")
+load("/dcs01/ajaffe/Brain/derRuns/derSoftware/brainspan/derAnalysis/run4-v1.0.10/models.Rdata")
+
+## Load single base results
+if(!file.exists('rdas/summarized_BrainSpan_DERs.rda')) {
+    stop("Run characterize_brainspan_DERs.R first")
+} else {
+    load("rdas/summarized_BrainSpan_DERs.rda")
+}
+
+## Fix models
+models$mod <- models$mod[-bad_samples, ]
+models$mod0 <- matrix(models$mod0[-bad_samples, ], ncol = 1)
+stopifnot(nrow(models$mod) == nrow(models$mod0))
+stopifnot(nrow(models$mod) == 484)
+stopifnot(nrow(pdSpan) == 484)
+
 sigSpan$annotation = ss(sigSpan$annotation, " ")
 
 ## add pheno info
@@ -49,6 +70,9 @@ fullRegionGR = unlist(GRangesList(regList))
 # coverage matrix
 fullRegionMat = do.call("rbind",
 	lapply(regionMat, function(x) x$coverageMatrix))
+## Drop bad samples
+fullRegionMat <- fullRegionMat[, -bad_samples]
+stopifnot(ncol(fullRegionMat) == 484)
 
 ## drop regions shorter than 6 bp
 keepIndex=which(width(fullRegionGR) >= 6)
@@ -59,14 +83,18 @@ fullRegionMat = fullRegionMat[keepIndex,]
 sum(width(fullRegionGR))/1e6
 
 ##### lower cutoff
-load("/dcs01/ajaffe/Brain/derRuns/derSupplement/brainspan/regionMatrix/regionMat-cut0.1.Rdata")
+#load("/dcs01/ajaffe/Brain/derRuns/derSupplement/brainspan/regionMatrix/regionMat-cut0.1.Rdata")
+load("/dcs01/ajaffe/Brain/derRuns/derSoftware/brainspan/regionMatrix/regionMat-cut0.1.Rdata")
 regList1 = lapply(regionMat, function(x) x$regions)
 fullRegionGR1 = unlist(GRangesList(regList1))
 fullRegionMat1 = do.call("rbind",
 	lapply(regionMat, function(x) x$coverageMatrix))
+
 keepIndex1=which(width(fullRegionGR1) >= 6)
 fullRegionGR1 = fullRegionGR1[keepIndex1]
 fullRegionMat1 = fullRegionMat1[keepIndex1,]
+fullRegionMat1 <- fullRegionMat1[, -bad_samples]
+stopifnot(ncol(fullRegionMat1) == 484)
 
 ## log transform
 y = log2(fullRegionMat + 1)
@@ -77,7 +105,6 @@ load("/home/epi/ajaffe/GenomicStates/GenomicState.Hsapiens.ensembl.GRCh37.p12.rd
 gs = GenomicState.Hsapiens.ensembl.GRCh37.p12$fullGenome
 ensemblAnno = annotateRegions(fullRegionGR,gs)
 countTable = ensemblAnno$countTable
-vennDiagram(vennCounts(countTable > 0)); mtext("Ensembl", line=1,cex=2)
 
 mean(countTable$exon == 1 & countTable$intergenic == 0 & 
 	countTable$intron== 0)
@@ -87,7 +114,12 @@ mean(countTable$exon == 0 & (countTable$intergenic > 0 |
 ## with 0.1 cutoff	
 ensemblAnno1 = annotateRegions(fullRegionGR1,gs)
 countTable1 = ensemblAnno1$countTable
+
+dir.create('plots', showWarnings = FALSE)
+pdf("plots/venn_counts_brainspan_regionLevel.pdf",h=5,w=6)
+vennDiagram(vennCounts(countTable > 0)); mtext("Ensembl", line=1,cex=2)
 vennDiagram(vennCounts(countTable1 > 0)); mtext("Ensembl", line=1,cex=2)
+dev.off()
 
 mean(countTable1$exon == 1 & countTable1$intergenic == 0 & 
 	countTable1$intron== 0)
@@ -130,10 +162,18 @@ eb1 = ebayes(fit1)
 sigIndex1 = order(eb1$p[,2])[1:sum(p.adjust(eb1$p[,2], "bonf") < 0.05)]
 length(sigIndex1)
 
-theGenes1 = matchGenes(fullRegionGR[sigIndex1])
+library("TxDb.Hsapiens.UCSC.hg19.knownGene")
+genes <- annotateTranscripts(TxDb.Hsapiens.UCSC.hg19.knownGene)
+theGenes1 = matchGenes(fullRegionGR[sigIndex1], genes)
 theGenes1$annotation = ss(theGenes1$annotation, " ")
 
 geneList1 = split(theGenes1$name, sign(eb1$t[sigIndex1,2]))
 geneList1 = lapply(geneList1, unique)
 lapply(geneList1, head, 50)
 
+## Reproducibility info
+library('devtools')
+options(width = 120)
+session_info()
+Sys.time()
+proc.time()
