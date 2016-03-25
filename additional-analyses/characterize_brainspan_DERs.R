@@ -9,7 +9,7 @@
 # qrsh -l mem_free=200G,h_vmem=300G
 # module load R/devel
 # mkdir -p logs
-# Rscript characterize_brainspan.R > logs/characterize_brainspan_log.txt 2>&1
+# Rscript characterize_brainspan_DERs.R > logs/characterize_brainspan_DERs_log.txt 2>&1
 
 source("/home/epi/ajaffe/Lieber/lieber_functions_aj.R") 
 
@@ -17,7 +17,7 @@ library(derfinder)
 library(GenomicRanges)
  load("/home/epi/ajaffe/Lieber/Projects/Grants/Coverage_R01/brainspan/brainspan_phenotype.rda")
 
-#path = "/dcs01/ajaffe/Brain/derRuns/derSsupplement/brainspan/derAnalysis/run4-v1.0.10/"
+#path = "/dcs01/ajaffe/Brain/derRuns/derSupplement/brainspan/derAnalysis/run4-v1.0.10/"
 path = "/dcs01/ajaffe/Brain/derRuns/derSoftware/brainspan/derAnalysis/run4-v1.0.10/"
 
 # load in DERs from the prep file
