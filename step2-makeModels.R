@@ -57,6 +57,12 @@ buildModels <- function(fullCov, testvars, colsubset = NULL) {
 if(opt$experiment == 'brainspan') {
     ## Define the groups
     load("/home/epi/ajaffe/Lieber/Projects/Grants/Coverage_R01/brainspan/brainspan_phenotype.rda")
+    ## Drop bad samples
+    bad_samples <- which(rownames(pdSpan) %in% c('216', '218', '219'))
+    pdSpan[bad_samples, ]
+    pdSpan <- pdSpan[-bad_samples, ]
+    stopifnot(nrow(pdSpan) == 484)
+    
 
     ## Build the models
     fetal <- ifelse(pdSpan$Age < 0, "fetal", "adult")

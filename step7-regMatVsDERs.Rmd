@@ -1,8 +1,10 @@
 ---
 output:
-  knitrBootstrap::bootstrap_document:
-    theme.chooser: TRUE
-    highlight.chooser: TRUE
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: hide
+    theme: spacelab
 ---
 
 Compare output from regionMatrix() with DERs
@@ -12,14 +14,13 @@ Compare output from regionMatrix() with DERs
 
 ## Libraries
 
-```{r 'libraries', bootstrap.show.message = FALSE, bootstrap.show.code = FALSE}
+```{r 'libraries'}
 library('GenomicRanges')
-library('data.table')
-library('rCharts')
+library('DT')
 library('knitr')
 library('ggplot2')
 library('devtools')
-opts_chunk$set(bootstrap.show.code = FALSE, dev = 'CairoPNG')
+opts_chunk$set(dev = 'CairoPNG')
 ```
 
 
@@ -216,14 +217,9 @@ overallInfo
 overallInfo / sum(as.numeric(index.num$chrLen)) * 100
 ```
 
-<link rel="stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css" />
-<script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
-
 ```{r 'print-index-num', results = 'asis'}
-d1 <- data.table(data.frame(row = seq_len(nrow(index.num)), index.num, check.names=FALSE))
-t1 <- dTable(d1, sPaginationType=  'full_numbers', iDisplayLength=25,
-    sScrollX='100%')
-t1$print("bases", cdn=TRUE)
+d1 <- data.frame(row = seq_len(nrow(index.num)), index.num, check.names=FALSE)
+datatable(d1, options = list(pagingType='full_numbers', pageLength=25, scrollX='100%'), rownames = FALSE)
 ```
 
 ### Segments per index
@@ -250,10 +246,8 @@ colSums(index.seg[, -ncol(index.seg)])
 
 
 ```{r 'print-index-seg', results = 'asis'}
-d2 <- data.table(data.frame(row = seq_len(nrow(index.seg)), index.seg, check.names=FALSE))
-t2 <- dTable(d2, sPaginationType=  'full_numbers', iDisplayLength=25,
-    sScrollX='100%')
-t2$print("segments")
+d2 <- (data.frame(row = seq_len(nrow(index.seg)), index.seg, check.names=FALSE)
+datatable(d2, options = list(pagingType='full_numbers', pageLength=25, scrollX='100%'), rownames = FALSE)
 ```
 
 
@@ -279,10 +273,8 @@ summary(index.width)
 ```
 
 ```{r 'print-index-width', results = 'asis'}
-d3 <- data.table(data.frame(row = seq_len(nrow(index.width)), index.width, check.names=FALSE))
-t3 <- dTable(d3, sPaginationType=  'full_numbers', iDisplayLength=25,
-    sScrollX='100%')
-t3$print("widths")
+d3 <- data.frame(row = seq_len(nrow(index.width)), index.width, check.names=FALSE)
+datatable(d3, options = list(pagingType='full_numbers', pageLength=25, scrollX='100%'), rownames = FALSE)
 ```
 
 
@@ -290,7 +282,7 @@ t3$print("widths")
 
 ### Minimum 20 bp
 
-```{r 'overlaps20', bootstrap.show.message = FALSE}
+```{r 'overlaps20'}
 ov20 <- findOverlaps(ders, regs, minoverlap = 20L)
 
 counts <- list()
@@ -347,7 +339,7 @@ c('regs' = 100 - subset(nOverlap20, match == 'regs-in-DERs' & nOverlap == 0 & ty
 
 ### Minimum 1 bp
 
-```{r 'overlaps1', bootstrap.show.message = FALSE}
+```{r 'overlaps1'}
 ov1 <- findOverlaps(ders, regs, minoverlap = 1L)
 
 counts <- list()
@@ -409,7 +401,6 @@ Re-make the report
 ```{r 'remake', eval = FALSE}
 # Load fullRegions.Rdata and regionMat.Rdata before this step
 library('rmarkdown')
-library('knitrBootstrap')
 render('step7-regMatVsDERs.Rmd')
 ```
 

@@ -62,20 +62,7 @@ if (opt$experiment == 'brainspan') {
         groupInfo = groupInfo, mc.cores = opt$mcores, 
         lowMemDir = file.path(tempdir(), opt$chr, 'chunksDir'), chunksize = 1e5,
         scalefac = 1)
-} else if (opt$experiment == 'snyder') {
-    analyzeChr(chr = opt$chr, coverageInfo = covData, models = models, 
-        cutoffFstat = 1e-05, colsubset = colsubset,
-        nPermute = 100, seeds = seq_len(100) + 20131212, maxClusterGap = 3000,
-        groupInfo = groupInfo, mc.cores = opt$mcores,
-        lowMemDir = file.path(tempdir(), opt$chr, 'chunksDir'))
-} else if (opt$experiment == 'hippo') {
-    analyzeChr(chr = opt$chr, coverageInfo = covData, models = models, 
-        cutoffFstat = 1e-04, colsubset = colsubset, cutoffPre = 3,
-        nPermute = 100, seeds = seq_len(100) + 20131212, maxClusterGap = 3000,
-        groupInfo = groupInfo, mc.cores = opt$mcores,
-        lowMemDir = file.path(tempdir(), opt$chr, 'chunksDir'))
 }
-
 
 ## Done
 proc.time()

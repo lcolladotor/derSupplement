@@ -36,6 +36,11 @@ targetSize <- 80e6
 
 ## Identify the data directories 
 load("/home/epi/ajaffe/Lieber/Projects/Grants/Coverage_R01/brainspan/brainspan_phenotype.rda")
+bad_samples <- which(rownames(pdSpan) %in% c('216', '218', '219'))
+pdSpan[bad_samples, ]
+pdSpan <- pdSpan[-bad_samples, ]
+stopifnot(nrow(pdSpan) == 484)
+
 files <- pdSpan$wig
 names(files) <- pdSpan$lab
 

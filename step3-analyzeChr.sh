@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ## Usage
-# sh step3-analyzeChr.sh brainspan run4-v1.0.10
+# sh step3-analyzeChr.sh brainspan run5-v1.5.30
 
 # Define variables
 EXPERIMENT=$1
@@ -67,7 +67,7 @@ mkdir -p ${WDIR}/${outdir}/logs
 
 # run analyzeChr()
 cd ${WDIR}/${PREFIX}/
-module load R/3.2.x
+module load R/devel
 Rscript ${ROOTDIR}/step3-analyzeChr.R -d "${DATADIR}/${chr}CovInfo.Rdata" -c "${chrnum}" -m ${CORES} -e "${EXPERIMENT}"
 
 # Move log files into the logs directory

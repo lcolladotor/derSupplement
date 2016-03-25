@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ## Usage
-# sh step2-makeModels.sh brainspan run4-v1.0.10
+# sh step2-makeModels.sh brainspan run5-v1.5.30
 
 # Define variables
 EXPERIMENT=$1
@@ -32,7 +32,7 @@ mkdir -p ${WDIR}/${outdir}/logs
 
 # merge results
 cd ${WDIR}/${outdir}/
-module load R/3.2.x
+module load R/devel
 Rscript ${ROOTDIR}/step2-makeModels.R -e "${EXPERIMENT}"
 
 # Move log files into the logs directory

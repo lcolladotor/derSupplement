@@ -16,7 +16,7 @@ WDIR=${MAINDIR}/regionMatrix
 
 if [[ "${EXPERIMENT}" == "brainspan" ]]
 then
-    CUTOFF=0.1
+    CUTOFFS="0.1 0.25"
     RLENGTH=100
 else
     echo "Specify a valid experiment: brainspan"
@@ -24,8 +24,12 @@ fi
 
 
 # Construct shell files
-sname="${SHORT}"
-echo "Creating script ${sname}"
+
+
+for CUTOFF in ${CUTOFFS}
+do
+    sname="${SHORT}-cut-${CUTOFF}"
+    echo "Creating script ${sname}"
 
 cat > ${ROOTDIR}/.${sname}.sh <<EOF
 #!/bin/bash	
@@ -44,7 +48,7 @@ mkdir -p ${WDIR}/logs
 
 # Load coverage & get region matrix
 cd ${WDIR}
-module load R/3.2.x
+module load R/devel
 R -e "library(derfinder); message(Sys.time()); timeinfo <- NULL; timeinfo <- c(timeinfo, list(Sys.time())); load('${MAINDIR}/CoverageInfo/fullCov.Rdata'); timeinfo <- c(timeinfo, list(Sys.time())); proc.time(); message(Sys.time()); regionMat <- regionMatrix(fullCov, maxClusterGap = 3000L, L = ${RLENGTH}, mc.cores = ${ncore}, cutoff = ${CUTOFF}, returnBP = FALSE); timeinfo <- c(timeinfo, list(Sys.time())); save(regionMat, file='regionMat-cut${CUTOFF}.Rdata'); timeinfo <- c(timeinfo, list(Sys.time())); save(timeinfo, file='timeinfo-${cores}.Rdata'); proc.time(); message(Sys.time()); options(width = 120); devtools::session_info()"
 
 ## Move log files into the logs directory
@@ -54,6 +58,7 @@ echo "**** Job ends ****"
 date
 EOF
 
-call="qsub .${sname}.sh"
-echo $call
-$call
+    call="qsub .${sname}.sh"
+    echo $call
+    $call
+done

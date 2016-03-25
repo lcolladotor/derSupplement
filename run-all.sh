@@ -1,10 +1,10 @@
 #!/bin/sh
 
 ## Usage
-# sh run-all.sh brainspan run4-v1.0.10
+# sh run-all.sh brainspan run5-v1.5.30
 
 ## Skip fullCov but run regionMatrix:
-# sh run-all.sh brainspan run4-v1.0.10 TRUE FALSE TRUE
+# sh run-all.sh brainspan run5-v1.5.30 TRUE FALSE TRUE
 
 # Define variables
 EXPERIMENT=$1

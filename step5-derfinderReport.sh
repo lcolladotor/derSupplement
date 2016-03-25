@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ## Usage
-# sh step5-derfinderReport.sh brainspan run4-v1.0.10
+# sh step5-derfinderReport.sh brainspan run5-v1.5.30
 
 # Define variables
 EXPERIMENT=$1
@@ -33,7 +33,7 @@ mkdir -p ${WDIR}/${outdir}/logs
 
 # merge results
 cd ${WDIR}
-module load R/3.2.x
+module load R/devel
 Rscript -e "library(regionReport); load('${MAINDIR}/CoverageInfo/fullCov.Rdata'); derfinderReport(prefix='${PREFIX}', browse=FALSE, nBestRegions = 100,  nBestClusters=20, fullCov=fullCov, device='CairoPNG', clean = FALSE); Sys.time(); proc.time(); options(width = 120); devtools::session_info()"
 
 # Move log files into the logs directory

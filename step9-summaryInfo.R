@@ -6,11 +6,7 @@
 # install.packages("getopt")
 library("getopt")
 
-## Available from http://cran.at.r-project.org/web/packages/knitrBootstrap/index.html
-# install.packages("knitrBootstrap")
-library("knitrBootstrap")
-
-## Available from http://cran.at.r-project.org/web/packages/knitrBootstrap/index.html
+## Available from http://cran.at.r-project.org/web/packages/rmarkdown/index.html
 # install.packages("rmarkdown")
 library('rmarkdown')
 

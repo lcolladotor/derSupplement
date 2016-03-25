@@ -1,5 +1,5 @@
 ## Usage
-# sh step9-summaryInfo.sh brainspan run4-v1.0.10
+# sh step9-summaryInfo.sh brainspan run5-v1.5.30
 
 # Define variables
 EXPERIMENT=$1
@@ -38,7 +38,7 @@ mkdir -p ${WDIR}/logs
 
 # Compare DERs vs regionMatrix
 cd ${WDIR}
-module load R/3.2.x
+module load R/devel
 Rscript ${ROOTDIR}/step9-summaryInfo.R -s '${EXPERIMENT}' -r '${PREFIX}' -p '${EXAMPLES}' -v TRUE
 
 # Move log files into the logs directory
