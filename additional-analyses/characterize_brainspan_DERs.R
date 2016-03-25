@@ -194,12 +194,14 @@ type=c("Intergenic", "Intronic","Exonic")
 
 #######
 ## venn diagram of counts
-library(limma)
-pdf("plots/venn_counts.pdf",h=5,w=6)
-vennDiagram(vennCounts(ensemblCount > 0)); mtext("Ensembl", line=1,cex=2)
-vennDiagram(vennCounts(ucscCount > 0)); mtext("UCSC", line=1,cex=2)
-vennDiagram(vennCounts(gencodeCount > 0)); mtext("Gencode", line=1,cex=2)
-dev.off()
+if(all(c('ensemblCount', 'ucscCount', 'gencodeCount') %in% ls())) {
+    library(limma)
+    pdf("plots/venn_counts.pdf",h=5,w=6)
+    vennDiagram(vennCounts(ensemblCount > 0)); mtext("Ensembl", line=1,cex=2)
+    vennDiagram(vennCounts(ucscCount > 0)); mtext("UCSC", line=1,cex=2)
+    vennDiagram(vennCounts(gencodeCount > 0)); mtext("Gencode", line=1,cex=2)
+    dev.off()
+}
 
 ##########
 
