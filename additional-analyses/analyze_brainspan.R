@@ -64,7 +64,7 @@ regions = unlist(GRangesList(lapply(regionMat, '[[', 'regions')))
 names(regions) = NULL
 regionMat = do.call("rbind", lapply(regionMat, '[[', 'coverageMatrix'))
 ## Samples are in order
-identical(colnames(regionMat)[-bad_samples], pdSpan$lab)
+stopifnot(identical(colnames(regionMat)[-bad_samples], pdSpan$lab))
 rownames(regionMat) = names(regions) = paste0("er", seq_len(nrow(regionMat)))
 
 ### filter out short DERs
