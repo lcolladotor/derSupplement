@@ -1,1 +1,4 @@
 GenomicState.Hsapiens.UCSC.hg19.knownGene.rda
+## Job script files
+.*sh
+
