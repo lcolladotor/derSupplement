@@ -76,7 +76,7 @@ myFilt <- function(chr, rawData, cutoff, totalMapped = NULL, targetSize = 80e6) 
 }
 
 message(paste(Sys.time(), 'Filtering and saving the data with cutoff', opt$cutoff))
-filteredCov <- bpmapply(myFilt, names(fullCov), fullCov, BPPARAM = SnowParam(opt$mcores, outfile = Sys.getenv('SGE_STDERR_PATH')), MoreArgs = list(cutoff = opt$cutoff, totalMapped = totalMapped, targetSize = targetSize))
+filteredCov <- bpmapply(myFilt, names(fullCov), fullCov, BPPARAM = SerialParam()), MoreArgs = list(cutoff = opt$cutoff, totalMapped = totalMapped, targetSize = targetSize))
 
 ## Done!
 proc.time()
