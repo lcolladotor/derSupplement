@@ -31,9 +31,8 @@ do
 #!/bin/bash	
 #$ -cwd
 #$ -m e
-#$ -l mem_free=210G,h_vmem=250G,h_fsize=30G
+#$ -l mem_free=250G,h_vmem=300G,h_fsize=30G
 #$ -N ${sname}
-#$ -pe local ${CORES}
 #$ -hold_jid fullCov-${EXPERIMENT}
 
 echo "**** Job starts ****"
