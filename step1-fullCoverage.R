@@ -54,12 +54,22 @@ fullCov <- fullCoverage(files = files, chrs = chrnums, mc.cores = opt$mcores, fi
 message(paste(Sys.time(), 'Saving the full (unfiltered) coverage data'))
 save(fullCov, file='fullCov.Rdata')
 
+rm(fullCov)
+
+fullCov_files <- as.list(dir(pattern = 'chr'))
+names(fullCov_files) <- paste0('chr', chrnums)
+
 ## Filter the data and save it by chr
-myFilt <- function(chr, rawData, cutoff, totalMapped = NULL, targetSize = 80e6) {
+myFilt <- function(chr, rawData_file, cutoff, totalMapped = NULL, targetSize = 80e6) {
     library('derfinder')
-    message(paste(Sys.time(), 'Filtering chromosome', chr))
+    
+    ## Load raw data
+    message(paste(Sys.time(), 'Loading file', rawData_file))
+    load(rawData_file)
+    rawData <- get(paste0(chr, 'CovInfo'))
     
 	## Filter the data
+    message(paste(Sys.time(), 'Filtering chromosome', chr))
 	res <- filterData(data = rawData, cutoff = cutoff, index = NULL,
         totalMapped = totalMapped, targetSize = targetSize)
 	
@@ -76,7 +86,7 @@ myFilt <- function(chr, rawData, cutoff, totalMapped = NULL, targetSize = 80e6) 
 }
 
 message(paste(Sys.time(), 'Filtering and saving the data with cutoff', opt$cutoff))
-filteredCov <- bpmapply(myFilt, names(fullCov), fullCov, BPPARAM = SerialParam(), MoreArgs = list(cutoff = opt$cutoff, totalMapped = totalMapped, targetSize = targetSize))
+filteredCov <- bpmapply(myFilt, names(fullCov_files), fullCov_files, BPPARAM = SnowParam(workers = opt$mcores), MoreArgs = list(cutoff = opt$cutoff, totalMapped = totalMapped, targetSize = targetSize))
 
 ## Done!
 proc.time()
