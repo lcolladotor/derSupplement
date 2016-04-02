@@ -57,20 +57,20 @@ save(fullCov, file='fullCov.Rdata')
 rm(fullCov)
 
 fullCov_files <- as.list(dir(pattern = 'chr'))
-names(fullCov_files) <- paste0('chr', chrnums)
+names(fullCov_files) <- sapply(fullCov_files, function(x) gsub('CovInfo.Rdata', '', x))
 
 ## Filter the data and save it by chr
 myFilt <- function(chr, rawData_file, cutoff, totalMapped = NULL, targetSize = 80e6) {
     library('derfinder')
     
     ## Load raw data
-    message(paste(Sys.time(), 'Loading file', rawData_file))
+    message(paste(Sys.time(), 'Loading raw file', rawData_file, 'for', chr))
     load(rawData_file)
     rawData <- get(paste0(chr, 'CovInfo'))
     
 	## Filter the data
     message(paste(Sys.time(), 'Filtering chromosome', chr))
-	res <- filterData(data = rawData, cutoff = cutoff, index = NULL,
+	res <- filterData(data = rawData$coverage, cutoff = cutoff, index = NULL,
         totalMapped = totalMapped, targetSize = targetSize)
 	
 	## Save it in a unified name format
