@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Directories
-MAINDIR=/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation
+MAINDIR=/dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/simulation
 WDIR=${MAINDIR}/railMatrix
 
 # Create logs dir

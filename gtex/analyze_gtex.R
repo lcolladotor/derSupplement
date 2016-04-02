@@ -33,8 +33,8 @@ getF = function(fit, fit0, theData) {
 }
 
 # load processed data
-load('/dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/regionMat-cut5.Rdata')
-load("/dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/gtex_pheno_with_mapped.Rdata")
+load('/dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/gtex/regionMat-cut5.Rdata')
+load("/dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/gtex/gtex_pheno_with_mapped.Rdata")
 ## Should be the same:
 stopifnot(identical(match(colnames(regionMat[[1]]$coverageMatrix), pd2$sra_accession), seq_len(ncol(regionMat[[1]]$coverageMatrix))))
 pd2$Tissue <- pd2$SMTS

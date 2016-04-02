@@ -10,7 +10,7 @@ SHORT="fullCov-${EXPERIMENT}"
 CORES=10
 
 # Directories
-ROOTDIR=/dcs01/ajaffe/Brain/derRuns/derSupplement
+ROOTDIR=/dcl01/lieber/ajaffe/Brain/derRuns/derSupplement
 MAINDIR=${ROOTDIR}/${EXPERIMENT}
 WDIR=${MAINDIR}/CoverageInfo
 

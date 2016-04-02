@@ -21,12 +21,12 @@ if (!is.null(opt$help)) {
 if(FALSE) opt <- list(replicate = 1)
 
 ## Identify BAM files
-files <- dir('/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/hisat', pattern = paste0('[0-9]R', opt$replicate, '\\.bam$'), full.names = TRUE)
-names(files) <- gsub('\\.bam', '', dir('/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/hisat', pattern = paste0('[0-9]R', opt$replicate, '\\.bam$')))
+files <- dir('/dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/simulation/hisat', pattern = paste0('[0-9]R', opt$replicate, '\\.bam$'), full.names = TRUE)
+names(files) <- gsub('\\.bam', '', dir('/dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/simulation/hisat', pattern = paste0('[0-9]R', opt$replicate, '\\.bam$')))
 
 
 message(paste(Sys.time(), 'running featureCounts'))
-featCounts <- featureCounts(files = files, annot.ext = '/dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/gtf/chr17-incomplete.gtf', isGTFAnnotationFile = TRUE, useMetaFeatures = FALSE, isPairedEnd = TRUE, nthreads = 4, allowMultiOverlap = TRUE)
+featCounts <- featureCounts(files = files, annot.ext = '/dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/simulation/gtf/chr17-incomplete.gtf', isGTFAnnotationFile = TRUE, useMetaFeatures = FALSE, isPairedEnd = TRUE, nthreads = 4, allowMultiOverlap = TRUE)
 
 ## Fix sample names
 colnames(featCounts$counts) <- gsub('.bam', '', gsub('X.dcs01.ajaffe.Brain.derRuns.derSupplement.simulation.hisat.', '', colnames(featCounts$counts)))

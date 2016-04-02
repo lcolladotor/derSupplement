@@ -1,4 +1,4 @@
-## Adapted from /dcs01/ajaffe/Brain/derRuns/derSoftware/figure1/figure1.R
+## Adapted from /dcl01/lieber/ajaffe/Brain/derRuns/derSoftware/figure1/figure1.R
 
 library('derfinder')
 library('derfinderHelper')
@@ -10,7 +10,7 @@ library('GenomeInfoDb')
 library("GenomicFeatures")
 
 ## Define paths
-mainPath <- '/dcs01/ajaffe/Brain/derRuns/derSupplement'
+mainPath <- '/dcl01/lieber/ajaffe/Brain/derRuns/derSupplement'
 covPath <- file.path(mainPath, 'brainspan/CoverageInfo')
 resPath <- file.path(mainPath, 'brainspan/derAnalysis/run4-v1.0.10')
 dataPath <- '/nexsan2/disk3/ajaffe/BrainSpan/RNAseq/bigwig'

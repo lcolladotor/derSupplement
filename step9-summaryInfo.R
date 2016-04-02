@@ -66,7 +66,7 @@ if (is.null(opt$verbose)) opt$verbose <- TRUE
 startTime <- Sys.time()
 
 ## Paths
-rootdir <- '/dcs01/ajaffe/Brain/derRuns/derSupplement'
+rootdir <- '/dcl01/lieber/ajaffe/Brain/derRuns/derSupplement'
 resdir <- file.path(rootdir, opt$short, 'summaryInfo', opt$run)
 
 ## results path

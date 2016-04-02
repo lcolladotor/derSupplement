@@ -16,7 +16,7 @@ load('/dcl01/leek/data/gtex_work/runs/gtex/DER_analysis/pheno/pheno_missing_less
 
 ## Load pheno info from samples of interest
 ## This table is created by the select_samples.R script
-load('/dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/gtex_pheno.rda')
+load('/dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/gtex/gtex_pheno.rda')
 
 ## Subset to use only samples of interest
 pheno <- pheno[match(pd1$sra_accession, pheno$Run), ]

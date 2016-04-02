@@ -7,7 +7,7 @@ PREFIX=$2
 SHORT="summInfo-${EXPERIMENT}"
 
 # Directories
-ROOTDIR=/dcs01/ajaffe/Brain/derRuns/derSupplement
+ROOTDIR=/dcl01/lieber/ajaffe/Brain/derRuns/derSupplement
 MAINDIR=${ROOTDIR}/${EXPERIMENT}
 
 # Construct shell files

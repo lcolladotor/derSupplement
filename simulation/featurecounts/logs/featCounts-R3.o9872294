@@ -12,19 +12,19 @@ Thu Feb 11 21:13:03 EST 2016
 //========================== featureCounts setting ===========================\\
 ||                                                                            ||
 ||             Input files : 10 BAM files                                     ||
-||                           P /dcs01/ajaffe/Brain/derRuns/derSupplement/ ... ||
-||                           P /dcs01/ajaffe/Brain/derRuns/derSupplement/ ... ||
-||                           P /dcs01/ajaffe/Brain/derRuns/derSupplement/ ... ||
-||                           P /dcs01/ajaffe/Brain/derRuns/derSupplement/ ... ||
-||                           P /dcs01/ajaffe/Brain/derRuns/derSupplement/ ... ||
-||                           P /dcs01/ajaffe/Brain/derRuns/derSupplement/ ... ||
-||                           P /dcs01/ajaffe/Brain/derRuns/derSupplement/ ... ||
-||                           P /dcs01/ajaffe/Brain/derRuns/derSupplement/ ... ||
-||                           P /dcs01/ajaffe/Brain/derRuns/derSupplement/ ... ||
-||                           P /dcs01/ajaffe/Brain/derRuns/derSupplement/ ... ||
+||                           P /dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/ ... ||
+||                           P /dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/ ... ||
+||                           P /dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/ ... ||
+||                           P /dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/ ... ||
+||                           P /dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/ ... ||
+||                           P /dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/ ... ||
+||                           P /dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/ ... ||
+||                           P /dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/ ... ||
+||                           P /dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/ ... ||
+||                           P /dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/ ... ||
 ||                                                                            ||
 ||             Output file : ./.Rsubread_featureCounts_pid62028               ||
-||             Annotations : /dcs01/ajaffe/Brain/derRuns/derSupplement/si ... ||
+||             Annotations : /dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/si ... ||
 ||                                                                            ||
 ||                 Threads : 4                                                ||
 ||                   Level : feature level                                    ||
@@ -41,75 +41,75 @@ Thu Feb 11 21:13:03 EST 2016
 
 //================================= Running ==================================\\
 ||                                                                            ||
-|| Load annotation file /dcs01/ajaffe/Brain/derRuns/derSupplement/simulat ... ||
+|| Load annotation file /dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/simulat ... ||
 ||    Features : 15033                                                        ||
 ||    Meta-features : 1395                                                    ||
 ||    Chromosomes/contigs : 1                                                 ||
 ||                                                                            ||
-|| Process BAM file /dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/ ... ||
+|| Process BAM file /dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/simulation/ ... ||
 ||    Paired-end reads are included.                                          ||
 ||    Assign fragments (read pairs) to features...                            ||
 ||    Total fragments : 2212342                                               ||
 ||    Successfully assigned fragments : 2111815 (95.5%)                       ||
 ||    Running time : 0.07 minutes                                             ||
 ||                                                                            ||
-|| Process BAM file /dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/ ... ||
+|| Process BAM file /dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/simulation/ ... ||
 ||    Paired-end reads are included.                                          ||
 ||    Assign fragments (read pairs) to features...                            ||
 ||    Total fragments : 2048996                                               ||
 ||    Successfully assigned fragments : 1953884 (95.4%)                       ||
 ||    Running time : 0.07 minutes                                             ||
 ||                                                                            ||
-|| Process BAM file /dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/ ... ||
+|| Process BAM file /dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/simulation/ ... ||
 ||    Paired-end reads are included.                                          ||
 ||    Assign fragments (read pairs) to features...                            ||
 ||    Total fragments : 2044395                                               ||
 ||    Successfully assigned fragments : 1950340 (95.4%)                       ||
 ||    Running time : 0.07 minutes                                             ||
 ||                                                                            ||
-|| Process BAM file /dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/ ... ||
+|| Process BAM file /dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/simulation/ ... ||
 ||    Paired-end reads are included.                                          ||
 ||    Assign fragments (read pairs) to features...                            ||
 ||    Total fragments : 2049198                                               ||
 ||    Successfully assigned fragments : 1954988 (95.4%)                       ||
 ||    Running time : 0.07 minutes                                             ||
 ||                                                                            ||
-|| Process BAM file /dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/ ... ||
+|| Process BAM file /dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/simulation/ ... ||
 ||    Paired-end reads are included.                                          ||
 ||    Assign fragments (read pairs) to features...                            ||
 ||    Total fragments : 2051725                                               ||
 ||    Successfully assigned fragments : 1957532 (95.4%)                       ||
 ||    Running time : 0.07 minutes                                             ||
 ||                                                                            ||
-|| Process BAM file /dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/ ... ||
+|| Process BAM file /dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/simulation/ ... ||
 ||    Paired-end reads are included.                                          ||
 ||    Assign fragments (read pairs) to features...                            ||
 ||    Total fragments : 2051128                                               ||
 ||    Successfully assigned fragments : 1957199 (95.4%)                       ||
 ||    Running time : 0.07 minutes                                             ||
 ||                                                                            ||
-|| Process BAM file /dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/ ... ||
+|| Process BAM file /dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/simulation/ ... ||
 ||    Paired-end reads are included.                                          ||
 ||    Assign fragments (read pairs) to features...                            ||
 ||    Total fragments : 2213581                                               ||
 ||    Successfully assigned fragments : 2114012 (95.5%)                       ||
 ||    Running time : 0.07 minutes                                             ||
 ||                                                                            ||
-|| Process BAM file /dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/ ... ||
+|| Process BAM file /dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/simulation/ ... ||
 ||    Paired-end reads are included.                                          ||
 ||    Assign fragments (read pairs) to features...                            ||
 ||    Total fragments : 2220071                                               ||
 ||    Successfully assigned fragments : 2118431 (95.4%)                       ||
 ||    Running time : 0.07 minutes                                             ||
 ||                                                                            ||
-|| Process BAM file /dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/ ... ||
+|| Process BAM file /dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/simulation/ ... ||
 ||    Paired-end reads are included.                                          ||
 ||    Assign fragments (read pairs) to features...                            ||
 ||    Total fragments : 2219786                                               ||
 ||    Successfully assigned fragments : 2117883 (95.4%)                       ||
 ||    Running time : 0.07 minutes                                             ||
 ||                                                                            ||
-|| Process BAM file /dcs01/ajaffe/Brain/derRuns/derSupplement/simulation/ ... ||
+|| Process BAM file /dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/simulation/ ... ||
 ||    Paired-end reads are included.                                          ||
 ||    Assign fragments (read pairs) to features...                            ||
 ||    Total fragments : 2217878                                               ||

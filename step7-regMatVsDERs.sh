@@ -9,7 +9,7 @@ ncore=5
 cores="${ncore}cores"
 
 # Directories
-ROOTDIR=/dcs01/ajaffe/Brain/derRuns/derSupplement
+ROOTDIR=/dcl01/lieber/ajaffe/Brain/derRuns/derSupplement
 MAINDIR=${ROOTDIR}/${EXPERIMENT}
 
 

@@ -11,15 +11,15 @@ echo '**** Job starts ****'
 date
 
 # Make logs directory
-mkdir -p /dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/logs
+mkdir -p /dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/gtex/logs
 
 # Load the data, save the coverage without filtering, then save each file separately
-cd /dcs01/ajaffe/Brain/derRuns/derSupplement/gtex
+cd /dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/gtex
 module load R/3.2.x
 Rscript railMatrix.R
 
 ## Move log files into the logs directory
-mv /dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/rmat-gtex36.* /dcs01/ajaffe/Brain/derRuns/derSupplement/gtex/logs/
+mv /dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/gtex/rmat-gtex36.* /dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/gtex/logs/
 
 echo '**** Job ends ****'
 date
