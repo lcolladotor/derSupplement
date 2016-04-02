@@ -43,7 +43,7 @@ mkdir -p ${WDIR}/logs
 
 # Compare DERs vs regionMatrix
 cd ${WDIR}
-module load R/devel
+module load R/3.3
 Rscript -e "analysisPath <- '${WDIR}'; load('${MAINDIR}/regionMatrix/regionMat-cut${CUTOFF}.Rdata'); proc.time(); load('${MAINDIR}/derAnalysis/${PREFIX}/fullRegions.Rdata'); proc.time(); library(rmarkdown); render('${ROOTDIR}/step7-regMatVsDERs.Rmd', output_file='${WDIR}/step7-regMatVsDERs.html')"
 
 # Move log files into the logs directory

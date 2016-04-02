@@ -2,7 +2,7 @@
 
 ## Usage:
 # qrsh -l mem_free=80G,h_vmem=90G
-# module load R/devel
+# module load R/3.3
 # mkdir -p logs
 # Rscript figure-single-base.R > logs/figure-single-base_log.txt 2>&1
 

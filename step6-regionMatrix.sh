@@ -48,7 +48,7 @@ mkdir -p ${WDIR}/logs
 
 # Load coverage & get region matrix
 cd ${WDIR}
-module load R/devel
+module load R/3.3
 Rscript ${ROOTDIR}/step6-regionMatrix.R -m "${MAINDIR}" -c "${chr}" -r ${RLENGTH} -t ${CUTOFF}
 
 ## Move log files into the logs directory
@@ -82,7 +82,7 @@ mkdir -p ${WDIR}/logs
 
 # Load coverage & get region matrix
 cd ${WDIR}
-module load R/devel
+module load R/3.3
 Rscript ${ROOTDIR}/step6b-regionMatrix-merge.R -t ${CUTOFF}
 
 ## Move log files into the logs directory

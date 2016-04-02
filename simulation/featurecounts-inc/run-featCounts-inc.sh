@@ -29,7 +29,7 @@ cd ${WDIR}
 
 
 ## Load R
-module load R/devel
+module load R/3.3
 
 ## Run featureCounts
 Rscript featureCounts-inc.R -r ${replicate}

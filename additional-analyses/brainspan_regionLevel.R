@@ -1,6 +1,6 @@
 ## Usage:
 # qrsh -l mem_free=80G,h_vmem=150G
-# module load R/devel
+# module load R/3.3
 # mkdir -p logs
 # Rscript brainspan_regionLevel.R > logs/brainspan_regionLevel_log.txt 2>&1
 

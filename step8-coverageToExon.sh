@@ -31,7 +31,7 @@ do
 #!/bin/bash	
 #$ -cwd
 #$ -m e
-#$ -l mem_free=250G,h_vmem=300G,h_fsize=30G
+#$ -l mem_free=240G,h_vmem=270G,h_fsize=30G
 #$ -N ${sname}
 #$ -hold_jid fullCov-${EXPERIMENT}
 
@@ -43,7 +43,7 @@ mkdir -p ${WDIR}/logs
 
 # Run coverageToExon()
 cd ${WDIR}
-module load R/devel
+module load R/3.3
 Rscript ${ROOTDIR}/step8-coverageToExon.R -e "${EXPERIMENT}" -a "${anno}" -r ${RLENGTH} -c ${CORES}
 
 ## Move log files into the logs directory

@@ -1,6 +1,6 @@
 ## Usage:
 # qrsh -l mem_free=80G,h_vmem=150G
-# module load R/devel
+# module load R/3.3
 # mkdir -p logs
 # Rscript analyze_brainspan.R > logs/analyze_brainspan_log.txt 2>&1
 

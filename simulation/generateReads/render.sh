@@ -7,7 +7,7 @@ echo "**** Job starts ****"
 date
 
 # Generate HTML
-module load R/devel
+module load R/3.3
 Rscript -e "rmarkdown::render('generateReads.Rmd')"
 
 
