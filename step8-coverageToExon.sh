@@ -9,7 +9,7 @@ SHORT="covToEx-${EXPERIMENT}"
 CORES=1
 
 # Directories
-ROOTDIR=/dcl01/lieber/ajaffe/Brain/derRuns/derSupplement
+ROOTDIR=/dcl01/lieber/ajaffe/derRuns/derSupplement
 MAINDIR=${ROOTDIR}/${EXPERIMENT}
 WDIR=${MAINDIR}/coverageToExon
 

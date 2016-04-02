@@ -19,10 +19,10 @@ chrInfo <- read.table('/dcl01/leek/data/gtex_work/runs/gtex/hg38.sizes', header 
 chrlens <- chrInfo$length[chrInfo$chr %in% chrs]
 
 ## Load sample info
-load('/dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/gtex/gtex_pheno_with_mapped.Rdata')
+load('/dcl01/lieber/ajaffe/derRuns/derSupplement/gtex/gtex_pheno_with_mapped.Rdata')
 
 ## Define summary and sample files
-summaryFiles <- rep('/dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/gtex/normalizedMean.bw', length(chrs))
+summaryFiles <- rep('/dcl01/lieber/ajaffe/derRuns/derSupplement/gtex/normalizedMean.bw', length(chrs))
 sampleFiles <- pd2$sampleFile
 names(sampleFiles) <- pd2$sra_accession
 

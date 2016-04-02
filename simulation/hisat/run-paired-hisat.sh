@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Directories
-MAINDIR=/dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/simulation
+MAINDIR=/dcl01/lieber/ajaffe/derRuns/derSupplement/simulation
 WDIR=${MAINDIR}/hisat
 DATADIR=${MAINDIR}/simulated_reads
 

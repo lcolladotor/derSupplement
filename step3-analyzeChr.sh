@@ -9,7 +9,7 @@ SHORT="derA-${EXPERIMENT}"
 PREFIX=$2
 
 # Directories
-ROOTDIR=/dcl01/lieber/ajaffe/Brain/derRuns/derSupplement
+ROOTDIR=/dcl01/lieber/ajaffe/derRuns/derSupplement
 MAINDIR=${ROOTDIR}/${EXPERIMENT}
 WDIR=${MAINDIR}/derAnalysis
 DATADIR=${MAINDIR}/CoverageInfo

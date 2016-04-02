@@ -18,8 +18,8 @@ GFF warning: merging adjacent/overlapping segments of 63798 on chr17 (46115033-4
  697 duplicate reference transcripts discarded.
 ..reference annotation loaded
 Prefix for output files: cuffcomp
-Processing qfile #1: /dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/simulation/stringtie/sample4G1R2-no-assembly/outfile.gtf
-Loading transcripts from /dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/simulation/stringtie/sample4G1R2-no-assembly/outfile.gtf..
+Processing qfile #1: /dcl01/lieber/ajaffe/derRuns/derSupplement/simulation/stringtie/sample4G1R2-no-assembly/outfile.gtf
+Loading transcripts from /dcl01/lieber/ajaffe/derRuns/derSupplement/simulation/stringtie/sample4G1R2-no-assembly/outfile.gtf..
  Kept 5006 transfrags out of 5006
 Tracking transcripts across 1 query files..
 Cleaning up..

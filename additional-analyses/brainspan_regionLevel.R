@@ -26,10 +26,10 @@ getF = function(fit, fit0, theData) {
 }
 
 # load data
-#load("/dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/brainspan/regionMatrix/regionMat-cut0.25.Rdata")
-load("/dcl01/lieber/ajaffe/Brain/derRuns/derSoftware/brainspan/regionMatrix/regionMat-cut0.25.Rdata")
-#load("/dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/brainspan/derAnalysis/run4-v1.0.10/models.Rdata")
-load("/dcl01/lieber/ajaffe/Brain/derRuns/derSoftware/brainspan/derAnalysis/run4-v1.0.10/models.Rdata")
+#load("/dcl01/lieber/ajaffe/derRuns/derSupplement/brainspan/regionMatrix/regionMat-cut0.25.Rdata")
+load("/dcl01/lieber/ajaffe/derRuns/derSoftware/brainspan/regionMatrix/regionMat-cut0.25.Rdata")
+#load("/dcl01/lieber/ajaffe/derRuns/derSupplement/brainspan/derAnalysis/run4-v1.0.10/models.Rdata")
+load("/dcl01/lieber/ajaffe/derRuns/derSoftware/brainspan/derAnalysis/run4-v1.0.10/models.Rdata")
 
 ## Load single base results
 if(!file.exists('rdas/summarized_BrainSpan_DERs.rda')) {
@@ -86,8 +86,8 @@ fullRegionMat = fullRegionMat[keepIndex,]
 sum(width(fullRegionGR))/1e6
 
 ##### lower cutoff
-#load("/dcl01/lieber/ajaffe/Brain/derRuns/derSupplement/brainspan/regionMatrix/regionMat-cut0.1.Rdata")
-load("/dcl01/lieber/ajaffe/Brain/derRuns/derSoftware/brainspan/regionMatrix/regionMat-cut0.1.Rdata")
+#load("/dcl01/lieber/ajaffe/derRuns/derSupplement/brainspan/regionMatrix/regionMat-cut0.1.Rdata")
+load("/dcl01/lieber/ajaffe/derRuns/derSoftware/brainspan/regionMatrix/regionMat-cut0.1.Rdata")
 regList1 = lapply(regionMat, function(x) x$regions)
 fullRegionGR1 = unlist(GRangesList(regList1))
 fullRegionMat1 = do.call("rbind",
