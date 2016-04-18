@@ -76,7 +76,7 @@ resdir <- file.path(rootdir, opt$short, 'summaryInfo', opt$run)
 dir.create(resdir, recursive=TRUE)
 
 opts_chunk$set(dev = 'CairoPNG')
-render(file.path(rootdir, 'step9-summaryInfo.Rmd'), output_file=file.path(resdir, 'summaryInfo.html'))
+render(file.path(rootdir, 'step9-summaryInfo.Rmd'), output_file=file.path(resdir, 'summaryInfo.html'), clean = FALSE)
 
 
 ## Done
