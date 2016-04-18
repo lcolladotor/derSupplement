@@ -14,7 +14,7 @@ Compare output from regionMatrix() with DERs
 
 ## Libraries
 
-```{r 'libraries'}
+```{r 'libraries', dev = 'CairoPNG'}
 library('GenomicRanges')
 library('DT')
 library('knitr')

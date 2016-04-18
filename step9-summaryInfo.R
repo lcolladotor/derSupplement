@@ -10,6 +10,9 @@ library("getopt")
 # install.packages("rmarkdown")
 library('rmarkdown')
 
+# install.packages("knitr")
+library('knitr')
+
 ## Available from http://www.bioconductor.org/packages/release/bioc/html/GenomicRanges.html
 # source("http://bioconductor.org/biocLite.R")
 # biocLite("GenomicRanges")
@@ -72,7 +75,7 @@ resdir <- file.path(rootdir, opt$short, 'summaryInfo', opt$run)
 ## results path
 dir.create(resdir, recursive=TRUE)
 
-
+opts_chunk$set(dev = 'CairoPNG')
 render(file.path(rootdir, 'step9-summaryInfo.Rmd'), output_file=file.path(resdir, 'summaryInfo.html'))
 
 

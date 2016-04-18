@@ -10,7 +10,7 @@ output:
 Summary info
 ===========
 
-```{r "options"}
+```{r "options", dev = 'CairoPNG'}
 ## Options
 opt$example <- eval(parse(text=opt$example))
 example <- opt$example
@@ -23,6 +23,7 @@ suppressMessages(library("ggbio"))
 suppressMessages(library("TxDb.Hsapiens.UCSC.hg19.knownGene"))
 suppressMessages(library("derfinder"))
 suppressMessages(library("derfinderPlot"))
+opts_chunk$set(dev = 'CairoPNG')
 ```
 
 Summary information for `r opt$short` data set, analysis `r paste(opt$run, collapse = ', ')` showcasing best clusters `r example` which illustrate `r paste(names(opt$example), collapse = ', ')` respectively.
