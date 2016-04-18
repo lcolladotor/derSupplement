@@ -17,8 +17,7 @@ library(derfinder)
 library(GenomicRanges)
  load("/home/epi/ajaffe/Lieber/Projects/Grants/Coverage_R01/brainspan/brainspan_phenotype.rda")
 
-#path = "/dcl01/lieber/ajaffe/derRuns/derSupplement/brainspan/derAnalysis/run4-v1.0.10/"
-path = "/dcl01/lieber/ajaffe/derRuns/derSoftware/brainspan/derAnalysis/run4-v1.0.10/"
+path = "/dcl01/lieber/ajaffe/derRuns/derSupplement/brainspan/derAnalysis/run5-v1.5.30/"
 
 # load in DERs from the prep file
 load(paste0(path,"groupInfo.Rdata"))
@@ -49,8 +48,7 @@ if(!file.exists('rdas/summarized_BrainSpan_DERs.rda')) {
 }
 
 if(!file.exists('rdas/summarized_BrainSpan_DERs_meanCov.rda')) {
-    #load("/dcl01/lieber/ajaffe/derRuns/derSupplement/brainspan/CoverageInfo/fullCov.Rdata")
-    load("/dcl01/lieber/ajaffe/derRuns/derSoftware/brainspan/CoverageInfo/bioarxiv_version/fullCov.Rdata")
+    load("/dcl01/lieber/ajaffe/derRuns/derSupplement/brainspan/CoverageInfo/fullCov.Rdata")
      
      coverList = getRegionCoverage(fullCov, sigSpan, mc.cores=1)
      meanCoverage = t(sapply(coverList, colMeans))

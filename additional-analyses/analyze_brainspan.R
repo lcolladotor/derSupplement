@@ -30,8 +30,8 @@ getF = function(fit, fit0, theData) {
 
 # load data
 load("/home/epi/ajaffe/Lieber/Projects/Grants/Coverage_R01/brainspan/brainspan_phenotype.rda")
-load("/dcl01/lieber/ajaffe/derRuns/derSoftware/brainspan/regionMatrix/regionMat-cut0.25.Rdata")
-load("/dcl01/lieber/ajaffe/derRuns/derSoftware/brainspan/derAnalysis/run4-v1.0.10/models.Rdata")
+load("/dcl01/lieber/ajaffe/derRuns/derSupplement/brainspan/regionMatrix/regionMat-cut0.25.Rdata")
+load("/dcl01/lieber/ajaffe/derRuns/derSupplement/brainspan/derAnalysis/run5-v1.5.30/models.Rdata")
 
 ## Remove bad samples
 bad_samples <- which(rownames(pdSpan) %in% c('216', '218', '219'))
@@ -252,7 +252,7 @@ lapply(geneList1, head, 50)
 
 
 ##### lower cutoff
-load("/dcl01/lieber/ajaffe/derRuns/derSoftware/brainspan/regionMatrix/regionMat-cut0.1.Rdata")
+load("/dcl01/lieber/ajaffe/derRuns/derSupplement/brainspan/regionMatrix/regionMat-cut0.1.Rdata")
 regList1 = lapply(regionMat, function(x) x$regions)
 regions1 = unlist(GRangesList(regList1))
 fullRegionMat1 = do.call("rbind",
