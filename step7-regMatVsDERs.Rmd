@@ -246,7 +246,7 @@ colSums(index.seg[, -ncol(index.seg)])
 
 
 ```{r 'print-index-seg', results = 'asis'}
-d2 <- (data.frame(row = seq_len(nrow(index.seg)), index.seg, check.names=FALSE)
+d2 <- data.frame(row = seq_len(nrow(index.seg)), index.seg, check.names=FALSE)
 datatable(d2, options = list(pagingType='full_numbers', pageLength=25, scrollX='100%'), rownames = FALSE)
 ```
 
