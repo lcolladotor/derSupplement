@@ -44,7 +44,7 @@ mkdir -p ${WDIR}/logs
 # Compare DERs vs regionMatrix
 cd ${WDIR}
 module load R/3.3
-Rscript -e "analysisPath <- '${WDIR}'; load('${MAINDIR}/regionMatrix/regionMat-cut${CUTOFF}.Rdata'); proc.time(); load('${MAINDIR}/derAnalysis/${PREFIX}/fullRegions.Rdata'); proc.time(); library(rmarkdown); library(knitr); opts_chunk$set(dev = 'CairoPNG'); render('${ROOTDIR}/step7-regMatVsDERs.Rmd', output_file='${WDIR}/step7-regMatVsDERs.html')"
+Rscript ${ROOTDIR}/step7-regMatVsDERs.R -m "${MAINDIR}" -r "${PREFIX}" -w "${WDIR}" -r "${ROOTDIR}" -c ${CUTOFF}
 
 # Move log files into the logs directory
 mv ${ROOTDIR}/${sname}.* ${WDIR}/logs/
