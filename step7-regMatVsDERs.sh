@@ -44,7 +44,7 @@ mkdir -p ${WDIR}/logs
 # Compare DERs vs regionMatrix
 cd ${WDIR}
 module load R/3.3
-Rscript ${ROOTDIR}/step7-regMatVsDERs.R -m "${MAINDIR}" -r "${PREFIX}" -w "${WDIR}" -r "${ROOTDIR}" -c ${CUTOFF}
+Rscript ${ROOTDIR}/step7-regMatVsDERs.R -m "${MAINDIR}" -r "${PREFIX}" -w "${WDIR}" -d "${ROOTDIR}" -c ${CUTOFF}
 
 # Move log files into the logs directory
 mv ${ROOTDIR}/${sname}.* ${WDIR}/logs/
