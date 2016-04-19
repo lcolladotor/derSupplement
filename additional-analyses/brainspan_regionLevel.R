@@ -94,7 +94,6 @@ keepIndex1=which(width(fullRegionGR1) >= 6)
 fullRegionGR1 = fullRegionGR1[keepIndex1]
 fullRegionMat1 = fullRegionMat1[keepIndex1,]
 if(ncol(fullRegionMat1) == 487) fullRegionMat1 <- fullRegionMat1[, -bad_samples]
-}
 stopifnot(ncol(fullRegionMat1) == 484)
 
 ## log transform

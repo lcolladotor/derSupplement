@@ -66,7 +66,7 @@ regions = unlist(GRangesList(lapply(regionMat, '[[', 'regions')))
 names(regions) = NULL
 regionMat = do.call("rbind", lapply(regionMat, '[[', 'coverageMatrix'))
 ## Samples are in order
-if(ncols(regionMat) == 487) {
+if(ncol(regionMat) == 487) {
     stopifnot(identical(colnames(regionMat)[-bad_samples], pdSpan$lab))
 } else {
     stopifnot(identical(colnames(regionMat), pdSpan$lab))
