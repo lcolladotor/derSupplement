@@ -29,7 +29,7 @@ load(file.path(opt$maindir, 'derAnalysis', opt$run, 'fullRegions.Rdata'))
 proc.time()
 opts_chunk$set(dev = 'CairoPNG')
 render(file.path(opt$rootdir, 'step7-regMatVsDERs.Rmd'),
-    output_file= file.path(opt$wdir, 'step7-regMatVsDERs.html'))
+    output_file= file.path(opt$wdir, 'step7-regMatVsDERs.html'), clean = FALSE)
 
 ## Reproducibility info
 proc.time()
