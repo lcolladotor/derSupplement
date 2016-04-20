@@ -34,7 +34,7 @@ mkdir -p ${WDIR}/${outdir}/logs
 # merge results
 cd ${WDIR}
 module load R/3.3
-Rscript -e "library(regionReport); load('${MAINDIR}/CoverageInfo/fullCov.Rdata'); derfinderReport(prefix='${PREFIX}', browse=FALSE, nBestRegions = 100,  nBestClusters=20, fullCov=fullCov, device='CairoPNG', clean = FALSE); Sys.time(); proc.time(); options(width = 120); devtools::session_info()"
+Rscript -e "library(regionReport); load('${MAINDIR}/CoverageInfo/fullCov.Rdata'); derfinderReport(prefix='${PREFIX}', browse=FALSE, nBestRegions = 100,  nBestClusters=20, fullCov=fullCov, device='CairoPNG', clean = FALSE, significantVar='fwer'); Sys.time(); proc.time(); options(width = 120); devtools::session_info()"
 
 # Move log files into the logs directory
 mv ${ROOTDIR}/${sname}.* ${WDIR}/${outdir}/logs/
