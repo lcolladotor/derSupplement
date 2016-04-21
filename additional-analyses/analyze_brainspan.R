@@ -1,5 +1,5 @@
 ## Usage:
-# qrsh -l mem_free=80G,h_vmem=150G
+# qrsh -l mem_free=130G,h_vmem=150G
 # module load R/3.3
 # mkdir -p logs
 # Rscript analyze_brainspan.R > logs/analyze_brainspan_log.txt 2>&1
@@ -77,12 +77,17 @@ if(ncol(regionMat) == 487) regionMat <- regionMat[, -bad_samples]
 
 stopifnot(ncol(regionMat) == 484)
 
+print('Number of regions and MB covered: cut 0.25')
+length(regions)
+sum(width(regions))/1e6
+
 ### filter out short DERs
-keepIndex = width(regions) > 8
+keepIndex = width(regions) >= 6
 regionMat = regionMat[keepIndex, ]
 regions = regions[keepIndex]
 
-# total coverage
+print('Number of regions and MB covered: cut 0.25, >= 6bp')
+length(regions)
 sum(width(regions))/1e6
 
 ## log transform
@@ -113,7 +118,7 @@ countTable = ucscAnno$countTable
 dir.create('plots', showWarnings = FALSE)
 pdf("plots/venn_counts_analyze_brainspan.pdf",h=5,w=6)
 vennDiagram(vennCounts(countTable > 0))
-mtext("UCSC", line=1,cex=2)
+mtext("UCSC, cutoff = 0.25, ERs >= 6bp", line=1,cex=2)
 dev.off()
 
 ## annotation breakdown ####
@@ -200,15 +205,21 @@ fit0 = lmFit(y, models$mod0)
 ff = getF(fit,fit0, y)
 
 sum(p.adjust(ff$f_pval,"bonf") < 0.05)
-mean(p.adjust(ff$f_pval,"bonf") < 0.05)
-
+mean(p.adjust(ff$f_pval,"bonf") < 0.05) * 100
 sigIndex=which(p.adjust(ff$f_pval,"bonf") < 0.05)
 
 xx = ucscAnno$annotationList[sigIndex]
 theGenes = unlist(unlist(xx)$gene)
 theGenes = sapply(theGenes, function(x) x[!is.na(x)])
 theGenes = theGenes[!is.na(theGenes)]
+
+theSymbols <- unlist(unlist(xx)$symbol)
+theSymbols <- sapply(theSymbols, function(x) x[!is.na(x)])
+theSymbols <- theSymbols[!is.na(theSymbols)]
+
+print("Number of unique UCSC genes, then unique genes with symbols")
 length(unique(theGenes))
+length(unique(theSymbols))
 
 
 if(!file.exists('rdas/summarized_BrainSpan_DERs.rda')) {
@@ -220,13 +231,15 @@ if(!file.exists('rdas/summarized_BrainSpan_DERs.rda')) {
 
 
 an = annotateNearest(regions, sigSpan)
-sum(an$dist==0)
+table(an$dist == 0)
+table(an$dist == 0) / length(an$dist) * 100
 
 sum(ff$f_pval[an$dist==0] < 0.05/nrow(y))
-mean(ff$f_pval[an$dist==0] < 0.05/nrow(y))
+mean(ff$f_pval[an$dist==0] < 0.05/nrow(y)) * 100
 
 an2 = annotateNearest(sigSpan, regions)
-table(an2$dist==0)
+table(an2$dist == 0)
+table(an2$dist == 0) / length(an2$dist) * 100
 
 ### subset analysis ###
 
@@ -247,8 +260,9 @@ theGenes1$annotation = ss(theGenes1$annotation, " ")
 
 geneList1 = split(theGenes1$name, sign(eb1$t[sigIndex1, 2]))
 geneList1 = lapply(geneList1, unique)
+print('Subset analysis results, top 50 in each direction, then number of unique genes')
 lapply(geneList1, head, 50)
-
+length(unique(unlist(geneList1)))
 
 
 ##### lower cutoff
@@ -259,9 +273,20 @@ fullRegionMat1 = do.call("rbind",
 	lapply(regionMat, function(x) x$coverageMatrix))
 if(ncol(fullRegionMat1) == 487) fullRegionMat1 <- fullRegionMat1[, -bad_samples]
 stopifnot(ncol(fullRegionMat1) == 484)
+
+print('Number of regions and MB covered: cut 0.10')
+length(regions1)
+sum(width(regions1))/1e6
+
 keepIndex1=which(width(regions1) >= 6)
 regions1 = regions1[keepIndex1]
 fullRegionMat1 = fullRegionMat1[keepIndex1,]
+
+
+print('Number of regions and MB covered: cut 0.10, >= 6bp')
+length(regions1)
+sum(width(regions1))/1e6
+
 
 ## Reproducibility info
 library('devtools')
