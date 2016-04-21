@@ -51,6 +51,7 @@ if(!file.exists('rdas/summarized_BrainSpan_DERs_meanCov.rda')) {
     load("/dcl01/lieber/ajaffe/derRuns/derSupplement/brainspan/CoverageInfo/fullCov.Rdata")
      
      coverList = getRegionCoverage(fullCov, sigSpan, mc.cores=1)
+     rm(fullCov)
      meanCoverage = t(sapply(coverList, colMeans))
      if(ncol(meanCoverage) == 487) meanCoverage <- meanCoverage[, -bad_samples]
      stopifnot(ncol(meanCoverage) == 484)
@@ -96,23 +97,29 @@ groupMeans = sapply(splitit(pdSpan$Group), function(i) rowMeans(meanCoverage[,i]
 highGroup = colnames(groupMeans)[apply(groupMeans, 1, which.max)]
 table(highGroup)
 tab=table(ss(highGroup,":"), ss(highGroup,":",2))
-tab = tab[levels(pdSpan$NCX),]
+tab = tab[levels(pdSpan$NCX), ]
+tab
 
 ## GO?
-gIndexes=splitit(factor(highGroup,levels=levels(pdSpan$Group)))
+gIndexes=splitit(factor(highGroup, levels=levels(pdSpan$Group)))
 nullgenes =  read.delim("/home/epi/ajaffe/Lieber/Projects/450k/grant/ref_gene_hg19.txt", 
 	header=TRUE,as.is=TRUE)
-goByGroup = mclapply(gIndexes, function(ii) {
-	cat(".")
-	sig2 = sigSpan[ii]
-	g = sig2$annotation[!(sig2$description %in% c("upstream","downstream") & 
-		sig2$distance > 500)]
-	g = g[!is.na(g)]
-	go = dogo(g, nullgenes[,2])
-	go[,-8]
-},mc.cores=12)
+if(!file.exists('rdas/go_output.rda')) {
+    goByGroup = mclapply(gIndexes, function(ii) {
+    	cat(".")
+    	sig2 = sigSpan[ii]
+    	g = sig2$annotation[!(sig2$description %in% c("upstream","downstream") & 
+    		sig2$distance > 500)]
+    	g = g[!is.na(g)]
+    	go = dogo(g, nullgenes[,2])
+    	go[,-8]
+    },mc.cores=12)
 
-save(goByGroup,file="rdas/go_output.rda")
+    save(goByGroup,file="rdas/go_output.rda")
+} else {
+    load('rdas/go_output.rda')
+}
+
 
 
 ######## PCA
@@ -127,8 +134,9 @@ if(!file.exists('rdas/brainspan_der_pca.rda')) {
 
 pcaVars = getPcaVars(pca)
 
-levels(groupInfo) = c("NCX.F", "NCX.P",
-	"NonNCX.F", "NonNCX.P","CBC.F","CBC.P")
+levels(groupInfo)
+levels(groupInfo) = c("NCX.F", "NCX.P", "NonNCX.F", "NonNCX.P","CBC.F","CBC.P")
+levels(groupInfo)
 
 dir.create('plots', showWarnings = FALSE)
 pdf("plots/brainspan_pcs_ders.pdf")
@@ -169,14 +177,23 @@ countTable = fullAnnotatedRegions$countTable[seq(along=sigSpan),]
 colnames(countTable)[2] = "intergenic"
 
 ### numbers for the paper
+print("Previous calculations")
 sum(countTable[,"intron"] > 0)
-mean(countTable[,"intron"] > 0)
+mean(countTable[,"intron"] > 0) * 100
 sum(countTable[,"intergenic"] > 0 &	
 	countTable[,"exon"] == 0 & 	countTable[,"intron"] == 0)
 mean(countTable[,"intergenic"] > 0 & 
-	countTable[,"exon"] == 0 & countTable[,"intron"] == 0)
+	countTable[,"exon"] == 0 & countTable[,"intron"] == 0) * 100
 sum(countTable[,"exon"] > 0)
-mean(countTable[,"exon"] > 0)
+mean(countTable[,"exon"] > 0) * 100
+
+## Newer code
+print('Percent strictly exonic')
+mean(countTable$exon > 0 & countTable$intergenic == 0 & 
+	countTable$intron== 0) * 100
+print('Percent not exonic, but intergenic or intronic')
+mean(countTable$exon == 0 & (countTable$intergenic > 0 | 
+	countTable$intron > 0)) * 100
 
 ## compare
 cols = rep("Intergenic", nrow(countTable))
@@ -186,6 +203,7 @@ cols[countTable[,"exon"] > 0] = "Exonic"
 tab = table(highGroup,cols)[levels(pdSpan$Group),]
 tab = cbind(tab, rowSums(tab))
 colnames(tab)[4] = "Total"
+tab
 write.csv(tab, file="brainspan_der_expression.csv")
 
 type=c("Intergenic", "Intronic","Exonic")
@@ -204,12 +222,32 @@ if(all(c('ensemblCount', 'ucscCount', 'gencodeCount') %in% ls())) {
 ##########
 
 ## load libd data
-xx=load("/dcl01/lieber/ajaffe/derRuns/libd_n36/derCoverageInfo/fullCov.Rdata")
-names(fullCov) = paste0("chr", names(fullCov))
+if(!file.exists('rdas/coverListLibd.rda')) {
+    xx <- load("/dcl01/lieber/ajaffe/derRuns/libd_n36/derCoverageInfo/fullCov.Rdata")
+    names(fullCov) = paste0("chr", names(fullCov))
+    coverListLibd = getRegionCoverage(fullCov, sigSpan, mc.cores=1)
+    save(coverListLibd, file = 'rdas/coverListLibd.rda')
+    rm(fullCov)
+} else {
+    load('rdas/coverListLibd.rda')
+}
 
-coverListLibd = getRegionCoverage(fullCov,sigSpan,mc.cores=1)
-meanCoverageLibd = t(sapply(coverListLibd, colMeans))
-save(meanCoverageLibd, file = "rdas/mean_LIBD_cover_BrainSpan_DERs.rda")
+if(!file.exists('rdas/mean_LIBD_cover_BrainSpan_DERs.rda')) {
+    meanCoverageLibd = t(sapply(coverListLibd, colMeans))
+    save(meanCoverageLibd, file = "rdas/mean_LIBD_cover_BrainSpan_DERs.rda")
+} else {
+    load('rdas/mean_LIBD_cover_BrainSpan_DERs.rda')
+}
+
+## Percent of overlaps
+load('/home/epi/ajaffe/Lieber/Projects/RNAseq/n36/finalCode/rdas/signif_DERs_fullPerm.rda')
+## Check that it's the correct object
+stopifnot(length(sig) == 50650)
+
+print('Percent of LIBD_n36 DERs overlapping sigSpan DERs')
+mean(countOverlaps(sig, sigSpan) > 0) * 100
+print('Percent of top 10k LIBD_n36 DERs overlapping sigSpan DERs')
+mean(countOverlaps(sig[head(order(sig$fwer, decreasing = FALSE), n = 10000)], sigSpan) > 0) * 100
 
 ## Reproducibility info
 library('devtools')
