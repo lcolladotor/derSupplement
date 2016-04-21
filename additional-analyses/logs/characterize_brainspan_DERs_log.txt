@@ -62,397 +62,105 @@ HIP:Postnatal      MD:Fetal  MD:Postnatal     NCX:Fetal NCX:Postnatal
          1402          5992          3695         18725          4047 
     STR:Fetal STR:Postnatal 
          9857          6699 
-............Loading required package: AnnotationDbi
-Loading required package: AnnotationDbi
-Loading required package: AnnotationDbi
-Loading required package: Biobase
-Loading required package: Biobase
-Loading required package: Biobase
-Loading required package: AnnotationDbi
-Welcome to Bioconductor
-
-    Vignettes contain introductory material; view with
-    'browseVignettes()'. To cite Bioconductor, see
-    'citation("Biobase")', and for packages 'citation("pkgname")'.
-
-Welcome to Bioconductor
-
-    Vignettes contain introductory material; view with
-    'browseVignettes()'. To cite Bioconductor, see
-    'citation("Biobase")', and for packages 'citation("pkgname")'.
-
-Welcome to Bioconductor
-
-    Vignettes contain introductory material; view with
-    'browseVignettes()'. To cite Bioconductor, see
-    'citation("Biobase")', and for packages 'citation("pkgname")'.
-
-Loading required package: Biobase
-Loading required package: AnnotationDbi
-Welcome to Bioconductor
-
-    Vignettes contain introductory material; view with
-    'browseVignettes()'. To cite Bioconductor, see
-    'citation("Biobase")', and for packages 'citation("pkgname")'.
-
-Loading required package: Biobase
-Loading required package: AnnotationDbi
-Welcome to Bioconductor
-
-    Vignettes contain introductory material; view with
-    'browseVignettes()'. To cite Bioconductor, see
-    'citation("Biobase")', and for packages 'citation("pkgname")'.
-
-Loading required package: Biobase
-Welcome to Bioconductor
-
-    Vignettes contain introductory material; view with
-    'browseVignettes()'. To cite Bioconductor, see
-    'citation("Biobase")', and for packages 'citation("pkgname")'.
-
-Loading required package: AnnotationDbi
-Loading required package: AnnotationDbi
-Loading required package: Biobase
-Loading required package: Biobase
-Welcome to Bioconductor
-
-    Vignettes contain introductory material; view with
-    'browseVignettes()'. To cite Bioconductor, see
-    'citation("Biobase")', and for packages 'citation("pkgname")'.
-
-Welcome to Bioconductor
-
-    Vignettes contain introductory material; view with
-    'browseVignettes()'. To cite Bioconductor, see
-    'citation("Biobase")', and for packages 'citation("pkgname")'.
-
-Loading required package: AnnotationDbi
-Loading required package: AnnotationDbi
-Loading required package: Biobase
-Loading required package: Biobase
-Welcome to Bioconductor
-
-    Vignettes contain introductory material; view with
-    'browseVignettes()'. To cite Bioconductor, see
-    'citation("Biobase")', and for packages 'citation("pkgname")'.
-
-Welcome to Bioconductor
-
-    Vignettes contain introductory material; view with
-    'browseVignettes()'. To cite Bioconductor, see
-    'citation("Biobase")', and for packages 'citation("pkgname")'.
-
-Loading required package: AnnotationDbi
-Loading required package: Biobase
-Loading required package: AnnotationDbi
-Welcome to Bioconductor
-
-    Vignettes contain introductory material; view with
-    'browseVignettes()'. To cite Bioconductor, see
-    'citation("Biobase")', and for packages 'citation("pkgname")'.
-
-Loading required package: Biobase
-Welcome to Bioconductor
-
-    Vignettes contain introductory material; view with
-    'browseVignettes()'. To cite Bioconductor, see
-    'citation("Biobase")', and for packages 'citation("pkgname")'.
-
-
-
-
-
-Loading required package: GOstats
-Loading required package: GOstats
-Loading required package: GOstats
-Loading required package: GOstats
-
-
-Loading required package: GOstats
-Loading required package: GOstats
-
-
-Loading required package: GOstats
-Loading required package: GOstats
-Loading required package: Category
-Loading required package: Category
-Loading required package: Category
-Loading required package: Category
-Loading required package: Category
-Loading required package: Category
-Loading required package: Matrix
-Loading required package: Matrix
-Loading required package: Matrix
-Loading required package: Matrix
-Loading required package: Matrix
-Loading required package: Matrix
-Loading required package: Matrix
-
-
-Attaching package: ‘Matrix’
-
-The following object is masked from ‘package:S4Vectors’:
-
-    expand
-
-
-Attaching package: ‘Matrix’
-
-The following object is masked from ‘package:S4Vectors’:
-
-    expand
-
-Loading required package: Matrix
-
-Attaching package: ‘Matrix’
-
-
-Attaching package: ‘Matrix’
-
-
-Attaching package: ‘Matrix’
-
-
-Attaching package: ‘Matrix’
-
-The following object is masked from ‘package:S4Vectors’:
-
-    expand
-
-The following object is masked from ‘package:S4Vectors’:
-
-    expand
-
-The following object is masked from ‘package:S4Vectors’:
-
-    expand
-
-The following object is masked from ‘package:S4Vectors’:
-
-    expand
-
-Loading required package: GOstats
-
-Attaching package: ‘Matrix’
-
-The following object is masked from ‘package:S4Vectors’:
-
-    expand
-
-Loading required package: Category
-
-Loading required package: Matrix
-Loading required package: GOstats
-
-Loading required package: Category
-Loading required package: GOstats
-
-Attaching package: ‘Matrix’
-
-The following object is masked from ‘package:S4Vectors’:
-
-    expand
-
-Loading required package: Category
-Loading required package: Matrix
-
-Attaching package: ‘Matrix’
-
-The following object is masked from ‘package:S4Vectors’:
-
-    expand
-
-
-Loading required package: Matrix
-Loading required package: GOstats
-
-Attaching package: ‘Matrix’
-
-The following object is masked from ‘package:S4Vectors’:
-
-    expand
-
-Loading required package: Category
-Loading required package: Matrix
-
-Attaching package: ‘Matrix’
-
-The following object is masked from ‘package:S4Vectors’:
-
-    expand
-
-Loading required package: graph
-Loading required package: graph
-Loading required package: graph
-Loading required package: graph
-Loading required package: graph
-Loading required package: graph
-Loading required package: graph
-Loading required package: graph
-Loading required package: graph
-Loading required package: graph
-Loading required package: graph
-
-
-
-
-
-Loading required package: graph
-
-
-
-
-Attaching package: ‘GOstats’
-
-The following object is masked from ‘package:AnnotationDbi’:
-
-    makeGOGraph
-
-
-Attaching package: ‘GOstats’
-
-
-Attaching package: ‘GOstats’
-
-The following object is masked from ‘package:AnnotationDbi’:
-
-    makeGOGraph
-
-
-Attaching package: ‘GOstats’
-
-The following object is masked from ‘package:AnnotationDbi’:
-
-    makeGOGraph
-
-
-Attaching package: ‘GOstats’
-
-The following object is masked from ‘package:AnnotationDbi’:
-
-    makeGOGraph
-
-The following object is masked from ‘package:AnnotationDbi’:
-
-    makeGOGraph
-
-The following object is masked from ‘package:AnnotationDbi’:
-
-    makeGOGraph
-
-
-Attaching package: ‘GOstats’
-
-The following object is masked from ‘package:AnnotationDbi’:
-
-    makeGOGraph
-
-
-Attaching package: ‘GOstats’
-
-The following object is masked from ‘package:AnnotationDbi’:
-
-    makeGOGraph
-
-
-
-
-
-Attaching package: ‘GOstats’
-
-The following object is masked from ‘package:AnnotationDbi’:
-
-    makeGOGraph
-
-
-Attaching package: ‘GOstats’
-
-The following object is masked from ‘package:AnnotationDbi’:
-
-    makeGOGraph
-
-
-Attaching package: ‘GOstats’
-
-The following object is masked from ‘package:AnnotationDbi’:
-
-    makeGOGraph
-
-
-
-Attaching package: ‘GOstats’
-
-The following object is masked from ‘package:AnnotationDbi’:
-
-    makeGOGraph
-
+     
+      Fetal Postnatal
+  NCX 18725      4047
+  HIP 13923      1402
+  AMY 16610      1589
+  STR  9857      6699
+  MD   5992      3695
+  CBC 12917     18235
+[1] "Neo.F"    "Neo.A"    "notNeo.F" "notNeo.A" "CBC.F"    "CBC.A"   
+[1] "NCX.F"    "NCX.P"    "NonNCX.F" "NonNCX.P" "CBC.F"    "CBC.P"   
 null device 
           1 
 null device 
           1 
+[1] "Previous calculations"
 [1] 19881
-[1] 0.1748687
+[1] 17.48687
 [1] 14183
-[1] 0.1247504
+[1] 12.47504
 [1] 88408
-[1] 0.7776165
-2016-04-18 19:08:46 getRegionCoverage: processing chr1
-2016-04-18 19:10:12 getRegionCoverage: done processing chr1
-2016-04-18 19:10:12 getRegionCoverage: processing chr2
-2016-04-18 19:11:06 getRegionCoverage: done processing chr2
-2016-04-18 19:11:06 getRegionCoverage: processing chr3
-2016-04-18 19:11:37 getRegionCoverage: done processing chr3
-2016-04-18 19:11:38 getRegionCoverage: processing chr4
-2016-04-18 19:11:56 getRegionCoverage: done processing chr4
-2016-04-18 19:11:56 getRegionCoverage: processing chr5
-2016-04-18 19:12:24 getRegionCoverage: done processing chr5
-2016-04-18 19:12:24 getRegionCoverage: processing chr6
-2016-04-18 19:12:51 getRegionCoverage: done processing chr6
-2016-04-18 19:12:51 getRegionCoverage: processing chr7
-2016-04-18 19:13:13 getRegionCoverage: done processing chr7
-2016-04-18 19:13:14 getRegionCoverage: processing chr8
-2016-04-18 19:13:34 getRegionCoverage: done processing chr8
-2016-04-18 19:13:34 getRegionCoverage: processing chr9
-2016-04-18 19:13:58 getRegionCoverage: done processing chr9
-2016-04-18 19:13:58 getRegionCoverage: processing chr10
-2016-04-18 19:14:19 getRegionCoverage: done processing chr10
-2016-04-18 19:14:20 getRegionCoverage: processing chr11
-2016-04-18 19:14:51 getRegionCoverage: done processing chr11
-2016-04-18 19:14:52 getRegionCoverage: processing chr12
-2016-04-18 19:15:27 getRegionCoverage: done processing chr12
-2016-04-18 19:15:27 getRegionCoverage: processing chr13
-2016-04-18 19:15:33 getRegionCoverage: done processing chr13
-2016-04-18 19:15:34 getRegionCoverage: processing chr14
-2016-04-18 19:15:49 getRegionCoverage: done processing chr14
-2016-04-18 19:15:49 getRegionCoverage: processing chr15
-2016-04-18 19:16:07 getRegionCoverage: done processing chr15
-2016-04-18 19:16:07 getRegionCoverage: processing chr16
-2016-04-18 19:16:30 getRegionCoverage: done processing chr16
-2016-04-18 19:16:30 getRegionCoverage: processing chr17
-2016-04-18 19:17:09 getRegionCoverage: done processing chr17
-2016-04-18 19:17:09 getRegionCoverage: processing chr18
-2016-04-18 19:17:15 getRegionCoverage: done processing chr18
-2016-04-18 19:17:16 getRegionCoverage: processing chr19
-2016-04-18 19:17:59 getRegionCoverage: done processing chr19
-2016-04-18 19:17:59 getRegionCoverage: processing chr20
-2016-04-18 19:18:08 getRegionCoverage: done processing chr20
-2016-04-18 19:18:09 getRegionCoverage: processing chr21
-2016-04-18 19:18:11 getRegionCoverage: done processing chr21
-2016-04-18 19:18:12 getRegionCoverage: processing chr22
-2016-04-18 19:18:19 getRegionCoverage: done processing chr22
-2016-04-18 19:18:19 getRegionCoverage: processing chrX
-2016-04-18 19:18:33 getRegionCoverage: done processing chrX
-2016-04-18 19:18:33 getRegionCoverage: processing chrY
-2016-04-18 19:18:33 getRegionCoverage: done processing chrY
+[1] 77.76165
+[1] "Percent strictly exonic"
+[1] 68.10302
+[1] "Percent not exonic, but intergenic or intronic"
+[1] 22.23307
+              Exonic Intergenic Intronic Total
+NCX:Fetal      15583       1946     1196 18725
+NCX:Postnatal   2750        882      415  4047
+HIP:Fetal      12511        889      523 13923
+HIP:Postnatal   1021        237      144  1402
+AMY:Fetal      14705       1178      727 16610
+AMY:Postnatal   1193        229      167  1589
+STR:Fetal       6952       1706     1199  9857
+STR:Postnatal   4734       1060      905  6699
+MD:Fetal        4671        890      431  5992
+MD:Postnatal    2922        425      348  3695
+CBC:Fetal       9984       1815     1118 12917
+CBC:Postnatal  11382       2932     3921 18235
+2016-04-21 18:09:06 getRegionCoverage: processing chr1
+2016-04-21 18:10:50 getRegionCoverage: done processing chr1
+2016-04-21 18:10:51 getRegionCoverage: processing chr2
+2016-04-21 18:12:03 getRegionCoverage: done processing chr2
+2016-04-21 18:12:04 getRegionCoverage: processing chr3
+2016-04-21 18:13:18 getRegionCoverage: done processing chr3
+2016-04-21 18:13:18 getRegionCoverage: processing chr4
+2016-04-21 18:13:34 getRegionCoverage: done processing chr4
+2016-04-21 18:13:35 getRegionCoverage: processing chr5
+2016-04-21 18:14:00 getRegionCoverage: done processing chr5
+2016-04-21 18:14:01 getRegionCoverage: processing chr6
+2016-04-21 18:15:00 getRegionCoverage: done processing chr6
+2016-04-21 18:15:01 getRegionCoverage: processing chr7
+2016-04-21 18:15:30 getRegionCoverage: done processing chr7
+2016-04-21 18:15:31 getRegionCoverage: processing chr8
+2016-04-21 18:15:48 getRegionCoverage: done processing chr8
+2016-04-21 18:15:49 getRegionCoverage: processing chr9
+2016-04-21 18:16:08 getRegionCoverage: done processing chr9
+2016-04-21 18:16:08 getRegionCoverage: processing chr10
+2016-04-21 18:16:26 getRegionCoverage: done processing chr10
+2016-04-21 18:16:27 getRegionCoverage: processing chr11
+2016-04-21 18:16:57 getRegionCoverage: done processing chr11
+2016-04-21 18:16:57 getRegionCoverage: processing chr12
+2016-04-21 18:17:23 getRegionCoverage: done processing chr12
+2016-04-21 18:17:24 getRegionCoverage: processing chr13
+2016-04-21 18:17:29 getRegionCoverage: done processing chr13
+2016-04-21 18:17:29 getRegionCoverage: processing chr14
+2016-04-21 18:17:42 getRegionCoverage: done processing chr14
+2016-04-21 18:17:43 getRegionCoverage: processing chr15
+2016-04-21 18:17:56 getRegionCoverage: done processing chr15
+2016-04-21 18:17:56 getRegionCoverage: processing chr16
+2016-04-21 18:18:15 getRegionCoverage: done processing chr16
+2016-04-21 18:18:15 getRegionCoverage: processing chr17
+2016-04-21 18:18:50 getRegionCoverage: done processing chr17
+2016-04-21 18:18:51 getRegionCoverage: processing chr18
+2016-04-21 18:18:56 getRegionCoverage: done processing chr18
+2016-04-21 18:18:56 getRegionCoverage: processing chr19
+2016-04-21 18:19:38 getRegionCoverage: done processing chr19
+2016-04-21 18:19:38 getRegionCoverage: processing chr20
+2016-04-21 18:19:46 getRegionCoverage: done processing chr20
+2016-04-21 18:19:47 getRegionCoverage: processing chr21
+2016-04-21 18:19:49 getRegionCoverage: done processing chr21
+2016-04-21 18:19:49 getRegionCoverage: processing chr22
+2016-04-21 18:19:57 getRegionCoverage: done processing chr22
+2016-04-21 18:19:57 getRegionCoverage: processing chrX
+2016-04-21 18:20:11 getRegionCoverage: done processing chrX
+2016-04-21 18:20:11 getRegionCoverage: processing chrY
+2016-04-21 18:20:11 getRegionCoverage: done processing chrY
+[1] "Percent of LIBD_n36 DERs overlapping sigSpan DERs"
+[1] 58.97137
+[1] "Percent of top 10k LIBD_n36 DERs overlapping sigSpan DERs"
+[1] 72.62
 Session info -----------------------------------------------------------------------------------------------------------
  setting  value                                   
- version  R version 3.3.0 beta (2016-04-18 r70505)
+ version  R version 3.3.0 beta (2016-04-20 r70527)
  system   x86_64, linux-gnu                       
  ui       X11                                     
  language (EN)                                    
  collate  en_US.UTF-8                             
  tz       <NA>                                    
- date     2016-04-18                              
+ date     2016-04-21                              
 
 Packages ---------------------------------------------------------------------------------------------------------------
  package              * version  date       source                                
@@ -471,7 +179,7 @@ Packages -----------------------------------------------------------------------
  colorout             * 1.1-2    2016-04-02 Github (jalvesaq/colorout@f96c00c)    
  colorspace             1.2-6    2015-03-11 CRAN (R 3.3.0)                        
  DBI                    0.3.1    2014-09-24 CRAN (R 3.3.0)                        
- derfinder            * 1.5.33   2016-04-18 Github (lcolladotor/derfinder@df4efa4)
+ derfinder            * 1.5.35   2016-04-20 Github (lcolladotor/derfinder@3965661)
  derfinderHelper        1.5.3    2016-04-02 Bioconductor                          
  devtools             * 1.10.0   2016-01-23 CRAN (R 3.3.0)                        
  digest                 0.6.9    2016-01-08 CRAN (R 3.3.0)                        
@@ -511,7 +219,7 @@ Packages -----------------------------------------------------------------------
  rpart                  4.1-10   2015-06-29 CRAN (R 3.3.0)                        
  Rsamtools              1.23.8   2016-04-11 Bioconductor                          
  RSQLite                1.0.0    2014-10-25 CRAN (R 3.3.0)                        
- rtracklayer            1.31.10  2016-04-11 Bioconductor                          
+ rtracklayer            1.31.10  2016-04-21 Bioconductor                          
  S4Vectors            * 0.9.51   2016-04-18 Bioconductor                          
  scales                 0.4.0    2016-02-26 CRAN (R 3.3.0)                        
  stringi                1.0-1    2015-10-22 CRAN (R 3.3.0)                        
@@ -523,6 +231,6 @@ Packages -----------------------------------------------------------------------
  xtable                 1.8-2    2016-02-05 CRAN (R 3.3.0)                        
  XVector                0.11.8   2016-04-11 Bioconductor                          
  zlibbioc               1.17.1   2016-03-28 Bioconductor                          
-[1] "2016-04-18 19:20:53 EDT"
+[1] "2016-04-21 18:29:29 EDT"
     user   system  elapsed 
-2337.647  127.174 1439.686 
+1174.544  211.292 1416.678 
