@@ -133,7 +133,7 @@ countTable1 = ensemblAnno1$countTable
 dir.create('plots', showWarnings = FALSE)
 pdf("plots/venn_counts_brainspan_regionLevel.pdf",h=5,w=6)
 vennDiagram(vennCounts(countTable > 0)); mtext("Ensembl, cutoff = 0.25, ERs >= 6bp", line=1,cex=2)
-vennDiagram(vennCounts(countTable1 > 0)); mtext("Ensembl, cutoff = 0.01, ERs >= 6bp", line=1,cex=2)
+vennDiagram(vennCounts(countTable1 > 0)); mtext("Ensembl, cutoff = 0.10, ERs >= 6bp", line=1,cex=2)
 dev.off()
 
 mean(countTable1$exon > 0 & countTable1$intergenic == 0 & 
