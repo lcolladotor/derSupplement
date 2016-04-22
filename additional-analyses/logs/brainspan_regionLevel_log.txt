@@ -43,26 +43,73 @@ Loading required package: foreach
 Loading required package: iterators
 Loading required package: locfit
 locfit 1.5-9.1 	 2013-03-22
+[1] "Number of regions and MB covered: cut 0.25"
+[1] 207349
+[1] 34.64678
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   17.0   136.0   196.0   378.5   348.0 12620.0 
+[1] "Number of regions and MB covered: cut 0.25, >= 6bp"
+[1] 174610
 [1] 34.56585
-2016-04-18 19:20:41 annotateRegions: counting
-2016-04-18 19:20:43 annotateRegions: annotating
-[1] 0.8024168
-[1] 0.05383426
-2016-04-18 19:20:47 annotateRegions: counting
-2016-04-18 19:20:49 annotateRegions: annotating
+[1] "Number of regions and MB covered: cut 0.10"
+[1] 254420
+[1] 50.91125
+[1] "Number of regions and MB covered: cut 0.10, >= 6bp"
+[1] 217085
+[1] 50.8206
+2016-04-21 20:02:59 annotateRegions: counting
+2016-04-21 20:03:00 annotateRegions: annotating
+[1] 81.7479
+[1] 5.383426
+2016-04-21 20:03:02 annotateRegions: counting
+2016-04-21 20:03:03 annotateRegions: annotating
 null device 
           1 
-[1] 0.6722666
-[1] 0.1211968
+[1] 68.46351
+[1] 12.11968
 [1] 129278
-[1] 0.7403814
+[1] 74.03814
+[1] "Number of unique ensembl genes, then unique genes with symbols"
 [1] 17525
-[1] 94011
+[1] 13016
+
+FALSE  TRUE 
+80599 94011 
+
+   FALSE     TRUE 
+46.15944 53.84056 
+[1] "Number of sig ER-level DERs overlapping sig single base-level DERs"
 [1] 93355
-[1] 0.9930221
+[1] "Percent of sig ER-level DERs overlapping sig single base-level DERs"
+[1] 72.2126
+[1] "Percent of ER-level DERs overlapping sig single base-level DERs that are significant"
+[1] 99.30221
+[1] "sig SB-level DERs overlapping ER-level DERs"
 
 FALSE  TRUE 
 42694 70997 
+
+   FALSE     TRUE 
+37.55266 62.44734 
+[1] "Percent of sig SB-level DERs with mean coverage < 0.25"
+
+FALSE  TRUE 
+62260 51431 
+
+   FALSE     TRUE 
+54.76247 45.23753 
+[1] "Percent of sig SB-level DERs not overlapping ER-level DERs with mean coverage < 0.25"
+
+ TRUE 
+42694 
+[1] 100
+[1] "Width of sig SB-level DERs not overlapping ER-level DERs, then overlapping them, then all of them"
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   17.0   155.0   220.0   343.8   359.0  9190.0 
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   19.0   128.0   181.0   399.3   337.0 12620.0 
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   17.0   136.0   196.0   378.5   348.0 12620.0 
 Warning message:
 Zero sample variances detected, have been offset 
 [1] 1170
@@ -85,7 +132,8 @@ Annotating genes.
 Warning message:
   Calling species() on a TxDb object is *deprecated*.
   Please use organism() instead. 
-...........$`-1`
+...........[1] "Subset analysis results, top 50 in each direction, then number of unique genes"
+$`-1`
  [1] "FZD7"      "ZBTB18"    "TSPAN18"   "NEUROD1"   "BOC"       "FEZF2"    
  [7] "EZR"       "WWC1"      "LTBP1"     "NFIX"      "LOC401463" "CSRP2"    
 [13] "EMX1"      "NFIA"      "THBS1"     "EPB41L3"   "GTDC1"     "NFIB"     
@@ -108,15 +156,16 @@ $`1`
 [41] "KLHL13"      "GUCY1A3"     "CDH8"        "RGS8"        "FOXP2"      
 [46] "LMF1"        "TAC1"        "PDE10A"      "KCNIP1"      "ZNF467"     
 
+[1] 293
 Session info -----------------------------------------------------------------------------------------------------------
  setting  value                                   
- version  R version 3.3.0 beta (2016-04-18 r70505)
+ version  R version 3.3.0 beta (2016-04-20 r70527)
  system   x86_64, linux-gnu                       
  ui       X11                                     
  language (EN)                                    
  collate  en_US.UTF-8                             
  tz       <NA>                                    
- date     2016-04-18                              
+ date     2016-04-21                              
 
 Packages ---------------------------------------------------------------------------------------------------------------
  package                           * version  date       source                                
@@ -135,7 +184,7 @@ Packages -----------------------------------------------------------------------
  colorout                          * 1.1-2    2016-04-02 Github (jalvesaq/colorout@f96c00c)    
  colorspace                          1.2-6    2015-03-11 CRAN (R 3.3.0)                        
  DBI                                 0.3.1    2014-09-24 CRAN (R 3.3.0)                        
- derfinder                         * 1.5.33   2016-04-18 Github (lcolladotor/derfinder@df4efa4)
+ derfinder                         * 1.5.35   2016-04-20 Github (lcolladotor/derfinder@3965661)
  derfinderHelper                     1.5.3    2016-04-02 Bioconductor                          
  devtools                          * 1.10.0   2016-01-23 CRAN (R 3.3.0)                        
  digest                              0.6.9    2016-01-08 CRAN (R 3.3.0)                        
@@ -156,7 +205,7 @@ Packages -----------------------------------------------------------------------
  iterators                         * 1.0.8    2015-10-13 CRAN (R 3.3.0)                        
  lattice                             0.20-33  2015-07-14 CRAN (R 3.3.0)                        
  latticeExtra                        0.6-28   2016-02-09 CRAN (R 3.3.0)                        
- limma                             * 3.27.18  2016-04-18 Bioconductor                          
+ limma                             * 3.27.19  2016-04-20 Bioconductor                          
  locfit                            * 1.5-9.1  2013-04-20 CRAN (R 3.3.0)                        
  magrittr                            1.5      2014-11-22 CRAN (R 3.3.0)                        
  Matrix                              1.2-5    2016-04-17 CRAN (R 3.3.0)                        
@@ -177,7 +226,7 @@ Packages -----------------------------------------------------------------------
  rpart                               4.1-10   2015-06-29 CRAN (R 3.3.0)                        
  Rsamtools                           1.23.8   2016-04-11 Bioconductor                          
  RSQLite                             1.0.0    2014-10-25 CRAN (R 3.3.0)                        
- rtracklayer                         1.31.10  2016-04-11 Bioconductor                          
+ rtracklayer                         1.31.10  2016-04-21 Bioconductor                          
  S4Vectors                         * 0.9.51   2016-04-18 Bioconductor                          
  scales                              0.4.0    2016-02-26 CRAN (R 3.3.0)                        
  stringi                             1.0-1    2015-10-22 CRAN (R 3.3.0)                        
@@ -190,6 +239,6 @@ Packages -----------------------------------------------------------------------
  xtable                              1.8-2    2016-02-05 CRAN (R 3.3.0)                        
  XVector                             0.11.8   2016-04-11 Bioconductor                          
  zlibbioc                            1.17.1   2016-03-28 Bioconductor                          
-[1] "2016-04-18 19:27:24 EDT"
+[1] "2016-04-21 20:06:53 EDT"
    user  system elapsed 
-310.545   7.900 545.685 
+247.470  48.802 305.693 

@@ -55,7 +55,53 @@ locfit 1.5-9.1 	 2013-03-22
 216 9.3 -0.2884615 /nexsan2/disk3/ajaffe/BrainSpan/RNAseq/bigwig/HSB169.A1C.bw
 218 9.6 -0.2692308 /nexsan2/disk3/ajaffe/BrainSpan/RNAseq/bigwig/HSB168.V1C.bw
 219 9.2 -0.2692308 /nexsan2/disk3/ajaffe/BrainSpan/RNAseq/bigwig/HSB168.DFC.bw
-[1] 34.52942
+[1] "Number of regions and MB covered: cut 0.25"
+[1] 207349
+[1] 34.64678
+[1] "Number of regions and MB covered: cut 0.25, >= 6bp"
+[1] 174610
+[1] 34.56585
+2016-04-21 20:09:27 annotateRegions: counting
+2016-04-21 20:09:28 annotateRegions: annotating
+null device 
+          1 
+[1] 174610      3
+    strictExonic   strictIntronic strictIntergenic       exonIntron 
+          141256             5779            11501            15087 
+    strictExonic   strictIntronic strictIntergenic       exonIntron 
+       80.898001         3.309662         6.586679         8.640399 
+                 0% 25% 50% 75%  100%
+strictExonic      6  59 107 170  9419
+strictIntronic    6  31  76 126  5588
+strictIntergenic  6  36  83 152  7383
+exonIntron        6  94 133 202 12632
+.....null device 
+          1 
+null device 
+          1 
+[1] "Number and percent of ER-level DERs that are significant"
+[1] 129278
+[1] 74.03814
+[1] "Number of unique UCSC genes, then unique genes with symbols"
+[1] 12839
+[1] 0
+
+FALSE  TRUE 
+80599 94011 
+
+   FALSE     TRUE 
+46.15944 53.84056 
+[1] 93355
+[1] 99.30221
+
+FALSE  TRUE 
+42694 70997 
+
+   FALSE     TRUE 
+37.55266 62.44734 
+Warning message:
+Zero sample variances detected, have been offset 
+[1] 1170
 Loading required package: GenomicFeatures
 Loading required package: AnnotationDbi
 Loading required package: Biobase
@@ -65,44 +111,6 @@ Welcome to Bioconductor
     'browseVignettes()'. To cite Bioconductor, see
     'citation("Biobase")', and for packages 'citation("pkgname")'.
 
-'select()' returned 1:1 mapping between keys and columns
-Warning messages:
-1: In .nextMethod(x, i, value = value) :
-  number of values supplied is not a sub-multiple of the number of values to be replaced
-2: In .nextMethod(x, i, value = value) :
-  number of values supplied is not a sub-multiple of the number of values to be replaced
-3: In .nextMethod(x, i, value = value) :
-  number of values supplied is not a sub-multiple of the number of values to be replaced
-2016-04-18 19:24:18 annotateRegions: counting
-2016-04-18 19:24:19 annotateRegions: annotating
-null device 
-          1 
-[1] 169296      3
-    strictExonic   strictIntronic strictIntergenic       exonIntron 
-          137044             5442            10934            14891 
-    strictExonic   strictIntronic strictIntergenic       exonIntron 
-       80.949343         3.214488         6.458511         8.795837 
-                 0% 25% 50% 75%  100%
-strictExonic      9  64 110 172  9419
-strictIntronic    9  40  79 130  5588
-strictIntergenic  9  46  86 161  7383
-exonIntron        9  96 134 204 12632
-.....null device 
-          1 
-null device 
-          1 
-[1] 125752
-[1] 0.7427937
-[1] 12818
-[1] 91074
-[1] 90447
-[1] 0.9931155
-
-FALSE  TRUE 
-42924 70767 
-Warning message:
-Zero sample variances detected, have been offset 
-[1] 1181
 No annotationPackage supplied. Trying org.Hs.eg.db.
 Loading required package: org.Hs.eg.db
 
@@ -113,38 +121,46 @@ Annotating genes.
 Warning message:
   Calling species() on a TxDb object is *deprecated*.
   Please use organism() instead. 
-...........$`-1`
+...........[1] "Subset analysis results, top 50 in each direction, then number of unique genes"
+$`-1`
  [1] "FZD7"      "ZBTB18"    "TSPAN18"   "NEUROD1"   "BOC"       "FEZF2"    
  [7] "EZR"       "WWC1"      "LTBP1"     "NFIX"      "LOC401463" "CSRP2"    
 [13] "EMX1"      "NFIA"      "THBS1"     "EPB41L3"   "GTDC1"     "NFIB"     
-[19] "LINC00461" "ZFPM2"     "TCF4"      "SLC17A7"   "KCTD15"    "EMX2OS"   
-[25] "TBC1D1"    "SNCAIP"    "CBS"       "EMX2"      "COL4A5"    "ARHGEF25" 
+[19] "LINC00461" "ZFPM2"     "TCF4"      "SLC17A7"   "KCTD15"    "TBC1D1"   
+[25] "EMX2OS"    "SNCAIP"    "CBS"       "EMX2"      "COL4A5"    "ARHGEF25" 
 [31] "RTN4RL2"   "CD80"      "MID1"      "LHX2"      "ANTXR2"    "NNMT"     
-[37] "MAPK7"     "HEG1"      "LRRC3B"    "DAP"       "SETD7"     "TNFRSF19" 
-[43] "PTPRK"     "ZBTB16"    "PRDM8"     "FZD1"      "CRYAB"     "NEUROD6"  
-[49] "TSPAN5"    "OXR1"     
+[37] "MAPK7"     "HEG1"      "LRRC3B"    "ZBTB16"    "DAP"       "SETD7"    
+[43] "PTPRK"     "TNFRSF19"  "PRDM8"     "FZD1"      "TSPAN5"    "CRYAB"    
+[49] "NEUROD6"   "OXR1"     
 
 $`1`
  [1] "RXRG"        "ARPP21"      "STRIP2"      "RGS2"        "SIX3"       
  [6] "RINL"        "FOXP1"       "NTN1"        "LOC389332"   "PDYN"       
-[11] "DRD2"        "PDE4B"       "TPD52L1"     "ZFHX3"       "PBX3"       
-[16] "RARB"        "GPR88"       "MSANTD1"     "MDK"         "DTNBP1"     
+[11] "PDE4B"       "DRD2"        "TPD52L1"     "ZFHX3"       "PBX3"       
+[16] "RARB"        "GPR88"       "MSANTD1"     "DTNBP1"      "MDK"        
 [21] "DRD1"        "FOXO1"       "RASL10B"     "HAR1A"       "SOX4"       
 [26] "EBF1"        "NPY"         "FAM222A-AS1" "TSPAN9"      "LINC00643"  
 [31] "FRAS1"       "NIPAL3"      "FAT3"        "DLX6-AS1"    "FHDC1"      
-[36] "NGEF"        "SERTAD4"     "DLL3"        "SKAP2"       "ATXN1"      
+[36] "NGEF"        "DLL3"        "SERTAD4"     "ATXN1"       "SKAP2"      
 [41] "KLHL13"      "GUCY1A3"     "CDH8"        "RGS8"        "FOXP2"      
 [46] "LMF1"        "TAC1"        "PDE10A"      "KCNIP1"      "ZNF467"     
 
+[1] 293
+[1] "Number of regions and MB covered: cut 0.10"
+[1] 254420
+[1] 50.91125
+[1] "Number of regions and MB covered: cut 0.10, >= 6bp"
+[1] 217085
+[1] 50.8206
 Session info -----------------------------------------------------------------------------------------------------------
  setting  value                                   
- version  R version 3.3.0 beta (2016-04-18 r70505)
+ version  R version 3.3.0 beta (2016-04-20 r70527)
  system   x86_64, linux-gnu                       
  ui       X11                                     
  language (EN)                                    
  collate  en_US.UTF-8                             
  tz       <NA>                                    
- date     2016-04-18                              
+ date     2016-04-21                              
 
 Packages ---------------------------------------------------------------------------------------------------------------
  package                           * version  date       source                                
@@ -163,7 +179,7 @@ Packages -----------------------------------------------------------------------
  colorout                          * 1.1-2    2016-04-02 Github (jalvesaq/colorout@f96c00c)    
  colorspace                          1.2-6    2015-03-11 CRAN (R 3.3.0)                        
  DBI                                 0.3.1    2014-09-24 CRAN (R 3.3.0)                        
- derfinder                         * 1.5.33   2016-04-18 Github (lcolladotor/derfinder@df4efa4)
+ derfinder                         * 1.5.35   2016-04-20 Github (lcolladotor/derfinder@3965661)
  derfinderHelper                     1.5.3    2016-04-02 Bioconductor                          
  devtools                          * 1.10.0   2016-01-23 CRAN (R 3.3.0)                        
  digest                              0.6.9    2016-01-08 CRAN (R 3.3.0)                        
@@ -184,7 +200,7 @@ Packages -----------------------------------------------------------------------
  iterators                         * 1.0.8    2015-10-13 CRAN (R 3.3.0)                        
  lattice                             0.20-33  2015-07-14 CRAN (R 3.3.0)                        
  latticeExtra                        0.6-28   2016-02-09 CRAN (R 3.3.0)                        
- limma                             * 3.27.18  2016-04-18 Bioconductor                          
+ limma                             * 3.27.19  2016-04-20 Bioconductor                          
  locfit                            * 1.5-9.1  2013-04-20 CRAN (R 3.3.0)                        
  magrittr                            1.5      2014-11-22 CRAN (R 3.3.0)                        
  Matrix                              1.2-5    2016-04-17 CRAN (R 3.3.0)                        
@@ -205,7 +221,7 @@ Packages -----------------------------------------------------------------------
  rpart                               4.1-10   2015-06-29 CRAN (R 3.3.0)                        
  Rsamtools                           1.23.8   2016-04-11 Bioconductor                          
  RSQLite                             1.0.0    2014-10-25 CRAN (R 3.3.0)                        
- rtracklayer                         1.31.10  2016-04-11 Bioconductor                          
+ rtracklayer                         1.31.10  2016-04-21 Bioconductor                          
  S4Vectors                         * 0.9.51   2016-04-18 Bioconductor                          
  scales                              0.4.0    2016-02-26 CRAN (R 3.3.0)                        
  stringi                             1.0-1    2015-10-22 CRAN (R 3.3.0)                        
@@ -218,6 +234,6 @@ Packages -----------------------------------------------------------------------
  xtable                              1.8-2    2016-02-05 CRAN (R 3.3.0)                        
  XVector                             0.11.8   2016-04-11 Bioconductor                          
  zlibbioc                            1.17.1   2016-03-28 Bioconductor                          
-[1] "2016-04-18 19:47:56 EDT"
-    user   system  elapsed 
-1845.514   21.978 1870.778 
+[1] "2016-04-21 20:23:18 EDT"
+   user  system elapsed 
+852.508   9.642 873.492 
