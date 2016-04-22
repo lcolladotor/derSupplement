@@ -168,12 +168,41 @@ an = annotateNearest(fullRegionGR, sigSpan)
 table(an$dist == 0)
 table(an$dist == 0) / length(an$dist) * 100
 
+print("Number of sig ER-level DERs overlapping sig single base-level DERs")
 sum(ff$f_pval[an$dist==0] < 0.05/nrow(y))
+print("Percent of sig ER-level DERs overlapping sig single base-level DERs")
+sum(ff$f_pval[an$dist==0] < 0.05/nrow(y)) / sum(ff$f_pval < 0.05/nrow(y)) * 100
+print("Percent of ER-level DERs overlapping sig single base-level DERs that are significant")
 mean(ff$f_pval[an$dist==0] < 0.05/nrow(y)) * 100
 
+print("sig SB-level DERs overlapping ER-level DERs")
 an2 = annotateNearest(sigSpan, fullRegionGR)
 table(an2$dist == 0)
 table(an2$dist == 0) / length(an2$dist) * 100
+
+## Load meanCoverage for sig SB-level DERs
+if(!file.exists('rdas/summarized_BrainSpan_DERs_meanCov.rda')) {
+    stop("Run characterize_brainspan_DERs.R first")
+} else {
+    load("rdas/summarized_BrainSpan_DERs_meanCov.rda")
+}
+stopifnot(length(sigSpan) == nrow(meanCoverage))
+
+## Get mean coverage per sig DB-level DER
+mean_meanCov <- rowMeans(meanCoverage)
+
+print("Percent of sig SB-level DERs with mean coverage < 0.25")
+table(mean_meanCov < 0.25)
+table(mean_meanCov < 0.25) / length(mean_meanCov) * 100
+
+print("Percent of sig SB-level DERs not overlapping ER-level DERs with mean coverage < 0.25")
+table(mean_meanCov[an2$dist != 0] < 0.25)
+mean(mean_meanCov[an2$dist != 0] < 0.25) * 100
+
+print("Width of sig SB-level DERs not overlapping ER-level DERs, then overlapping them, then all of them")
+summary(width(sigSpan[an2$dist != 0]))
+summary(width(sigSpan[an2$dist == 0]))
+summary(width(sigSpan))
 
 ### subset analysis ###
 

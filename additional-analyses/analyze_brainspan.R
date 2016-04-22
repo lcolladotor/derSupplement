@@ -204,6 +204,7 @@ fit = lmFit(y, models$mod)
 fit0 = lmFit(y, models$mod0)
 ff = getF(fit,fit0, y)
 
+print("Number and percent of ER-level DERs that are significant")
 sum(p.adjust(ff$f_pval,"bonf") < 0.05)
 mean(p.adjust(ff$f_pval,"bonf") < 0.05) * 100
 sigIndex=which(p.adjust(ff$f_pval,"bonf") < 0.05)
