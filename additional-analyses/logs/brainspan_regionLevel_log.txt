@@ -1,4 +1,3 @@
-Loading required package: colorout
 Loading required package: methods
 Loading required package: BiocGenerics
 Loading required package: parallel
@@ -57,12 +56,12 @@ locfit 1.5-9.1 	 2013-03-22
 [1] "Number of regions and MB covered: cut 0.10, >= 6bp"
 [1] 217085
 [1] 50.8206
-2016-04-21 20:02:59 annotateRegions: counting
-2016-04-21 20:03:00 annotateRegions: annotating
+2016-04-21 20:48:50 annotateRegions: counting
+2016-04-21 20:48:52 annotateRegions: annotating
 [1] 81.7479
 [1] 5.383426
-2016-04-21 20:03:02 annotateRegions: counting
-2016-04-21 20:03:03 annotateRegions: annotating
+2016-04-21 20:48:54 annotateRegions: counting
+2016-04-21 20:48:55 annotateRegions: annotating
 null device 
           1 
 [1] 68.46351
@@ -181,7 +180,6 @@ Packages -----------------------------------------------------------------------
  bumphunter                        * 1.11.5   2016-04-11 Bioconductor                          
  cluster                             2.0.4    2016-04-18 CRAN (R 3.3.0)                        
  codetools                           0.2-14   2015-07-15 CRAN (R 3.3.0)                        
- colorout                          * 1.1-2    2016-04-02 Github (jalvesaq/colorout@f96c00c)    
  colorspace                          1.2-6    2015-03-11 CRAN (R 3.3.0)                        
  DBI                                 0.3.1    2014-09-24 CRAN (R 3.3.0)                        
  derfinder                         * 1.5.35   2016-04-20 Github (lcolladotor/derfinder@3965661)
@@ -239,6 +237,6 @@ Packages -----------------------------------------------------------------------
  xtable                              1.8-2    2016-02-05 CRAN (R 3.3.0)                        
  XVector                             0.11.8   2016-04-11 Bioconductor                          
  zlibbioc                            1.17.1   2016-03-28 Bioconductor                          
-[1] "2016-04-21 20:06:53 EDT"
+[1] "2016-04-21 20:52:37 EDT"
    user  system elapsed 
-247.470  48.802 305.693 
+307.512   9.968 320.933 
