@@ -2,6 +2,7 @@
 ##
 ## Usage:
 # mkdir -p logs
+# module load R/3.3
 # Rscript analyze_gtex.R > logs/analyze_gtex_log.txt 2>&1
 library('derfinder')
 library('derfinderPlot')
@@ -373,7 +374,7 @@ geneRegionCovMeans = lapply(geneRegionCov, function(x) {
 })
 	
 library('RColorBrewer')
-pdf('GTEX_topERs.pdf', h = 5, w = 7)
+pdf('plots/GTEX_topERs.pdf', h = 5, w = 7)
 plotRegionCoverage(regions=geneRegions, 
 	regionCoverage=geneRegionCovMeans,
 	groupInfo=factor(names(tIndexes)), colors = brewer.pal(3, 'Set1'), 
