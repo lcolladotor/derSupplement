@@ -338,6 +338,52 @@ dev.off()
 save(outStatsExon, outStatsExonSig, file="rdas/conditionalIntronicERs.rda")
 
 
+#######
+tt = table(outStatsExonSig$exonSym)
+geneTab = data.frame(gene = names(tt), numErs = as.numeric(tt), 
+	minP= outStatsExonSig$pval[match(names(tt), outStatsExonSig$intronSym)])
+geneTab = geneTab[order(geneTab$numErs, -log10(geneTab$minP),decreasing=TRUE),]
+
+## make region plots
+library('derfinderPlot')
+
+## load full coverage
+bw = pd2$sampleFile
+names(bw) = pd2$sra_accession
+fullCov = fullCoverage(bw, chrs = paste0("chr",c(1:22,"X","Y")),mc.cores = 8)
+
+## Annotate regions
+geneRegions = ensGene[match(geneTab$gene[1:40], ensGene$Symbol)]
+annotatedGeneRegions <- annotateRegions(regions = geneRegions,
+	genomicState = gs, minoverlap = 1)
+
+## Find nearest annotation with bumphunter::matchGenes()
+library('bumphunter')
+genes <- annotateTranscripts(txdb = TranscriptDb)
+nearestAnnotation <- matchGenes(x = geneRegions, subject = genes)
+nearestAnnotation$name = geneTab$gene[1:40]
+
+## Get the region coverage
+geneRegionCov <- getRegionCoverage(fullCov=fullCov, regions=geneRegions,
+	targetSize = 4e+07, totalMapped = pd2$totalMapped)
+tIndexes = split(1:nrow(pd2), pd2$Tissue)
+geneRegionCovMeans = lapply(geneRegionCov, function(x) {
+	cat(".")
+	sapply(tIndexes, function(ii) rowMeans(x[,ii]))
+})
+	
+library('RColorBrewer')
+pdf('GTEX_topERs.pdf', h = 5, w = 7)
+plotRegionCoverage(regions=geneRegions, 
+	regionCoverage=geneRegionCovMeans,
+	groupInfo=factor(names(tIndexes)), colors = brewer.pal(3, 'Set1'), 
+	nearestAnnotation=nearestAnnotation,
+	annotatedRegions=annotatedGeneRegions,
+	ask=FALSE,	verbose=FALSE, 
+	txdb = TranscriptDb)
+dev.off()
+
+
 ## Reproducibility info
 Sys.time()
 proc.time()
