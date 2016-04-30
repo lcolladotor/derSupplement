@@ -345,6 +345,9 @@ tt = table(outStatsExonSig$exonSym)
 geneTab = data.frame(gene = names(tt), numErs = as.numeric(tt), 
 	minP= outStatsExonSig$pval[match(names(tt), outStatsExonSig$intronSym)])
 geneTab = geneTab[order(geneTab$numErs, -log10(geneTab$minP),decreasing=TRUE),]
+rownames(geneTab) <- NULL
+dim(geneTab)
+geneTab
 
 ## make region plots
 library('derfinderPlot')
@@ -355,7 +358,8 @@ names(bw) = pd2$sra_accession
 fullCov = fullCoverage(bw, chrs = paste0("chr",c(1:22,"X","Y")),mc.cores = 8)
 
 ## Annotate regions
-geneRegions = ensGene[match(geneTab$gene[1:40], ensGene$Symbol)]
+top <- seq_len(60)
+geneRegions = ensGene[match(geneTab$gene[top], ensGene$Symbol)]
 annotatedGeneRegions <- annotateRegions(regions = geneRegions,
 	genomicState = gs, minoverlap = 1)
 
@@ -363,7 +367,7 @@ annotatedGeneRegions <- annotateRegions(regions = geneRegions,
 library('bumphunter')
 genes <- annotateTranscripts(txdb = TranscriptDb)
 nearestAnnotation <- matchGenes(x = geneRegions, subject = genes)
-nearestAnnotation$name = geneTab$gene[1:40]
+nearestAnnotation$name = geneTab$gene[top]
 
 ## Get the region coverage
 geneRegionCov <- getRegionCoverage(fullCov=fullCov, regions=geneRegions,
@@ -381,6 +385,44 @@ plotRegionCoverage(regions=geneRegions,
 	groupInfo=factor(names(tIndexes)), colors = brewer.pal(3, 'Set1'), 
 	nearestAnnotation=nearestAnnotation,
 	annotatedRegions=annotatedGeneRegions,
+	ask=FALSE,	verbose=FALSE, 
+	txdb = TranscriptDb)
+dev.off()
+
+## Find genes with a lot of intronic ERs
+tt_intron <- table(outStatsExon$intronSym)
+intronTab <- data.frame(gene = names(tt_intron), numErs = as.numeric(tt_intron))
+intronTab <- intronTab[order(intronTab$numErs, decreasing=TRUE), ]
+intronTab <- intronTab[- which(intronTab$gene == ''), ]
+rownames(intronTab) <- NULL
+dim(intronTab)
+head(intronTab, n = 100)
+
+
+## Annotate reiongs
+geneRegions_intron <- ensGene[match(intronTab$gene[top], ensGene$Symbol)]
+annotatedGeneRegions_intron <- annotateRegions(regions = geneRegions_intron,
+	genomicState = gs, minoverlap = 1)
+
+## Find nearest annotation with bumphunter::matchGenes()
+nearestAnnotation_intron <- matchGenes(x = geneRegions_intron, subject = genes)
+nearestAnnotation_intron$name = intronTab$gene[top]
+
+## Get the region coverage
+geneRegionCov_intron <- getRegionCoverage(fullCov=fullCov,
+    regions=geneRegions_intron,
+	targetSize = 4e+07, totalMapped = pd2$totalMapped)
+geneRegionCovMeans_intron = lapply(geneRegionCov_intron, function(x) {
+	cat(".")
+	sapply(tIndexes, function(ii) rowMeans(x[,ii]))
+})
+
+pdf('plots/GTEX_topERs_intron.pdf', h = 5, w = 7)
+plotRegionCoverage(regions=geneRegions_intron, 
+	regionCoverage=geneRegionCovMeans_intron,
+	groupInfo=factor(names(tIndexes)), colors = brewer.pal(3, 'Set1'), 
+	nearestAnnotation=nearestAnnotation_intron,
+	annotatedRegions=annotatedGeneRegions_intron,
 	ask=FALSE,	verbose=FALSE, 
 	txdb = TranscriptDb)
 dev.off()
