@@ -1,6 +1,7 @@
 ## Original script: /home/epi/ajaffe/Lieber/Projects/derfinderPaper/analyze_gtex.R
 ##
 ## Usage:
+# qrsh -pe local 8
 # mkdir -p logs
 # module load R/3.3
 # Rscript analyze_gtex.R > logs/analyze_gtex_log.txt 2>&1
