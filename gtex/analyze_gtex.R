@@ -1,7 +1,7 @@
 ## Original script: /home/epi/ajaffe/Lieber/Projects/derfinderPaper/analyze_gtex.R
 ##
 ## Usage:
-# qrsh -pe local 8
+# qrsh -pe local 8 -l mem_free=20G,h_vmem=25G
 # mkdir -p logs
 # module load R/3.3
 # Rscript analyze_gtex.R > logs/analyze_gtex_log.txt 2>&1
