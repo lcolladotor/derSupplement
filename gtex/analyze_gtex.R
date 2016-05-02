@@ -382,7 +382,8 @@ library('RColorBrewer')
 pdf('plots/GTEX_topERs.pdf', h = 5, w = 7)
 plotRegionCoverage(regions=geneRegions, 
 	regionCoverage=geneRegionCovMeans,
-	groupInfo=factor(names(tIndexes)), colors = brewer.pal(3, 'Set1'), 
+	groupInfo=factor(names(tIndexes), levels = c('Liver', 'Heart', 
+        'Testis')), colors = brewer.pal(3, 'Set1'), 
 	nearestAnnotation=nearestAnnotation,
 	annotatedRegions=annotatedGeneRegions,
 	ask=FALSE,	verbose=FALSE, 
@@ -399,7 +400,7 @@ dim(intronTab)
 head(intronTab, n = 100)
 
 
-## Annotate reiongs
+## Annotate regions
 geneRegions_intron <- ensGene[match(intronTab$gene[top], ensGene$Symbol)]
 annotatedGeneRegions_intron <- annotateRegions(regions = geneRegions_intron,
 	genomicState = gs, minoverlap = 1)
@@ -418,14 +419,52 @@ geneRegionCovMeans_intron = lapply(geneRegionCov_intron, function(x) {
 })
 
 pdf('plots/GTEX_topERs_intron.pdf', h = 5, w = 7)
-plotRegionCoverage(regions=geneRegions_intron, 
-	regionCoverage=geneRegionCovMeans_intron,
-	groupInfo=factor(names(tIndexes)), colors = brewer.pal(3, 'Set1'), 
-	nearestAnnotation=nearestAnnotation_intron,
-	annotatedRegions=annotatedGeneRegions_intron,
-	ask=FALSE,	verbose=FALSE, 
-	txdb = TranscriptDb)
+plotRegionCoverage(regions = geneRegions_intron, 
+	regionCoverage = geneRegionCovMeans_intron,
+	groupInfo = factor(names(tIndexes), levels = c('Liver', 'Heart', 
+        'Testis')), colors = brewer.pal(3, 'Set1'), 
+	nearestAnnotation = nearestAnnotation_intron,
+	annotatedRegions = annotatedGeneRegions_intron,
+	ask = FALSE, verbose = FALSE, txdb = TranscriptDb)
 dev.off()
+
+
+### Make region level plot for plots/conditional_intronic_ERs_subset.pdf
+intronERs <- intronRegions[match(rownames(outStatsExonSig), rownames(intronMat))[c(2, 22, 25)]]
+width(intronERs)
+
+## Find nearest annotation
+nearestAnnotation_intronER <- matchGenes(x = intronERs, subject = genes)
+nearestAnnotation_intronER$name <- outStatsExonSig$intronSym[c(2, 22, 25)]
+
+## Resize to a window size
+intronERs <- resize(intronERs, width(intronERs) + 2 * c(1000, 2500, 1e4),
+    fix = 'center')
+width(intronERs)
+
+## Annotate windows (gets gene info in window)
+annotated_intronER <- annotateRegions(regions = intronERs, genomicState = gs,
+    minoverlap = 1)
+
+## Get coverage
+regionCov_intronER <- getRegionCoverage(fullCov = fullCov, verbose = FALSE,
+    regions = intronERs, targetSize = 4e7, totalMapped = pd2$totalMapped)
+regionCovMeans_intronER <- lapply(regionCov_intronER , function(x) {
+	cat(".")
+	sapply(tIndexes, function(ii) rowMeans(x[,ii]))
+})
+
+## Make plots
+pdf('plots/conditional_intronic_ERs_subset_regions.pdf', h = 5, w = 7)
+plotRegionCoverage(regions = intronERs, 
+	regionCoverage = regionCovMeans_intronER,
+	groupInfo = factor(names(tIndexes), levels = c('Liver', 'Heart', 
+        'Testis')), colors = brewer.pal(3, 'Set1'), 
+	nearestAnnotation = nearestAnnotation_intronER,
+	annotatedRegions = annotated_intronER,
+	ask = FALSE, verbose = FALSE, txdb = TranscriptDb)
+dev.off()
+
 
 
 ## Reproducibility info
