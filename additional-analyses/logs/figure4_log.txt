@@ -1,0 +1,658 @@
+Loading required package: colorout
+Warning message:
+replacing previous import ‘ggplot2::Position’ by ‘BiocGenerics::Position’ when loading ‘ggbio’ 
+Loading required package: BiocGenerics
+Loading required package: parallel
+
+Attaching package: 'BiocGenerics'
+
+The following objects are masked from 'package:parallel':
+
+    clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
+    clusterExport, clusterMap, parApply, parCapply, parLapply,
+    parLapplyLB, parRapply, parSapply, parSapplyLB
+
+The following objects are masked from 'package:stats':
+
+    IQR, mad, xtabs
+
+The following objects are masked from 'package:base':
+
+    anyDuplicated, append, as.data.frame, cbind, colnames, do.call,
+    duplicated, eval, evalq, Filter, Find, get, grep, grepl, intersect,
+    is.unsorted, lapply, lengths, Map, mapply, match, mget, order,
+    paste, pmax, pmax.int, pmin, pmin.int, Position, rank, rbind,
+    Reduce, rownames, sapply, setdiff, sort, table, tapply, union,
+    unique, unsplit
+
+Loading required package: S4Vectors
+Loading required package: stats4
+
+Attaching package: 'S4Vectors'
+
+The following objects are masked from 'package:base':
+
+    colMeans, colSums, expand.grid, rowMeans, rowSums
+
+Loading required package: IRanges
+Loading required package: GenomeInfoDb
+-rw-r--r-- 1 lcollado biostats 87M May  3 17:10 /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB112.AMY.bw
+2016-05-03 17:38:01 fullCoverage: processing chromosome chr3
+2016-05-03 17:38:01 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB112.AMY.bw
+2016-05-03 17:38:01 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB112.STC.bw
+2016-05-03 17:38:02 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB112.MFC.bw
+2016-05-03 17:38:02 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB112.DFC.bw
+2016-05-03 17:38:02 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB112.OFC.bw
+2016-05-03 17:38:02 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB112.ITC.bw
+2016-05-03 17:38:02 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB112.HIP.bw
+2016-05-03 17:38:02 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB112.VFC.bw
+2016-05-03 17:38:02 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB148.DFC.bw
+2016-05-03 17:38:02 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB148.MFC.bw
+2016-05-03 17:38:02 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB148.AMY.bw
+2016-05-03 17:38:02 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB148.HIP.bw
+2016-05-03 17:38:02 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB148.OFC.bw
+2016-05-03 17:38:02 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB153.HIP.bw
+2016-05-03 17:38:02 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB153.AMY.bw
+2016-05-03 17:38:02 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB153.A1C.bw
+2016-05-03 17:38:02 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB153.V1C.bw
+2016-05-03 17:38:03 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB153.MFC.bw
+2016-05-03 17:38:03 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB153.STR.bw
+2016-05-03 17:38:03 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB153.M1C.bw
+2016-05-03 17:38:03 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB153.DFC.bw
+2016-05-03 17:38:03 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB153.ITC.bw
+2016-05-03 17:38:03 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB153.VFC.bw
+2016-05-03 17:38:03 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB153.STC.bw
+2016-05-03 17:38:03 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB153.IPC.bw
+2016-05-03 17:38:03 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB153.OFC.bw
+2016-05-03 17:38:03 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB153.S1C.bw
+2016-05-03 17:38:03 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB150.STC.bw
+2016-05-03 17:38:03 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB150.V1C.bw
+2016-05-03 17:38:03 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB150.A1C.bw
+2016-05-03 17:38:03 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB150.ITC.bw
+2016-05-03 17:38:03 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB150.IPC.bw
+2016-05-03 17:38:03 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB150.S1C.bw
+2016-05-03 17:38:04 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB150.HIP.bw
+2016-05-03 17:38:04 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB150.DFC.bw
+2016-05-03 17:38:04 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB150.OFC.bw
+2016-05-03 17:38:04 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB150.M1C.bw
+2016-05-03 17:38:04 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB150.VFC.bw
+2016-05-03 17:38:04 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB150.AMY.bw
+2016-05-03 17:38:04 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB150.STR.bw
+2016-05-03 17:38:04 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB113.AMY.bw
+2016-05-03 17:38:04 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB113.M1C.bw
+2016-05-03 17:38:04 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB113.ITC.bw
+2016-05-03 17:38:04 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB113.VFC.bw
+2016-05-03 17:38:04 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB113.STR.bw
+2016-05-03 17:38:04 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB113.CBC.bw
+2016-05-03 17:38:04 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB113.DFC.bw
+2016-05-03 17:38:04 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB113.OFC.bw
+2016-05-03 17:38:04 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB113.S1C.bw
+2016-05-03 17:38:05 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB113.V1C.bw
+2016-05-03 17:38:05 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB113.MFC.bw
+2016-05-03 17:38:05 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB113.HIP.bw
+2016-05-03 17:38:05 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB113.IPC.bw
+2016-05-03 17:38:05 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB113.A1C.bw
+2016-05-03 17:38:05 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB114.STR.bw
+2016-05-03 17:38:05 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB114.M1C.bw
+2016-05-03 17:38:05 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB114.AMY.bw
+2016-05-03 17:38:05 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB114.S1C.bw
+2016-05-03 17:38:05 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB114.V1C.bw
+2016-05-03 17:38:05 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB114.A1C.bw
+2016-05-03 17:38:05 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB114.HIP.bw
+2016-05-03 17:38:05 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB114.VFC.bw
+2016-05-03 17:38:05 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB114.MFC.bw
+2016-05-03 17:38:05 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB114.STC.bw
+2016-05-03 17:38:05 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB114.OFC.bw
+2016-05-03 17:38:06 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB114.IPC.bw
+2016-05-03 17:38:06 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB114.DFC.bw
+2016-05-03 17:38:06 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB114.ITC.bw
+2016-05-03 17:38:06 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB149.STR.bw
+2016-05-03 17:38:06 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB149.S1C.bw
+2016-05-03 17:38:06 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB149.V1C.bw
+2016-05-03 17:38:06 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB149.AMY.bw
+2016-05-03 17:38:06 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB149.IPC.bw
+2016-05-03 17:38:06 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB149.DFC.bw
+2016-05-03 17:38:06 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB149.OFC.bw
+2016-05-03 17:38:06 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB149.STC.bw
+2016-05-03 17:38:06 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB149.A1C.bw
+2016-05-03 17:38:06 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB149.HIP.bw
+2016-05-03 17:38:06 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB149.M1C.bw
+2016-05-03 17:38:06 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB149.ITC.bw
+2016-05-03 17:38:06 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB149.MD.bw
+2016-05-03 17:38:07 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB149.MFC.bw
+2016-05-03 17:38:07 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB149.VFC.bw
+2016-05-03 17:38:07 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB103.S1C.bw
+2016-05-03 17:38:07 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB103.DFC.bw
+2016-05-03 17:38:07 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB103.AMY.bw
+2016-05-03 17:38:07 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB103.ITC.bw
+2016-05-03 17:38:07 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB103.HIP.bw
+2016-05-03 17:38:07 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB103.IPC.bw
+2016-05-03 17:38:07 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB103.A1C.bw
+2016-05-03 17:38:07 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB103.VFC.bw
+2016-05-03 17:38:07 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB103.STR.bw
+2016-05-03 17:38:07 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB103.OFC.bw
+2016-05-03 17:38:07 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB103.MFC.bw
+2016-05-03 17:38:07 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB103.V1C.bw
+2016-05-03 17:38:07 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB103.M1C.bw
+2016-05-03 17:38:07 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB96.VFC.bw
+2016-05-03 17:38:08 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB96.OFC.bw
+2016-05-03 17:38:08 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB96.STC.bw
+2016-05-03 17:38:08 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB96.DFC.bw
+2016-05-03 17:38:08 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB96.IPC.bw
+2016-05-03 17:38:08 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB96.A1C.bw
+2016-05-03 17:38:08 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB96.MFC.bw
+2016-05-03 17:38:08 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB96.STR.bw
+2016-05-03 17:38:08 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB96.MD.bw
+2016-05-03 17:38:08 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB96.V1C.bw
+2016-05-03 17:38:08 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB178.VFC.bw
+2016-05-03 17:38:08 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB178.STC.bw
+2016-05-03 17:38:08 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB178.IPC.bw
+2016-05-03 17:38:08 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB178.A1C.bw
+2016-05-03 17:38:08 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB178.MD.bw
+2016-05-03 17:38:08 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB178.AMY.bw
+2016-05-03 17:38:08 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB178.V1C.bw
+2016-05-03 17:38:09 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB178.ITC.bw
+2016-05-03 17:38:09 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB178.CBC.bw
+2016-05-03 17:38:09 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB178.HIP.bw
+2016-05-03 17:38:09 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB178.STR.bw
+2016-05-03 17:38:09 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB178.OFC.bw
+2016-05-03 17:38:09 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB178.DFC.bw
+2016-05-03 17:38:09 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB178.M1C.bw
+2016-05-03 17:38:09 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB178.MFC.bw
+2016-05-03 17:38:09 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB178.S1C.bw
+2016-05-03 17:38:09 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB154.HIP.bw
+2016-05-03 17:38:09 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB154.ITC.bw
+2016-05-03 17:38:09 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB154.DFC.bw
+2016-05-03 17:38:09 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB154.IPC.bw
+2016-05-03 17:38:09 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB154.STC.bw
+2016-05-03 17:38:09 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB154.V1C.bw
+2016-05-03 17:38:09 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB154.MD.bw
+2016-05-03 17:38:10 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB154.STR.bw
+2016-05-03 17:38:10 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB154.A1C.bw
+2016-05-03 17:38:10 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB154.VFC.bw
+2016-05-03 17:38:10 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB154.AMY.bw
+2016-05-03 17:38:10 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB154.MFC.bw
+2016-05-03 17:38:10 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB97.STR.bw
+2016-05-03 17:38:10 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB97.STC.bw
+2016-05-03 17:38:10 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB97.MD.bw
+2016-05-03 17:38:10 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB97.A1C.bw
+2016-05-03 17:38:10 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB97.HIP.bw
+2016-05-03 17:38:10 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB97.DFC.bw
+2016-05-03 17:38:10 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB97.VFC.bw
+2016-05-03 17:38:10 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB97.IPC.bw
+2016-05-03 17:38:10 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB97.V1C.bw
+2016-05-03 17:38:10 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB97.CBC.bw
+2016-05-03 17:38:10 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB97.OFC.bw
+2016-05-03 17:38:11 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB97.AMY.bw
+2016-05-03 17:38:11 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB97.MFC.bw
+2016-05-03 17:38:11 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB98.STC.bw
+2016-05-03 17:38:11 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB98.IPC.bw
+2016-05-03 17:38:11 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB98.MFC.bw
+2016-05-03 17:38:11 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB98.V1C.bw
+2016-05-03 17:38:11 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB98.HIP.bw
+2016-05-03 17:38:11 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB98.A1C.bw
+2016-05-03 17:38:11 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB98.MD.bw
+2016-05-03 17:38:11 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB98.VFC.bw
+2016-05-03 17:38:11 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB98.STR.bw
+2016-05-03 17:38:11 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB98.DFC.bw
+2016-05-03 17:38:11 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB107.CBC.bw
+2016-05-03 17:38:11 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB107.ITC.bw
+2016-05-03 17:38:11 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB92.MFC.bw
+2016-05-03 17:38:11 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB92.M1C.bw
+2016-05-03 17:38:12 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB92.STR.bw
+2016-05-03 17:38:12 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB92.HIP.bw
+2016-05-03 17:38:12 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB92.STC.bw
+2016-05-03 17:38:12 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB92.ITC.bw
+2016-05-03 17:38:12 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB92.AMY.bw
+2016-05-03 17:38:12 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB92.VFC.bw
+2016-05-03 17:38:12 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB92.OFC.bw
+2016-05-03 17:38:12 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB92.V1C.bw
+2016-05-03 17:38:12 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB92.S1C.bw
+2016-05-03 17:38:12 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB92.CBC.bw
+2016-05-03 17:38:12 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB92.IPC.bw
+2016-05-03 17:38:12 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB92.DFC.bw
+2016-05-03 17:38:12 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB159.HIP.bw
+2016-05-03 17:38:12 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB159.AMY.bw
+2016-05-03 17:38:12 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB159.DFC.bw
+2016-05-03 17:38:12 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB159.S1C.bw
+2016-05-03 17:38:13 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB159.MD.bw
+2016-05-03 17:38:13 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB159.STR.bw
+2016-05-03 17:38:13 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB159.A1C.bw
+2016-05-03 17:38:13 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB159.IPC.bw
+2016-05-03 17:38:13 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB159.OFC.bw
+2016-05-03 17:38:13 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB159.STC.bw
+2016-05-03 17:38:13 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB159.ITC.bw
+2016-05-03 17:38:13 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB159.VFC.bw
+2016-05-03 17:38:13 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB159.M1C.bw
+2016-05-03 17:38:14 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB159.MFC.bw
+2016-05-03 17:38:14 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB159.CBC.bw
+2016-05-03 17:38:14 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB159.V1C.bw
+2016-05-03 17:38:14 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB168.STC.bw
+2016-05-03 17:38:14 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB194.A1C.bw
+2016-05-03 17:38:14 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB194.OFC.bw
+2016-05-03 17:38:14 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB194.AMY.bw
+2016-05-03 17:38:14 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB194.V1C.bw
+2016-05-03 17:38:14 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB194.MFC.bw
+2016-05-03 17:38:14 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB194.MD.bw
+2016-05-03 17:38:14 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB194.CBC.bw
+2016-05-03 17:38:14 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB194.STR.bw
+2016-05-03 17:38:14 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB194.IPC.bw
+2016-05-03 17:38:14 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB194.ITC.bw
+2016-05-03 17:38:14 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB194.S1C.bw
+2016-05-03 17:38:14 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB194.DFC.bw
+2016-05-03 17:38:15 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB194.STC.bw
+2016-05-03 17:38:15 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB194.M1C.bw
+2016-05-03 17:38:15 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB194.VFC.bw
+2016-05-03 17:38:15 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB194.HIP.bw
+2016-05-03 17:38:15 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB132.STC.bw
+2016-05-03 17:38:15 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB132.STR.bw
+2016-05-03 17:38:15 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB132.V1C.bw
+2016-05-03 17:38:15 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB132.CBC.bw
+2016-05-03 17:38:15 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB132.HIP.bw
+2016-05-03 17:38:15 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB132.MD.bw
+2016-05-03 17:38:15 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB132.ITC.bw
+2016-05-03 17:38:15 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB132.AMY.bw
+2016-05-03 17:38:15 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB132.MFC.bw
+2016-05-03 17:38:15 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB139.M1C.bw
+2016-05-03 17:38:15 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB139.MD.bw
+2016-05-03 17:38:15 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB139.OFC.bw
+2016-05-03 17:38:16 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB139.STR.bw
+2016-05-03 17:38:16 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB139.STC.bw
+2016-05-03 17:38:16 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB139.A1C.bw
+2016-05-03 17:38:16 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB139.HIP.bw
+2016-05-03 17:38:16 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB139.AMY.bw
+2016-05-03 17:38:16 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB139.MFC.bw
+2016-05-03 17:38:16 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB139.V1C.bw
+2016-05-03 17:38:16 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB139.ITC.bw
+2016-05-03 17:38:16 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB139.S1C.bw
+2016-05-03 17:38:16 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB139.IPC.bw
+2016-05-03 17:38:16 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB139.CBC.bw
+2016-05-03 17:38:16 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB139.DFC.bw
+2016-05-03 17:38:16 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB139.VFC.bw
+2016-05-03 17:38:16 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB171.S1C.bw
+2016-05-03 17:38:16 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB171.IPC.bw
+2016-05-03 17:38:16 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB171.STC.bw
+2016-05-03 17:38:17 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB171.DFC.bw
+2016-05-03 17:38:17 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB171.OFC.bw
+2016-05-03 17:38:17 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB171.MFC.bw
+2016-05-03 17:38:17 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB171.CBC.bw
+2016-05-03 17:38:17 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB171.ITC.bw
+2016-05-03 17:38:17 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB171.MD.bw
+2016-05-03 17:38:17 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB171.V1C.bw
+2016-05-03 17:38:17 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB122.AMY.bw
+2016-05-03 17:38:17 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB122.M1C.bw
+2016-05-03 17:38:17 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB122.DFC.bw
+2016-05-03 17:38:17 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB122.STC.bw
+2016-05-03 17:38:17 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB122.V1C.bw
+2016-05-03 17:38:17 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB122.MFC.bw
+2016-05-03 17:38:17 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB122.OFC.bw
+2016-05-03 17:38:17 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB122.ITC.bw
+2016-05-03 17:38:17 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB122.S1C.bw
+2016-05-03 17:38:18 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB122.VFC.bw
+2016-05-03 17:38:18 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB122.CBC.bw
+2016-05-03 17:38:18 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB122.A1C.bw
+2016-05-03 17:38:18 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB122.MD.bw
+2016-05-03 17:38:18 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB122.HIP.bw
+2016-05-03 17:38:18 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB122.IPC.bw
+2016-05-03 17:38:18 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB122.STR.bw
+2016-05-03 17:38:18 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB143.VFC.bw
+2016-05-03 17:38:18 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB143.IPC.bw
+2016-05-03 17:38:18 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB143.S1C.bw
+2016-05-03 17:38:18 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB143.ITC.bw
+2016-05-03 17:38:18 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB143.MD.bw
+2016-05-03 17:38:18 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB143.DFC.bw
+2016-05-03 17:38:18 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB143.MFC.bw
+2016-05-03 17:38:18 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB143.CBC.bw
+2016-05-03 17:38:18 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB143.HIP.bw
+2016-05-03 17:38:19 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB143.OFC.bw
+2016-05-03 17:38:19 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB143.V1C.bw
+2016-05-03 17:38:19 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB143.STC.bw
+2016-05-03 17:38:19 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB173.STR.bw
+2016-05-03 17:38:19 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB173.STC.bw
+2016-05-03 17:38:19 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB173.IPC.bw
+2016-05-03 17:38:19 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB173.ITC.bw
+2016-05-03 17:38:19 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB173.CBC.bw
+2016-05-03 17:38:19 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB173.VFC.bw
+2016-05-03 17:38:19 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB173.M1C.bw
+2016-05-03 17:38:19 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB173.A1C.bw
+2016-05-03 17:38:19 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB173.MD.bw
+2016-05-03 17:38:19 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB173.V1C.bw
+2016-05-03 17:38:19 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB172.OFC.bw
+2016-05-03 17:38:19 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB172.MFC.bw
+2016-05-03 17:38:19 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB172.M1C.bw
+2016-05-03 17:38:20 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB172.S1C.bw
+2016-05-03 17:38:20 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB172.STC.bw
+2016-05-03 17:38:20 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB172.IPC.bw
+2016-05-03 17:38:20 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB172.A1C.bw
+2016-05-03 17:38:20 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB172.CBC.bw
+2016-05-03 17:38:20 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB172.V1C.bw
+2016-05-03 17:38:20 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB172.AMY.bw
+2016-05-03 17:38:20 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB172.VFC.bw
+2016-05-03 17:38:20 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB172.DFC.bw
+2016-05-03 17:38:20 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB172.HIP.bw
+2016-05-03 17:38:20 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB172.ITC.bw
+2016-05-03 17:38:20 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB118.AMY.bw
+2016-05-03 17:38:20 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB118.STR.bw
+2016-05-03 17:38:20 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB118.VFC.bw
+2016-05-03 17:38:20 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB118.DFC.bw
+2016-05-03 17:38:20 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB118.STC.bw
+2016-05-03 17:38:21 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB118.CBC.bw
+2016-05-03 17:38:21 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB118.MD.bw
+2016-05-03 17:38:21 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB141.ITC.bw
+2016-05-03 17:38:21 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB141.S1C.bw
+2016-05-03 17:38:21 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB141.IPC.bw
+2016-05-03 17:38:21 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB141.V1C.bw
+2016-05-03 17:38:21 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB141.STC.bw
+2016-05-03 17:38:21 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB141.MD.bw
+2016-05-03 17:38:21 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB141.VFC.bw
+2016-05-03 17:38:21 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB141.HIP.bw
+2016-05-03 17:38:21 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB141.AMY.bw
+2016-05-03 17:38:21 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB141.M1C.bw
+2016-05-03 17:38:21 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB141.CBC.bw
+2016-05-03 17:38:21 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB141.DFC.bw
+2016-05-03 17:38:21 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB141.STR.bw
+2016-05-03 17:38:21 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB141.A1C.bw
+2016-05-03 17:38:22 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB141.MFC.bw
+2016-05-03 17:38:22 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB141.OFC.bw
+2016-05-03 17:38:22 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB174.MFC.bw
+2016-05-03 17:38:22 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB174.CBC.bw
+2016-05-03 17:38:22 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB174.A1C.bw
+2016-05-03 17:38:22 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB174.VFC.bw
+2016-05-03 17:38:22 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB174.HIP.bw
+2016-05-03 17:38:22 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB174.AMY.bw
+2016-05-03 17:38:22 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB174.V1C.bw
+2016-05-03 17:38:22 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB174.IPC.bw
+2016-05-03 17:38:22 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB174.DFC.bw
+2016-05-03 17:38:22 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB174.STC.bw
+2016-05-03 17:38:22 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB174.ITC.bw
+2016-05-03 17:38:22 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB175.VFC.bw
+2016-05-03 17:38:22 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB175.IPC.bw
+2016-05-03 17:38:22 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB175.ITC.bw
+2016-05-03 17:38:22 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB175.STC.bw
+2016-05-03 17:38:23 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB175.S1C.bw
+2016-05-03 17:38:23 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB175.DFC.bw
+2016-05-03 17:38:23 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB175.AMY.bw
+2016-05-03 17:38:23 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB175.V1C.bw
+2016-05-03 17:38:23 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB175.CBC.bw
+2016-05-03 17:38:23 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB175.A1C.bw
+2016-05-03 17:38:23 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB175.HIP.bw
+2016-05-03 17:38:23 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB175.M1C.bw
+2016-05-03 17:38:23 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB175.OFC.bw
+2016-05-03 17:38:23 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB175.MFC.bw
+2016-05-03 17:38:23 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB124.MFC.bw
+2016-05-03 17:38:23 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB124.IPC.bw
+2016-05-03 17:38:23 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB124.VFC.bw
+2016-05-03 17:38:23 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB124.A1C.bw
+2016-05-03 17:38:23 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB124.ITC.bw
+2016-05-03 17:38:23 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB124.STC.bw
+2016-05-03 17:38:24 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB124.CBC.bw
+2016-05-03 17:38:24 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB124.V1C.bw
+2016-05-03 17:38:24 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB124.S1C.bw
+2016-05-03 17:38:24 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB124.DFC.bw
+2016-05-03 17:38:24 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB124.OFC.bw
+2016-05-03 17:38:24 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB124.MD.bw
+2016-05-03 17:38:24 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB124.AMY.bw
+2016-05-03 17:38:24 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB124.M1C.bw
+2016-05-03 17:38:24 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB124.HIP.bw
+2016-05-03 17:38:24 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB124.STR.bw
+2016-05-03 17:38:24 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB119.IPC.bw
+2016-05-03 17:38:24 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB119.CBC.bw
+2016-05-03 17:38:24 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB119.STC.bw
+2016-05-03 17:38:24 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB119.ITC.bw
+2016-05-03 17:38:24 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB119.AMY.bw
+2016-05-03 17:38:24 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB105.HIP.bw
+2016-05-03 17:38:25 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB105.M1C.bw
+2016-05-03 17:38:25 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB105.V1C.bw
+2016-05-03 17:38:25 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB105.A1C.bw
+2016-05-03 17:38:25 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB105.ITC.bw
+2016-05-03 17:38:25 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB105.VFC.bw
+2016-05-03 17:38:25 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB105.MFC.bw
+2016-05-03 17:38:25 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB105.STC.bw
+2016-05-03 17:38:25 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB105.DFC.bw
+2016-05-03 17:38:25 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB105.S1C.bw
+2016-05-03 17:38:25 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB105.IPC.bw
+2016-05-03 17:38:25 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB105.OFC.bw
+2016-05-03 17:38:25 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB105.CBC.bw
+2016-05-03 17:38:25 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB127.STC.bw
+2016-05-03 17:38:25 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB127.CBC.bw
+2016-05-03 17:38:25 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB127.DFC.bw
+2016-05-03 17:38:25 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB127.AMY.bw
+2016-05-03 17:38:26 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB127.OFC.bw
+2016-05-03 17:38:26 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB127.ITC.bw
+2016-05-03 17:38:26 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB127.STR.bw
+2016-05-03 17:38:26 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB127.S1C.bw
+2016-05-03 17:38:26 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB127.M1C.bw
+2016-05-03 17:38:26 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB127.HIP.bw
+2016-05-03 17:38:26 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB127.A1C.bw
+2016-05-03 17:38:26 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB127.V1C.bw
+2016-05-03 17:38:26 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB127.IPC.bw
+2016-05-03 17:38:26 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB127.VFC.bw
+2016-05-03 17:38:26 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB127.MFC.bw
+2016-05-03 17:38:26 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB127.MD.bw
+2016-05-03 17:38:26 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB130.MFC.bw
+2016-05-03 17:38:26 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB130.M1C.bw
+2016-05-03 17:38:26 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB130.A1C.bw
+2016-05-03 17:38:26 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB130.DFC.bw
+2016-05-03 17:38:27 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB130.AMY.bw
+2016-05-03 17:38:27 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB130.MD.bw
+2016-05-03 17:38:27 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB130.V1C.bw
+2016-05-03 17:38:27 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB130.STC.bw
+2016-05-03 17:38:27 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB130.VFC.bw
+2016-05-03 17:38:27 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB130.CBC.bw
+2016-05-03 17:38:27 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB130.S1C.bw
+2016-05-03 17:38:27 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB130.ITC.bw
+2016-05-03 17:38:27 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB130.IPC.bw
+2016-05-03 17:38:27 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB130.HIP.bw
+2016-05-03 17:38:27 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB130.STR.bw
+2016-05-03 17:38:27 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB130.OFC.bw
+2016-05-03 17:38:27 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB136.ITC.bw
+2016-05-03 17:38:27 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB136.AMY.bw
+2016-05-03 17:38:27 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB136.OFC.bw
+2016-05-03 17:38:27 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB136.MD.bw
+2016-05-03 17:38:27 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB136.STC.bw
+2016-05-03 17:38:28 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB136.VFC.bw
+2016-05-03 17:38:28 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB136.MFC.bw
+2016-05-03 17:38:28 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB136.M1C.bw
+2016-05-03 17:38:28 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB136.HIP.bw
+2016-05-03 17:38:28 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB136.CBC.bw
+2016-05-03 17:38:28 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB136.S1C.bw
+2016-05-03 17:38:28 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB136.A1C.bw
+2016-05-03 17:38:28 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB136.IPC.bw
+2016-05-03 17:38:28 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB136.STR.bw
+2016-05-03 17:38:28 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB126.ITC.bw
+2016-05-03 17:38:28 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB126.STR.bw
+2016-05-03 17:38:28 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB126.MFC.bw
+2016-05-03 17:38:28 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB126.OFC.bw
+2016-05-03 17:38:28 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB126.IPC.bw
+2016-05-03 17:38:28 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB126.STC.bw
+2016-05-03 17:38:28 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB126.S1C.bw
+2016-05-03 17:38:29 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB126.MD.bw
+2016-05-03 17:38:29 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB126.HIP.bw
+2016-05-03 17:38:29 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB126.A1C.bw
+2016-05-03 17:38:29 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB126.V1C.bw
+2016-05-03 17:38:29 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB126.DFC.bw
+2016-05-03 17:38:29 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB126.AMY.bw
+2016-05-03 17:38:29 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB126.M1C.bw
+2016-05-03 17:38:29 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB126.VFC.bw
+2016-05-03 17:38:29 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB126.CBC.bw
+2016-05-03 17:38:29 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB145.M1C.bw
+2016-05-03 17:38:29 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB145.STC.bw
+2016-05-03 17:38:29 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB145.MFC.bw
+2016-05-03 17:38:29 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB145.ITC.bw
+2016-05-03 17:38:29 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB145.IPC.bw
+2016-05-03 17:38:29 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB145.AMY.bw
+2016-05-03 17:38:29 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB145.OFC.bw
+2016-05-03 17:38:30 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB145.VFC.bw
+2016-05-03 17:38:30 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB145.DFC.bw
+2016-05-03 17:38:30 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB145.A1C.bw
+2016-05-03 17:38:30 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB145.V1C.bw
+2016-05-03 17:38:30 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB145.CBC.bw
+2016-05-03 17:38:30 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB145.S1C.bw
+2016-05-03 17:38:30 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB145.HIP.bw
+2016-05-03 17:38:30 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB145.STR.bw
+2016-05-03 17:38:30 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB145.MD.bw
+2016-05-03 17:38:30 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB123.S1C.bw
+2016-05-03 17:38:30 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB123.V1C.bw
+2016-05-03 17:38:30 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB123.CBC.bw
+2016-05-03 17:38:30 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB123.HIP.bw
+2016-05-03 17:38:30 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB123.IPC.bw
+2016-05-03 17:38:30 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB123.MD.bw
+2016-05-03 17:38:30 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB123.DFC.bw
+2016-05-03 17:38:31 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB123.VFC.bw
+2016-05-03 17:38:31 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB123.ITC.bw
+2016-05-03 17:38:31 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB123.A1C.bw
+2016-05-03 17:38:31 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB123.M1C.bw
+2016-05-03 17:38:31 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB123.OFC.bw
+2016-05-03 17:38:31 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB123.STR.bw
+2016-05-03 17:38:31 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB123.STC.bw
+2016-05-03 17:38:31 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB123.AMY.bw
+2016-05-03 17:38:31 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB123.MFC.bw
+2016-05-03 17:38:31 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB135.DFC.bw
+2016-05-03 17:38:31 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB135.ITC.bw
+2016-05-03 17:38:31 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB135.VFC.bw
+2016-05-03 17:38:31 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB135.MD.bw
+2016-05-03 17:38:31 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB135.AMY.bw
+2016-05-03 17:38:31 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB135.A1C.bw
+2016-05-03 17:38:31 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB135.CBC.bw
+2016-05-03 17:38:31 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB135.V1C.bw
+2016-05-03 17:38:32 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB135.OFC.bw
+2016-05-03 17:38:32 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB135.STC.bw
+2016-05-03 17:38:32 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB135.IPC.bw
+2016-05-03 17:38:32 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB135.M1C.bw
+2016-05-03 17:38:32 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB135.HIP.bw
+2016-05-03 17:38:32 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB135.STR.bw
+2016-05-03 17:38:32 loadCoverage: loading BigWig file /dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup/HSB135.S1C.bw
+2016-05-03 17:38:32 loadCoverage: applying the cutoff to the merged data
+2016-05-03 17:38:32 filterData: originally there were 198022430 rows, now there are 198022430 rows. Meaning that 0 percent was filtered.
+Loading required package: foreach
+Loading required package: iterators
+Loading required package: locfit
+locfit 1.5-9.1 	 2013-03-22
+Loading required package: GenomicFeatures
+Loading required package: AnnotationDbi
+Loading required package: Biobase
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+No annotationPackage supplied. Trying org.Hs.eg.db.
+Loading required package: org.Hs.eg.db
+
+Getting TSS and TSE.
+Getting CSS and CSE.
+Getting exons.
+Annotating genes.
+Warning message:
+  Calling species() on a TxDb object is *deprecated*.
+  Please use organism() instead. 
+2016-05-03 17:39:08 annotateRegions: counting
+2016-05-03 17:39:08 annotateRegions: annotating
+.null device 
+          1 
+   user  system elapsed 
+ 80.966   1.301  83.719 
+2016-05-03 17:39:12
+Session info -----------------------------------------------------------------------------------------------------------
+ setting  value                                      
+ version  R version 3.3.0 Patched (2016-05-03 r70575)
+ system   x86_64, linux-gnu                          
+ ui       X11                                        
+ language (EN)                                       
+ collate  en_US.UTF-8                                
+ tz       <NA>                                       
+ date     2016-05-03                                 
+
+Packages ---------------------------------------------------------------------------------------------------------------
+ package                           * version  date       source                                  
+ acepack                             1.3-3.3  2014-11-24 CRAN (R 3.3.0)                          
+ AnnotationDbi                     * 1.33.15  2016-04-30 Bioconductor                            
+ AnnotationHub                       2.3.17   2016-04-30 Bioconductor                            
+ Biobase                           * 2.31.3   2016-03-28 Bioconductor                            
+ BiocGenerics                      * 0.17.5   2016-04-30 Bioconductor                            
+ BiocInstaller                       1.21.6   2016-04-30 Bioconductor                            
+ BiocParallel                        1.5.22   2016-04-30 Bioconductor                            
+ biomaRt                             2.27.2   2016-03-28 Bioconductor                            
+ Biostrings                          2.39.14  2016-04-30 Bioconductor                            
+ biovizBase                          1.19.6   2016-04-30 Bioconductor                            
+ bitops                              1.0-6    2013-08-17 CRAN (R 3.3.0)                          
+ BSgenome                            1.39.5   2016-04-30 Bioconductor                            
+ bumphunter                        * 1.11.5   2016-04-30 Bioconductor                            
+ cluster                             2.0.4    2016-04-18 CRAN (R 3.3.0)                          
+ codetools                           0.2-14   2015-07-15 CRAN (R 3.3.0)                          
+ colorout                          * 1.1-2    2016-04-02 Github (jalvesaq/colorout@f96c00c)      
+ colorspace                          1.2-6    2015-03-11 CRAN (R 3.3.0)                          
+ DBI                                 0.3.1    2014-09-24 CRAN (R 3.3.0)                          
+ derfinder                         * 1.5.40   2016-04-30 Github (lcolladotor/derfinder@d4cc47e)  
+ derfinderHelper                     1.5.3    2016-04-02 Bioconductor                            
+ derfinderPlot                     * 1.5.8    2016-04-30 Github (leekgroup/derfinderPlot@0931fbb)
+ devtools                            1.11.1   2016-04-21 CRAN (R 3.3.0)                          
+ dichromat                           2.0-0    2013-01-24 CRAN (R 3.3.0)                          
+ digest                              0.6.9    2016-01-08 CRAN (R 3.3.0)                          
+ doRNG                               1.6      2014-03-07 CRAN (R 3.3.0)                          
+ ensembldb                           1.3.19   2016-04-30 Bioconductor                            
+ foreach                           * 1.4.3    2015-10-13 CRAN (R 3.3.0)                          
+ foreign                             0.8-66   2015-08-19 CRAN (R 3.3.0)                          
+ Formula                             1.2-1    2015-04-07 CRAN (R 3.3.0)                          
+ GenomeInfoDb                      * 1.7.6    2016-04-02 Bioconductor                            
+ GenomicAlignments                   1.7.21   2016-04-30 Bioconductor                            
+ GenomicFeatures                   * 1.23.31  2016-04-30 Bioconductor                            
+ GenomicFiles                        1.7.12   2016-04-30 Bioconductor                            
+ GenomicRanges                     * 1.23.27  2016-04-30 Bioconductor                            
+ GGally                              1.0.1    2016-01-14 CRAN (R 3.3.0)                          
+ ggbio                               1.19.13  2016-04-10 Bioconductor                            
+ ggplot2                             2.1.0    2016-03-01 CRAN (R 3.3.0)                          
+ graph                               1.49.1   2016-03-28 Bioconductor                            
+ gridExtra                           2.2.1    2016-02-29 CRAN (R 3.3.0)                          
+ gtable                              0.2.0    2016-02-26 CRAN (R 3.3.0)                          
+ Hmisc                               3.17-3   2016-04-03 CRAN (R 3.3.0)                          
+ htmltools                           0.3.5    2016-03-21 CRAN (R 3.3.0)                          
+ httpuv                              1.3.3    2015-08-04 CRAN (R 3.3.0)                          
+ httr                                1.1.0    2016-01-28 CRAN (R 3.3.0)                          
+ interactiveDisplayBase              1.9.0    2016-03-28 Bioconductor                            
+ IRanges                           * 2.5.46   2016-04-30 Bioconductor                            
+ iterators                         * 1.0.8    2015-10-13 CRAN (R 3.3.0)                          
+ lattice                             0.20-33  2015-07-14 CRAN (R 3.3.0)                          
+ latticeExtra                        0.6-28   2016-02-09 CRAN (R 3.3.0)                          
+ limma                               3.27.19  2016-04-20 Bioconductor                            
+ locfit                            * 1.5-9.1  2013-04-20 CRAN (R 3.3.0)                          
+ magrittr                            1.5      2014-11-22 CRAN (R 3.3.0)                          
+ Matrix                              1.2-6    2016-05-02 CRAN (R 3.3.0)                          
+ matrixStats                         0.50.2   2016-04-24 CRAN (R 3.3.0)                          
+ memoise                             1.0.0    2016-01-29 CRAN (R 3.3.0)                          
+ mime                                0.4      2015-09-03 CRAN (R 3.3.0)                          
+ munsell                             0.4.3    2016-02-13 CRAN (R 3.3.0)                          
+ nnet                                7.3-12   2016-02-02 CRAN (R 3.3.0)                          
+ OrganismDbi                         1.13.8   2016-04-30 Bioconductor                            
+ org.Hs.eg.db                      * 3.3.0    2016-04-30 Bioconductor                            
+ pkgmaker                            0.22     2014-05-14 CRAN (R 3.3.0)                          
+ plyr                                1.8.3    2015-06-12 CRAN (R 3.3.0)                          
+ qvalue                              2.3.2    2016-03-28 Bioconductor                            
+ R6                                  2.1.2    2016-01-26 CRAN (R 3.3.0)                          
+ RBGL                                1.47.0   2016-03-28 Bioconductor                            
+ RColorBrewer                        1.1-2    2014-12-07 CRAN (R 3.3.0)                          
+ Rcpp                                0.12.4.5 2016-04-30 local                                   
+ RCurl                               1.95-4.8 2016-03-01 CRAN (R 3.3.0)                          
+ registry                            0.3      2015-07-08 CRAN (R 3.3.0)                          
+ reshape                             0.8.5    2014-04-23 CRAN (R 3.3.0)                          
+ reshape2                            1.4.1    2014-12-06 CRAN (R 3.3.0)                          
+ rngtools                            1.2.4    2014-03-06 CRAN (R 3.3.0)                          
+ rpart                               4.1-10   2015-06-29 CRAN (R 3.3.0)                          
+ Rsamtools                           1.23.11  2016-04-30 Bioconductor                            
+ RSQLite                             1.0.0    2014-10-25 CRAN (R 3.3.0)                          
+ rtracklayer                         1.31.13  2016-05-03 Bioconductor                            
+ S4Vectors                         * 0.9.52   2016-04-30 Bioconductor                            
+ scales                              0.4.0    2016-02-26 CRAN (R 3.3.0)                          
+ shiny                               0.13.2   2016-03-28 CRAN (R 3.3.0)                          
+ stringi                             1.0-1    2015-10-22 CRAN (R 3.3.0)                          
+ stringr                             1.0.0    2015-04-30 CRAN (R 3.3.0)                          
+ SummarizedExperiment                1.1.27   2016-04-30 Bioconductor                            
+ survival                            2.39-2   2016-04-16 CRAN (R 3.3.0)                          
+ TxDb.Hsapiens.UCSC.hg19.knownGene * 3.2.2    2016-03-28 Bioconductor                            
+ VariantAnnotation                   1.17.28  2016-04-30 Bioconductor                            
+ withr                               1.0.1    2016-02-04 CRAN (R 3.3.0)                          
+ XML                                 3.98-1.4 2016-03-01 CRAN (R 3.3.0)                          
+ xtable                              1.8-2    2016-02-05 CRAN (R 3.3.0)                          
+ XVector                             0.11.8   2016-04-30 Bioconductor                            
+ zlibbioc                            1.17.1   2016-03-28 Bioconductor                            
