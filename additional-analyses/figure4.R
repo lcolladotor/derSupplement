@@ -4,8 +4,6 @@
 # module load R/3.3
 # mkdir -p logs
 # Rscript figure4.R > logs/figure4_log.txt 2>&1
-
-
 library('derfinder')
 library('derfinderPlot')
 library('GenomicRanges')
@@ -19,7 +17,17 @@ stopifnot(nrow(pdSpan) == 484)
 
 ## Identify sample files
 files <- pdSpan$wig
+## Use backup files
+files <- gsub('/nexsan2/disk3/ajaffe/BrainSpan/RNAseq/bigwig',
+    '/dcl01/lieber/ajaffe/derRuns/BrainSpan_bigwig_backup', files)
+
+## Sample names
 names(files) <- pdSpan$lab
+
+## Can it open the first file?
+bw <- files[1]
+system(paste('ls -lh', bw))
+stopifnot(file.exists(bw))
 
 ## Load previous info
 path <- "/dcl01/lieber/ajaffe/derRuns/derSupplement/brainspan/derAnalysis/run5-v1.5.30/"
@@ -30,13 +38,9 @@ region <- GRanges(seqnames = 'chr3', ranges = IRanges(start = 57123500, end = 57
 data(hg19Ideogram, package = 'biovizBase')
 seqlengths(region) <- seqlengths(hg19Ideogram)['chr3']
 
-## Can it open the first file?
-bw <- '/nexsan2/disk3/ajaffe/BrainSpan/RNAseq/bigwig/HSB112.AMY.bw'
-system(paste('ls -lh', bw))
-stopifnot(file.exists(bw))
-
 ## Get coverage
-fullCov <- fullCoverage(files = files, chrs = '3', mc.cores =1 , which = region, protectWhich = 0, chrlens = seqlengths(region))
+fullCov <- fullCoverage(files = files, chrs = 'chr3', mc.cores = 1,
+    which = region, protectWhich = 0, chrlens = seqlengths(region))
 
 ## Load annotation info
 load('/dcl01/lieber/ajaffe/derRuns/derfinderExample/derGenomicState/GenomicState.Hsapiens.UCSC.hg19.knownGene.Rdata')
@@ -71,7 +75,7 @@ plotRegionCoverage(regions = region,
 	nearestAnnotation = annotation,
 	annotatedRegions = annotated,
 	ask=FALSE,	verbose=FALSE, 
-	txdb = TxDb.Hsapiens.UCSC.hg19.knownGene)
+	txdb = TxDb.Hsapiens.UCSC.hg19.knownGene, ylab = 'Mean coverage')
 dev.off()
 
 ## Reproducibility info
