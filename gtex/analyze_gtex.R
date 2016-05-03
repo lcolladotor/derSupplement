@@ -1,7 +1,7 @@
 ## Original script: /home/epi/ajaffe/Lieber/Projects/derfinderPaper/analyze_gtex.R
 ##
 ## Usage:
-# qrsh -pe local 8 -l mem_free=20G,h_vmem=25G
+# qrsh -pe local 8
 # mkdir -p logs
 # module load R/3.3
 # Rscript analyze_gtex.R > logs/analyze_gtex_log.txt 2>&1
@@ -214,8 +214,8 @@ exonMatMatch = exonMat[subjectHits(ooExon),]
 exonRegionsMatch = exonRegions[subjectHits(ooExon)]
 
 ## Some might not be matching: potential flag for not using the correct annotation!
-length(ooExon) == length(intronRegions)
-max(queryHits(ooExon)) == length(ooExon)
+stopifnot(length(ooExon) == length(intronRegions))
+stopifnot(max(queryHits(ooExon)) == length(ooExon))
 
 # PC1 versus distance
 pdf(file = "plots/PC1vsDistance.pdf")
@@ -351,11 +351,15 @@ geneTab
 
 ## make region plots
 library('derfinderPlot')
+library('RColorBrewer')
+tIndexes = split(1:nrow(pd2), pd2$Tissue)
+library('bumphunter')
+genes <- annotateTranscripts(txdb = TranscriptDb)
 
 ## load full coverage
 bw = pd2$sampleFile
 names(bw) = pd2$sra_accession
-fullCov = fullCoverage(bw, chrs = paste0("chr",c(1:22,"X","Y")),mc.cores = 8)
+fullCov = fullCoverage(bw, chrs = paste0("chr",c(1:22,"X","Y")), mc.cores = 8)
 
 ## Annotate regions
 top <- seq_len(60)
@@ -364,21 +368,17 @@ annotatedGeneRegions <- annotateRegions(regions = geneRegions,
 	genomicState = gs, minoverlap = 1)
 
 ## Find nearest annotation with bumphunter::matchGenes()
-library('bumphunter')
-genes <- annotateTranscripts(txdb = TranscriptDb)
 nearestAnnotation <- matchGenes(x = geneRegions, subject = genes)
 nearestAnnotation$name = geneTab$gene[top]
 
 ## Get the region coverage
 geneRegionCov <- getRegionCoverage(fullCov=fullCov, regions=geneRegions,
 	targetSize = 4e+07, totalMapped = pd2$totalMapped)
-tIndexes = split(1:nrow(pd2), pd2$Tissue)
 geneRegionCovMeans = lapply(geneRegionCov, function(x) {
 	cat(".")
 	sapply(tIndexes, function(ii) rowMeans(x[,ii]))
 })
-	
-library('RColorBrewer')
+
 pdf('plots/GTEX_topERs.pdf', h = 5, w = 7)
 plotRegionCoverage(regions=geneRegions, 
 	regionCoverage=geneRegionCovMeans,
@@ -465,6 +465,96 @@ plotRegionCoverage(regions = intronERs,
 	ask = FALSE, verbose = FALSE, txdb = TranscriptDb)
 dev.off()
 
+
+## Code for figure 1
+
+## Identify 500kb window to use
+tiles <- tileGenome(seqlengths(regions), tilewidth = 5e5)
+ov <- findOverlaps(tiles, regions)
+widths <- width(regions)
+tile_width <- tapply(subjectHits(ov), queryHits(ov), function(x) {
+    sum(widths[x]) })
+tile <- tiles[[as.integer(names(tile_width)[which.max(tile_width)])]]
+tileRegions <- regions[countOverlaps(regions, tile, minoverlap = 1) > 0]
+stopifnot(length(tileRegions) > 0)
+
+## Annotate regions
+annotatedTile <- annotateRegions(regions = tile,
+	genomicState = gs, minoverlap = 1)
+tileAnnotation <- matchGenes(x = tile, subject = genes)
+
+## Get the region coverage
+tileRegionCov <- getRegionCoverage(fullCov = fullCov, regions = tile,
+	targetSize = 4e+07, totalMapped = pd2$totalMapped, verbose = FALSE)
+tileRegionCovMeans = lapply(tileRegionCov, function(x) {
+	cat(".")
+	sapply(tIndexes, function(ii) rowMeans(x[,ii]))
+})
+
+## Panel 1: mean by group
+pdf('plots/GTEX_500kb_window_panel1.pdf', h = 5, w = 7)
+plotRegionCoverage(regions = tile, 
+	regionCoverage = tileRegionCovMeans,
+	groupInfo=factor(names(tIndexes), levels = c('Liver', 'Heart', 
+        'Testis')), colors = brewer.pal(3, 'Set1'), 
+	nearestAnnotation = tileAnnotation,
+	annotatedRegions = annotatedTile,
+	ask=FALSE,	verbose=FALSE, 
+	txdb = TranscriptDb)
+dev.off()
+
+## Get the overall mean
+tileMean <- rowMeans(tileRegionCov[[1]])
+
+## Panel 2: overall mean
+pdf('plots/GTEX_500kb_window_panel2.pdf', h = 5, w = 7)
+scalefac <- 32
+y <- log2(tileMean + scalefac)
+x <- start(tile):end(tile)
+layout(matrix(rep(1:3, c(8, 1, 3)), ncol = 1))
+par(mar = c(0, 4.5, 0.25, 1.1), oma = c(0, 0, 2, 0))
+plot(x, y, lty = 1, col = 'black', type = 'l', yaxt = 'n', ylab = '', xlab = '', xaxt = 'n', cex.lab = 1.7)
+m <- ceiling(max(y))
+y.labs <- seq(from = 0, to = log2(2^m - scalefac), by = 1)
+axis(2, at = log2(scalefac + c(0, 2^y.labs)), labels = c(0, 
+    2^y.labs), cex.axis = 1.5)
+mtext('Mean coverage', side = 2, line = 2.5, cex = 1.3)
+dev.off()
+
+## Panel 3: venn diagram
+tileAnno <- annotateRegions(tileRegions, gs)
+
+pdf(file = 'plots/GTEX_500kb_window_panel3.pdf')
+vennRegions(tileAnno, main = 'Expressed regions by GRCh38.p5', counts.col = 'blue')
+dev.off()
+
+## Panel 5: zoom in
+zoom <- GRanges(seqnames = seqnames(tile), ranges = IRanges(start = 32000000 - 21500, width = 3300))
+
+## Annotate regions
+annotatedZoom <- annotateRegions(regions = zoom,
+	genomicState = gs, minoverlap = 1)
+zoomAnnotation <- matchGenes(x = zoom, subject = genes)
+
+## Get the region coverage
+zoomRegionCov <- getRegionCoverage(fullCov = fullCov, regions = zoom,
+	targetSize = 4e+07, totalMapped = pd2$totalMapped, verbose = FALSE)
+zoomRegionCovMeans = lapply(zoomRegionCov, function(x) {
+	cat(".")
+	sapply(tIndexes, function(ii) rowMeans(x[,ii]))
+})
+
+## Panel 1: mean by group
+pdf('plots/GTEX_500kb_window_panel5.pdf', h = 5, w = 7)
+plotRegionCoverage(regions = zoom, 
+	regionCoverage = zoomRegionCovMeans,
+	groupInfo=factor(names(tIndexes), levels = c('Liver', 'Heart', 
+        'Testis')), colors = brewer.pal(3, 'Set1'), 
+	nearestAnnotation = zoomAnnotation,
+	annotatedRegions = annotatedZoom,
+	ask=FALSE,	verbose=FALSE, 
+	txdb = TranscriptDb)
+dev.off()
 
 
 ## Reproducibility info
