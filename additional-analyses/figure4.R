@@ -54,9 +54,6 @@ annotated <- annotateRegions(regions = region,
     minoverlap = 1)
 annotation <- matchGenes(x = region, subject = genes)
 
-## Find symbol
-#annotation$name <- ensGene$Symbol[ countOverlaps(ensGene, zoom, ignore.strand = TRUE) > 0 ]
-
 ## Get the region coverage
 regionCov <- getRegionCoverage(fullCov = fullCov, regions = region,
 	verbose = FALSE)
@@ -71,7 +68,7 @@ dir.create('plots', showWarnings = FALSE)
 pdf('plots/figure4_raw.pdf', h = 5, w = 7)
 plotRegionCoverage(regions = region, 
 	regionCoverage = regionCovMeans,
-	groupInfo = groupInfo, 
+	groupInfo = factor(levels(groupInfo), levels = levels(groupInfo)), 
 	nearestAnnotation = annotation,
 	annotatedRegions = annotated,
 	ask=FALSE,	verbose=FALSE, 
