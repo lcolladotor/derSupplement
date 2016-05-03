@@ -536,6 +536,9 @@ annotatedZoom <- annotateRegions(regions = zoom,
 	genomicState = gs, minoverlap = 1)
 zoomAnnotation <- matchGenes(x = zoom, subject = genes)
 
+## Find symbol
+zoomAnnotation$name <- ensGene$Symbol[ countOverlaps(ensGene, zoom, ignore.strand = TRUE) > 0 ]
+
 ## Get the region coverage
 zoomRegionCov <- getRegionCoverage(fullCov = fullCov, regions = zoom,
 	targetSize = 4e+07, totalMapped = pd2$totalMapped, verbose = FALSE)
