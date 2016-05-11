@@ -1,7 +1,7 @@
 ## Remake the region width plot in higher quality
 # module load R/3.3
 # mkdir -p logs
-# Rscript regionWidth.R -p "sra" > logs/regionWidth_log.txt 2>&1
+# Rscript regionWidth.R > logs/regionWidth_log.txt 2>&1
 
 
 library('GenomicRanges')
