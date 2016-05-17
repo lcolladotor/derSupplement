@@ -35,9 +35,19 @@ The following objects are masked from ‘package:base’:
 
 Loading required package: IRanges
 Loading required package: GenomeInfoDb
+
+Attaching package: ‘limma’
+
+The following object is masked from ‘package:BiocGenerics’:
+
+    plotMA
+
+[1] "Number and percent of ER-level DERs that are significant"
+[1] 129278
+[1] 74.04
    user  system elapsed 
- 25.021   2.806  28.038 
-2016-05-17 11:37:43
+ 77.657   4.971  82.847 
+2016-05-17 11:52:35
 Session info -----------------------------------------------------------------------------------------------------------
  setting  value                                      
  version  R version 3.3.0 Patched (2016-05-12 r70617)
@@ -62,6 +72,7 @@ Packages -----------------------------------------------------------------------
  GenomicAlignments      1.8.0    2016-05-08 Bioconductor                      
  GenomicRanges        * 1.24.0   2016-05-08 Bioconductor                      
  IRanges              * 2.6.0    2016-05-08 Bioconductor                      
+ limma                * 3.28.2   2016-05-08 Bioconductor                      
  memoise                1.0.0    2016-01-29 CRAN (R 3.3.0)                    
  RCurl                  1.95-4.8 2016-03-01 CRAN (R 3.3.0)                    
  Rsamtools              1.24.0   2016-05-08 Bioconductor                      
