@@ -49,10 +49,24 @@ fullRegionMat <- fullRegionMat[keepIndex,]
 y <- log2(fullRegionMat + 1)
 rownames(y) <- NULL
 
+## DE setup
+getF <- function(fit, fit0, theData) {
+	rss1 = rowSums((fitted(fit)-theData)^2)
+	df1 = ncol(fit$coef)
+	rss0 = rowSums((fitted(fit0)-theData)^2)
+	df0 = ncol(fit0$coef)
+	fstat = ((rss0-rss1)/(df1-df0))/(rss1/(ncol(theData)-df1))
+	f_pval = pf(fstat, df1-1, ncol(theData)-df1,lower.tail=FALSE)
+	fout = cbind(fstat,df1-1,ncol(theData)-df1,f_pval)
+	colnames(fout)[2:3] = c("df1","df0")
+	fout = data.frame(fout)
+	return(fout)
+}
+
 ## DE analysis
 fit <- lmFit(y, models$mod)
 fit0 <- lmFit(y, models$mod0)
-ff <- getF(fit,fit0, y)
+ff <- getF(fit, fit0, y)
 
 print('Number and percent of ER-level DERs that are significant')
 sum(p.adjust(ff$f_pval, 'bonf') < 0.05)
