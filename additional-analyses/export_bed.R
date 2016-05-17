@@ -2,7 +2,7 @@
 # qrsh -l mem_free=130G,h_vmem=150G
 # module load R/3.3
 # mkdir -p logs
-# Rscript analyze_brainspan.R > logs/analyze_brainspan_log.txt 2>&1
+# Rscript export_bed.R > logs/export_bed_log.txt 2>&1
 
 library('GenomicRanges')
 library('rtracklayer')
