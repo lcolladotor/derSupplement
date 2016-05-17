@@ -6,6 +6,7 @@
 
 library('GenomicRanges')
 library('rtracklayer')
+library('limma')
 
 ## Load pheno data
 load('/home/epi/ajaffe/Lieber/Projects/Grants/Coverage_R01/brainspan/brainspan_phenotype.rda')
