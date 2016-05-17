@@ -45,14 +45,18 @@ keepIndex <- which(width(fullRegionGR) >= 6)
 fullRegionGR <- fullRegionGR[keepIndex]
 fullRegionMat <- fullRegionMat[keepIndex,]
 
+## log transform
+y <- log2(fullRegionMat + 1)
+rownames(y) <- NULL
+
 ## DE analysis
-fit = lmFit(y, models$mod)
-fit0 = lmFit(y, models$mod0)
-ff = getF(fit,fit0, y)
+fit <- lmFit(y, models$mod)
+fit0 <- lmFit(y, models$mod0)
+ff <- getF(fit,fit0, y)
 
 print('Number and percent of ER-level DERs that are significant')
 sum(p.adjust(ff$f_pval, 'bonf') < 0.05)
-mean(p.adjust(ff$f_pval, 'bonf') < 0.05) * 100
+round(mean(p.adjust(ff$f_pval, 'bonf') < 0.05) * 100, 2)
 sigIndex <- which(p.adjust(ff$f_pval, 'bonf') < 0.05)
 
 ## DERs from ER-level
