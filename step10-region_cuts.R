@@ -30,11 +30,11 @@ chr <- opt$chr
 ## Load data
 message(paste(Sys.time(), 'loading', paste0(chr, 'covInfo.Rdata')))
 load(file.path(maindir, 'CoverageInfo', paste0(chr, 'CovInfo.Rdata')))
-chrCov <- list(get(paste0(chr, 'CovInfo')))
+chrCov <- get(paste0(chr, 'CovInfo'))
 
 ## Calculate mean
 message(paste(Sys.time(), 'calculating mean'))
-meanCov <- Reduce('+', chrCov[[1]]) / length(chrCov[[1]])
+meanCov <- Reduce('+', chrCov$coverage) / length(chrCov$coverage)
 
 ## Loop over several cutoffs
 region_cuts <- lapply(seq(0.025, 0.5, by = 0.025), function(cutoff) {
