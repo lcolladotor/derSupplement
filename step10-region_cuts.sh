@@ -14,7 +14,7 @@ WDIR=${MAINDIR}/regionMatrix
 
 if [[ "${EXPERIMENT}" == "brainspan" ]]
 then
-    RLENGTH=100
+    echo ""
 else
     echo "Specify a valid experiment: brainspan"
 fi
@@ -46,7 +46,7 @@ mkdir -p ${WDIR}/logs
 # Load coverage & get regions
 cd ${WDIR}
 module load R/3.3
-Rscript ${ROOTDIR}/step10-region_cuts.R -m "${MAINDIR}" -c "${chr}" -r ${RLENGTH}
+Rscript ${ROOTDIR}/step10-region_cuts.R -m "${MAINDIR}" -c "${chr}"
 
 ## Move log files into the logs directory
 mv ${ROOTDIR}/${sname}.* ${WDIR}/logs/

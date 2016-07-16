@@ -8,7 +8,6 @@ library('GenomicRanges')
 spec <- matrix(c(
     'maindir', 'm', 1, 'character', 'Main directory',
 	'chr', 'c', 1, 'character', 'Chromosome under analysis',
-	'readLen', 'r', 1, 'integer', 'Read length',
 	'help' , 'h', 0, 'logical', 'Display help'
 ), byrow=TRUE, ncol=5)
 opt <- getopt(spec)
@@ -23,7 +22,6 @@ if (!is.null(opt$help)) {
 
 ## Input options used
 maindir <- opt$maindir
-readLen <- opt$readLen
 chr <- opt$chr
 
 
@@ -42,8 +40,9 @@ region_cuts <- lapply(seq(0.025, 0.5, by = 0.025), function(cutoff) {
     
     ## Find regions
     regs <- findRegions(position = meanCov > cutoff,
-        fstats = meanCov, chr = chr, cutoff = cutoff,
-        maxClusterGap = 3000L, L = readLen)    
+        fstats = meanCov[meanCov > cutoff], chr = chr, cutoff = cutoff,
+        maxClusterGap = 3000L)
+    names(regs) <- NULL
     return(regs)
 })
 names(region_cuts) <- seq(0.025, 0.5, by = 0.025)
