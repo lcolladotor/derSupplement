@@ -71,6 +71,7 @@ pdf(file = 'region_cuts.pdf')
 ggplot(data = regInfo, aes(x = cutoff, y = n)) + geom_point() + ylab('Number of ERs (all)') + xlab('Cutoff') + geom_line() + theme_linedraw(base_size = 16)
 ggplot(data = regInfo, aes(x = cutoff, y = n6)) + geom_point() + geom_line() + ylab('Number of ERs') + xlab('Cutoff') + theme_linedraw(base_size = 16)
 
+ggplot(data = regInfo, aes(x = cutoff, y = mean6)) + geom_point() + geom_line() + ylab('Mean ER width in base pairs') + xlab('Cutoff') + theme_linedraw(base_size = 16)
 
 ggplot(data = regInfo, aes(x = cutoff, y = ov_ex_reg)) + geom_point() + ylab('Percent of ENSEMBL exons overlapping at least one ER') + xlab('Cutoff') + geom_line() + theme_linedraw(base_size = 16) + ylim(25, 60)
 ggplot(data = regInfo, aes(x = cutoff, y = ov_reg_ex)) + geom_point() + ylab('Percent of ERs overlapping at least one ENSEMBL exon') + xlab('Cutoff') + geom_line() + theme_linedraw(base_size = 16) + ylim(c(60, 100))
