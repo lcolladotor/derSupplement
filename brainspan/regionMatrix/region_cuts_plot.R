@@ -83,6 +83,4 @@ dev.off()
 Sys.time()
 proc.time()
 options(width = 120)
-session_info()
-
-
+devtools::session_info()
