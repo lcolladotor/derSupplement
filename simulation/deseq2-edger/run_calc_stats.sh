@@ -28,6 +28,7 @@ date
 cd ${WDIR}
 
 ## Calculate stats
+module load R/3.3
 Rscript calc_stats.R -r ${replicate} -c "${complete}" -p "featureCounts"
 
 mv ${WDIR}/${sname}.* ${WDIR}/logs/
@@ -59,6 +60,7 @@ date
 cd ${WDIR}
 
 ## Calculate stats
+module load R/3.3
 Rscript calc_stats.R -r ${replicate} -p "${pipeline}"
 
 mv ${WDIR}/${sname}.* ${WDIR}/logs/
