@@ -123,6 +123,8 @@ count_comp <- function(info, rep = 1, type = 'padj', reference, cut = 0.05) {
         idx <- mcols(info)$padj < cut
     } else if (type == 'qval') {
         idx <- mcols(info)$qval < cut
+    } else if (type == 'pbonf') {
+        idx <- mcols(info)$pbonf < cut
     }
     
     idx[is.na(idx)] <- FALSE
@@ -201,6 +203,8 @@ index_comp <- function(info, rep = 1, type = 'padj', reference, cut = 0.05) {
         idx <- mcols(info)$padj < cut
     } else if (type == 'qval') {
         idx <- mcols(info)$qval < cut
+    } else if (type == 'pbonf') {
+        idx <- mcols(info)$pbonf < cut
     }
     
     idx[is.na(idx)] <- FALSE
@@ -354,7 +358,8 @@ The following code actually runs the evaluation functions for the different refe
 
 ```{r 'runEval'}
 ## Get type and replicate info
-types <- ifelse(grepl('ballgown', names(stats_GR)), 'qval', 'padj') ## For FDR use 'qval', for FWER use 'pbonf'
+types <- ifelse(grepl('ballgown', names(stats_GR)), 'qval', 'padj') ## For FDR 
+#types <- 'pbonf' ## For FWER
 replicates <- as.integer(sapply(strsplit(names(stats_GR), '\\.'), '[[', 2))
 
 

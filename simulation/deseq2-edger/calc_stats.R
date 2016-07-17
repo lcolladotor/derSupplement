@@ -19,13 +19,9 @@ if (!is.null(opt$help)) {
 	q(status=1)
 }
 
-## Error control options
-adj.method <- 'BH' ## Can easily change between 'BH' and 'bonferroni'
-adj.acron <- ifelse(adj.method == 'BH', 'FDR', 'FWER')
-
 ## For testing
 if(FALSE) opt <- list(replicate = 1, complete = 'yes', pipeline = 'featureCounts')
-    
+
 
 ## Load the necessary data
 if(opt$pipeline == 'featureCounts') {
@@ -85,7 +81,8 @@ run_deseq <- function(counts, regions, file = NULL, use_zero = FALSE) {
 
     ## Extract results
     deseq <- regions[nonzero]
-    mcols(deseq) <- cbind(mcols(deseq), results(dse, alpha = 0.05, pAdjustMethod = adj.method))
+    mcols(deseq) <- cbind(mcols(deseq), results(dse, alpha = 0.05, pAdjustMethod = 'BH'))
+    mcols(deseq)$pbonf <- p.adjust(mcols(deseq)$pvalue, 'bonferroni')
 
     ## Which are significant?
     mcols(deseq)$sig <- mcols(deseq)$padj < 0.05
@@ -124,7 +121,8 @@ run_edger <- function(counts, regions, file = NULL, use_zero = FALSE) {
     edger <- regions[nonzero]
     mcols(edger) <- cbind(mcols(edger), DataFrame(lrw$table))
     mcols(edger)$pvalue <- lrw$table$PValue
-    mcols(edger)$padj <- p.adjust(lrw$table$PValue, adj.method)
+    mcols(edger)$padj <- p.adjust(lrw$table$PValue, 'BH')
+    mcols(edger)$pbonf <- p.adjust(lrw$table$PValue, 'bonferroni')
 
     ## Which are significant?
     mcols(edger)$sig <- mcols(edger)$padj < 0.05
@@ -151,7 +149,7 @@ getF <- function(fit, fit0, theData) {
 	f_pval = pf(fstat, df1-1, ncol(theData)-df1,lower.tail=FALSE)
 	fout = cbind(fstat,df1-1,ncol(theData)-df1,f_pval)
 	colnames(fout)[2:3] = c("df1", "df0")
-	fout = data.frame(fout)
+	fout = data.frame(fout, row.names = NULL)
 	return(fout)
 }
 run_limma <- function(counts, regions, file = NULL, use_zero = FALSE) {
@@ -177,7 +175,8 @@ run_limma <- function(counts, regions, file = NULL, use_zero = FALSE) {
     limma <- regions[nonzero]
     mcols(limma) <- cbind(mcols(limma), DataFrame(ff))
     mcols(limma)$pvalue <- ff$f_pval
-    mcols(limma)$padj <- p.adjust(ff$pvalue, adj.method)
+    mcols(limma)$padj <- p.adjust(ff$f_pval, 'BH')
+    mcols(limma)$pbonf <- p.adjust(ff$f_pval, 'bonferroni')
     
     ## Which are significant?
     mcols(limma)$sig <- mcols(limma)$padj < 0.05
@@ -202,23 +201,29 @@ message(paste(Sys.time(), 'running limma analysis'))
 limma <- run_limma(counts, regions, file, TRUE)
 
 ## Print some summary info
-print(paste('DESeq2 summary - sig', adj.acron, '5%'))
-table(mcols(deseq)$padj < 0.05, useNA = 'ifany')
+for(padj in c('padj', 'pbonf')) {
+    adj.acron <- ifelse(padj == 'padj', 'FDR', 'FWER')
+    
+    print(paste('DESeq2 summary - sig', adj.acron, '5%'))
+    print(table(mcols(deseq)[[padj]] < 0.05, useNA = 'ifany'))
 
-print(paste('edgeR summary - sig', adj.acron, '5%'))
-table(mcols(edger)$padj < 0.05, useNA = 'ifany')
+    print(paste('edgeR summary - sig', adj.acron, '5%'))
+    print(table(mcols(edger)[[padj]] < 0.05, useNA = 'ifany'))
 
-print(paste('limma summary - sig', adj.acron, '5%'))
-table(mcols(limma)$padj < 0.05, useNA = 'ifany')
+    print(paste('limma summary - sig', adj.acron, '5%'))
+    print(table(mcols(limma)[[padj]] < 0.05, useNA = 'ifany'))
 
-print('DESeq2 vs edgeR summary')
-addmargins(table(mcols(deseq)$padj < 0.05, mcols(edger)$padj < 0.05, dnn = list(paste('DESeq2 sig', adj.acron, '5%'), paste('edgeR sig', adj.acron, '5%'))))
+    print('DESeq2 vs edgeR summary')
+    print(addmargins(table(mcols(deseq)[[padj]] < 0.05, mcols(edger)[[padj]] < 0.05, dnn = list(paste('DESeq2 sig', adj.acron, '5%'), paste('edgeR sig', adj.acron, '5%')))))
 
-print('DESeq2 vs limma summary')
-addmargins(table(mcols(deseq)$padj < 0.05, mcols(limma)$padj < 0.05, dnn = list(paste('DESeq2 sig', adj.acron, '5%'), paste('limma sig', adj.acron, '5%'))))
+    print('DESeq2 vs limma summary')
+    print(addmargins(table(mcols(deseq)[[padj]] < 0.05, mcols(limma)[[padj]] < 0.05, dnn = list(paste('DESeq2 sig', adj.acron, '5%'), paste('limma sig', adj.acron, '5%')))))
 
-print('edgeR vs limma summary')
-addmargins(table(mcols(edgeR)$padj < 0.05, mcols(limma)$padj < 0.05, dnn = list(paste('edgeR sig', adj.acron, '5%'), paste('limma sig', adj.acron, '5%'))))
+    print('edgeR vs limma summary')
+    print(addmargins(table(mcols(edger)[[padj]] < 0.05, mcols(limma)[[padj]] < 0.05, dnn = list(paste('edgeR sig', adj.acron, '5%'), paste('limma sig', adj.acron, '5%')))))
+}
+
+
 
 
 ## Reproducibility info
