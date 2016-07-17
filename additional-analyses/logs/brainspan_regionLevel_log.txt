@@ -1,4 +1,8 @@
+Loading required package: colorout
+Warning message:
+package ‘limma’ was built under R version 3.3.1 
 Loading required package: methods
+Loading required package: stats4
 Loading required package: BiocGenerics
 Loading required package: parallel
 
@@ -25,10 +29,9 @@ The following objects are masked from ‘package:base’:
     is.unsorted, lapply, lengths, Map, mapply, match, mget, order,
     paste, pmax, pmax.int, pmin, pmin.int, Position, rank, rbind,
     Reduce, rownames, sapply, setdiff, sort, table, tapply, union,
-    unique, unsplit
+    unique, unsplit, which, which.max, which.min
 
 Loading required package: S4Vectors
-Loading required package: stats4
 
 Attaching package: ‘S4Vectors’
 
@@ -38,10 +41,48 @@ The following objects are masked from ‘package:base’:
 
 Loading required package: IRanges
 Loading required package: GenomeInfoDb
+Warning messages:
+1: package ‘GenomicRanges’ was built under R version 3.3.1 
+2: package ‘BiocGenerics’ was built under R version 3.3.1 
+3: package ‘S4Vectors’ was built under R version 3.3.1 
+4: package ‘IRanges’ was built under R version 3.3.1 
 Loading required package: foreach
 Loading required package: iterators
 Loading required package: locfit
 locfit 1.5-9.1 	 2013-03-22
+Warning message:
+package ‘rtracklayer’ was built under R version 3.3.1 
+Loading required package: ensembldb
+Loading required package: GenomicFeatures
+Loading required package: AnnotationDbi
+Loading required package: Biobase
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+Warning message:
+package ‘ensembldb’ was built under R version 3.3.1 
+
+Loading required package: Category
+Loading required package: Matrix
+
+Attaching package: 'Matrix'
+
+The following object is masked from 'package:S4Vectors':
+
+    expand
+
+Loading required package: graph
+
+
+Attaching package: 'GOstats'
+
+The following object is masked from 'package:AnnotationDbi':
+
+    makeGOGraph
+
 [1] "Number of regions and MB covered: cut 0.25"
 [1] 207349
 [1] 34.64678
@@ -56,12 +97,12 @@ locfit 1.5-9.1 	 2013-03-22
 [1] "Number of regions and MB covered: cut 0.10, >= 6bp"
 [1] 217085
 [1] 50.8206
-2016-04-21 20:48:50 annotateRegions: counting
-2016-04-21 20:48:52 annotateRegions: annotating
+2016-07-16 22:50:25 annotateRegions: counting
+2016-07-16 22:50:26 annotateRegions: annotating
 [1] 81.7479
 [1] 5.383426
-2016-04-21 20:48:54 annotateRegions: counting
-2016-04-21 20:48:55 annotateRegions: annotating
+2016-07-16 22:50:28 annotateRegions: counting
+2016-07-16 22:50:29 annotateRegions: annotating
 null device 
           1 
 [1] 68.46351
@@ -109,21 +150,145 @@ FALSE  TRUE
    19.0   128.0   181.0   399.3   337.0 12620.0 
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
    17.0   136.0   196.0   378.5   348.0 12620.0 
+[1] "Percent of significant ER-level DERs overlapping blacklisted regions"
+[1] 0.0859
+[1] "Percent of significant ER-level DERs overlapping lincRNA transcripts"
+[1] 1.58
+2016-07-16 22:51:26 processing type protein_coding
+2016-07-16 22:51:28 processing type processed_transcript
+2016-07-16 22:51:29 processing type retained_intron
+2016-07-16 22:51:29 processing type nonsense_mediated_decay
+2016-07-16 22:51:30 processing type unitary_pseudogene
+2016-07-16 22:51:30 processing type non_stop_decay
+2016-07-16 22:51:31 processing type unprocessed_pseudogene
+2016-07-16 22:51:32 processing type processed_pseudogene
+2016-07-16 22:51:32 processing type transcribed_unprocessed_pseudogene
+2016-07-16 22:51:33 processing type antisense
+2016-07-16 22:51:33 processing type lincRNA
+2016-07-16 22:51:34 processing type polymorphic_pseudogene
+2016-07-16 22:51:34 processing type transcribed_processed_pseudogene
+2016-07-16 22:51:35 processing type miRNA
+2016-07-16 22:51:35 processing type pseudogene
+2016-07-16 22:51:36 processing type IG_V_pseudogene
+2016-07-16 22:51:36 processing type snoRNA
+2016-07-16 22:51:37 processing type IG_V_gene
+2016-07-16 22:51:37 processing type sense_overlapping
+2016-07-16 22:51:38 processing type sense_intronic
+2016-07-16 22:51:38 processing type TR_V_gene
+2016-07-16 22:51:39 processing type snRNA
+2016-07-16 22:51:39 processing type misc_RNA
+2016-07-16 22:51:40 processing type rRNA
+2016-07-16 22:51:40 processing type Mt_tRNA
+2016-07-16 22:51:41 processing type Mt_rRNA
+2016-07-16 22:51:41 processing type IG_C_gene
+2016-07-16 22:51:41 processing type IG_J_gene
+2016-07-16 22:51:42 processing type TR_J_gene
+2016-07-16 22:51:42 processing type TR_C_gene
+2016-07-16 22:51:43 processing type TR_V_pseudogene
+2016-07-16 22:51:43 processing type TR_J_pseudogene
+2016-07-16 22:51:44 processing type IG_D_gene
+2016-07-16 22:51:44 processing type IG_C_pseudogene
+2016-07-16 22:51:45 processing type TR_D_gene
+2016-07-16 22:51:45 processing type IG_J_pseudogene
+2016-07-16 22:51:45 processing type 3prime_overlapping_ncrna
+2016-07-16 22:51:46 processing type translated_processed_pseudogene
+2016-07-16 22:51:46 processing type LRG_gene
+There were 20 warnings (use warnings() to see them)
+[1] "Percent of significant ER-level DERs overlapping different transcript types"
+                    protein_coding                    retained_intron 
+                      93.063785021                       30.234842742 
+              processed_transcript            nonsense_mediated_decay 
+                      29.636132985                       28.399263602 
+                         antisense               processed_pseudogene 
+                       5.593372422                        2.838843423 
+                          LRG_gene                            lincRNA 
+                       2.141122233                        1.576447655 
+                 sense_overlapping transcribed_unprocessed_pseudogene 
+                       0.314051888                        0.249075635 
+            unprocessed_pseudogene   transcribed_processed_pseudogene 
+                       0.215813982                        0.169402373 
+                        pseudogene                     non_stop_decay 
+                       0.151611256                        0.102879067 
+                    sense_intronic                              miRNA 
+                       0.079673262                        0.068843887 
+                unitary_pseudogene             polymorphic_pseudogene 
+                       0.033261653                        0.028620492 
+          3prime_overlapping_ncrna                             snoRNA 
+                       0.021658751                        0.018564644 
+                             snRNA                           misc_RNA 
+                       0.006961741                        0.005414688 
+                              rRNA                          TR_C_gene 
+                       0.003094107                        0.003094107 
+                         TR_J_gene                    IG_V_pseudogene 
+                       0.001547054                        0.000000000 
+                         IG_V_gene                          TR_V_gene 
+                       0.000000000                        0.000000000 
+                           Mt_tRNA                            Mt_rRNA 
+                       0.000000000                        0.000000000 
+                         IG_C_gene                          IG_J_gene 
+                       0.000000000                        0.000000000 
+                   TR_V_pseudogene                    TR_J_pseudogene 
+                       0.000000000                        0.000000000 
+                         IG_D_gene                    IG_C_pseudogene 
+                       0.000000000                        0.000000000 
+                         TR_D_gene                    IG_J_pseudogene 
+                       0.000000000                        0.000000000 
+   translated_processed_pseudogene 
+                       0.000000000 
+[1] "Percent of significant ER-level DERs overlapping different transcript types: rounded to 2 digits"
+                    protein_coding                    retained_intron 
+                             93.06                              30.23 
+              processed_transcript            nonsense_mediated_decay 
+                             29.64                              28.40 
+                         antisense               processed_pseudogene 
+                              5.59                               2.84 
+                          LRG_gene                            lincRNA 
+                              2.14                               1.58 
+                 sense_overlapping transcribed_unprocessed_pseudogene 
+                              0.31                               0.25 
+            unprocessed_pseudogene   transcribed_processed_pseudogene 
+                              0.22                               0.17 
+                        pseudogene                     non_stop_decay 
+                              0.15                               0.10 
+                    sense_intronic                              miRNA 
+                              0.08                               0.07 
+                unitary_pseudogene             polymorphic_pseudogene 
+                              0.03                               0.03 
+          3prime_overlapping_ncrna                             snoRNA 
+                              0.02                               0.02 
+                             snRNA                           misc_RNA 
+                              0.01                               0.01 
+                              rRNA                          TR_C_gene 
+                              0.00                               0.00 
+                         TR_J_gene                    IG_V_pseudogene 
+                              0.00                               0.00 
+                         IG_V_gene                          TR_V_gene 
+                              0.00                               0.00 
+                           Mt_tRNA                            Mt_rRNA 
+                              0.00                               0.00 
+                         IG_C_gene                          IG_J_gene 
+                              0.00                               0.00 
+                   TR_V_pseudogene                    TR_J_pseudogene 
+                              0.00                               0.00 
+                         IG_D_gene                    IG_C_pseudogene 
+                              0.00                               0.00 
+                         TR_D_gene                    IG_J_pseudogene 
+                              0.00                               0.00 
+   translated_processed_pseudogene 
+                              0.00 
 Warning message:
-Zero sample variances detected, have been offset 
-[1] 1170
-Loading required package: GenomicFeatures
-Loading required package: AnnotationDbi
-Loading required package: Biobase
-Welcome to Bioconductor
-
-    Vignettes contain introductory material; view with
-    'browseVignettes()'. To cite Bioconductor, see
-    'citation("Biobase")', and for packages 'citation("pkgname")'.
-
+In valid.GenomicRanges.seqinfo(x, suggest.trim = TRUE) :
+  GRanges object contains 1 out-of-bound range located on sequence chr17.
+  Note that only ranges located on a non-circular sequence whose length
+  is not NA can be considered out-of-bound (use seqlengths() and
+  isCircular() to get the lengths and circularity flags of the underlying
+  sequences). You can use trim() to trim these ranges. See
+  ?`trim,GenomicRanges-method` for more information.
+[1] "Percent of genes included in the background"
+[1] 45.62
+[1] "Percent of background genes missing"
+[1] 38.52
 No annotationPackage supplied. Trying org.Hs.eg.db.
-Loading required package: org.Hs.eg.db
-
 Getting TSS and TSE.
 Getting CSS and CSE.
 Getting exons.
@@ -131,112 +296,171 @@ Annotating genes.
 Warning message:
   Calling species() on a TxDb object is *deprecated*.
   Please use organism() instead. 
-...........[1] "Subset analysis results, top 50 in each direction, then number of unique genes"
+[1] "Top GO results"
+[1] 545   8
+       GOBPID       Pvalue OddsRatio  ExpCount Count  Size                                                  Term
+1  GO:0044260 1.219454e-15  1.441601 5608.7612  5781  6879              cellular macromolecule metabolic process
+2  GO:0009987 1.287155e-15  1.845132 9425.3932  9524 11560                                      cellular process
+3  GO:0044237 3.908582e-15  1.447508 6719.2617  6882  8241                            cellular metabolic process
+4  GO:0030182 4.127655e-15  1.962839 1042.0115  1139  1278                                neuron differentiation
+5  GO:0048699 1.374342e-14  1.884856 1119.4693  1218  1373                                 generation of neurons
+6  GO:0022008 4.621957e-14  1.825850 1178.9895  1278  1446                                          neurogenesis
+7  GO:0007399 1.768010e-13  1.638458 1655.1512  1768  2030                            nervous system development
+8  GO:0090304 2.278207e-13  1.442243 3384.4989  3531  4151                        nucleic acid metabolic process
+9  GO:0034641 4.000559e-13  1.403403 4369.4362  4523  5359          cellular nitrogen compound metabolic process
+10 GO:0016070 5.072720e-13  1.454145 3022.4855  3162  3707                                 RNA metabolic process
+11 GO:0006807 7.908955e-13  1.393621 4554.5196  4707  5586                   nitrogen compound metabolic process
+12 GO:0048812 7.919067e-13  2.254902  621.2932   690   762                       neuron projection morphogenesis
+13 GO:0006139 1.232527e-12  1.409039 3775.0493  3921  4630      nucleobase-containing compound metabolic process
+14 GO:0031175 1.396774e-12  2.002685  794.9618   872   975                         neuron projection development
+15 GO:0045664 2.166577e-12  2.923042  386.4737   439   474                  regulation of neuron differentiation
+16 GO:0044238 4.386270e-12  1.384152 6689.9093  6833  8205                             primary metabolic process
+17 GO:0010467 4.389712e-12  1.404170 3559.7982  3700  4366                                       gene expression
+18 GO:0048666 4.842614e-12  1.891378  878.9424   958  1078                                    neuron development
+19 GO:0050767 6.258179e-12  2.526067  462.3009   519   567                            regulation of neurogenesis
+20 GO:0048667 7.127198e-12  2.206343  593.5715   658   728 cell morphogenesis involved in neuron differentiation
+21 GO:0050794 8.449629e-12  1.370460 6283.0519  6427  7706                        regulation of cellular process
+22 GO:0034645 9.624420e-12  1.403739 3373.0840  3509  4137           cellular macromolecule biosynthetic process
+23 GO:0046483 1.095227e-11  1.383977 3878.5982  4019  4757                         heterocycle metabolic process
+24 GO:0071840 1.417366e-11  1.370571 4325.4075  4468  5305         cellular component organization or biogenesis
+25 GO:0044249 1.825180e-11  1.373770 4067.7584  4208  4989                         cellular biosynthetic process
+26 GO:0006725 2.636301e-11  1.374813 3889.1977  4027  4770          cellular aromatic compound metabolic process
+27 GO:0009059 2.901097e-11  1.387967 3469.2948  3603  4255                    macromolecule biosynthetic process
+28 GO:0007417 5.400525e-11  2.046051  641.6769   706   787                    central nervous system development
+29 GO:0007409 5.503562e-11  2.225753  531.6052   590   652                                          axonogenesis
+30 GO:0030030 5.842192e-11  1.715336 1065.6565  1148  1307                          cell projection organization
+31 GO:1901576 7.258904e-11  1.358739 4120.7558  4257  5054                organic substance biosynthetic process
+32 GO:0032990 9.052554e-11  1.864635  799.0385   870   980                               cell part morphogenesis
+33 GO:0007420 9.770986e-11  2.296131  485.9459   541   596                                     brain development
+34 GO:0016043 1.268224e-10  1.350913 4225.9354  4361  5183                       cellular component organization
+35 GO:0061564 1.454203e-10  2.136591  553.6195   612   679                                      axon development
+36 GO:1901360 1.665188e-10  1.352781 4013.1302  4146  4922             organic cyclic compound metabolic process
+37 GO:0071704 1.849450e-10  1.352765 6878.2541  7008  8436                   organic substance metabolic process
+38 GO:0009058 1.852985e-10  1.348200 4170.4919  4304  5115                                  biosynthetic process
+39 GO:0051960 1.860728e-10  2.181770  522.6364   579   641              regulation of nervous system development
+40 GO:0043170 2.317878e-10  1.335528 5942.2375  6077  7288                       macromolecule metabolic process
+Warning message:
+Zero sample variances detected, have been offset 
+[1] 1170
+[1] "Subset analysis results, top 50 in each direction, then number of unique genes"
 $`-1`
- [1] "FZD7"      "ZBTB18"    "TSPAN18"   "NEUROD1"   "BOC"       "FEZF2"    
- [7] "EZR"       "WWC1"      "LTBP1"     "NFIX"      "LOC401463" "CSRP2"    
-[13] "EMX1"      "NFIA"      "THBS1"     "EPB41L3"   "GTDC1"     "NFIB"     
-[19] "LINC00461" "ZFPM2"     "TCF4"      "SLC17A7"   "KCTD15"    "TBC1D1"   
-[25] "EMX2OS"    "SNCAIP"    "CBS"       "EMX2"      "COL4A5"    "ARHGEF25" 
-[31] "RTN4RL2"   "CD80"      "MID1"      "LHX2"      "ANTXR2"    "NNMT"     
-[37] "MAPK7"     "HEG1"      "LRRC3B"    "ZBTB16"    "DAP"       "SETD7"    
-[43] "PTPRK"     "TNFRSF19"  "PRDM8"     "FZD1"      "TSPAN5"    "CRYAB"    
-[49] "NEUROD6"   "OXR1"     
+ [1] "NMNAT3"    "SH3RF3"    "ALG1"      "SLC25A36"  "LRRC58"    "NIPBL"     "HAND2-AS1" "SETX"      "VPS37A"    "ATF2"      NA          "KIAA1715"  "KMT2A"     "ATP5G3"   
+[15] "SMAD4"     "TRIP12"    "SLC7A2"    "RBM15"     "CCDC157"   "MAPKAPK3"  "MANF"      "MTUS1"     "OR9K2"     "RSBN1L"    "FBXO8"     "PEX5"      "C6orf62"   "UNC13C"   
+[29] "AGFG2"     "MIB1"      "CCP110"    "RICTOR"    "OR6C65"    "CNOT7"     "IFT88"     "NIPBL-AS1" "KCNC4"     "ACOT13"    "TOMM6"     "CEP44"     "CHD3"      "DIMT1"    
+[43] "GABRA4"    "PDCD2"     "FIG4"      "TNC"       "ZNF90"     "MED20"     "PDCD11"    "DST"      
 
 $`1`
- [1] "RXRG"        "ARPP21"      "STRIP2"      "RGS2"        "SIX3"       
- [6] "RINL"        "FOXP1"       "NTN1"        "LOC389332"   "PDYN"       
-[11] "PDE4B"       "DRD2"        "TPD52L1"     "ZFHX3"       "PBX3"       
-[16] "RARB"        "GPR88"       "MSANTD1"     "DTNBP1"      "MDK"        
-[21] "DRD1"        "FOXO1"       "RASL10B"     "HAR1A"       "SOX4"       
-[26] "EBF1"        "NPY"         "FAM222A-AS1" "TSPAN9"      "LINC00643"  
-[31] "FRAS1"       "NIPAL3"      "FAT3"        "DLX6-AS1"    "FHDC1"      
-[36] "NGEF"        "DLL3"        "SERTAD4"     "ATXN1"       "SKAP2"      
-[41] "KLHL13"      "GUCY1A3"     "CDH8"        "RGS8"        "FOXP2"      
-[46] "LMF1"        "TAC1"        "PDE10A"      "KCNIP1"      "ZNF467"     
+ [1] "NID1"      "THEGL"     "NAV2"      "HADHA"     "ANKRD44"   NA          "FAT1"      "KCND2"     "TRIM33"    "KDM6B"     "PRPF4"     "ATP8A2"    "GUF1"      "ZFP42"    
+[15] "YY1AP1"    "DBN1"      "NSMAF"     "DEXI"      "POLR3D"    "ZNF569"    "CRH"       "KCTD8"     "TNKS"      "ZEB1"      "ARL9"      "CCDC94"    "RPL19"     "CTNNBL1"  
+[29] "LINC01060" "BLCAP"     "MDFI"      "ZBTB8A"    "TRPV1"     "PDE7A"     "AFAP1L2"   "PTPRK"     "ATP13A3"   "CCDC88A"   "RAB2A"     "FKBP15"    "PARD3"     "NUP58"    
+[43] "MED23"     "FRG1"      "AKAP7"     "TMEM44"    "SMC6"      "SBF2-AS1"  "HPRT1"     "LINC00884"
 
-[1] 293
+[1] 326
 Session info -----------------------------------------------------------------------------------------------------------
- setting  value                                   
- version  R version 3.3.0 beta (2016-04-20 r70527)
- system   x86_64, linux-gnu                       
- ui       X11                                     
- language (EN)                                    
- collate  en_US.UTF-8                             
- tz       <NA>                                    
- date     2016-04-21                              
+ setting  value                                      
+ version  R version 3.3.0 Patched (2016-05-20 r70657)
+ system   x86_64, linux-gnu                          
+ ui       X11                                        
+ language (EN)                                       
+ collate  en_US.UTF-8                                
+ tz       <NA>                                       
+ date     2016-07-16                                 
 
 Packages ---------------------------------------------------------------------------------------------------------------
- package                           * version  date       source                                
- acepack                             1.3-3.3  2014-11-24 CRAN (R 3.3.0)                        
- AnnotationDbi                     * 1.33.12  2016-04-18 Bioconductor                          
- Biobase                           * 2.31.3   2016-03-28 Bioconductor                          
- BiocGenerics                      * 0.17.5   2016-04-18 Bioconductor                          
- BiocParallel                        1.5.21   2016-03-28 Bioconductor                          
- biomaRt                             2.27.2   2016-03-28 Bioconductor                          
- Biostrings                          2.39.14  2016-04-18 Bioconductor                          
- bitops                              1.0-6    2013-08-17 CRAN (R 3.3.0)                        
- BSgenome                            1.39.5   2016-04-18 Bioconductor                          
- bumphunter                        * 1.11.5   2016-04-11 Bioconductor                          
- cluster                             2.0.4    2016-04-18 CRAN (R 3.3.0)                        
- codetools                           0.2-14   2015-07-15 CRAN (R 3.3.0)                        
- colorspace                          1.2-6    2015-03-11 CRAN (R 3.3.0)                        
- DBI                                 0.3.1    2014-09-24 CRAN (R 3.3.0)                        
- derfinder                         * 1.5.35   2016-04-20 Github (lcolladotor/derfinder@3965661)
- derfinderHelper                     1.5.3    2016-04-02 Bioconductor                          
- devtools                          * 1.10.0   2016-01-23 CRAN (R 3.3.0)                        
- digest                              0.6.9    2016-01-08 CRAN (R 3.3.0)                        
- doRNG                               1.6      2014-03-07 CRAN (R 3.3.0)                        
- foreach                           * 1.4.3    2015-10-13 CRAN (R 3.3.0)                        
- foreign                             0.8-66   2015-08-19 CRAN (R 3.3.0)                        
- Formula                             1.2-1    2015-04-07 CRAN (R 3.3.0)                        
- GenomeInfoDb                      * 1.7.6    2016-04-02 Bioconductor                          
- GenomicAlignments                   1.7.21   2016-04-18 Bioconductor                          
- GenomicFeatures                   * 1.23.30  2016-04-18 Bioconductor                          
- GenomicFiles                        1.7.12   2016-04-18 Bioconductor                          
- GenomicRanges                     * 1.23.27  2016-04-18 Bioconductor                          
- ggplot2                             2.1.0    2016-03-01 CRAN (R 3.3.0)                        
- gridExtra                           2.2.1    2016-02-29 CRAN (R 3.3.0)                        
- gtable                              0.2.0    2016-02-26 CRAN (R 3.3.0)                        
- Hmisc                               3.17-3   2016-04-03 CRAN (R 3.3.0)                        
- IRanges                           * 2.5.46   2016-04-18 Bioconductor                          
- iterators                         * 1.0.8    2015-10-13 CRAN (R 3.3.0)                        
- lattice                             0.20-33  2015-07-14 CRAN (R 3.3.0)                        
- latticeExtra                        0.6-28   2016-02-09 CRAN (R 3.3.0)                        
- limma                             * 3.27.19  2016-04-20 Bioconductor                          
- locfit                            * 1.5-9.1  2013-04-20 CRAN (R 3.3.0)                        
- magrittr                            1.5      2014-11-22 CRAN (R 3.3.0)                        
- Matrix                              1.2-5    2016-04-17 CRAN (R 3.3.0)                        
- matrixStats                         0.50.1   2015-12-15 CRAN (R 3.3.0)                        
- memoise                             1.0.0    2016-01-29 CRAN (R 3.3.0)                        
- munsell                             0.4.3    2016-02-13 CRAN (R 3.3.0)                        
- nnet                                7.3-12   2016-02-02 CRAN (R 3.3.0)                        
- org.Hs.eg.db                      * 3.3.0    2016-04-11 Bioconductor                          
- pkgmaker                            0.22     2014-05-14 CRAN (R 3.3.0)                        
- plyr                                1.8.3    2015-06-12 CRAN (R 3.3.0)                        
- qvalue                              2.3.2    2016-03-28 Bioconductor                          
- RColorBrewer                        1.1-2    2014-12-07 CRAN (R 3.3.0)                        
- Rcpp                                0.12.4.5 2016-04-18 local                                 
- RCurl                               1.95-4.8 2016-03-01 CRAN (R 3.3.0)                        
- registry                            0.3      2015-07-08 CRAN (R 3.3.0)                        
- reshape2                            1.4.1    2014-12-06 CRAN (R 3.3.0)                        
- rngtools                            1.2.4    2014-03-06 CRAN (R 3.3.0)                        
- rpart                               4.1-10   2015-06-29 CRAN (R 3.3.0)                        
- Rsamtools                           1.23.8   2016-04-11 Bioconductor                          
- RSQLite                             1.0.0    2014-10-25 CRAN (R 3.3.0)                        
- rtracklayer                         1.31.10  2016-04-21 Bioconductor                          
- S4Vectors                         * 0.9.51   2016-04-18 Bioconductor                          
- scales                              0.4.0    2016-02-26 CRAN (R 3.3.0)                        
- stringi                             1.0-1    2015-10-22 CRAN (R 3.3.0)                        
- stringr                             1.0.0    2015-04-30 CRAN (R 3.3.0)                        
- SummarizedExperiment                1.1.24   2016-04-18 Bioconductor                          
- survival                            2.39-2   2016-04-16 CRAN (R 3.3.0)                        
- TxDb.Hsapiens.UCSC.hg19.knownGene * 3.2.2    2016-03-28 Bioconductor                          
- VariantAnnotation                   1.17.24  2016-04-18 Bioconductor                          
- XML                                 3.98-1.4 2016-03-01 CRAN (R 3.3.0)                        
- xtable                              1.8-2    2016-02-05 CRAN (R 3.3.0)                        
- XVector                             0.11.8   2016-04-11 Bioconductor                          
- zlibbioc                            1.17.1   2016-03-28 Bioconductor                          
-[1] "2016-04-21 20:52:37 EDT"
+ package                           * version  date       source                            
+ acepack                             1.3-3.3  2014-11-24 CRAN (R 3.3.0)                    
+ annotate                            1.50.0   2016-05-08 Bioconductor                      
+ AnnotationDbi                     * 1.35.3   2016-06-07 Bioconductor                      
+ AnnotationForge                     1.15.4   2016-06-07 Bioconductor                      
+ AnnotationHub                       2.5.4    2016-06-13 Bioconductor                      
+ Biobase                           * 2.32.0   2016-05-05 Bioconductor                      
+ BiocGenerics                      * 0.19.1   2016-06-13 Bioconductor                      
+ BiocInstaller                       1.22.3   2016-07-16 Bioconductor                      
+ BiocParallel                        1.6.2    2016-06-08 Bioconductor                      
+ biomaRt                             2.29.2   2016-06-07 Bioconductor                      
+ Biostrings                          2.41.2   2016-06-13 Bioconductor                      
+ bitops                              1.0-6    2013-08-17 CRAN (R 3.3.0)                    
+ BSgenome                            1.40.0   2016-05-08 Bioconductor                      
+ bumphunter                        * 1.12.0   2016-05-08 Bioconductor                      
+ Category                          * 2.38.0   2016-05-05 Bioconductor                      
+ chron                               2.3-47   2015-06-24 CRAN (R 3.3.0)                    
+ cluster                             2.0.4    2016-04-18 CRAN (R 3.3.0)                    
+ codetools                           0.2-14   2015-07-15 CRAN (R 3.3.0)                    
+ colorout                          * 1.1-2    2016-05-08 Github (jalvesaq/colorout@6538970)
+ colorspace                          1.2-6    2015-03-11 CRAN (R 3.3.0)                    
+ data.table                          1.9.6    2015-09-19 CRAN (R 3.3.0)                    
+ DBI                                 0.4-1    2016-05-08 CRAN (R 3.3.0)                    
+ derfinder                         * 1.6.4    2016-06-06 Bioconductor                      
+ derfinderHelper                     1.6.3    2016-06-06 Bioconductor                      
+ devtools                          * 1.11.1   2016-04-21 CRAN (R 3.3.0)                    
+ digest                              0.6.9    2016-01-08 CRAN (R 3.3.0)                    
+ doRNG                               1.6      2014-03-07 CRAN (R 3.3.0)                    
+ EnsDb.Hsapiens.v75                * 0.99.12  2016-07-16 Bioconductor                      
+ ensembldb                         * 1.5.8    2016-06-13 Bioconductor                      
+ foreach                           * 1.4.3    2015-10-13 CRAN (R 3.3.0)                    
+ foreign                             0.8-66   2015-08-19 CRAN (R 3.3.0)                    
+ Formula                             1.2-1    2015-04-07 CRAN (R 3.3.0)                    
+ genefilter                          1.54.2   2016-06-08 Bioconductor                      
+ GenomeInfoDb                      * 1.8.1    2016-06-08 Bioconductor                      
+ GenomicAlignments                   1.9.3    2016-06-16 Bioconductor                      
+ GenomicFeatures                   * 1.25.12  2016-06-07 Bioconductor                      
+ GenomicFiles                        1.8.0    2016-05-08 Bioconductor                      
+ GenomicRanges                     * 1.25.4   2016-06-13 Bioconductor                      
+ ggplot2                             2.1.0    2016-03-01 CRAN (R 3.3.0)                    
+ GO.db                               3.3.0    2016-05-08 Bioconductor                      
+ GOstats                           * 2.38.1   2016-06-26 Bioconductor                      
+ graph                             * 1.50.0   2016-05-05 Bioconductor                      
+ gridExtra                           2.2.1    2016-02-29 CRAN (R 3.3.0)                    
+ GSEABase                            1.34.0   2016-05-08 Bioconductor                      
+ gtable                              0.2.0    2016-02-26 CRAN (R 3.3.0)                    
+ Hmisc                               3.17-4   2016-05-02 CRAN (R 3.3.0)                    
+ htmltools                           0.3.5    2016-03-21 CRAN (R 3.3.0)                    
+ httpuv                              1.3.3    2015-08-04 CRAN (R 3.3.0)                    
+ httr                                1.2.1    2016-07-03 CRAN (R 3.3.0)                    
+ interactiveDisplayBase              1.10.3   2016-05-24 Bioconductor                      
+ IRanges                           * 2.7.6    2016-06-13 Bioconductor                      
+ iterators                         * 1.0.8    2015-10-13 CRAN (R 3.3.0)                    
+ lattice                             0.20-33  2015-07-14 CRAN (R 3.3.0)                    
+ latticeExtra                        0.6-28   2016-02-09 CRAN (R 3.3.0)                    
+ limma                             * 3.29.9   2016-06-16 Bioconductor                      
+ locfit                            * 1.5-9.1  2013-04-20 CRAN (R 3.3.0)                    
+ magrittr                            1.5      2014-11-22 CRAN (R 3.3.0)                    
+ Matrix                            * 1.2-6    2016-05-02 CRAN (R 3.3.0)                    
+ matrixStats                         0.50.2   2016-04-24 CRAN (R 3.3.0)                    
+ memoise                             1.0.0    2016-01-29 CRAN (R 3.3.0)                    
+ mime                                0.5      2016-07-07 CRAN (R 3.3.0)                    
+ munsell                             0.4.3    2016-02-13 CRAN (R 3.3.0)                    
+ nnet                                7.3-12   2016-02-02 CRAN (R 3.3.0)                    
+ org.Hs.eg.db                      * 3.3.0    2016-05-08 Bioconductor                      
+ pkgmaker                            0.22     2014-05-14 CRAN (R 3.3.0)                    
+ plyr                                1.8.4    2016-06-08 CRAN (R 3.3.1)                    
+ qvalue                              2.4.2    2016-05-24 Bioconductor                      
+ R6                                  2.1.2    2016-01-26 CRAN (R 3.3.0)                    
+ RBGL                                1.48.1   2016-05-24 Bioconductor                      
+ RColorBrewer                        1.1-2    2014-12-07 CRAN (R 3.3.0)                    
+ Rcpp                                0.12.5   2016-05-14 CRAN (R 3.3.0)                    
+ RCurl                               1.95-4.8 2016-03-01 CRAN (R 3.3.0)                    
+ registry                            0.3      2015-07-08 CRAN (R 3.3.0)                    
+ reshape2                            1.4.1    2014-12-06 CRAN (R 3.3.0)                    
+ rngtools                            1.2.4    2014-03-06 CRAN (R 3.3.0)                    
+ rpart                               4.1-10   2015-06-29 CRAN (R 3.3.0)                    
+ Rsamtools                           1.24.0   2016-05-08 Bioconductor                      
+ RSQLite                             1.0.0    2014-10-25 CRAN (R 3.3.0)                    
+ rtracklayer                       * 1.33.5   2016-06-13 Bioconductor                      
+ S4Vectors                         * 0.11.4   2016-06-13 Bioconductor                      
+ scales                              0.4.0    2016-02-26 CRAN (R 3.3.0)                    
+ shiny                               0.13.2   2016-03-28 CRAN (R 3.3.0)                    
+ stringi                             1.1.1    2016-05-27 CRAN (R 3.3.0)                    
+ stringr                             1.0.0    2015-04-30 CRAN (R 3.3.0)                    
+ SummarizedExperiment                1.3.4    2016-06-13 Bioconductor                      
+ survival                            2.39-4   2016-05-11 CRAN (R 3.3.0)                    
+ TxDb.Hsapiens.UCSC.hg19.knownGene * 3.2.2    2016-03-28 Bioconductor                      
+ VariantAnnotation                   1.18.1   2016-06-08 Bioconductor                      
+ withr                               1.0.2    2016-06-20 CRAN (R 3.3.0)                    
+ XML                                 3.98-1.4 2016-03-01 CRAN (R 3.3.0)                    
+ xtable                              1.8-2    2016-02-05 CRAN (R 3.3.0)                    
+ XVector                             0.12.0   2016-05-08 Bioconductor                      
+ zlibbioc                            1.18.0   2016-05-05 Bioconductor                      
+[1] "2016-07-16 22:52:41 EDT"
    user  system elapsed 
-307.512   9.968 320.933 
+194.125   8.585 230.550 
