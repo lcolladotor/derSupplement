@@ -1,0 +1,60 @@
+Loading required package: methods
+
+Attaching package: ‘ballgown’
+
+The following object is masked from ‘package:base’:
+
+    structure
+
+Loading required package: stats4
+Loading required package: BiocGenerics
+Loading required package: parallel
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:parallel’:
+
+    clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
+    clusterExport, clusterMap, parApply, parCapply, parLapply,
+    parLapplyLB, parRapply, parSapply, parSapplyLB
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    anyDuplicated, append, as.data.frame, cbind, colnames, do.call,
+    duplicated, eval, evalq, Filter, Find, get, grep, grepl, intersect,
+    is.unsorted, lapply, lengths, Map, mapply, match, mget, order,
+    paste, pmax, pmax.int, pmin, pmin.int, Position, rank, rbind,
+    Reduce, rownames, sapply, setdiff, sort, table, tapply, union,
+    unique, unsplit, which, which.max, which.min
+
+Loading required package: S4Vectors
+
+Attaching package: ‘S4Vectors’
+
+The following objects are masked from ‘package:base’:
+
+    colMeans, colSums, expand.grid, rowMeans, rowSums
+
+Loading required package: IRanges
+Loading required package: GenomeInfoDb
+Warning messages:
+1: package ‘GenomicRanges’ was built under R version 3.3.1 
+2: package ‘BiocGenerics’ was built under R version 3.3.1 
+3: package ‘S4Vectors’ was built under R version 3.3.1 
+4: package ‘IRanges’ was built under R version 3.3.1 
+Sat Jul 16 21:28:21 2016
+Sat Jul 16 21:28:22 2016: Reading linking tables
+Sat Jul 16 21:28:22 2016: Reading intron data files
+Sat Jul 16 21:28:23 2016: Merging intron data
+Sat Jul 16 21:28:23 2016: Reading exon data files
+Sat Jul 16 21:28:25 2016: Merging exon data
+Sat Jul 16 21:28:25 2016: Reading transcript data files
+Sat Jul 16 21:28:27 2016: Merging transcript data
+Wrapping up the results
+Sat Jul 16 21:28:27 2016
+Session info -----------------------------------------------------------------------------------------------------------
+Packages ---------------------------------------------------------------------------------------------------------------
