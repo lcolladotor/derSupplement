@@ -285,7 +285,7 @@ bg_universe <- bg_universe[!is.na(bg_universe)]
 
 library("TxDb.Hsapiens.UCSC.hg19.knownGene")
 genes <- annotateTranscripts(TxDb.Hsapiens.UCSC.hg19.knownGene)
-if(!file.exist('rdas/annotation.knownGene_ER.Rdata')) {
+if(!file.exists('rdas/annotation.knownGene_ER.Rdata')) {
     annotation.knownGene <- matchGenes(x = fullRegionGR[sigIndex], subject = genes)
     save(annotation.knownGene, file = 'rdas/annotation.knownGene_ER.Rdata')
 } else {
@@ -296,7 +296,7 @@ regs_names <- unlist(strsplit(annotation.knownGene$annotation, ' '))
 ## Clean up
 regs_names <- regs_names[!is.na(regs_names)]
 
-if(!file.exist('rdas/go_ER.Rdata')) {
+if(!file.exists('rdas/go_ER.Rdata')) {
     go <- tryCatch(dogo(regs_names, bg_universe), error = function(e) return(NULL))
     save(go, file = 'rdas/go_ER.Rdata')
 } else {
