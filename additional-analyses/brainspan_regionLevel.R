@@ -9,6 +9,13 @@ library(limma)
 library(GenomicRanges)
 library(derfinder)
 library(bumphunter)
+library('rtracklayer')
+library('EnsDb.Hsapiens.v75')
+library('GenomeInfoDb')
+library('GenomicFeatures')
+library('org.Hs.eg.db')
+library('GOstats')
+
 ss = function(x, pattern, slot=1,...) sapply(strsplit(x,pattern,...), function(y) y[slot])
 splitit = function(x) split(seq(along=x),x) # splits into list
 
@@ -204,8 +211,105 @@ summary(width(sigSpan[an2$dist != 0]))
 summary(width(sigSpan[an2$dist == 0]))
 summary(width(sigSpan))
 
-### subset analysis ###
 
+### Run some checks
+if(!file.exists('wgEncodeDacMapabilityConsensusExcludable.bed.gz')) {
+    system('wget http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeMapability/wgEncodeDacMapabilityConsensusExcludable.bed.gz .')
+}
+exclude <- import.bed('wgEncodeDacMapabilityConsensusExcludable.bed.gz')
+
+print('Percent of significant ER-level DERs overlapping blacklisted regions')
+round(sum(countOverlaps(fullRegionGR[sigIndex], exclude) > 0) / length(sigIndex) * 100, 4)
+
+## Find lincRnas
+lincs <- transcripts(EnsDb.Hsapiens.v75, filter = TxbiotypeFilter('lincRNA'))
+seqlevelsStyle(lincs) <- 'UCSC'
+print('Percent of significant ER-level DERs overlapping lincRNA transcripts')
+round(sum(countOverlaps(fullRegionGR[sigIndex], lincs) > 0) / length(sigIndex) * 100, 2)
+
+## Do it for all types
+ov_type <- sapply(listTxbiotypes(EnsDb.Hsapiens.v75), function(type) {
+    message(paste(Sys.time(), 'processing type', type))
+    reg_type <- transcripts(EnsDb.Hsapiens.v75, filter = TxbiotypeFilter(type))
+    seqlevelsStyle(reg_type) <- 'UCSC'
+    sum(countOverlaps(fullRegionGR[sigIndex], reg_type) > 0) / length(sigIndex) * 100
+})
+print('Percent of significant ER-level DERs overlapping different transcript types')
+sort(ov_type, decreasing = TRUE)
+print('Percent of significant ER-level DERs overlapping different transcript types: rounded to 2 digits')
+round(sort(ov_type, decreasing = TRUE), 2)
+
+
+## GO analysis
+sql_file <- "/home/epi/ajaffe/Lieber/Projects/RNAseq/Ribozero_Compare/TxDb.Hsapiens.BioMart.ensembl.GRCh37.p12/inst/extdata/TxDb.Hsapiens.BioMart.ensembl.GRCh37.p12.sqlite"
+TranscriptDb <- loadDb(sql_file)
+
+## Fix seqlevels
+seqlevels(TranscriptDb, force=TRUE) <- c(1:22,"X","Y","MT")
+seqlevels(TranscriptDb) <- paste0("chr", c(1:22,"X","Y","M"))
+ensGene <- genes(TranscriptDb)
+
+# Modified from /home/epi/ajaffe/Lieber/lieber_functions_aj.R
+dogo <- function(names, Universe, goP = 0.01, cond = FALSE, ontology = 'BP'){
+    gomap_names <- org.Hs.egREFSEQ2EG
+    x <- unlist(mget(as.character(names), gomap_names, ifnotfound = NA))
+    x <- x[!is.na(x)]    
+    Universe <- unique(c(Universe, unique(x)))
+
+    params <- new("GOHyperGParams", geneIds = unique(x),
+                  universeGeneIds = Universe,
+                  annotation = 'org.Hs.eg.db',
+                  ontology = ontology, pvalueCutoff = goP, conditional = cond,
+                  testDirection="over")
+    ht <- hyperGTest(params)
+    tab <- summary(ht)
+    tmp1 <- geneIdsByCategory(ht)
+    tmp1 <- tmp1[tab[, 1]]
+    tab$IDs <- sapply(tmp1, function(y) paste(names(x)[x %in% y], collapse=";"))
+    return(tab)
+}
+
+
+## Define universe: genes with a ER within 5kb
+bg_genes <- resize(ensGene, width(ensGene) + 1e4, fix = 'center')
+bg_genes <- bg_genes[countOverlaps(bg_genes, fullRegionGR, ignore.strand = TRUE) > 0]
+print('Percent of genes included in the background')
+round(length(bg_genes) / length(ensGene) * 100, 2)
+
+## Define GO universe
+gomap <- org.Hs.egENSEMBL2EG
+bg_universe <- unlist(mget(as.character(bg_genes$gene_id), gomap, ifnotfound = NA))
+print('Percent of background genes missing')
+round(sum(is.na(bg_universe)) / length(bg_universe) * 100, 2)
+bg_universe <- bg_universe[!is.na(bg_universe)]
+
+library("TxDb.Hsapiens.UCSC.hg19.knownGene")
+genes <- annotateTranscripts(TxDb.Hsapiens.UCSC.hg19.knownGene)
+if(!file.exist('rdas/annotation.knownGene_ER.Rdata')) {
+    annotation.knownGene <- matchGenes(x = fullRegionGR[sigIndex], subject = genes)
+    save(annotation.knownGene, file = 'rdas/annotation.knownGene_ER.Rdata')
+} else {
+    load('rdas/annotation.knownGene_ER.Rdata')
+}
+
+regs_names <- unlist(strsplit(annotation.knownGene$annotation, ' '))
+## Clean up
+regs_names <- regs_names[!is.na(regs_names)]
+
+if(!file.exist('rdas/go_ER.Rdata')) {
+    go <- tryCatch(dogo(regs_names, bg_universe), error = function(e) return(NULL))
+    save(go, file = 'rdas/go_ER.Rdata')
+} else {
+    load('rdas/go_ER.Rdata')
+}
+print('Top GO results')
+options(width = 180)
+dim(go)
+head(go[, -8], 40)
+
+
+
+### subset analysis ###
 Index1 = which(pdSpan$fetal == "Fetal" & 
 	pdSpan$NCX %in% c("HIP", "STR"))
 mod1 = model.matrix(~as.character(pdSpan$NCX[Index1]))
@@ -215,9 +319,8 @@ eb1 = ebayes(fit1)
 sigIndex1 = order(eb1$p[,2])[1:sum(p.adjust(eb1$p[,2], "bonf") < 0.05)]
 length(sigIndex1)
 
-library("TxDb.Hsapiens.UCSC.hg19.knownGene")
-genes <- annotateTranscripts(TxDb.Hsapiens.UCSC.hg19.knownGene)
-theGenes1 = matchGenes(fullRegionGR[sigIndex1], genes)
+
+theGenes1 <- annotation.knownGene[sigIndex1, ]
 theGenes1$annotation = ss(theGenes1$annotation, " ")
 
 geneList1 = split(theGenes1$name, sign(eb1$t[sigIndex1,2]))
