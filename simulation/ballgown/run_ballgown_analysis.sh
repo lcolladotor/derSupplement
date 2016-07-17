@@ -27,6 +27,7 @@ date
 cd ${WDIR}
 
 ## Run ballgown
+module load R/3.3
 Rscript ballgown_analysis.R -r ${replicate} -c "${complete}"
 
 mv ${WDIR}/${sname}.* ${WDIR}/logs/
