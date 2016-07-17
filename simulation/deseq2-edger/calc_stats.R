@@ -19,6 +19,10 @@ if (!is.null(opt$help)) {
 	q(status=1)
 }
 
+## Error control options
+adj.method <- 'BH' ## Can easily change between 'BH' and 'bonferroni'
+adj.acron <- ifelse(adj.method == 'BH', 'FDR', 'FWER')
+
 ## For testing
 if(FALSE) opt <- list(replicate = 1, complete = 'yes', pipeline = 'featureCounts')
     
@@ -81,7 +85,7 @@ run_deseq <- function(counts, regions, file = NULL, use_zero = FALSE) {
 
     ## Extract results
     deseq <- regions[nonzero]
-    mcols(deseq) <- cbind(mcols(deseq), results(dse, alpha = 0.05))
+    mcols(deseq) <- cbind(mcols(deseq), results(dse, alpha = 0.05, pAdjustMethod = adj.method))
 
     ## Which are significant?
     mcols(deseq)$sig <- mcols(deseq)$padj < 0.05
@@ -119,8 +123,8 @@ run_edger <- function(counts, regions, file = NULL, use_zero = FALSE) {
     ## Extract results
     edger <- regions[nonzero]
     mcols(edger) <- cbind(mcols(edger), DataFrame(lrw$table))
-    mcols(edger)$pvalue <-  lrw$table$PValue
-    mcols(edger)$padj <- p.adjust(lrw$table$PValue, 'BH')
+    mcols(edger)$pvalue <- lrw$table$PValue
+    mcols(edger)$padj <- p.adjust(lrw$table$PValue, adj.method)
 
     ## Which are significant?
     mcols(edger)$sig <- mcols(edger)$padj < 0.05
@@ -134,6 +138,59 @@ run_edger <- function(counts, regions, file = NULL, use_zero = FALSE) {
     return(edger)
 }
 
+## limma analysis
+# get the f statistic from 2 lmFit objects
+getF <- function(fit, fit0, theData) {
+	
+	rss1 = rowSums((fitted(fit)-theData)^2)
+	df1 = ncol(fit$coef)
+	rss0 = rowSums((fitted(fit0)-theData)^2)
+	df0 = ncol(fit0$coef)
+
+	fstat = ((rss0-rss1)/(df1-df0))/(rss1/(ncol(theData)-df1))
+	f_pval = pf(fstat, df1-1, ncol(theData)-df1,lower.tail=FALSE)
+	fout = cbind(fstat,df1-1,ncol(theData)-df1,f_pval)
+	colnames(fout)[2:3] = c("df1", "df0")
+	fout = data.frame(fout)
+	return(fout)
+}
+run_limma <- function(counts, regions, file = NULL, use_zero = FALSE) {
+    counts <- round(counts, 0)
+    groupInfo <- as.factor(as.integer(gsub('.*G|R.*', '', colnames(counts))))
+    if(use_zero) {
+        nonzero <- TRUE
+    } else {
+        nonzero <- sapply(rowSums(counts), function(x) {x > 0})
+    }
+    
+    ## Perform DE analysis
+    y <- log2(counts[nonzero, ] + 1)
+    mod <-  model.matrix(~ groupInfo)
+    mod0 <- model.matrix(~ 1, data = groupInfo)
+    library('limma')
+    fit <- lmFit(y, mod)
+    eb <- ebayes(fit)
+    fit0 <- lmFit(y, mod0)
+    ff <- getF(fit, fit0, y)
+    
+    ## Extract results
+    limma <- regions[nonzero]
+    mcols(limma) <- cbind(mcols(limma), DataFrame(ff))
+    mcols(limma)$pvalue <- ff$f_pval
+    mcols(limma)$padj <- p.adjust(ff$pvalue, adj.method)
+    
+    ## Which are significant?
+    mcols(limma)$sig <- mcols(limma)$padj < 0.05
+    mcols(limma)$sig[is.na(mcols(limma)$sig)] <- FALSE
+
+    ## Save results
+    if(!is.null(file))
+    save(limma, file = paste0(file, '-limma.Rdata'))
+    
+    ## End
+    return(limma)
+}
+
 ## Run DE analyses
 message(paste(Sys.time(), 'running DESeq2 analysis'))
 deseq <- run_deseq(counts, regions, file, TRUE)
@@ -141,16 +198,27 @@ deseq <- run_deseq(counts, regions, file, TRUE)
 message(paste(Sys.time(), 'running edgeR analysis'))
 edger <- run_edger(counts, regions, file, TRUE)
 
+message(paste(Sys.time(), 'running limma analysis'))
+limma <- run_limma(counts, regions, file, TRUE)
+
 ## Print some summary info
-print('DESeq2 summary - sig FDR 5%')
+print(paste('DESeq2 summary - sig', adj.acron, '5%'))
 table(mcols(deseq)$padj < 0.05, useNA = 'ifany')
 
-print('edgeR summary - sig FDR 5%')
+print(paste('edgeR summary - sig', adj.acron, '5%'))
 table(mcols(edger)$padj < 0.05, useNA = 'ifany')
 
-print('DEseq2 vs edgeR summary')
-addmargins(table(mcols(deseq)$padj < 0.05, mcols(edger)$padj < 0.05, dnn = list('DESeq2 sig FDR 5%', 'edgeR sig FDR 5%')))
+print(paste('limma summary - sig', adj.acron, '5%'))
+table(mcols(limma)$padj < 0.05, useNA = 'ifany')
 
+print('DESeq2 vs edgeR summary')
+addmargins(table(mcols(deseq)$padj < 0.05, mcols(edger)$padj < 0.05, dnn = list(paste('DESeq2 sig', adj.acron, '5%'), paste('edgeR sig', adj.acron, '5%'))))
+
+print('DESeq2 vs limma summary')
+addmargins(table(mcols(deseq)$padj < 0.05, mcols(limma)$padj < 0.05, dnn = list(paste('DESeq2 sig', adj.acron, '5%'), paste('limma sig', adj.acron, '5%'))))
+
+print('edgeR vs limma summary')
+addmargins(table(mcols(edgeR)$padj < 0.05, mcols(limma)$padj < 0.05, dnn = list(paste('edgeR sig', adj.acron, '5%'), paste('limma sig', adj.acron, '5%'))))
 
 
 ## Reproducibility info

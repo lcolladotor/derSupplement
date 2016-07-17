@@ -37,6 +37,7 @@ save(bg, file = paste0('bg-R', opt$replicate, '-', ifelse(opt$complete == 'yes',
 
 ## Perform statistical tests: transcript-level
 stat_results <- stattest(gown = bg, feature = 'trans', meas = 'cov', covariate = 'group')
+stat_results$pbonf <- p.adjust(stat_results$pval, 'bonferroni')
 
 ## Create nice GRangesList: transcript-level
 bgres <- structure(bg)$trans
@@ -52,6 +53,7 @@ rm(stat_results, bgres)
 ## Perform statistical tests: exon-level
 exon_cov  <- eexpr(bg, 'cov')
 stat_results <- stattest(gowntable = exon_cov, feature = 'exon', pData = pData(bg), mod = model.matrix(~ pData(bg)$group), mod0 = model.matrix( ~ 0 + rep(1, nrow(pData(bg)))))
+stat_results$pbonf <- p.adjust(stat_results$pval, 'bonferroni')
 
 ## Create nice GRanges (exon-level)
 bgres <- structure(bg)$exon
