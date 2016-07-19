@@ -11,11 +11,11 @@
 # mkdir -p logs
 # Rscript characterize_brainspan_DERs.R > logs/characterize_brainspan_DERs_log.txt 2>&1
 
-source("/home/epi/ajaffe/Lieber/lieber_functions_aj.R") 
+source("/users/ajaffe/Lieber/lieber_functions_aj.R") 
 
 library(derfinder)
 library(GenomicRanges)
- load("/home/epi/ajaffe/Lieber/Projects/Grants/Coverage_R01/brainspan/brainspan_phenotype.rda")
+ load("/users/ajaffe/Lieber/Projects/Grants/Coverage_R01/brainspan/brainspan_phenotype.rda")
 
 path = "/dcl01/lieber/ajaffe/derRuns/derSupplement/brainspan/derAnalysis/run5-v1.5.30/"
 
@@ -102,7 +102,7 @@ tab
 
 ## GO?
 gIndexes=splitit(factor(highGroup, levels=levels(pdSpan$Group)))
-nullgenes =  read.delim("/home/epi/ajaffe/Lieber/Projects/450k/grant/ref_gene_hg19.txt", 
+nullgenes =  read.delim("/users/ajaffe/Lieber/Projects/450k/grant/ref_gene_hg19.txt", 
 	header=TRUE,as.is=TRUE)
 if(!file.exists('rdas/go_output.rda')) {
     goByGroup = mclapply(gIndexes, function(ii) {
@@ -240,7 +240,7 @@ if(!file.exists('rdas/mean_LIBD_cover_BrainSpan_DERs.rda')) {
 }
 
 ## Percent of overlaps
-load('/home/epi/ajaffe/Lieber/Projects/RNAseq/n36/finalCode/rdas/signif_DERs_fullPerm.rda')
+load('/users/ajaffe/Lieber/Projects/RNAseq/n36/finalCode/rdas/signif_DERs_fullPerm.rda')
 ## Check that it's the correct object
 stopifnot(length(sig) == 50650)
 

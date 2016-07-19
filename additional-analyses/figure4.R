@@ -9,7 +9,7 @@ library('derfinderPlot')
 library('GenomicRanges')
 
 ## Load pheno data
-load("/home/epi/ajaffe/Lieber/Projects/Grants/Coverage_R01/brainspan/brainspan_phenotype.rda")
+load("/users/ajaffe/Lieber/Projects/Grants/Coverage_R01/brainspan/brainspan_phenotype.rda")
 ## Drop bad samples
 bad_samples <- which(rownames(pdSpan) %in% c('216', '218', '219'))
 if(nrow(pdSpan) == 487) pdSpan <- pdSpan[-bad_samples, ]

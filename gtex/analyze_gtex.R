@@ -1,4 +1,4 @@
-## Original script: /home/epi/ajaffe/Lieber/Projects/derfinderPaper/analyze_gtex.R
+## Original script: /users/ajaffe/Lieber/Projects/derfinderPaper/analyze_gtex.R
 ##
 ## Usage:
 # qrsh -pe local 8
@@ -251,7 +251,7 @@ library('GenomicFeatures')
 #system.time(xx <- makeTxDbPackageFromBiomart(version = '0.99', maintainer = 'Leonardo Collado-Torres <lcollado@jhu.edu>', author = 'Leonardo Collado-Torres <lcollado@jhu.edu>', destDir = '~/'))
 
 ## Load info
-sql_file <- "/home/bst/student/lcollado/TxDb.Hsapiens.BioMart.ENSEMBLMARTENSEMBL.GRCh38.p5/inst/extdata/TxDb.Hsapiens.BioMart.ENSEMBLMARTENSEMBL.GRCh38.p5.sqlite"
+sql_file <- "/users/lcollado/TxDb.Hsapiens.BioMart.ENSEMBLMARTENSEMBL.GRCh38.p5/inst/extdata/TxDb.Hsapiens.BioMart.ENSEMBLMARTENSEMBL.GRCh38.p5.sqlite"
 TranscriptDb <- loadDb(sql_file)
 
 ## Fix seqlevels

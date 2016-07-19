@@ -16,7 +16,7 @@ resPath <- file.path(mainPath, 'brainspan/derAnalysis/run4-v1.0.10')
 dataPath <- '/nexsan2/disk3/ajaffe/BrainSpan/RNAseq/bigwig'
 
 ## Load data
-load("/home/epi/ajaffe/Lieber/Projects/Grants/Coverage_R01/brainspan/brainspan_phenotype.rda")
+load("/users/ajaffe/Lieber/Projects/Grants/Coverage_R01/brainspan/brainspan_phenotype.rda")
 files <- pdSpan$wig
 names(files) <- pdSpan$lab
 
@@ -133,7 +133,7 @@ dev.off()
 
 
 ## annotate
-load("/home/epi/ajaffe/GenomicStates/GenomicState.Hsapiens.ensembl.GRCh37.p12.rda")
+load("/users/ajaffe/GenomicStates/GenomicState.Hsapiens.ensembl.GRCh37.p12.rda")
 ensemblAnno <- annotateRegions(selected,
     GenomicState.Hsapiens.ensembl.GRCh37.p12$fullGenome)
 ensemblCount <- ensemblAnno$countTable
@@ -167,7 +167,7 @@ dev.off()
 
 #### extra tx info
 
-txdb <- loadDb("/home/epi/ajaffe/Lieber/Projects/RNAseq/Ribozero_Compare/TxDb.Hsapiens.BioMart.ensembl.GRCh37.p12/inst/extdata/TxDb.Hsapiens.BioMart.ensembl.GRCh37.p12.sqlite")
+txdb <- loadDb("/users/ajaffe/Lieber/Projects/RNAseq/Ribozero_Compare/TxDb.Hsapiens.BioMart.ensembl.GRCh37.p12/inst/extdata/TxDb.Hsapiens.BioMart.ensembl.GRCh37.p12.sqlite")
 txdb <- keepSeqlevels(txdb, mapSeqlevels(chr, 'NCBI'))
 seqlevelsStyle(txdb) <- 'UCSC'
 tx=exonsBy(txdb)

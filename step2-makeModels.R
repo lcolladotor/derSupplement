@@ -56,7 +56,7 @@ buildModels <- function(fullCov, testvars, colsubset = NULL) {
 
 if(opt$experiment == 'brainspan') {
     ## Define the groups
-    load("/home/epi/ajaffe/Lieber/Projects/Grants/Coverage_R01/brainspan/brainspan_phenotype.rda")
+    load("/users/ajaffe/Lieber/Projects/Grants/Coverage_R01/brainspan/brainspan_phenotype.rda")
     ## Drop bad samples
     bad_samples <- which(rownames(pdSpan) %in% c('216', '218', '219'))
     pdSpan[bad_samples, ]

@@ -35,11 +35,11 @@ load("../CoverageInfo/fullCov.Rdata")
 
 message(paste(Sys.time(), 'loading annotation data'))
 if(opt$annotation == 'ensembl') {
-    load('/home/epi/ajaffe/Lieber/Projects/RNAseq/derannotator/rdas/GenomicState.Hsapiens.ensembl.GRCh37.p11.rda')
+    load('/users/ajaffe/Lieber/Projects/RNAseq/derannotator/rdas/GenomicState.Hsapiens.ensembl.GRCh37.p11.rda')
     anno <- GenomicState.Hsapiens.ensembl.GRCh37.p11$fullGenome
 
 } else if (opt$annotation == 'ucsc') {
-    load('/home/epi/ajaffe/Lieber/Projects/RNAseq/derannotator/rdas/GenomicState.Hsapiens.UCSC.hg19.knownGene.rda')
+    load('/users/ajaffe/Lieber/Projects/RNAseq/derannotator/rdas/GenomicState.Hsapiens.UCSC.hg19.knownGene.rda')
     anno <- GenomicState.Hsapiens.UCSC.hg19.knownGene$fullGenome
 }
 

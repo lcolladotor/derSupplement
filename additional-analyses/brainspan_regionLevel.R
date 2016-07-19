@@ -123,7 +123,7 @@ y = log2(fullRegionMat + 1)
 rownames(y) = NULL
 
 ## annotate regions based on transcriptome databases
-load("/home/epi/ajaffe/GenomicStates/GenomicState.Hsapiens.ensembl.GRCh37.p12.rda")
+load("/users/ajaffe/GenomicStates/GenomicState.Hsapiens.ensembl.GRCh37.p12.rda")
 gs = GenomicState.Hsapiens.ensembl.GRCh37.p12$fullGenome
 ensemblAnno = annotateRegions(fullRegionGR,gs)
 countTable = ensemblAnno$countTable
@@ -241,7 +241,7 @@ round(sort(ov_type, decreasing = TRUE), 2)
 
 
 ## GO analysis
-sql_file <- "/home/epi/ajaffe/Lieber/Projects/RNAseq/Ribozero_Compare/TxDb.Hsapiens.BioMart.ensembl.GRCh37.p12/inst/extdata/TxDb.Hsapiens.BioMart.ensembl.GRCh37.p12.sqlite"
+sql_file <- "/users/ajaffe/Lieber/Projects/RNAseq/Ribozero_Compare/TxDb.Hsapiens.BioMart.ensembl.GRCh37.p12/inst/extdata/TxDb.Hsapiens.BioMart.ensembl.GRCh37.p12.sqlite"
 TranscriptDb <- loadDb(sql_file)
 
 ## Fix seqlevels
@@ -249,7 +249,7 @@ seqlevels(TranscriptDb, force=TRUE) <- c(1:22,"X","Y","MT")
 seqlevels(TranscriptDb) <- paste0("chr", c(1:22,"X","Y","M"))
 ensGene <- genes(TranscriptDb)
 
-# Modified from /home/epi/ajaffe/Lieber/lieber_functions_aj.R
+# Modified from /users/ajaffe/Lieber/lieber_functions_aj.R
 dogo <- function(names, Universe, goP = 0.01, cond = FALSE, ontology = 'BP'){
     gomap_names <- org.Hs.egREFSEQ2EG
     x <- unlist(mget(as.character(names), gomap_names, ifnotfound = NA))

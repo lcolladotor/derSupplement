@@ -9,7 +9,7 @@ library('reshape2')
 
 ## Load data
 load('region_cuts.Rdata')
-load("/home/epi/ajaffe/GenomicStates/GenomicState.Hsapiens.ensembl.GRCh37.p12.rda")
+load("/users/ajaffe/GenomicStates/GenomicState.Hsapiens.ensembl.GRCh37.p12.rda")
 gs <- GenomicState.Hsapiens.ensembl.GRCh37.p12$fullGenome
 
 gs_exon <- gs[gs$theRegion == 'exon']
