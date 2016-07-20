@@ -19,6 +19,7 @@ library('GenomicRanges')
 library('TxDb.Hsapiens.UCSC.hg19.knownGene')
 library('knitr')
 library('devtools')
+library('ggplot2')
 ```
 
 ## Load data
@@ -190,10 +191,27 @@ emp_sum <- function(empinfo) {
     empsum$Aligner <- sapply(strsplit(rownames(empsum), ';'), '[[', 2)
     empsum$SummaryMethod <- sapply(strsplit(rownames(empsum), ';'), '[[', 3)
     empsum$StatMethod <- sapply(strsplit(rownames(empsum), ';'), '[[', 4)
-    empsum <- empsum[c(1, 9, 2, 10, 3, 11, 4, 12, 5, 7, 6, 8), ]
+    empsum <- empsum[c(1, 12, 2, 13, 3, 14, 4, 15, 5, 16, 6, 9, 7, 10, 8, 11), ]
     rownames(empsum) <- NULL
-    empsum
-    
+    empsum 
+}
+
+## Summarize by taking the mean
+emp_sum_mean <- function(empinfo) {
+    empinfo$situation <- paste(empinfo$AnnotationComplete, empinfo$Aligner, 
+        empinfo$SummaryMethod, empinfo$StatMethod, sep=';')
+    empsum <- data.frame(
+        'Power' = tapply(empinfo$power, empinfo$situation, mean, na.rm = TRUE),
+        'FPR' = tapply(empinfo$FPR, empinfo$situation, mean, na.rm = TRUE),
+        'FDR' = tapply(empinfo$FDR, empinfo$situation, mean, na.rm = TRUE)
+    )
+    empsum$AnnotationComplete <- as.logical(sapply(strsplit(rownames(empsum), ';'), '[[', 1))
+    empsum$Aligner <- sapply(strsplit(rownames(empsum), ';'), '[[', 2)
+    empsum$SummaryMethod <- sapply(strsplit(rownames(empsum), ';'), '[[', 3)
+    empsum$StatMethod <- sapply(strsplit(rownames(empsum), ';'), '[[', 4)
+    empsum <- empsum[c(1, 12, 2, 13, 3, 14, 4, 15, 5, 16, 6, 9, 7, 10, 8, 11), ]
+    rownames(empsum) <- NULL
+    empsum 
 }
 
 ## index_comp is similar to count_comp but it returns the actual indices for
@@ -349,7 +367,7 @@ Number of units per reference level:
 * Exon level subsetted to those that overlap only 1 transcript: `r length(exons_one)`
 
 
-# Evaluation
+# Evaluation (FDR controlled)
 
 
 ## Evaluate results
@@ -446,6 +464,195 @@ empirical_exons_one_sum <- emp_sum(empirical_exons_one)
 save(tables_exons, empirical_exons, empirical_exons_sum, case_result_exons, file = 'results-exons.Rdata')
 save(tables_exons_one, empirical_exons_one, empirical_exons_one_sum, case_result_exons_one, file = 'results-exons_one.Rdata')
 ```
+
+
+## At different cutoffs
+
+The following plots shows the observed FDR and observed FPR for controlling the FDR at 0.01, 0.05, 0.1, 0.15 and 0.2.
+
+```{r curve-fdr}
+## Evaluate at the exons level (overlapping only 1 transcript)
+## DE if any of the transcripts it overlaps is DE at different cutoffs
+cuts <- c(0.01, 0.05, 0.1, 0.15, 0.2)
+to_char <- function(x) { x[is.na(x)] <- 'NA'; return(x) }
+emp_exons_one_cuts <- do.call(rbind, lapply(cuts, function(cut) {
+    res <- emp_sum_mean(emp(mapply(count_comp, stats_GR, replicates, types,
+        SIMPLIFY = FALSE, MoreArgs = list(reference = exons_one, cut = cut))))
+    res$cut <- cut
+    return(res)
+}))
+assign_cluster <- function(sum_met, stat_met, ann) {
+    if(sum_met == 'featureCounts') {
+        res <- ifelse(ann, 'fC-complete', 'fC-incomplete')
+    } else if(sum_met == 'derfinder') {
+        res <- 'derfinder'
+    } else if(sum_met == 'StringTie') {
+        res <- ifelse(ann, 'ST-complete', 'ST-incomplete')
+    }
+    return(res)
+}
+emp_exons_one_cuts$cluster <- with(emp_exons_one_cuts, mapply(assign_cluster, SummaryMethod, StatMethod, AnnotationComplete))
+
+## Use only HISAT-aligned for simplicity
+g1 <- ggplot(data = subset(emp_exons_one_cuts, Aligner == 'HISAT'),
+    aes(x = FDR, y = Power, shape = StatMethod, color = cluster)) +
+    geom_point(size = 3) + geom_line() + ylab('Empirical power') +
+    xlab('Observed FDR (in percent)') +
+    theme_linedraw(base_size = 16) +
+    scale_color_brewer(palette = 'Set1', name = 'Group') +
+    scale_shape_discrete(name = 'Statistical\nmethod')
+g1
+
+
+## Use only HISAT-aligned for simplicity
+g2 <- ggplot(data = subset(emp_exons_one_cuts, Aligner == 'HISAT'),
+    aes(x = FPR, y = Power, shape = StatMethod, color = cluster)) +
+    geom_point(size = 3) + geom_line() + ylab('Empirical power') +
+    xlab('Observed FPR (in percent)') +
+    theme_linedraw(base_size = 16) +
+    scale_color_brewer(palette = 'Set1', name = 'Group') +
+    scale_shape_discrete(name = 'Statistical\nmethod')
+g2
+
+pdf('curve_controlFDR.pdf', width = 9)
+g1
+g2
+dev.off()
+
+#case_res_exons_one_cuts <- lapply(cuts, function(cut) {
+#    i <- mapply(index_comp, stats_GR, replicates, types,
+#        SIMPLIFY = FALSE, MoreArgs = list(reference = exons_one, cut = cut))
+#    res <- mapply(case_result, i, replicates,
+#        SIMPLIFY = FALSE, MoreArgs = list(reference = exons_one))
+#    return(res)
+#})
+```
+
+The following table shows the actual numbers used in the previous two plots. The empirical power, FPR and FDR are the mean values across the 3 simulation replicates.
+
+```{r 'display-cuts-FDR', results = 'asis'}
+## Exon level (overlapping only 1 transcript), showing mean by cutoff
+kable(emp_exons_one_cuts, format = 'html', row.names = TRUE)
+```
+
+
+
+
+# Evaluation (FWER controlled)
+
+
+## Evaluate results
+
+The following code actually runs the evaluation functions for the different reference sets.
+
+```{r 'runEval-fwer', eval = FALSE}
+## Get type and replicate info
+types <- 'pbonf' ## For FWER
+replicates <- as.integer(sapply(strsplit(names(stats_GR), '\\.'), '[[', 2))
+
+
+## Evaluate at the exons level
+## DE if any of the transcripts it overlaps is DE
+tables_exons <- mapply(count_comp, stats_GR, replicates, types,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = exons, cut = 0.05))
+empirical_exons <- emp(tables_exons)
+index_exons <- mapply(index_comp, stats_GR, replicates, types,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = exons, cut = 0.05))
+case_result_exons <- mapply(case_result, index_exons, replicates,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = exons))
+    
+## Evaluate at the exons level (overlapping only 1 transcript)
+## DE if any of the transcripts it overlaps is DE
+tables_exons_one <- mapply(count_comp, stats_GR, replicates, types,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = exons_one, cut = 0.05))
+empirical_exons_one <- emp(tables_exons_one)
+index_exons_one <- mapply(index_comp, stats_GR, replicates, types,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = exons_one, cut = 0.05))
+case_result_exons_one <- mapply(case_result, index_exons_one, replicates,
+    SIMPLIFY = FALSE, MoreArgs = list(reference = exons_one))
+```
+
+## Summaries
+
+Below are summaries of showing the minimum and maximum empirical power, false positive rate (FPR) and false discovery rate (FDR) per replicate for each of the analysis pipelines by the different reference sets.
+
+```{r 'displayEmpiricalSummaries-fwer', results = 'asis', eval = FALSE}
+## Exon level
+kable(emp_sum(empirical_exons), format = 'html')
+## Exon level (overlapping only 1 transcript)
+kable(emp_sum(empirical_exons_one), format = 'html')
+```
+
+
+## Details
+
+The following tables show the results for all the replicates.
+
+```{r 'displayEmpirical-fwer', results = 'asis', eval = FALSE}
+## Exon level
+kable(empirical_exons, format = 'html', row.names = TRUE)
+## Exon level (overlapping only 1 transcript)
+kable(empirical_exons_one, format = 'html', row.names = TRUE)
+```
+
+```{r 'saveResults-fwer', echo = FALSE}
+## Calculate summaries
+empirical_exons_sum <- emp_sum(empirical_exons)
+empirical_exons_one_sum <- emp_sum(empirical_exons_one)
+
+## Save results
+save(tables_exons, empirical_exons, empirical_exons_sum, case_result_exons, file = 'results-exons-FWER.Rdata')
+save(tables_exons_one, empirical_exons_one, empirical_exons_one_sum, case_result_exons_one, file = 'results-exons_one-FWER.Rdata')
+```
+
+
+## At different cutoffs
+
+The following plots shows the observed FDR and observed FPR for controlling the FWER at 0.01, 0.05, 0.1, 0.15 and 0.2.
+
+```{r curve-fwer, eval = FALSE}
+## Evaluate at the exons level (overlapping only 1 transcript)
+## DE if any of the transcripts it overlaps is DE at different cutoffs
+emp_exons_one_cuts <- do.call(rbind, lapply(cuts, function(cut) {
+    res <- emp_sum_mean(emp(mapply(count_comp, stats_GR, replicates, types,
+        SIMPLIFY = FALSE, MoreArgs = list(reference = exons_one, cut = cut))))
+    res$cut <- cut
+    return(res)
+}))
+
+## Use only HISAT-aligned for simplicity
+g3 <- ggplot(data = subset(emp_exons_one_cuts, Aligner == 'HISAT'),
+    aes(x = FDR, y = Power, shape = StatMethod, color = cluster)) +
+    geom_point(size = 3) + geom_line() + ylab('Empirical power') +
+    xlab('Observed FDR (in percent)') +
+    theme_linedraw(base_size = 16) +
+    scale_color_brewer(palette = 'Set1', name = 'Group') +
+    scale_shape_discrete(name = 'Statistical\nmethod')
+g3
+
+## Use only HISAT-aligned for simplicity
+g4 <- ggplot(data = subset(emp_exons_one_cuts, Aligner == 'HISAT'),
+    aes(x = FPR, y = Power, shape = StatMethod, color = cluster)) +
+    geom_point(size = 3) + geom_line() + ylab('Empirical power') +
+    xlab('Observed FPR (in percent)') +
+    theme_linedraw(base_size = 16) +
+    scale_color_brewer(palette = 'Set1', name = 'Group') +
+    scale_shape_discrete(name = 'Statistical\nmethod')
+g4
+
+pdf('curve_controlFWER.pdf', width = 9)
+g3
+g4
+dev.off()
+```
+
+The following table shows the actual numbers used in the previous two plots. The empirical power, FPR and FDR are the mean values across the 3 simulation replicates.
+
+```{r 'display-cuts-FWER', results = 'asis', eval = FALSE}
+## Exon level (overlapping only 1 transcript), showing mean by cutoff
+kable(emp_exons_one_cuts, format = 'html', row.names = TRUE)
+```
+
 
 
 # Reproducibility
