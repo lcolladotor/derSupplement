@@ -146,8 +146,8 @@ getF <- function(fit, fit0, theData) {
 	df0 = ncol(fit0$coef)
 
 	fstat = ((rss0-rss1)/(df1-df0))/(rss1/(ncol(theData)-df1))
-	f_pval = pf(fstat, df1-1, ncol(theData)-df1,lower.tail=FALSE)
-	fout = cbind(fstat,df1-1,ncol(theData)-df1,f_pval)
+	f_pval = pf(fstat, df1-df0, ncol(theData)-df1,lower.tail=FALSE)
+	fout = cbind(fstat,df1-df0,ncol(theData)-df1,f_pval)
 	colnames(fout)[2:3] = c("df1", "df0")
 	fout = data.frame(fout, row.names = NULL)
 	return(fout)
@@ -167,7 +167,6 @@ run_limma <- function(counts, regions, file = NULL, use_zero = FALSE) {
     mod0 <- model.matrix(~ 1, data = groupInfo)
     library('limma')
     fit <- lmFit(y, mod)
-    eb <- ebayes(fit)
     fit0 <- lmFit(y, mod0)
     ff <- getF(fit, fit0, y)
     
