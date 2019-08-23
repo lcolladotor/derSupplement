@@ -1,4 +1,5 @@
 # derSupplement
+[![DOI](https://zenodo.org/badge/46514480.svg)](https://zenodo.org/badge/latestdoi/46514480)
 
 Supplementary material for the `derfinder` software paper
 
